@@ -1,0 +1,15 @@
+# vim: nofoldenable
+
+#
+#
+# ~/.config/systemd/user/firefox.service
+#
+#
+
+[Unit]
+Description=Mozilla Firefox
+
+[Service]
+Environment=HOME=%h/.local/share/firefox
+ExecStart=/usr/bin/firefox
+

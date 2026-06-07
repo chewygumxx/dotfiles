@@ -1,0 +1,5 @@
+; vim:ft=ini
+; The one setting in this file by nvm
+package-lock=false
+
+

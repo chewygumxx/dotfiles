@@ -1,0 +1,16 @@
+# vim: nofoldenable
+
+#
+#
+# ~/.config/systemd/user/cclipd.service
+#
+#
+
+[Unit]
+Description="Clipboard capture daemon: cclipd"
+
+[Service]
+ExecStart=cclipd -S -t "image/png" -t "image/*" -t "text/plain;charset=utf-8" -s 2
+
+[Install]
+WantedBy=hyprland-post.target

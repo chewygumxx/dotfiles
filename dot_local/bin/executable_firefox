@@ -1,0 +1,13 @@
+#!/bin/sh
+
+#
+#
+# ~/.local/bin/firefox
+#
+#
+
+#
+# Shadow file to handle ~/.mozilla rebase to ~/.local/share/firefox
+#
+
+HOME=$XDG_DATA_HOME/firefox /usr/bin/firefox $@

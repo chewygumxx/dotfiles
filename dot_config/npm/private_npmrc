@@ -1,0 +1,100 @@
+; vim: ft=dosini
+
+;
+;
+; ~/.config/npmrc
+;
+;   Sources this file given that:
+;   
+;       export NPM_CONFIG_USERCONFIG="/home/chewygum/.config/npmrc"
+;
+
+;
+; DO NOT TOUCH CONFIG KEY: 'prefix' or NVM_CONFIG_PREFIX
+;   The Node Version Manager handles it pretty well.
+;
+;   If "prefix=/usr" then,
+;       `npm ll --global`   For all versions and save installed package list to respective files.
+;       `nvm ls`            List nvm installed versions
+;       `nvm uninstall`     Uninstall all nvm versions
+;       `rm -rf $NVM_DIR`   Uninstall nvm
+;       `pacman -Rnsu`      Uninstall system npm and node packages
+;       `fd npm /usr`       Ensure all of npm is gone
+;                           (`fd node /usr` returns too many false positives)
+;                           (obv don't worry about LSP, neovim and zsh completions etc.)
+;   then
+;       `export NVM_DIR="$XDG_DATA_DIR/nvm"`
+;       Find and execute the `curl` installation command at:
+;           https://github.com/nvm-sh/nvm#installing-and-updating
+;   and
+;       `nvm install node`  Install latest version
+;   That should fix the config key 'prefix'. Reinstall packages as you wish.
+;
+
+;
+; Configuration Reference:
+;   https://docs.npmjs.com/cli/v8/using-npm/config
+; or:
+;   `npm help 7 config`     <- Looks rather ass tho
+;
+        
+;
+; Command Options / Configurations Keys of Interest
+;
+; ca                        < Provide explicit Certificate Authority for ssl connections
+; cafile                    < See also 'strict-ssl'
+;
+; call                      Specify callback function on `npm exec` and `npx`
+;
+; fetch-retries=            < Fetching from registry
+; fetch-retry-factor=       <
+; fetch-retry-maxtimeout=   <
+; fetch-retry-mintimeout=   <
+; fetch-retry-timeout=      <
+;
+; force=                    If I don't somehow break it, have I really been using it?
+;
+; globalconfig=             Path of globalconfig,
+;                           Default global --prefix + /etc/npmrc (eg. '/usr/local/etc/npmrc')
+;
+; --include                 Dependencies types to also install, can be multiple.
+;                           Inverse of --omit 
+;                           =[ 'prod', 'dev', 'optional', 'peers' ]
+;                           
+;
+; --location                =[ 'local', 'global', 'project' ] Selects which config file to use.
+;
+; --loglevel                Default: 'notice'
+; log-dir=                  Default: value of 'cache'
+; log-max=                  Default: 10 files
+;
+; --long                    Affects `ls`, `search` and `help-search`
+;
+; --json
+; --parseable               TSV for `npm search`` 
+;
+; script-shell=             For `npm exec`, `npm run`, `npm init <package-spec`
+;                           Default: '/bin/sh'
+;
+; searchexclude=
+; searchlimit=
+; searchopts=
+;
+; shell=                    For `npm explore`
+;                           Default: bash
+;
+; sign-git-commit           < GPG sign with `npm version -s`
+; sign-git-tag              <
+;
+; strict-ssl                Enforce SSL validation.
+;                           See also 'ca' and 'cafile'
+;
+; --usage                   Show short help
+;
+; viewer=                   Program to view help content
+;
+; --yes                     Accept all prompts
+
+; Set by NPM_CONFIG_CACHE
+;cache=/home/chewygum/.cache/npm
+viewer=batman

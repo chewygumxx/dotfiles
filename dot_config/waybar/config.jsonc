@@ -1,0 +1,287 @@
+// -*- mode: jsonc -*-
+// vim:noexpandtab:tabstop=4:shiftwidth=4:textwidth=0
+// vim:foldlevel=1
+
+//
+//
+// ~/.config/waybar/config.jsonc
+// 
+// https://github.com/Alexays/Waybar/wiki
+//
+
+{
+	"fixed-center": true,
+	"layer": "bottom",		// Don't cover context menus
+	"position": "top",
+	"height": 36,
+	"width": 1881,
+	"spacing": 0,
+	"margin-top": 15,
+
+	"modules-left": [
+		"battery#key",
+		"battery#value",
+
+		"custom/sep",
+
+		"cpu#key",
+		"cpu#value",
+		"memory#key",
+		"memory#value",
+		"temperature#key",
+		"temperature#value",
+
+		"custom/sep",
+
+		"network#key",
+		"network#up",
+		"network#down",
+
+		"custom/sep",
+
+		"pulseaudio#key",
+		"pulseaudio#value",
+	],
+//	"modules-center": [ "hyprland/workspaces" ],
+	"modules-right": [ 
+		"custom/weather_desc",
+		"custom/weather_icon",
+		"custom/weather_temp",
+
+		"custom/sep",
+
+		"clock#day",
+		"custom/comma",
+
+		"clock#date",
+
+		"custom/hyphen",
+
+		"clock#hours",
+		"custom/colon",
+		"clock#minutes",
+		"custom/colon",
+		"clock#seconds"
+	],
+
+
+
+
+	"custom/sep":		{ "format": "|" },
+	"custom/comma":		{ "format": "," },
+	"custom/colon":		{ "format": ":" },
+	"custom/hyphen":	{ "format": "-" },
+
+	"hyprland/workspaces": {
+		"disable-scroll": true,
+		"all-outputs": true,
+		"warp-on-scroll": false,
+//		"sort-by": "number",
+
+		"format": "{icon} {name}",
+		"format-window-separator" : "  ",
+		"format-icons": {
+			"terminal": " ",
+			"firefox": "",
+			"code": "",
+			"sqlite": "\uf1c0",
+			//"kdeconnect": "\u2699",
+			"kdeconnect": "📞",
+			"obsidian": "☑",
+			"default": ""
+		}
+	},
+
+	"battery#key": {
+		"interval": 7,
+
+		"bat": "BAT0",
+		"adapter": "AC",
+		"full-at": 90,
+		"states": {
+			"max":	100,
+			"high": 90,
+			"med":	60,
+			"low": 30,
+			"crit": 10
+		},
+
+		"format-charging":	"🗲",
+		"format-plugged":	"", 
+		"format-full":		"", 
+
+		"format-max":	"",
+		"format-high":	"", 
+		"format-med":	"", 
+		"format-low":	"", 
+		"format-crit":	"", 
+
+		"max-length": 2
+	},
+	"battery#value": {
+		"interval": 5,
+
+		"bat": "BAT0",
+		"adapter": "AC",
+		"full-at": 90,
+		"states": {
+			"max":	90,
+			"high": 75,
+			"med":	50,
+			"warn": 20,
+			"crit": 10
+		},
+
+		"format":		"{capacity}%",
+		"format-alt":	"{timeTo}",
+	},
+
+	"cpu#key": {
+		"interval": 2,
+		"format":	""
+	},
+	"cpu#value": {
+		"interval": 2,
+		"format":	"{usage}%"
+	},
+
+	"memory#key": { 
+		"interval":	2,
+		"format":	"" 
+	},
+	"memory#value": {
+		"interval":	2,
+		"format":	"{}%"
+	},
+
+	"temperature#key": {
+		"interval":				2,
+		"critical-threshold":	80,
+		"format":				"{icon}",
+		"format-icons": [
+			""
+		]
+	},
+	"temperature#value": {
+		"interval":				2,
+		"critical-threshold":	80,
+		"format":				"{temperatureC}°C"
+	},
+
+	"network#key": {
+		"interval": 2,
+
+		"format": "{icon}",
+		"format-icons": {
+			"wifi":			"",
+			"ethernet":		" ",
+			"linked":		" ",
+			"disconnected": ""
+		},
+
+		"tooltip-format":				"{ipaddr}/{cidr}",
+		"tooltip-format-wifi":			"{essid} ({signalStrength}%)",
+		"tooltip-format-ethernet":		"{ipaddr}/{cidr}",
+		"tooltip-format-disconnected":	"bruh"
+	},
+	"network#up": {
+		"interval": 2,
+
+		"format":						"&#x202b;{bandwidthUpBytes}&#x202c;",
+		"format-disconnected":			">tfw no connect",
+
+		"tooltip-format":				"{ipaddr}/{cidr}",
+		"tooltip-format-wifi":			"{essid} ({signalStrength}%) {ipaddr}/{cidr}",
+		"tooltip-format-disconnected":	"bruh"
+	},
+	"network#down": {
+		"interval": 2,
+
+		"format":						"&#x202b;{bandwidthDownBytes}&#x202c;",
+		"format-disconnected":			">tfw no connect",
+
+		"tooltip-format":				"{ipaddr}/{cidr}",
+		"tooltip-format-wifi":			"{essid} ({signalStrength}%) {ipaddr}/{cidr}",
+		"tooltip-format-disconnected":	"bruh"
+	},
+
+	"pulseaudio#key": {
+		"format": "{icon}",
+		"format-bluetooth": "{icon}",
+		"format-bluetooth-muted": "{icon}",
+		"format-muted": "",
+		"format-icons": {
+			"headphone": " ",
+			"hands-free": "",
+			"headset": "",
+			"phone": "",
+			"portable": "",
+			"car": "",
+			"default": ["", "", ""]
+		},
+		"on-click": "pulsemixer --toggle-mute"
+	},
+	"pulseaudio#value": {
+		"format": "{volume}%",
+		"format-bluetooth-muted": "mute",
+		"format-muted": "mute",
+		"on-click": "pulsemixer --toggle-mute"
+	},
+
+	"custom/weather_desc" :{
+		"interval": 60,
+
+		"exec": "sed -n \"1p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
+		"return-type": "json"
+	},
+	"custom/weather_icon" :{
+		"interval": 60,
+
+		"exec": "sed -n \"2p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
+		"return-type": "json"
+	},
+	"custom/weather_temp" :{
+		"interval": 60,
+
+		"exec": "sed -n \"3p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
+		"return-type": "json"
+	},
+
+	"clock#day": {
+		"interval": 60,
+
+		"format": "{:%A}",
+		"format-alt": "{:%a}",
+		"tooltip-format": "<tt><small>{calendar}</small></tt>"
+	},
+	"clock#date": {
+		"interval": 60,
+
+		"format": "{:%d %B %Y}",
+		"format-alt": "{:%Y-%m-%d}",
+		"tooltip-format": "<tt><small>{calendar}</small></tt>"
+	},
+	"clock#hours": {
+		"interval": 1,
+
+		"format": "{:%H}",
+		"tooltip-format": "<tt><small>{calendar}</small></tt>"
+	},
+	"clock#minutes": {
+		"interval": 1,
+
+		"format": "{:%M}",
+		"tooltip-format": "<tt><small>{calendar}</small></tt>"
+	},
+	"clock#seconds": {
+		"interval": 1,
+
+		"format": "{:%S}",
+		"tooltip-format": "<tt><small>{calendar}</small></tt>"
+	},
+
+	"tray": {
+		// "icon-size": 21,
+		"spacing": 10
+	}
+}

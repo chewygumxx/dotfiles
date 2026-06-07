@@ -1,0 +1,22 @@
+{
+    "autoRefreshOnToggle": true,
+    "bg_negative_modifier": 0,
+    "cacheEnabled": true,
+    "embedsInheritanceBehavior": false,
+    "exclusionPatterns": "*://example.com/*\n*://svgrepo.com/*\n*://*.svgrepo.com/*\nfile:///*\n*://proton.me/*\n*://*.proton.me/*\n*://github.com/*\n*://*.github.com/*\n*://htmlcolorcodes.com/*\n*://*.htmlcolorcodes.com/*\n*://figma.com/*\n*://*.figma.com/*\n*://hexdocs.pm/*\n*://*.hexdocs.pm/*\n*://google.com/*\n*://*.google.com/*\n*://state.gov/*\n*://*.state.gov/*\n*://civitai.com/*\n*://youtube.com/*\n*://*.youtube.com/*\n*://chatgpt.com/*\n*://*.chatgpt.com/*\n*://soundcloud.com/*\n*://*.soundcloud.com/*\n*://keybr.com/*\n*://*.keybr.com/*\nhttps://www.w3schools.com/cssref/css_colors.php\n*://hypr.land/*\n*://sr.ht/*\n*://*.sr.ht/*\n*://sqlite.org/*\n*://*.sqlite.org/*\n*://jbhifi.com.au/*\n*://*.jbhifi.com.au/*\n*://www.scribd.com/*\n*://*.www.scribd.com/*\n*://spicychat.ai/*\n*://*.spicychat.ai/*\n*://itch.io/*\n*://*.itch.io/*\n*://polymarket.com/*\n*://*.polymarket.com/*\n*://x.com/*\n*://*.x.com/*\n*://claude.ai/*\n*://*.claude.ai/*\n*://pornhub.com/*\n*://*.pornhub.com/*\n*://4chan.org/*\n*://*.4chan.org/*\n*://ely.gg/*\n*://*.ely.gg/*\n*://steampowered.com/*\n*://*.steampowered.com/*\n*://couriersplease.com.au/*\n*://*.couriersplease.com.au/*\n*://perchance.org/*\n*://*.perchance.org/*\n*://discord.com/*\n*://*.discord.com/*\n*://disboard.org/*\n*://*.disboard.org/*\n*://developer.mozilla.org/*\n*://*.developer.mozilla.org/*\n*://ehealth.gov.au/*\n*://*.ehealth.gov.au/*\n*://bunnings.com.au/*\n*://*.bunnings.com.au/*\n*://civitai.red/*\n*://*.civitai.red/*\n*://en.wikipedia.org/*\n*://*.en.wikipedia.org/*\n*://hdporncomics.com/*\n*://*.hdporncomics.com/*\n*://nhentai.net/*\n*://*.nhentai.net/*\n*://blacked.booru.org/*\n*://*.blacked.booru.org/*\n*://catbox.moe/*\n*://*.catbox.moe/*\n*://notepad.js.org/*\n*://*.notepad.js.org/*\n*://au.shein.com/*\n*://*.au.shein.com/*\n*://yazi-rs.github.io/*\n*://*.yazi-rs.github.io/*\n*://au.seek.com/*\n*://*.au.seek.com/*",
+    "fg_negative_modifier": 0.02,
+    "imageDecisionLogic": "pooledHeuristic",
+    "imageEditionEnabled": true,
+    "inclusionPatterns": "<all_urls>\n*://*/*\nhttps://*.w3schools.com/*\nhttps://*.mozilla.org/*\n*://soundcloud.com/*\n*://*.soundcloud.com/*\n*://wiki.civitai.com/*\n*://*.wiki.civitai.com/*\n*://education.civitai.com/*\n*://*.education.civitai.com/*\n*://exercism.org/*\n*://*.exercism.org/*\n*://mpv.io/*\n*://*.mpv.io/*\n*://en.wikipedia.org/*\n*://*.en.wikipedia.org/*\n*://levis.com.au/*\n*://*.levis.com.au/*\n*://ehealth.gov.au/*\n*://*.ehealth.gov.au/*\n*://blackedpink.com/*\n*://*.blackedpink.com/*\n*://wiki.hypr.land/*\n*://*.wiki.hypr.land/*\n*://man.archlinux.org/*\n*://*.man.archlinux.org/*\n*://gdl-org.github.io/*\n*://*.gdl-org.github.io/*",
+    "isEnabled": true,
+    "max_bright_bg": 0.15,
+    "max_bright_fg": 0.88,
+    "min_bright_bg": 0,
+    "min_bright_bg_trigger": 0.2,
+    "min_bright_fg": 0.82,
+    "pooledWorkersEnabled": true,
+    "precisionNumber": "3",
+    "serviceWorkersEnabled": true,
+    "syncListsEnabled": true,
+    "syncSettingsEnabled": true
+}
