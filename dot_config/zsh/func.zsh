@@ -67,3 +67,11 @@ function backlight() {
         --min-value 100 \
         --exponent "$@"
 }
+
+function ffp() {
+    # Append firefox preference setting to scratch file
+    jo -s pref=$1 value=$2 -s comment=$3 \
+    | tee --append ~/scr/ff-userjs.scr.jsonl \
+    | jq  --indent 4 '.' \
+    | bat --language=json
+}

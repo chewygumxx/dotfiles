@@ -25,6 +25,7 @@ ZSH_CACHE="$XDG_CACHE_HOME/zsh"
 # Debugging profiler
 #zmodload zsh/zprof             
 
+zle_highlight=('paste:none')
 
 # {{{ Options
     setopt interactive_comments
@@ -60,6 +61,19 @@ ZSH_CACHE="$XDG_CACHE_HOME/zsh"
     source $ZDOTDIR/prompt.zsh
     source $ZDOTDIR/alias.zsh
     source $ZDOTDIR/func.zsh
+
+    ZSH_SHORTHANDS=(
+        "eza"
+        "firefox"
+    )
+    for SHORTHAND in $ZSH_SHORTHANDS; do
+        source ${XDG_CONFIG_HOME}/${SHORTHAND}/${SHORTHAND}_shorthands.zsh 2>/dev/null
+    done
+
+    # chezmoi is a special boi that doesn't like managing its own ~/.config
+    # subdirectory
+    source ${XDG_CONFIG_HOME}/chezmoi_shorthands.zsh 2>/dev/null
+
 # }}}
 # {{{ Plugins
     PLUGIN_LIST=(
@@ -76,7 +90,6 @@ ZSH_CACHE="$XDG_CACHE_HOME/zsh"
         source $PLUGIN_DIR/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh 2>/dev/null
     done
 # }}}
-  zle_highlight=('paste:none')
 # {{{ Auto Completion
     autoload -Uz compinit
 

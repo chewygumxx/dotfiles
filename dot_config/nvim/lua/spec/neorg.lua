@@ -67,8 +67,8 @@ M.opts.load = {
     ["core.summary"] = {}
 }
 
-vim.api.nvim_set_keymap("n", "<CR>", "<Plug>(neorg.esupports.hop.hop-link)",
-    { desc = "Follow Neorg-based link to referenced file" }
-)
+--vim.api.nvim_set_keymap("n", "<CR>", "<Plug>(neorg.esupports.hop.hop-link)",
+--    { desc = "Follow Neorg-based link to referenced file" }
+--)
 
 return M

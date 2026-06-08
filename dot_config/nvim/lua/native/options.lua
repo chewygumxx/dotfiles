@@ -8,7 +8,7 @@
 
 local M = {}
 
-local edit = {
+M.opts = {
     -- System
     clipboard = "unnamedplus",
     undofile  = true,
@@ -20,8 +20,7 @@ local edit = {
 
     virtualedit = "block",
     --textwidth = 80,
-}
-local theme = {
+
     -- Color
     termguicolors = true,
 
@@ -35,12 +34,12 @@ local theme = {
 
     -- Break at word
     linebreak = true,
-}
-local browse = {
+
     -- Fold
-    foldtext = "v:lua.my_foldtext()",
-    fillchars = "fold: ",
-    foldlevel = 2,
+    foldmethod = "expr",
+    foldtext   = "v:lua.cgxx_foldtext()",
+    fillchars  = "fold: ",
+    foldlevel  = 2,
 
     -- Window Splitting
     splitright = true,
@@ -55,9 +54,10 @@ local browse = {
   --modelineexpr = true,
 }
 
-_G.my_foldtext = function()
+_G.cgxx_foldtext = function()
     -- Buffer
     local tabstop   = vim.api.nvim_get_option_value("tabstop", {})
+    if tabstop   == 0 then tabstop   = 4  end
     local textwidth = vim.api.nvim_get_option_value("textwidth", {})
     if textwidth == 0 then textwidth = 80 end
 
@@ -96,10 +96,7 @@ M.setup = function()
         end
     end
 
-    set_nvim_options(theme)
-    set_nvim_options(browse)
-    set_nvim_options(edit)
-    
+    set_nvim_options(M.opts)
 end
 
 return M

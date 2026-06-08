@@ -8,14 +8,6 @@
 
 setopt aliases
 
-SOURCE_ALIAS=(
-	"chezmoi"
-	"eza"
-)
-
-for ALIAS_CMD in $SOURCE_ALIAS; do
-	source ${XDG_CONFIG_HOME}/${ALIAS_CMD}/${ALIAS_CMD}_alias.zsh 2>/dev/null
-done
 
 # Bluetooth
 alias bt=bluetui
