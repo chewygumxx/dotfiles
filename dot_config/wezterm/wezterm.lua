@@ -27,6 +27,7 @@ local M       = wezterm.config_builder()
 local intrinsic = function()
     M.automatically_reload_config = false
     M.check_for_updates = false
+    M.term = "wezterm"
 end
 
 local window = function()
@@ -46,6 +47,9 @@ local window = function()
 
     M.detect_password_input = true
   --M.default_cursor_style  = 'BlinkingUnderline' -- Pretty sure zsh vi mode is overriding this.
+    M.cursor_blink_ease_in  = 'Linear'
+    M.cursor_blink_ease_out = 'Linear'
+    M.cursor_blink_rate = 2000
 
     M.window_decorations = 'NONE'
     M.window_padding     = {
@@ -65,7 +69,7 @@ local theme = {
             "Noto Sans Math"
         })
         M.font_size    = 11 -- pt
-        M.font_dirs    = { '/home/chewygum/.local/share/fonts' }
+        M.font_dirs    = { os.getenv("HOME") .. '/ref/font' }
         M.font_locator = 'ConfigDirsOnly' -- Optomisation Attempt, may break intolerably 
         M.line_height  = 1.1
 

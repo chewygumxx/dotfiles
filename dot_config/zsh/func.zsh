@@ -75,3 +75,24 @@ function ffp() {
     | jq  --indent 4 '.' \
     | bat --language=json
 }
+
+# SSH
+function ssh-tele() {
+     if ! [[ -S $SSH_AUTH_SOCK ]]; then
+        echo "SSH socket not found"
+        return
+     fi
+     ssh-add ~/.ssh/chewytop-tele
+
+     ssh "ssh://${SSH_CHEWYTELE}" ${@}
+}
+
+function sftp-tele() {
+     if ! [[ -S $SSH_AUTH_SOCK ]]; then
+        echo "SSH socket not found"
+        return
+     fi
+     ssh-add ~/.ssh/chewytop-tele
+
+     sftp sftp://${SSH_CHEWYTELE}
+}

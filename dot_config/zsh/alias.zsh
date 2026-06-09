@@ -9,6 +9,7 @@
 setopt aliases
 
 
+
 # Bluetooth
 alias bt=bluetui
 #alias bt-disc="bluetoothctl disconnect"
@@ -41,9 +42,7 @@ alias rm="trash-put"
 # SQLite
 alias sqlite='sqlite3'
 
-
 alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
-
 
 alias scr-lua="cd $HOME/scr/lua; nvim lua.scr.lua"
 alias source-zsh="source $ZDOTDIR/zshrc"

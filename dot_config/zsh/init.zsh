@@ -25,11 +25,10 @@ ZSH_CACHE="$XDG_CACHE_HOME/zsh"
 # Debugging profiler
 #zmodload zsh/zprof             
 
-zle_highlight=('paste:none')
 
 # {{{ Options
     setopt interactive_comments
-
+    zle_highlight=('paste:none')
     # {{{ History
         HISTFILE="$ZSH_CACHE/history"
 
@@ -62,33 +61,35 @@ zle_highlight=('paste:none')
     source $ZDOTDIR/alias.zsh
     source $ZDOTDIR/func.zsh
 
-    ZSH_SHORTHANDS=(
+    CMD_ASSIST_LIST=(
         "eza"
+        "chezmoi"
         "firefox"
     )
-    for SHORTHAND in $ZSH_SHORTHANDS; do
-        source ${XDG_CONFIG_HOME}/${SHORTHAND}/${SHORTHAND}_shorthands.zsh 2>/dev/null
+    for CMD_ASSIST in $CMD_ASSIST_LIST; do
+        source $ZDOTDIR/command/${CMD_ASSIST}.source.zsh
     done
 
-    # chezmoi is a special boi that doesn't like managing its own ~/.config
-    # subdirectory
-    source ${XDG_CONFIG_HOME}/chezmoi_shorthands.zsh 2>/dev/null
-
-# }}}
-# {{{ Plugins
     PLUGIN_LIST=(
         "fast-syntax-highlighting"
-       #"zsh-autocomplete"
-        "zsh-vi-mode"
+        #"zsh-autocomplete"
+        "plugin-zsh-vi-mode"
     )
-
-    #source $ZDOTDIR/zsh-vi-mode.zsh
-
-    PLUGIN_DIR="/usr/share/zsh/plugins"
-    
-    for PLUGIN_NAME in $PLUGIN_LIST; do
-        source $PLUGIN_DIR/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh 2>/dev/null
+    for PLUGIN in $PLUGIN_LIST; do
+        source $ZDOTDIR/plugin/${PLUGIN}.source.zsh
     done
+
+    # {{{ [Defunct] Direct source of system *.plugin.zsh 
+    # PLUGIN_DIR="/usr/share/zsh/plugins"
+    # PLUGIN_LIST=(
+    #     "fast-syntax-highlighting"
+    #    #"zsh-autocomplete"
+    #     "zsh-vi-mode"
+    # )
+    # for PLUGIN in $PLUGIN_LIST; do
+    #     source $PLUGIN_DIR/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh 2>/dev/null
+    # done
+    # }}}
 # }}}
 # {{{ Auto Completion
     autoload -Uz compinit
