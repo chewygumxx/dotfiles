@@ -91,8 +91,8 @@ local modules = {
 
 M.config = function()
     modules.hipatterns()
-    modules.icons()
-    --modules.files()
+  --modules.icons()
+  --modules.files()
     
     --for _, setup in pairs(modules) do setup() end
 end
