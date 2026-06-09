@@ -1,3 +1,5 @@
+-- vim:
+
 --
 --
 -- ~/.config/nvim/lua/native/auto_commands.lua
@@ -6,63 +8,80 @@
 
 local M = {}
 
-local augroup = "cgxx.file_welcome"
-vim.api.nvim_create_augroup(augroup , { clear = true })
-
-local autosave = function()
-    --{{{!CLOSE
-    local autosave_timer = vim.loop.new_timer()
-    autosave_timer:start(0, 300000, vim.schedule_wrap(
-        function()
-            if vim.bo.modified then vim.cmd("silent! write") end
-        end
-    ))
+local cursor_last_position = function()
+    vim.api.nvim_create_autocmd("BufReadPost", {
+        group    = vim.api.nvim_create_augroup("cgxx.file_welcome", { clear = true }),
+        desc     = "Open and close fold markers and return to last position",
+        callback = function () vim.schedule(function () 
+            vim.cmd('silent! normal! g`"zvzz')
+        end) end,
+    })
 end
-local fold_state_last_pos = function()
-    local fold_logic = function()
-        -- Attempt to open and close folds according to enclosed markers
+local header_template = function()
+    local fileext_to_comment = {
+        lua  = "--",
+        sql  = "--",
+        rs   = "//",
+        js   = "//",
+        py   = "#",
+        sh   = "#",
+        zsh  = "#",
+        toml = "#",
+        conf = "#",
+        ini  = ";",
 
-        local marker_open  = "{{{!OPEN"
-        local marker_close = "{{{!CLOSE"
-        local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+        target  = "#",
+        service = "#",
+        desktop = ";",
+    }
 
-        for linenumber, line in ipairs(lines) do
-            if line:find(marker_close, 1, true) then
-                vim.api.nvim_win_set_cursor(0, { linenumber, 0 })
-                pcall(vim.cmd, "normal! zc")
-
-                --vim.notify("Found close at line: " .. linenumber, vim.log.levels.INFO )
-            elseif line:find(marker_open, 1, true) then
-                vim.api.nvim_win_set_cursor(0, { linenumber, 0 })
-                pcall(vim.cmd, "normal! zo")
-
-                --vim.notify("Found open at line: " .. linenumber, vim.log.levels.INFO )
-            end
+    local insert_header = function(filename, buf)
+        local ext = vim.fn.fnamemodify(filename, ":e")
+        if ext == "" then
+            return
         end
+
+        local line_comment = fileext_to_comment[ext]
+        if line_comment == nil then
+            return
+        end
+
+        local header_lines = {
+            line_comment .. " vim:",
+            "",
+            line_comment,
+            line_comment,
+            line_comment .. " " .. vim.fn.fnamemodify(filename, ":~"),
+            line_comment,
+            line_comment,
+            "",
+        }
+        vim.api.nvim_buf_set_lines(buf, 0, 0, false, header_lines)
     end
 
-    local last_position = function()
-        -- (g`"): Goto last position
-        --  (zv): Open folds to reveal cursor (zv)
-        vim.cmd('silent! normal! g`"zv')
-        --  (zz): Redraw cursor line to centre of window
-        vim.cmd('silent! normal! zz')
+    local matched_exts = {}
+    for key, _ in pairs(fileext_to_comment) do
+        table.insert(matched_exts, "*." .. key)
     end
-
-    vim.api.nvim_create_autocmd("User", {
-        group   = augroup,
-        pattern = "cgxx.treesitter.complete", -- When ../spec/nvim-treesitter:180 has initialised
-        desc    = "Open and close fold markers and return to last position",
-        callback = function()
-            fold_logic()
-            last_position()
+    vim.api.nvim_create_autocmd("BufNewFile", {
+        group = vim.api.nvim_create_augroup("cgxx.header_template", { clear = true } ),
+        pattern = matched_exts,
+        desc = "Inserts templated header based on extension and path.",
+        callback = function(aucmd_tbl)
+            insert_header(aucmd_tbl.file, aucmd_tbl.buf)
         end,
     })
+
+    vim.api.nvim_create_user_command("CGInsertHeader", 
+        function() insert_header(vim.fn.expand("%"), vim.api.nvim_get_current_buf()) end,
+        { desc = "Prepend buffer with a header, templated according to filepath and extension." }
+    )
 end
 
 M.setup = function()
     --autosave()  -- May consider writing to a temp file rather than the original
-    --fold_state_last_pos()
+    cursor_last_position()
+    header_template()
 end
 
 return M
