@@ -12,4 +12,4 @@ alias cze="cz edit"
 alias czf="cz forget"
 alias czr="cz re-add"
 
-export chezmoi="${XDG_DATA_HOME}/chezmoi"
+export chez="${XDG_DATA_HOME}/chezmoi"

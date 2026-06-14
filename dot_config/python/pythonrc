@@ -18,14 +18,15 @@ def setup_history():
     from pathlib import Path
 
     if state_home := os.environ.get('XDG_STATE_HOME'):
-        state_home = Path(state_home)
+        state_home = Path(state_home) 
     else:
-        state_home = Path.home() / '.local' / 'state' / 'python'
+        state_home = Path.home() / '.local' / 'state'
 
-    history: Path = state_home / 'history'
+    history: Path = state_home / 'python' / 'history'
 
+    print("History file: " + str(history))
     readline.read_history_file(str(history))
     atexit.register(readline.write_history_file, str(history))
 
-if is_vanilla():
-    setup_history()
+# if is_vanilla():
+#     setup_history()

@@ -120,7 +120,8 @@ local env_map = {
 	PERL_CPANM_HOME = cache .. "/cpanm",
 
 	-- Python
-	PYTHONSTARTUP = config .. "/python/pythonrc",
+	PYTHONSTARTUP  = config .. "/python/pythonrc",
+	PYTHON_HISTORY = state  .. "/python/history",
 	
 	-- Rustup
 	RUSTUP_HOME = data .. "/rustup",
@@ -128,6 +129,9 @@ local env_map = {
 	-- SSH
 	SSH_AUTH_SOCK = runtime .. "/ssh-agent.socket",
     SSH_CHEWYTELE = "u0_a492@192.168.4.22:8022",
+
+	-- SQLite
+	SQLITE_HISTORY = state .. "/sqlite/history",
 
 	-- Terminfo
 	TERMINFO = data .. "/terminfo",

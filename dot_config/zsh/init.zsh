@@ -19,18 +19,35 @@
 # Shell Interactivity Check
 [[ $- != *i* ]] && return     
 
-ZSH_CACHE="$XDG_CACHE_HOME/zsh"
-[[ -d $ZSH_CACHE ]] || mkdir -p $ZSH_CACHE
+: ${XDG_CACHE_HOME:="$HOME/.local/cache"}
+: ${XDG_STATE_HOME:="$HOME/.local/state"}
 
-# Debugging profiler
-#zmodload zsh/zprof             
+# {{{ Zsh Directories
+    typeset -A ZSH_DIRS
+    ZSH_DIRS=(
+        [CACHE]="$XDG_CACHE_HOME/zsh"
+        [STATE]="$XDG_STATE_HOME/zsh"
+    )
+
+    for DIR in ${(v)ZSH_DIRS}; do
+        [[ -d $DIR ]] || mkdir -p $DIR
+    done
+
+    # ZSH_CACHE="$XDG_CACHE_HOME/zsh"
+    # [[ -d $ZSH_CACHE ]] || mkdir -p $ZSH_CACHE
+    # ZSH_STATE="$XDG_STATE_HOME/zsh"
+    # [[ -d $ZSH_STATE ]] || mkdir -p $ZSH_STATE
+# }}}
+
+
 
 
 # {{{ Options
     setopt interactive_comments
     zle_highlight=('paste:none')
+
     # {{{ History
-        HISTFILE="$ZSH_CACHE/history"
+        HISTFILE="$ZSH_DIRS[STATE]/history"
 
         # SAVEHIST > HISTSIZE
         HISTSIZE=20000000
@@ -56,6 +73,7 @@ ZSH_CACHE="$XDG_CACHE_HOME/zsh"
         #   I have absolutely no use for it 
     # }}}
 # }}}
+
 # {{{ Sources
     source $ZDOTDIR/prompt.zsh
     source $ZDOTDIR/alias.zsh
@@ -91,6 +109,7 @@ ZSH_CACHE="$XDG_CACHE_HOME/zsh"
     # done
     # }}}
 # }}}
+
 # {{{ Auto Completion
     autoload -Uz compinit
 
@@ -98,7 +117,7 @@ ZSH_CACHE="$XDG_CACHE_HOME/zsh"
 
     # "Completion-System.html#:~:text=cache%2Dpath%20%C2%B6"
     # TODO(@chewygum): Finish this
-    zstyle ':completion:*' cache-path   "$ZSH_CACHE/compcache"
+    zstyle ':completion:*' cache-path   "$ZSH_DIRS[CACHE]/compcache"
     zmodload zsh/complist
 
     _comp_options+=(globdots)
@@ -107,7 +126,7 @@ ZSH_CACHE="$XDG_CACHE_HOME/zsh"
     [[ -o extended_glob ]]; local_extglob=$?
         setopt extended_glob
 
-        COMPDUMP="$ZSH_CACHE/zcompdump"
+        COMPDUMP="$ZSH_DIRS[CACHE]/zcompdump"
         # Glob explanation:
         #   N      Return an empty list if nothing found, instead of an error
         #   mh-24  Return files less than 24 hours old.
