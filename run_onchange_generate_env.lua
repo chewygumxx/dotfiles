@@ -118,6 +118,9 @@ local env_map = {
     -- Perl
   --PERL5LIB = lib .. "/perl5",
 	PERL_CPANM_HOME = cache .. "/cpanm",
+
+	-- Python
+	PYTHONSTARTUP = config .. "/python/pythonrc",
 	
 	-- Rustup
 	RUSTUP_HOME = data .. "/rustup",

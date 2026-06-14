@@ -45,7 +45,7 @@ alias sqlite='sqlite3'
 alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
 
 alias scr-lua="cd $HOME/scr/lua; nvim lua.scr.lua"
-alias source-zsh="source $ZDOTDIR/zshrc"
+alias source-zsh="source $ZDOTDIR/.zshrc"
 
 alias vpnup='sudo wg-quick up protonvpn'
 alias vpndown='sudo wg-quick down protonvpn'

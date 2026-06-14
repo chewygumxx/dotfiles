@@ -96,3 +96,10 @@ function sftp-tele() {
 
      sftp sftp://${SSH_CHEWYTELE}
 }
+
+function clipdump() {
+    CLIPDUMP_DIR="/tmp/clipdump"
+    mkdir -p $CLIPDUMP_DIR
+    wl-paste --watch $HOME/scr/python/textdump.py | \
+        tee --append $CLIPDUMP_DIR/$(date +"%Y-%m-%d_%H-%M-%S").clipdump.txt
+}

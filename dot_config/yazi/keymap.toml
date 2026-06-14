@@ -64,6 +64,7 @@ keymap = [
     { on = "X",       desc = "Cancel yank",                  run = "unyank",                            },
 
     { on = "a",       desc = "Create file or directory/",    run = "create",                            },
+    { on = "A",       desc = "Create directory",             run = "create --dir",                      },
     { on = "r",       desc = "Rename",                       run = "rename --cursor=before_ext",        },
     { on = "R",       desc = "Rename Stem (keep ext)",       run = "rename --empty=stem --cursor=start",},
     { on = "d",       desc = "Trash",                        run = "remove",                            },
