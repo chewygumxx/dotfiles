@@ -186,8 +186,11 @@ rules = [
 	{ mime = "vfs/{absent,stale}", fg = "gray" },
 
 	# Special file
-	{ url = "*", is = "orphan", bg = "red" },
-	{ url = "*", is = "exec"  , fg = "green" },
+    { url = "*", is = "orphan", fg = "red",  italic = true, blink = true },
+    { url = "*", is = "link",   fg = "cyan", italic = true },
+    { url = "*", is = "exec",   fg = "green" },
+	{ url = "*", is = "fifo",   fg = "yellow" },
+	{ url = "*", is = "sock",   fg = "red",  bold   = true },
 
 	# Dummy file
 	{ url = "*",  is = "dummy", bg = "red" },

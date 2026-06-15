@@ -63,7 +63,6 @@ end
 local theme = {
     font  = function()
         M.font         = wezterm.font_with_fallback({
-            --"Anonymous Pro", 
             "AnonymicePro Nerd Font Mono",
             "Noto Sans Symbols 2",
             "Noto Sans Math"

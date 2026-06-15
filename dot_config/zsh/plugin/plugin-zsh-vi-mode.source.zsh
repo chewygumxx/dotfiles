@@ -9,6 +9,10 @@
 : ${PLUGIN_DIR:="/usr/share/zsh/plugins"}
 PLUGIN_NAME="zsh-vi-mode"
 
+# The following line (around :3792) must be nullified in plugin file for fzf CTRL-R
+#zvm_bindkey viins '^R' history-incremental-search-backward
+
+
 function zvm_config() {
     # See https://github.com/jeffreytse/zsh-vi-mode#configuration-function
     

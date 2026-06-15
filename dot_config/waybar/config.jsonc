@@ -209,7 +209,7 @@
 		"format": "{icon}",
 		"format-bluetooth": "{icon}",
 		"format-bluetooth-muted": "{icon}",
-		"format-muted": "",
+		"format-muted": "\uf6a9",
 		"format-icons": {
 			"headphone": " ",
 			"hands-free": "",

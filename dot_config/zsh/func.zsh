@@ -71,9 +71,9 @@ function backlight() {
 function ffp() {
     # Append firefox preference setting to scratch file
     jo -s pref=$1 value=$2 -s comment=$3 \
-    | tee --append ~/scr/ff-userjs.scr.jsonl \
-    | jq  --indent 4 '.' \
-    | bat --language=json
+        | tee --append ~/scr/ff-userjs.scr.jsonl \
+        | jq  --indent 4 '.' \
+        | bat --language=json
 }
 
 # SSH
@@ -102,4 +102,19 @@ function clipdump() {
     mkdir -p $CLIPDUMP_DIR
     wl-paste --watch $HOME/scr/python/textdump.py | \
         tee --append $CLIPDUMP_DIR/$(date +"%Y-%m-%d_%H-%M-%S").clipdump.txt
+}
+
+function find_unicode() {
+    UNICODE=$1 # U+0123
+    if ! [[ $UNICODE =~ '^U\+[0-9ABCDEFabcdef]{4}$' ]]; then
+        echo "Usage: $0 [unicode]"
+        echo "       $0 U+1234"
+        return
+    fi
+
+    fd -e ttf -e otf . '/usr/share/fonts' --exec echo $UNICODE | parallel \
+        --colsep "^(U\+[0-9ABCDEFabcdef]{4}) (.*?)$" \
+        'result=$(interrofont --glyph-for {2} {3})
+        [[ $result != *"not in font"* ]] && echo "{3}: $result"'
+        # With parallel --colsep, {1} is always the entire line
 }

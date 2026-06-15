@@ -14,40 +14,30 @@
 #  Symlinked: ./.zshrc -> this
 #
 
-
-
 # Shell Interactivity Check
 [[ $- != *i* ]] && return     
 
-: ${XDG_CACHE_HOME:="$HOME/.local/cache"}
-: ${XDG_STATE_HOME:="$HOME/.local/state"}
-
 # {{{ Zsh Directories
-    typeset -A ZSH_DIRS
-    ZSH_DIRS=(
-        [CACHE]="$XDG_CACHE_HOME/zsh"
-        [STATE]="$XDG_STATE_HOME/zsh"
+    typeset -A zsh_home
+    zsh_home=(
+        [cache]="$XDG_CACHE_HOME/zsh"
+        [state]="$XDG_STATE_HOME/zsh"
+        [site_func]="$XDG_DATA_HOME/zsh/site-functions"
     )
 
-    for DIR in ${(v)ZSH_DIRS}; do
+    for DIR in ${(v)zsh_home}; do
         [[ -d $DIR ]] || mkdir -p $DIR
     done
 
-    # ZSH_CACHE="$XDG_CACHE_HOME/zsh"
-    # [[ -d $ZSH_CACHE ]] || mkdir -p $ZSH_CACHE
-    # ZSH_STATE="$XDG_STATE_HOME/zsh"
-    # [[ -d $ZSH_STATE ]] || mkdir -p $ZSH_STATE
+    fpath+=($zsh_home[site_func])
 # }}}
-
-
-
 
 # {{{ Options
     setopt interactive_comments
     zle_highlight=('paste:none')
 
     # {{{ History
-        HISTFILE="$ZSH_DIRS[STATE]/history"
+        HISTFILE="$zsh_home[state]/history"
 
         # SAVEHIST > HISTSIZE
         HISTSIZE=20000000
@@ -90,35 +80,81 @@
 
     PLUGIN_LIST=(
         "fast-syntax-highlighting"
-        #"zsh-autocomplete"
+       #"zsh-autocomplete"
         "plugin-zsh-vi-mode"
     )
     for PLUGIN in $PLUGIN_LIST; do
         source $ZDOTDIR/plugin/${PLUGIN}.source.zsh
     done
-
-    # {{{ [Defunct] Direct source of system *.plugin.zsh 
-    # PLUGIN_DIR="/usr/share/zsh/plugins"
-    # PLUGIN_LIST=(
-    #     "fast-syntax-highlighting"
-    #    #"zsh-autocomplete"
-    #     "zsh-vi-mode"
-    # )
-    # for PLUGIN in $PLUGIN_LIST; do
-    #     source $PLUGIN_DIR/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh 2>/dev/null
-    # done
-    # }}}
 # }}}
 
 # {{{ Auto Completion
     autoload -Uz compinit
+    setopt list_types
+
+    zstyle ':completion:*' use-cache on
+    zstyle ':completion:*' cache-path "$zsh_home[cache]/compcache"
 
     zstyle ':completion:*' menu select
+    zstyle ':completion:*' group-name ''
+    zstyle ':completion:*' list-dirs-first true
+    zstyle ':completion:*:*:*:*:descriptions' format '%F{green}-- %d --%f'
+    zstyle ':completion:*:*:-command-:*:*' group-order aliases builtins functions commands
 
-    # "Completion-System.html#:~:text=cache%2Dpath%20%C2%B6"
-    # TODO(@chewygum): Finish this
-    zstyle ':completion:*' cache-path   "$ZSH_DIRS[CACHE]/compcache"
+    typeset -T ZLS_COLORS zls_colors :
+    zls_colors=(
+        "di=$color[bold];$color[blue]"      # Directory
+        "fi=$color[none]"                   # Ordinary file
+        "ex=$color[bold];$color[green]"     # Executable
+
+        "so=$color[bold];$color[red]"       # Socket
+        "pi=$color[yellow]"                 # Named pipe (FIFO)
+        "bd=$color[bold];$color[yellow]"    # Block device
+        "cd=$color[bold];$color[yellow]"    # Character device
+
+        "ln=$color[italic];$color[cyan]"    # Symlink
+        "or=$color[italic];$color[blink];$color[reverse]$color[red]"   # Broken symlink
+
+        "tc=$color[faint]$color[magenta]"   # Filetype trailing character
+    )
+
+    # Archive
+    for ext in "7z" "gz" "rar" "tar" "zip"; do
+        zls_colors+=("*.$ext=$color[red]")
+    done
+
+    # Audio
+    for ext in "flac" "m4a" "mka" "mp2" "mp3" "ogg"; do
+        zls_colors+=("*.$ext=$color[italic];$color[magenta]")
+    done
+
+    # Document
+    for ext in "pdf" "doc" "docx"; do
+        zls_colors+=("*.$ext=$color[cyan]")
+    done
+
+    # Image
+    for ext in "avif" "bmp" "gif" "ico" "jfif" "jpg" "jpeg" "png" "svg" "tif" "tiff" "webp" "xcf"; do
+        zls_colors+=("*.$ext=$color[magenta]")
+    done
+
+    # Source
+    for ext in "css" "js" "lua" "py" "rs" "sql" "styl" "tsx" "zsh"; do
+        zls_colors+=("*.$ext=$color[yellow]")
+    done
+
+    # Video
+    for ext in "avi" "m4v" "mkv" "mov" "mp4" "mpeg" "mpg" "webm"; do
+        zls_colors+=("*.$ext=$color[bold];$color[magenta]")
+    done
+
+    zstyle ":completion:*" list-colors $ZLS_COLORS
+
     zmodload zsh/complist
+    bindkey -M menuselect '^h' vi-backward-char
+    bindkey -M menuselect '^k' vi-up-line-or-history
+    bindkey -M menuselect '^j' vi-down-line-or-history
+    bindkey -M menuselect '^l' vi-forward-char
 
     _comp_options+=(globdots)
 
@@ -126,7 +162,7 @@
     [[ -o extended_glob ]]; local_extglob=$?
         setopt extended_glob
 
-        COMPDUMP="$ZSH_DIRS[CACHE]/zcompdump"
+        COMPDUMP="$zsh_home[cache]/zcompdump"
         # Glob explanation:
         #   N      Return an empty list if nothing found, instead of an error
         #   mh-24  Return files less than 24 hours old.
@@ -140,16 +176,6 @@
     (( local_extglob )) && unsetopt extended_glob
 # }}}
 
-# {{{ fzf
-    # The ubiquitous fuzzy finder, invoked here for
-    #   CTRL-R
-    #       Search command history
-    #   CTRL-T
-    #       Search recursively from CWD
-    if command -v fzf &>/dev/null; then
-        eval "$(fzf --zsh)"
-    fi
-# }}}
 # {{{ zoxide
     # Fuzzy frecency directory jumper
     #   According to repository README, must be invoked *after* compinit.
@@ -185,3 +211,13 @@
 #
 
 print-quote
+# {{{ fzf
+    # The ubiquitous fuzzy finder, invoked here for
+    #   CTRL-R
+    #       Search command history
+    #   CTRL-T
+    #       Search recursively from CWD
+    if command -v fzf &>/dev/null; then
+        eval "$(fzf --zsh)"
+    fi
+# }}}

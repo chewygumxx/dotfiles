@@ -11,7 +11,7 @@
     font-size: 16px;
     font-family:				
 		Anonymous Pro,			
-		"Font Awesome 6 Free Solid",
+		"Font Awesome 7 Free Solid",
 		"MesloLGS Nerd Font",
 		Roboto,					
 		Helvetica,				
@@ -60,9 +60,9 @@ button:hover {
 }
 *.value { color:	#7fb5ff; }
 
-#battery.key{ padding-left:	20px; }
-#battery.key.charging{ 	padding-right:	10px; }
-#battery.key.full{ padding-right:	10px; }
+#battery.key{ font-family: "MesloLGS Nerd Font"; padding-left: 20px; }
+#battery.key.charging{ padding-right: 10px; }
+#battery.key.full{ padding-right: 10px; }
 #battery.key.crit:not(.charging), #battery.value.crit:not(.charging) {
     background-color: #f53c3c;
     color: #cad6ff;
@@ -94,7 +94,7 @@ button:hover {
 #network.key.disconnected	{ color: #555555; }
 #network.value.disconnected	{ color: #555555; }
 
-#pulseaudio.key { }
+#pulseaudio.key {  }
 #pulseaudio.key.bluetooth { padding-right: 6px; }
 #pulseaudio.value { }
 #pulseaudio.key.muted	{ color: #555555; }

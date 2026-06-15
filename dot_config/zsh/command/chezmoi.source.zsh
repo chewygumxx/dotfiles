@@ -8,7 +8,7 @@
 
 alias cz="chezmoi"
 alias cza="cz add"
-alias cze="cz edit"
+alias cze="cz edit --watch"
 alias czf="cz forget"
 alias czr="cz re-add"
 
