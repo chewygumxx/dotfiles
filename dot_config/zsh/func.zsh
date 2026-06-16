@@ -104,10 +104,10 @@ function clipdump() {
         tee --append $CLIPDUMP_DIR/$(date +"%Y-%m-%d_%H-%M-%S").clipdump.txt
 }
 
-function find_unicode() {
+function find-unicode() {
     UNICODE=$1 # U+0123
     if ! [[ $UNICODE =~ '^U\+[0-9ABCDEFabcdef]{4}$' ]]; then
-        echo "Usage: $0 [unicode]"
+        echo "Usage: $0 <unicode>"
         echo "       $0 U+1234"
         return
     fi
@@ -117,4 +117,29 @@ function find_unicode() {
         'result=$(interrofont --glyph-for {2} {3})
         [[ $result != *"not in font"* ]] && echo "{3}: $result"'
         # With parallel --colsep, {1} is always the entire line
+}
+
+function pretty-array() {
+    if [[ $# -eq 0 ]] || ! [[ -v $1 ]]; then
+        echo "Usage: $0 <arrayvar>"
+        echo "    Pretty prints an array with typeset -p1."
+    fi
+    typeset -p1 $@
+}
+
+function read-pipe() {
+    if [[ $# -eq 0 ]]; then
+        echo "Usage: $0 <fifo>"
+        echo "    Persistently reads FIFO file even after EOF"
+        echo "    All other arguments ignored"
+    elif ! [[ -p $1 ]]; then
+        echo "$1: Unrecognised file (not FIFO)"
+    fi
+
+    while true; do stdbuf -oL cat $1; done
+}
+
+function sum-total() {
+    # Reads numbers provided via stdin and prints sum total
+    paste -sd+ | bc
 }

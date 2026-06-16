@@ -1,4 +1,4 @@
-# vim:ft=sh:tabstop=4:shiftwidth=4:noexpandtab:tw=0
+# vim: expandtab:tabstop=4:shiftwidth=4:tw=0
 
 #
 #
@@ -8,15 +8,25 @@
 
 setopt aliases
 
+# Linters
+alias lint-json="json-glib-validate"        # ?: biome, spectral, demjson
+alias lint-toml="tombi lint"	    	    # ?:
+alias lint-yaml="yamllint"                  # ?: yamllint, spectral
 
+alias lint-css="stylelint"		            # ?: biome, stylelint,
+alias lint-js=""                            # ?: eslint_d, biome, jslint, oxlint, quick-lint-js
+									        #    standard
+alias lint-lua="luacheck"			        # ?: selene
+alias lint-py="ruff"			            # ?: pylint, pyflakes, ast-grep, pylint-common, graylint,
+										    #    darkgraylib
+alias lint-sql="sqruff lint"		        # ?: sqlfluff, sqruff,
+alias lint-ts=""                            # ?: eslint_d, biome, tslint
+
+alias lint-systemd="systemd-analyze verify"
+alias lint-systemd="tldr-lint"
 
 # Bluetooth
 alias bt=bluetui
-#alias bt-disc="bluetoothctl disconnect"
-#chewyears_MAC='00:0A:45:31:3A:37'
-#alias bt-ears="bluetoothctl connect $chewyears_MAC"
-#chewytele_MAC='1C:F8:D0:6F:BA:30'
-#alias bt-tele="bluetoothctl connect $chewytele_MAC"
 
 # Prompt before overwriting
 alias cp="cp --interactive"
