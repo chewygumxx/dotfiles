@@ -2,9 +2,11 @@
 
 /*
  *
- *    ~/.mozilla/firefox/<firefox_profile>/chrome/userChrome.css
+ *    ~/.mozilla/firefox/<profile>/chrome/userChrome.css
  *
  */
+
+@import url("context_menu.css");
 
 /* {{{ Accent Color */
 

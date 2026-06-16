@@ -3,7 +3,7 @@
 
 -- 
 --
--- ~/.local/share/chezmoi/run_onchange_generate_env.lua
+-- ~/.local/share/chezmoi/run_onchange_gen_envfiles.lua
 --
 --
 
@@ -107,6 +107,9 @@ local env_map = {
 	
 	-- Node Version Manager
 	NVM_DIR  = data .. "/nvm",
+
+    -- Parallel
+    PARALLEL_HOME = config .. "/parallel",
 
     -- Perl
   --PERL5LIB = lib .. "/perl5",
