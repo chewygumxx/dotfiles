@@ -70,8 +70,9 @@
     source $ZDOTDIR/func.zsh
 
     CMD_ASSIST_LIST=(
-        "eza"
         "chezmoi"
+        "eza"
+        "gtrash"
         "firefox"
     )
     for CMD_ASSIST in $CMD_ASSIST_LIST; do
