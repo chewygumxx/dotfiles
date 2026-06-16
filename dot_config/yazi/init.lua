@@ -100,11 +100,9 @@ function Linemode:mtime()
 end
 
 require("pref-by-location"):setup({
-    -- Disable this plugin completely.
-    -- disabled = false -- true|false (Optional)
+    disabled = false,
     
-    -- Hide "enable" and "disable" notifications.
-    -- no_notify = false -- true|false (Optional)
+    no_notify = false,  -- Hide "enable" and "disable" notifications.
     
     -- Disable the fallback/default preference (values in `yazi.toml`).
     -- This mean if none of the saved or predifined perferences is matched,
@@ -114,9 +112,7 @@ require("pref-by-location"):setup({
     -- disable_fallback_preference = false -- true|false|nil (Optional)
     
     -- You can backup/restore this file. But don't use same file in the different OS.
-    save_path =  os.getenv("HOME") .. "/.config/yazi/pref-by-location.savefile_or_whatever", -- full path to save file (Optional)
-    --       - Linux/MacOS: os.getenv("HOME") .. "/.config/yazi/pref-by-location"
-    --       - Windows: os.getenv("APPDATA") .. "\\yazi\\config\\pref-by-location"
+    save_path =  os.getenv("XDG_DATA_HOME") .. "/yazi/pref-by-location.savefile_or_whatever", -- full path to save file (Optional)
     
     -- https://github.com/MasouShizuka/projects.yazi compatibility
     -- If you use projects.yazi plugin and changed it's default yazi_load_event config, you have to set this value to equal projects.yazi > setup function > save > yazi_load_event. Default is "@projects-load"

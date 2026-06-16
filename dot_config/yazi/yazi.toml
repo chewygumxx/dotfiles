@@ -104,9 +104,9 @@ spotters = [   # {{{
     # Multi-file
     { mime = "multi/*", run = "multi" },
     # Folder
-    { url = "*/", run = "folder" },
+    { url = "*/",       run = "folder" },
     # Code
-    { mime = "text/*", run = "code" },
+    { mime = "text/*",  run = "code" },
     { mime = "application/{mbox,javascript,wine-extension-ini}", run = "code" },
     # Image
     { mime = "image/{avif,hei?,jxl}", run = "magick" },
@@ -115,11 +115,11 @@ spotters = [   # {{{
     # Video
     { mime = "video/*", run = "video" },
     # Virtual file system
-    { mime = "vfs/*", run = "vfs" },
+    { mime = "vfs/*",   run = "vfs" },
     # Error
-    { mime = "null/*", run = "null" },
+    { mime = "null/*",  run = "null" },
     # Fallback
-    { url = "*", run = "file" },
+    { url = "*",        run = "file" },
 ] # }}}
 preloaders = [ # {{{
     # boydaihungst/mediainfo
@@ -128,15 +128,6 @@ preloaders = [ # {{{
 
     # kirasok/torrent-preview
     { mime = "application/bittorrent", run = "torrent-preview" },
-
-    # alberti42/faster-piper Disabled {{{!CLOSE
-    #{ mime = "application/sqlite3", run = 'faster-piper -- sqlite3 "$1" ".schema --indent"' },
-    #{ url = "*.md",     run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -- "$1"' },
-    #{ url = "*.tar*",   run = 'piper --format=url -- tar tf "$1"' },
-    #{ url = "*.txt.gz", run = 'piper -- gzip -dc "$1"' },
-    #{ url = "*.csv",    run = 'piper -- bat -p --color=always --theme=ansi "$1"' },
-    #{ url = "*/",       run = 'piper -- eza -TL=2 --color=always --icons=always --group-directories-first --no-quotes "$1"' },
-    # }}}
 
     # PDF
     { mime = "application/pdf", run = "pdf" },
@@ -153,14 +144,6 @@ previewers = [ # {{{
     # kirasock/torrent-preview
     { mime = "application/bittorrent", run = "torrent-preview" },
   
-    # alberti42/faster-piper Disabled {{{!CLOSE
-    #{ mime = "application/sqlite3", run = 'faster-piper --rely-on-preloader' },
-    #{ url = "*.md",     run = 'faster-piper --rely-on-preloader' },
-    #{ url = "*.tar*",   run = 'faster-piper --rely-on-preloader --format=url' },
-    #{ url = "*.txt.gz", run = 'faster-piper --rely-on-preloader' },
-    #{ url = "*.csv",    run = 'faster-piper --rely-on-preloader' },
-    #{ url = "*/",       run = 'faster-piper --rely-on-preloader' },
-    # }}}
     # yazi-rs/plugin:piper
     { url = "*.md",     run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -- "$1"' },
     { url = "*.tar*",   run = 'piper --format=url -- tar tf "$1"' },
@@ -211,7 +194,7 @@ cd_offset = [ 0, 2, 50, 3 ]
 # }}}
 
 # Create {{{
-create_title  = [ "Create:", "Create (dir):" ]
+create_title  = [ "Create:", "Create Directory:" ]
 create_origin = "top-center"
 create_offset = [ 0, 2, 50, 3 ]
 # }}}

@@ -10,11 +10,12 @@
 -- Directories
 local home    = os.getenv("HOME")
 local bin     = home .. "/.local/bin"
-local lib     = home .. "/.local/lib"
-local data    = home .. "/.local/share"
-local state   = home .. "/.local/state"
 local cache   = home .. "/.local/cache"
 local config  = home .. "/.config"
+local data    = home .. "/.local/share"
+local lib     = home .. "/.local/lib"
+local secret  = home .. "/.local/secret"
+local state   = home .. "/.local/state"
 local runtime = "/run/user/1000"
 
 -- Programs
@@ -33,10 +34,11 @@ local env_map = {
     -- XDG Base Directory Specification 
 	--   See ~/.config/user-dirs.dirs, `man xdg-user-dirs`, and
 	--   https://specifications.freedesktop.org/basedir/latest/
-    XDG_DATA_HOME      = data,
-    XDG_STATE_HOME     = state,
     XDG_CACHE_HOME     = cache,
     XDG_CONFIG_HOME    = config,  
+    XDG_DATA_HOME      = data,
+    XDG_SECRET_HOME    = secret,
+    XDG_STATE_HOME     = state,
     XDG_RUNTIME_DIR    = runtime,
     XDG_SCREENSHOT_DIR = "~/ref/image/top-screenshot/",
     
@@ -85,6 +87,9 @@ local env_map = {
 
 	-- GitHub CLI
 	GH_TELEMETRY = "false",
+
+    -- GnuPG
+    GNUPGHOME = secret .. "/gnupg",
 
     -- Golang
     GOROOT = "/usr/lib/go",

@@ -218,8 +218,11 @@
         source "$NVM_DIR/nvm.sh"  --no-use     
 # }}}
 
+source /home/chewygum/.config/broot/launcher/bash/br
+
 #
 # *** Post-Startup
 #
 
 print-quote
+

@@ -33,12 +33,13 @@ alias cp="cp --interactive"
 alias mv="mv --interactive"
 
 # Human readable
-alias free='free -mebi'
+alias free='free --mebi'
 alias df='df --human-readable'
+alias df='du --block-size=1K'
 
 # Show colour and case-insensitive
 alias grep='grep	--color=auto -i'
-alias egrep='egrep	--color=auto -i'
+alias pgrep='pgrep	--color=auto -i'
 
 # Package Manager
 alias pacman=$PACMAN_WRAP
@@ -52,10 +53,7 @@ alias rm="trash-put"
 # SQLite
 alias sqlite='sqlite3'
 
-alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
-
-alias scr-lua="cd $HOME/scr/lua; nvim lua.scr.lua"
-alias source-zsh="source $ZDOTDIR/.zshrc"
+alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget/wget-hsts"'
 
 alias vpnup='sudo wg-quick up protonvpn'
 alias vpndown='sudo wg-quick down protonvpn'

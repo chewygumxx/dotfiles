@@ -69,8 +69,8 @@ keymap = [
     { on = "R",       desc = "Rename Stem (keep ext)",       run = "rename --empty=stem --cursor=start",},
     { on = "d",       desc = "Trash",                        run = "remove",                            },
    #{ on = "D",       desc = "Delete",                       run = "remove --permanently",              },
-    { on = "u",       desc = "Restore",                      run = "plugin restore",                    },
-    { on = "U",       desc = "Restore (interactive)",        run = "plugin restore --interactive",      },
+    { on = "u",       desc = "Restore",                      run = "shell 'gtrash restore-group' --orphan", },
+    { on = "U",       desc = "Restore (interactive)",        run = "shell 'gtrash restore' --block",    },
 
     { on = "!",
         desc = "Open shell here",

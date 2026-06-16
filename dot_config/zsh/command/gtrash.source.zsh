@@ -41,7 +41,7 @@ function gtrash() {
     /usr/bin/gtrash $@
 }
 
-alias rm="echo \"gtrash is installed, try the alias del='gtrash put'\""
+alias rm="echo -e \"\e[0;32mgtrash \e[0mis installed, try the \e[0;34malias \e[0;32mdel\e[0;33m='\e[0;32mgtrash \e[0;35mput\e[0;33m'\"; false"
 
 alias del="gtrash put"
 alias delete="del"
