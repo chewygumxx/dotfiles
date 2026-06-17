@@ -57,10 +57,10 @@ local env_map = {
     PATH    = table.concat({
         -- Userspace
         bin,
-        data .. "/go/bin",
-        data .. "/gem/ruby/3.2.0/bin",
-        data .. "/gem/ruby/3.3.0/bin",
-        data .. "/gem/ruby/3.4.0/bin",
+        -- data .. "/go/bin",
+        -- data .. "/gem/ruby/3.2.0/bin",
+        -- data .. "/gem/ruby/3.3.0/bin",
+        -- data .. "/gem/ruby/3.4.0/bin",
 
         -- System
         "/usr/bin/site_perl",
@@ -100,10 +100,10 @@ local env_map = {
 	GRADLE_USER_HOME = data .. "/gradle",
 
     -- Lua
-    LUA             = "/usr/bin/luajit",
-    LUA_INCDIR      = "/usr/include/luajit-2.1",
-    LUA_LIBDIR      = "/usr/lib64",
-    LUAROCKS_CONFIG = config .. "/luarocks/config-5.1.lua",
+    -- LUA             = "/usr/bin/luajit",
+    -- LUA_INCDIR      = "/usr/include/luajit-2.1",
+    -- LUA_LIBDIR      = "/usr/lib64",
+    -- LUAROCKS_CONFIG = config .. "/luarocks/config-5.1.lua",
     
     -- Node Package Manager
   --NPM_CONFIG_USERCONF   = config .. "/npm/npmrc",
@@ -139,7 +139,7 @@ local env_map = {
 	TERMINFO_DIRS = table.concat({ data .. "/terminfo", "/usr/share/terminfo" }, ":"),
 
     -- Zsh
-    ZDOTDIR  = config .. "/zsh",
+  --ZDOTDIR  = config .. "/zsh",
 
     -- Zellij
   --ZELLIJ_CONF_DIR = config .. "/zellij",
