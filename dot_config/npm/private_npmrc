@@ -96,5 +96,4 @@
 ; --yes                     Accept all prompts
 
 ; Set by NPM_CONFIG_CACHE
-;cache=/home/chewygum/.cache/npm
-viewer=batman
+;cache=/home/chewygum/.local/cache/npm
