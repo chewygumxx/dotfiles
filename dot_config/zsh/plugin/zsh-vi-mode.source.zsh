@@ -6,12 +6,12 @@
 #
 #
 
-: ${PLUGIN_DIR:="/usr/share/zsh/plugins"}
-PLUGIN_NAME="zsh-vi-mode"
+: ${ZSH_PLUGIN_DIR:="/usr/share/zsh/plugins"}
 
-# The following line (around :3792) must be nullified in plugin file for fzf CTRL-R
-#zvm_bindkey viins '^R' history-incremental-search-backward
-
+# This line of the plugin must be nullified for fzf CTRL-R:
+#   zvm_bindkey viins '^R' history-incremental-search-backward
+#
+# Found at: /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh:3792
 
 function zvm_config() {
     # See https://github.com/jeffreytse/zsh-vi-mode#configuration-function
@@ -26,4 +26,4 @@ function zvm_config() {
     ZVM_CLIPBOARD_PASTE_CMD="wl-paste --no-newline"
 }
 
-source $PLUGIN_DIR/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh
+source $ZSH_PLUGIN_DIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh

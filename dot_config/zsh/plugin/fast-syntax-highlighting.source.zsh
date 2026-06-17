@@ -6,7 +6,6 @@
 #
 #
 
-: ${PLUGIN_DIR:="/usr/share/zsh/plugins"}
-PLUGIN_NAME="fast-syntax-highlighting"
+: ${ZSH_PLUGIN_DIR:="/usr/share/zsh/plugins"}
 
-source $PLUGIN_DIR/$PLUGIN_NAME/$PLUGIN_NAME.plugin.zsh 2>/dev/null
+source $ZSH_PLUGIN_DIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null

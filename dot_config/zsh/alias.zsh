@@ -8,23 +8,6 @@
 
 setopt aliases
 
-# Linters
-alias lint-json="json-glib-validate"        # ?: biome, spectral, demjson
-alias lint-toml="tombi lint"	    	    # ?:
-alias lint-yaml="yamllint"                  # ?: yamllint, spectral
-
-alias lint-css="stylelint"		            # ?: biome, stylelint,
-alias lint-js=""                            # ?: eslint_d, biome, jslint, oxlint, quick-lint-js
-									        #    standard
-alias lint-lua="luacheck"			        # ?: selene
-alias lint-py="ruff"			            # ?: pylint, pyflakes, ast-grep, pylint-common, graylint,
-										    #    darkgraylib
-alias lint-sql="sqruff lint"		        # ?: sqlfluff, sqruff,
-alias lint-ts=""                            # ?: eslint_d, biome, tslint
-
-alias lint-systemd="systemd-analyze verify"
-alias lint-systemd="tldr-lint"
-
 # Bluetooth
 alias bt=bluetui
 
@@ -47,18 +30,36 @@ alias pacman=$PACMAN_WRAP
 # Editor
 alias nano=$EDITOR
 
-# Remove
-alias rm="trash-put"
-
 # SQLite
 alias sqlite='sqlite3'
 
-alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget/wget-hsts"'
+alias impala='sudo impala'
 
+# WireGuard ProtonVPN
 alias vpnup='sudo wg-quick up protonvpn'
 alias vpndown='sudo wg-quick down protonvpn'
 alias vpnstat='sudo wg show'
 
+# Wget
+alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget/wget-hsts"'
+
 # Command --help Colorisation
 alias -g -- -h='     -h    2>&1	| bat --language=help'
 alias -g -- --help='--help 2>&1	| bat --language=help'
+
+# Linters
+alias lint-json="json-glib-validate"        # ?: biome, spectral, demjson
+alias lint-toml="tombi lint"	    	    # ?:
+alias lint-yaml="yamllint"                  # ?: yamllint, spectral
+
+alias lint-css="stylelint"		            # ?: biome, stylelint,
+alias lint-js=""                            # ?: eslint_d, biome, jslint, oxlint, quick-lint-js
+									        #    standard
+alias lint-lua="luacheck"			        # ?: selene
+alias lint-py="ruff"			            # ?: pylint, pyflakes, ast-grep, pylint-common, graylint,
+										    #    darkgraylib
+alias lint-sql="sqruff lint"		        # ?: sqlfluff, sqruff,
+alias lint-ts=""                            # ?: eslint_d, biome, tslint
+
+alias lint-systemd="systemd-analyze verify"
+alias lint-tldr="tldr-lint"

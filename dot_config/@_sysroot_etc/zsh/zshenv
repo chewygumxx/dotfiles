@@ -1,0 +1,17 @@
+# vim: expandtab:shiftwidth=4:tabstop=4:ft=zsh:textwidth=80
+
+#
+#
+# /etc/zsh/zshenv
+#
+# 
+
+# 
+# ** This file executes at the start of *EVERY* zsh shell
+#
+
+if [[ -d $XDG_CONFIG_HOME/zsh ]]; then
+    export ZDOTDIR=$XDG_CONFIG_HOME/zsh
+elif [[ -d $HOME/.config/zsh ]]; then
+    export ZDOTDIR=$HOME/.config/zsh
+fi
