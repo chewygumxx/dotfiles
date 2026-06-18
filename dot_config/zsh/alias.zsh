@@ -18,7 +18,7 @@ alias mv="mv --interactive"
 # Human readable
 alias free='free --mebi'
 alias df='df --human-readable'
-alias df='du --block-size=1K'
+alias du='du --block-size=1K'
 
 # Show colour and case-insensitive
 alias grep='grep	--color=auto -i'
