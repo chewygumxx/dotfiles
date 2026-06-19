@@ -23,6 +23,7 @@ local ensure_installed = {
     "csv",  -- Also tsv and psv
     "desktop",
     "html",
+    "ini",
     "javascript",
     "json",
     "json5",
@@ -66,6 +67,8 @@ local ignore_filetypes = {
 -- https://www.reddit.com/r/neovim/comments/1pndf9e/my_new_nvimtreesitter_configuration_for_the_main/
 M.config = function()
     local ts = require('nvim-treesitter')
+
+    vim.treesitter.language.register('ini', 'systemd')
 
     -- Install core parsers after lazy.nvim finishes loading all plugins
     vim.api.nvim_create_autocmd('User', {
