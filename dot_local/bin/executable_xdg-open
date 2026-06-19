@@ -1,3 +1,14 @@
-#!/usr/bin/bash
-handlr open "$@"
+#!/bin/sh
+# vim: 
 
+#
+#
+# ~/.local/bin/xdg-open
+#
+#
+
+#
+# Shadow file redirection
+#
+
+exec /usr/bin/handlr open "$@"
