@@ -10,7 +10,7 @@
 autoload -U colors && colors
 TIME="%F{#626262}[%f%F{#5f95fa}%D{%H}%f%F{#7171d3}:%f%F{#5f95fa}%D{%M}%f%F{#7171d3}:%f%F{#5f95fa}%D{%S}%f%F{#626262}]%f"
 
-WORK_DIR="%F{13}%~%f"
+WORK_DIR="%F{magenta}%~%f"
 
 EXIT_CODE="%(?..%F{red}%B %?%b%f)"
 
