@@ -78,7 +78,23 @@ local env_map = {
 	CARGO_HOME = data .. "/cargo",
 
     -- fzf
-    FZF_CTRL_R_OPTS= table.concat({
+    FZF_DEFAULT_OPTS = table.concat({
+        "--highlight-line",
+        "--color 'current-fg:#e8e0ff'",
+        "--color 'current-bg:#141337'",
+        "--color 'current-hl:#7408ff'",
+        "--color 'selected-bg:#090a24'",
+        "--color 'selected-fg:#cad6ff'",
+        "--color 'preview-fg:#cad6ff'",
+        "--color 'hl:#7408ff'",
+        "--color 'query:#cad6ff'",
+        "--color 'info:#7408cf'",
+        "--color 'border:#4e4581'",
+        "--color 'separator:#3d3470'",
+        "--color 'pointer:#7408ff'",
+        "--color 'marker:#7408cf'",
+    }, " "),
+    FZF_CTRL_R_OPTS = table.concat({
         "--border",
         "--height 40%",
         "--reverse",

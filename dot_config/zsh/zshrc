@@ -73,7 +73,7 @@ zle_highlight=('paste:none')
 
 # {{{ Sources
     source $ZDOTDIR/prompt.zsh
-    source $ZDOTDIR/alias.zsh
+    source $ZDOTDIR/alias.zsh # Should probably be before func.zsh
     source $ZDOTDIR/func.zsh
     source $ZDOTDIR/native/completions.source.zsh
 
@@ -81,7 +81,9 @@ zle_highlight=('paste:none')
         "chezmoi"
         "eza"
         "firefox"
+        "fzf"
         "gtrash"
+        "tealdeer"
     )
     for CMDINIT in $ZSH_CMDINIT_LIST; do
         source $ZDOTDIR/command/${CMDINIT}.source.zsh
@@ -98,16 +100,10 @@ zle_highlight=('paste:none')
     done
 # }}}
 
-# {{{ fzf
-    # The ubiquitous fuzzy finder, invoked here for
-    #   CTRL-R
-    #       Search command history
-    #   CTRL-T
-    #       Search recursively from CWD
-    if command -v fzf &>/dev/null; then
-        eval "$(fzf --zsh)"
-    fi
-# }}}
+autoload edit-command-line
+zle -N edit-command-line
+bindkey '^e' edit-command-line
+
 # {{{ zoxide
     # Fuzzy frecency directory jumper
     if command -v zoxide &>/dev/null; then
@@ -134,8 +130,6 @@ zle_highlight=('paste:none')
     [ -s "$NVM_DIR/nvm.sh" ] &&
         source "$NVM_DIR/nvm.sh"  --no-use     
 # }}}
-
-source /home/chewygum/.config/broot/launcher/bash/br
 
 #
 # *** Post-Startup

@@ -56,7 +56,7 @@ yay.opt = {
     batch_install = false, -- Queue AUR package installs instead of installing each package immediately.
     single_line_results = false, -- Use single-line search result format.
     separate_sources = true, -- Separate query results by source (repo vs AUR).
-    debug = true, -- Enable debug logging and local init.lua lookup convenience.
+    debug = false, -- Enable debug logging and local init.lua lookup convenience.
     rpc = true, -- Use AUR RPC for dependency/query operations.
     double_confirm = true, -- Ask for confirmation before and after builds during upgrades.
 }

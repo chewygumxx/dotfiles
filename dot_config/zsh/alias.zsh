@@ -30,10 +30,11 @@ alias pacman=$PACMAN_WRAP
 # Editor
 alias nano=$EDITOR
 
+# Impala
+alias impala='sudo impala'
+
 # SQLite
 alias sqlite='sqlite3'
-
-alias impala='sudo impala'
 
 # WireGuard ProtonVPN
 alias vpnup='sudo wg-quick up protonvpn'
