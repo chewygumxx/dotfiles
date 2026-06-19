@@ -11,9 +11,9 @@
 #
 
 [display]
-command_name = false
-compact      = true
-use_pager    = false
+show_title = false
+compact    = false
+use_pager  = false
 
 [style.description]
 foreground = { ansi = 11 }
@@ -51,7 +51,12 @@ platform  = [ "current", "common", "all" ]
 
 [updates]
 auto_update = true
-auto_update_interval_hours = 24
+auto_update_interval_hours = 168
 download_languages = [ "en" ]
 
 [directories]
+# Does not perform variable expansion. 
+# If not /absolute/path/to/dir, path relative to $XDG_CONFIG_HOME/tealdeer
+# Solution: Symlink $XDG_CONFIG_HOME/tealdeer/pages to ../../alternative/specified/directory
+# or just:
+custom_pages_dir = "../../doc/tealdeer"
