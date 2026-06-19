@@ -6,7 +6,7 @@
  *
  */
 
-@import url("context_menu.css");
+/*@import url("context_menu.css"); */
 
 /* {{{ Accent Color */
 
@@ -117,8 +117,8 @@ menuseparator#context-sep-sharing { display: none !important; }
 /* }}} */
 
 menupopup, panel {
-    --panel-background: #03030b !important;
-    --panel-color:      #e8e0ff !important;
+    --panel-background-color: #03030b !important;
+    --panel-text-color:      #e8e0ff !important;
     --panel-border-radius: 4px !important;
     --panel-padding-block: 6px !important;
     --panel-border-color:    #7408c444 !important;
