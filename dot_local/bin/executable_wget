@@ -1,0 +1,17 @@
+#!/bin/sh
+# vim:
+
+#
+#
+# ~/.local/bin/wget
+#
+#
+
+#
+# Shadow file as configuration
+#
+
+cache="${XDG_CACHE_HOME:-$HOME/.cache}/wget"
+mkdir -p "$cache" || exit 1
+
+exec /usr/bin/wget --hsts-file="$cache/wget-hsts" "$@"

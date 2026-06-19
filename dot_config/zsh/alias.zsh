@@ -40,9 +40,6 @@ alias vpnup='sudo wg-quick up protonvpn'
 alias vpndown='sudo wg-quick down protonvpn'
 alias vpnstat='sudo wg show'
 
-# Wget
-alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget/wget-hsts"'
-
 # Command --help Colorisation
 alias -g -- -h='     -h    2>&1	| bat --language=help'
 alias -g -- --help='--help 2>&1	| bat --language=help'
