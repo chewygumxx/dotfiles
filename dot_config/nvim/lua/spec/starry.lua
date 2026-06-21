@@ -1,4 +1,4 @@
--- vim: includeexpr=\'/home/chewygum/.local/share/nvim/plugin_data/starry.nvim/lua/\'.v\:fname
+-- vim:
 
 --
 --

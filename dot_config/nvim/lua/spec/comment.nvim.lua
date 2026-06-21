@@ -12,7 +12,7 @@ local M = {
 }
 
 M.opts = {
-    padding = true,     -- Add a space between comment and content
+    padding = false,    -- Add a space between comment and content
     sticky  = true,     -- Whether the cursor should remain at its position
     ignore  = nil,      -- Lines ignored
                            
