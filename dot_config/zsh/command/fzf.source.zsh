@@ -19,66 +19,6 @@
 # - $ZDOTDIR/.zshenv (zsh  - all)
 #
 
-# {{{ ANSI Escape Array
-declare -A cl
-cl=(
-# None            Bold            Dim             Italic          Underline
- [n]=$'\e[0m'    [b]=$'\e[1m'    [d]=$'\e[2m'    [i]=$'\e[3m'    [u]=$'\e[4m'
-# Blink           Fast Blink      Standout        Conceal         Strikeout
- [blnk]=$'\e[5m' [fast]=$'\e[6m' [stnd]=$'\e[7m' [hide]=$'\e[8m' [strk]=$'\e[9m'
-
-# Standard              Bright
- [blk]=$'\e[0;30m'     [BLK]=$'\e[0;90m'     # Black   
- [red]=$'\e[0;31m'     [RED]=$'\e[0;91m'     # Red     
- [grn]=$'\e[0;32m'     [GRN]=$'\e[0;92m'     # Green   
- [ylw]=$'\e[0;33m'     [YLW]=$'\e[0;93m'     # Yellow  
- [blu]=$'\e[0;34m'     [BLU]=$'\e[0;94m'     # Blue    
- [mag]=$'\e[0;35m'     [MAG]=$'\e[0;95m'     # Magenta 
- [cyn]=$'\e[0;36m'     [CYN]=$'\e[0;96m'     # Cyan    
- [wht]=$'\e[0;37m'     [WHT]=$'\e[0;97m'     # White   
-
-# Standard Bold         Bright Bold 
- [b_blk]=$'\e[1;30m'   [b_BLK]=$'\e[1;90m'   # Black    
- [b_red]=$'\e[1;31m'   [b_RED]=$'\e[1;91m'   # Red      
- [b_grn]=$'\e[1;32m'   [b_GRN]=$'\e[1;92m'   # Green    
- [b_ylw]=$'\e[1;33m'   [b_YLW]=$'\e[1;93m'   # Yellow   
- [b_blu]=$'\e[1;34m'   [b_BLU]=$'\e[1;94m'   # Blue     
- [b_mag]=$'\e[1;35m'   [b_MAG]=$'\e[1;95m'   # Magenta  
- [b_cyn]=$'\e[1;36m'   [b_CYN]=$'\e[1;96m'   # Cyan     
- [b_wht]=$'\e[1;37m'   [b_WHT]=$'\e[1;97m'   # White    
-
-# Standard Dim          Bright Dim 
- [d_blk]=$'\e[2;30m'   [d_BLK]=$'\e[2;90m'   # Black    
- [d_red]=$'\e[2;31m'   [d_RED]=$'\e[2;91m'   # Red      
- [d_grn]=$'\e[2;32m'   [d_GRN]=$'\e[2;92m'   # Green    
- [d_ylw]=$'\e[2;33m'   [d_YLW]=$'\e[2;93m'   # Yellow   
- [d_blu]=$'\e[2;34m'   [d_BLU]=$'\e[2;94m'   # Blue     
- [d_mag]=$'\e[2;35m'   [d_MAG]=$'\e[2;95m'   # Magenta  
- [d_cyn]=$'\e[2;36m'   [d_CYN]=$'\e[2;96m'   # Cyan     
- [d_wht]=$'\e[2;37m'   [d_WHT]=$'\e[2;97m'   # White    
-)
-# }}}
-# {{{ Log Strings
-declare -A log
-log=(
-    [tag_b]="$cl[b_WHT]["
-    [tag_e]="$cl[b_WHT]]$cl[n]::"
-
-        [root]="$cl[BLK]├$cl[n]"
-     [branch1]="$cl[BLK]╰──$cl[n]"
-    [branch1e]="$cl[BLK]╰─╴$cl[n]" 
-    [branch2a]="$cl[BLK]├──╴$cl[n]"
-    [branch2b]="$cl[BLK]╰┬╴$cl[n]" # Base
-    [branch2p]="$cl[BLK]╰─┬$cl[n]" # Periphery
-     [branch3]="$cl[BLK]├─┬"
-        [vert]="$cl[BLK]│"
-)
-log+=(
-    [Usage]="$log[tag_b]$cl[grn]Usage$log[tag_e]"
-    [ERROR]="$log[tag_b]$cl[b_red]ERROR$log[tag_e]"
-     [WARN]="$log[tag_b]$cl[b_YLW]WARN$log[tag_e]"
-)
-# }}}
 
 # {{{ Shell Validation
 case $SHELL in
