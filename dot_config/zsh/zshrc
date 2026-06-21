@@ -77,27 +77,29 @@ zle_highlight=('paste:none')
     source $ZDOTDIR/func.zsh
     source $ZDOTDIR/native/completions.source.zsh
 
-    ZSH_CMDINIT_LIST=(
+    _cmd_source_list=(
         "chezmoi"
         "eza"
-        "firefox"
         "fzf"
         "gtrash"
         "tealdeer"
     )
-    for CMDINIT in $ZSH_CMDINIT_LIST; do
-        source $ZDOTDIR/command/${CMDINIT}.source.zsh
+    for cmd in $_cmd_source_list; do
+        #source $XDG_CONFIG_HOME/$cmd/${cmd}.source.*
+        source $ZDOTDIR/command/${cmd}.source.zsh
     done
+    unset _cmd_source_list
 
     ZSH_PLUGIN_DIR="/usr/share/zsh/plugins"
-    ZSH_PLUGIN_LIST=(
+    _zsh_plugin_list=(
         "fast-syntax-highlighting"
        #"zsh-autocomplete"
         "zsh-vi-mode"
     )
-    for PLUGIN in $ZSH_PLUGIN_LIST; do
-        source $ZDOTDIR/plugin/${PLUGIN}.source.zsh
+    for plugin in $_zsh_plugin_list; do
+        source $ZDOTDIR/plugin/${plugin}.source.zsh
     done
+    unset _zsh_plugin_list
 # }}}
 
 autoload edit-command-line

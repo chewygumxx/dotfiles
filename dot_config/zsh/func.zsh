@@ -1,4 +1,4 @@
-# vim: ft=zsh:foldlevel=1
+# vim: ft=zsh:foldlevel=0
 
 #
 #
@@ -8,18 +8,49 @@
 
 
 function print-ansi-colors() {
-    printf   "\e[0;30m0 - Black   \e[1;30mBold Black     \e[0;90m 8 - Light Black  "
-    printf "\n\e[0;31m1 - Red     \e[1;31mBold Red       \e[0;91m 9 - Light Red    "
-    printf "\n\e[0;32m2 - Green   \e[1;32mBold Green     \e[0;92m10 - Light Green  "
-    printf "\n\e[0;33m3 - Yellow  \e[1;33mBold Yellow    \e[0;93m11 - Light Yellow "
-    printf "\n\e[0;34m4 - Blue    \e[1;34mBold Blue      \e[0;94m12 - Light Blue   "
-    printf "\n\e[0;35m5 - Purple  \e[1;35mBold Purple    \e[0;95m13 - Light Purple "
-    printf "\n\e[0;36m6 - Cyan    \e[1;36mBold Cyan      \e[0;96m14 - Light Cyan   "
-    printf "\n\e[0;37m7 - White   \e[1;37mBold White     \e[0;97m15 - Light White  "
-    printf "\n"
-    printf "\n\e[0;35mPurple \e[0mis also often refered to as \e[0;35mMagenta"
-    printf "\n\e[0mSource: https://gist.github.com/JBlond/2fea43a3049b38287e5e9cefc87b2124"
-    printf "\n"
+    __ansi16_fg=(
+        $'\e[0;30m 0 - Black   '
+        $'\e[1;30mBold Black   '
+        $'\e[0;90m 8 - Bright  '
+        $'\e[1;90mBright Bold'
+        $'\n'
+        $'\e[0;31m 1 - Red     '
+        $'\e[1;31mBold Red     '
+        $'\e[0;91m 9 - Bright  '
+        $'\e[1;91mBright Bold'
+        $'\n'
+        $'\e[0;32m 2 - Green   '
+        $'\e[1;32mBold Green   '
+        $'\e[0;92m10 - Bright  '
+        $'\e[1;92mBright Bold'
+        $'\n'
+        $'\e[0;33m 3 - Yellow  '
+        $'\e[1;33mBold Yellow  '
+        $'\e[0;93m11 - Bright  '
+        $'\e[1;93mBright Bold'
+        $'\n'
+        $'\e[0;34m 4 - Blue    '
+        $'\e[1;34mBold Blue    '
+        $'\e[0;94m12 - Bright  '
+        $'\e[1;94mBright Bold'
+        $'\n'
+        $'\e[0;35m 5 - Magenta '
+        $'\e[1;35mBold Magenta '
+        $'\e[0;95m13 - Bright  '
+        $'\e[1;95mBright Bold'
+        $'\n'
+        $'\e[0;36m 6 - Cyan    '
+        $'\e[1;36mBold Cyan    '
+        $'\e[0;96m14 - Bright  '
+        $'\e[1;96mBright Bold'
+        $'\n'
+        $'\e[0;37m 7 - White   '
+        $'\e[1;37mBold White   '
+        $'\e[0;97m15 - Bright  '
+        $'\e[1;97mBright Bold'
+        $'\n'
+    )
+    printf "%s" ${__ansi16_fg[@]}
 }
 
 # ADB Wifi Connect and Set Port
