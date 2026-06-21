@@ -84,7 +84,9 @@ local theme = {
         
         M.bold_brightens_ansi_colors = "No"
         M.colors = {
-            foreground = '#a0a0d9',
+            --foreground = '#a0a0d9',
+            --foreground = '#b1a3e5',
+            foreground = '#9493de',
             --background = '#03030b',    -- Ignored. See in-file variable: M.background
        
             -- ** Cursor
@@ -118,8 +120,11 @@ local theme = {
         }
         -- ANSI 8-15
         M.colors.brights = {
-            "#555555",        --08 Bright Black (Gray)
-            "#ff5f66",        --09 Bright Red
+          --"#555555",        --08 Bright Black (Gray)
+          --"#2d2857",        --08 Bright Black (Gray)
+          --"#3d3470",        --08 Bright Black (Gray)
+            "#4e4189",        --08 Bright Black (Gray)
+            "#e3365e",        --09 Bright Red
             "#0fff72",        --10 Bright Green
             "#ffca44",        --11 Bright Yellow
             "#7fc5ff",        --12 Bright Blue
