@@ -6,55 +6,130 @@
 --
 --
 
+--
+-- https://github.com/nvim-treesitter/nvim-treesitter
+--
+
 ---@module "lazy"
 ---@type LazySpec
 local M = {
     'nvim-treesitter/nvim-treesitter',
-    branch = 'main',
-    lazy   = false,
-    build  = ':TSUpdate',
+    enabled = true,
+
+    branch  = 'main',
+    lazy    = false,
+    build   = ':TSUpdate',
 }
 
 local ensure_installed = {
-    --{{{!CLOSE
+    -- https://github.com/nvim-treesitter/nvim-treesitter/blob/main/SUPPORTED_LANGUAGES.md
+
     "bash",
-    'comment',
+    -- https://github.com/tree-sitter/tree-sitter-bash
+
+    "comment",
+    -- https://github.com/stsewd/tree-sitter-comment
+
     "css",
-    "csv",  -- Also tsv and psv
+    -- https://github.com/tree-sitter/tree-sitter-css
+
+    "csv",
+    -- Also tsv and psv
+    -- https://github.com/tree-sitter-grammars/tree-sitter-csv
+
     "desktop",
+    -- For both .desktop and .directory files
+    -- https://github.com/ValdezFOmar/tree-sitter-desktop
+    -- https://specifications.freedesktop.org/desktop-entry-spec/latest/index.html
+
     "html",
+    -- https://github.com/tree-sitter/tree-sitter-html
+
     "ini",
+    -- https://github.com/justinmk/tree-sitter-ini
+
     "javascript",
+    -- https://github.com/tree-sitter/tree-sitter-javascript
+
     "json",
+    -- https://github.com/tree-sitter/tree-sitter-json
+
     "json5",
+    -- https://github.com/Joakker/tree-sitter-json5
+
     "kdl",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-kdl
+
     "lua",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-lua
+
     "luadoc",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-luadoc
+
     "luap",
+    -- Lua Patterns
+    -- https://github.com/tree-sitter-grammars/tree-sitter-luap
+
     "markdown",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-markdown
+
     "markdown_inline",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-markdown
+
     "nix",
+    -- https://github.com/nix-community/tree-sitter-nix
+
     "perl",
+    -- https://github.com/tree-sitter-perl/tree-sitter-perl
+
     "printf",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-printf
+
     "python",
+    -- https://github.com/tree-sitter/tree-sitter-python
+
     "query",
+    -- Treesitter query language
+    -- https://github.com/tree-sitter-grammars/tree-sitter-query
+
     "regex",
+    -- https://github.com/tree-sitter/tree-sitter-regex
+
     "sql",
+    -- https://github.com/derekstride/tree-sitter-sql
+
     "tmux",
+    -- https://github.com/Freed-Wu/tree-sitter-tmux
+
     "toml",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-toml
+
     "tsx",
+    -- https://github.com/tree-sitter/tree-sitter-typescript
+
     "typescript",
+    -- https://github.com/tree-sitter/tree-sitter-typescript
+
     "vim",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-vim
+
     "vimdoc",
+    -- https://github.com/neovim/tree-sitter-vimdoc
+
     "xml",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-xml
+
     "yaml",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-yaml
+
     "zsh",
+    -- https://github.com/georgeharker/tree-sitter-zsh
+
 }
 local ignore_filetypes = {
-    --{{{!CLOSE
     'checkhealth',
     'lazy',
-    'qf',   -- Plugin jqx quickfix
+    'qf',   -- QuickFix
     'mason',
     'snacks_dashboard',
     'snacks_notif',
@@ -123,13 +198,16 @@ M.config = function()
         desc = 'Enable treesitter functionality',
         callback = function(event)
           --vim.notify(require('inspect')(event), vim.log.levels.INFO)
+
+            -- Filesize Limit
             local megabyte = 1024 * 1024
             if vim.fn.getfsize(event.file) > (vim.g.large_filesize or megabyte) then
-                vim.notify("Filesize exceeded treesitter limit: spec/nvim-treesitter.lua:142", 
+                vim.notify("Filesize exceeded treesitter limit: (see \"Filesize Limit\" of spec/nvim-treesitter.lua)", 
                     vim.log.levels.INFO)
                 return
             end
 
+            -- Filetype Ignore
             if vim.tbl_contains(ignore_filetypes, event.match) then
                 return
             end
@@ -138,7 +216,7 @@ M.config = function()
             local buf  = event.buf
 
             if parsers_failed[lang] then
-                vim.notify("treesitter parser failed for lang: " .. lang, vim.log.levels.WARN)
+                vim.notify("Treesitter parser failed for lang: " .. lang, vim.log.levels.WARN)
                 return
             end
 
