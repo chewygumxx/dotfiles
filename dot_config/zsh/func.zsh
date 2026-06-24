@@ -77,18 +77,12 @@ function man() {
 
 y() {
     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+
     command yazi "$@" --cwd-file="$tmp"
     IFS= read -r -d '' cwd < "$tmp"
     [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
-    rm -f -- "$tmp"
-}
 
-fh() { # Fzf Command History
-    print -z $( \
-        ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | \
-        fzf +s --tac --border --height 40% --reverse | \
-        sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g' \
-    )
+    \rm -f -- "$tmp"
 }
 
 function backlight() {
