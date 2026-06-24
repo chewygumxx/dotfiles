@@ -18,20 +18,18 @@ fi
 # {{{ ANSI Escape Array
 declare -A cl
 cl=(
-# None            Bold            Dim             Italic          Underline
- [n]=$'\e[0m'    [b]=$'\e[1m'    [d]=$'\e[2m'    [i]=$'\e[3m'    [u]=$'\e[4m'
-# Blink           Fast Blink      Standout        Conceal         Strikeout
- [blnk]=$'\e[5m' [fast]=$'\e[6m' [stnd]=$'\e[7m' [hide]=$'\e[8m' [strk]=$'\e[9m'
+# None
+ [n]=$'\e[0m'
 
-# Standard              Bright
- [blk]=$'\e[0;30m'     [BLK]=$'\e[0;90m'     # Black   
- [red]=$'\e[0;31m'     [RED]=$'\e[0;91m'     # Red     
- [grn]=$'\e[0;32m'     [GRN]=$'\e[0;92m'     # Green   
- [ylw]=$'\e[0;33m'     [YLW]=$'\e[0;93m'     # Yellow  
- [blu]=$'\e[0;34m'     [BLU]=$'\e[0;94m'     # Blue    
- [mag]=$'\e[0;35m'     [MAG]=$'\e[0;95m'     # Magenta 
- [cyn]=$'\e[0;36m'     [CYN]=$'\e[0;96m'     # Cyan    
- [wht]=$'\e[0;37m'     [WHT]=$'\e[0;97m'     # White   
+# Standard        
+ [blk]=$'\e[0;30m' # Black   
+ [red]=$'\e[0;31m' # Red     
+ [grn]=$'\e[0;32m' # Green   
+ [ylw]=$'\e[0;33m' # Yellow  
+ [blu]=$'\e[0;34m' # Blue    
+ [mag]=$'\e[0;35m' # Magenta 
+ [cyn]=$'\e[0;36m' # Cyan    
+ [wht]=$'\e[0;37m' # White   
 )
 # }}}
 
@@ -71,7 +69,7 @@ function rm() {
         "$cl[grn]gtrash $cl[n]is installed, try the $cl[blu]alias"
         "$cl[grn]del$cl[ylw]='$cl[grn]gtrash $cl[mag]put$cl[ylw]'"
     )
-    echo -e "${__echo_rm_redirect[@]}"
+    printf "%s " "${__echo_rm_redirect[@]}"
     unset __echo_rm_redirect
 }
 
