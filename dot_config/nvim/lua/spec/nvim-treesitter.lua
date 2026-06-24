@@ -1,4 +1,4 @@
--- vim: foldmethod=expr:
+-- vim: expandtab:shiftwidth=4
 
 --
 --
@@ -33,17 +33,86 @@ local ensure_installed = {
     "css",
     -- https://github.com/tree-sitter/tree-sitter-css
 
-    "csv",
-    -- Also tsv and psv
+    "csv", "psv", "tsv",
     -- https://github.com/tree-sitter-grammars/tree-sitter-csv
 
     "desktop",
-    -- For both .desktop and .directory files
     -- https://github.com/ValdezFOmar/tree-sitter-desktop
-    -- https://specifications.freedesktop.org/desktop-entry-spec/latest/index.html
+    -- For both .desktop and .directory files
+    
+    "diff",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-diff
+    -- Required by: gitcommit
+
+    --"editorconfig",
+    -- https://github.com/ValdezFOmar/tree-sitter-editorconfig
+
+    --"fish",
+    -- https://github.com/ram02z/tree-sitter-fish
+
+    --"git_config",
+    -- https://github.com/the-mikedavis/tree-sitter-git-config
+
+    "git_rebase",
+    -- https://github.com/the-mikedavis/tree-sitter-git-rebase
+    -- Required by: gitcommit
+
+    --"gitattributes",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-gitattributes
+
+    "gitcommit",
+    -- https://github.com/gbprod/tree-sitter-gitcommit
+    -- Depends on: diff, git_rebase
+
+    "gitignore",
+    -- https://github.com/shunsambongi/tree-sitter-gitignore
+
+    --"gnuplot",
+    -- https://github.com/dpezto/tree-sitter-gnuplot
+
+    --"go",
+    -- https://github.com/tree-sitter/tree-sitter-go
+
+    --"gotmpl",
+    -- https://github.com/ngalaiko/tree-sitter-go-template
+    -- Golang text/template
+  
+    --"gpg",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-gpg-config
+    -- gpg config files
+
+    --"graphql",
+    -- https://github.com/bkegley/tree-sitter-graphql
+
+    --"haskell",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-haskell
+
+    --"hcl",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-hcl
+
+    --"helm",
+    -- https://github.com/ngalaiko/tree-sitter-go-template
+
+    --"hjson",
+    -- https://github.com/winston0410/tree-sitter-hjson
 
     "html",
     -- https://github.com/tree-sitter/tree-sitter-html
+
+    "html_tags",
+    -- Queries only
+
+    --"htmldjango",
+    -- https://github.com/interdependence/tree-sitter-htmldjango
+
+    --"http",
+    -- https://github.com/rest-nvim/tree-sitter-http
+
+    --"hurl",
+    -- https://github.com/pfeiferj/tree-sitter-hurl
+
+    --"hyprlang",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-hyprlang
 
     "ini",
     -- https://github.com/justinmk/tree-sitter-ini
@@ -51,14 +120,26 @@ local ensure_installed = {
     "javascript",
     -- https://github.com/tree-sitter/tree-sitter-javascript
 
+    --"jq",
+    -- https://github.com/flurie/tree-sitter-jq
+
+    --"jsdoc",           
+    -- https://github.com/tree-sitter/tree-sitter-jsdoc
+
     "json",
     -- https://github.com/tree-sitter/tree-sitter-json
 
-    "json5",
+    --"json5",
     -- https://github.com/Joakker/tree-sitter-json5
 
-    "kdl",
+    --"jsonnet",
+    -- https://github.com/sourcegraph/tree-sitter-jsonnet
+
+    --"kdl",
     -- https://github.com/tree-sitter-grammars/tree-sitter-kdl
+
+    --"latex",
+    -- https://github.com/latex-lsp/tree-sitter-latex
 
     "lua",
     -- https://github.com/tree-sitter-grammars/tree-sitter-lua
@@ -67,53 +148,94 @@ local ensure_installed = {
     -- https://github.com/tree-sitter-grammars/tree-sitter-luadoc
 
     "luap",
-    -- Lua Patterns
     -- https://github.com/tree-sitter-grammars/tree-sitter-luap
+    -- Lua Patterns
 
     "markdown",
-    -- https://github.com/tree-sitter-grammars/tree-sitter-markdown
-
     "markdown_inline",
     -- https://github.com/tree-sitter-grammars/tree-sitter-markdown
 
-    "nix",
+    --"mermaid",
+    -- https://github.com/monaqa/tree-sitter-mermaid
+
+    --"nginx",
+    -- https://github.com/opa-oz/tree-sitter-nginx
+
+    --"nim",
+    -- https://github.com/alaviss/tree-sitter-nim
+
+    --"nim_format_string",
+    -- https://github.com/aMOPel/tree-sitter-nim-format-string
+
+    --"nix",
     -- https://github.com/nix-community/tree-sitter-nix
 
-    "perl",
+    --"nu",
+    -- https://github.com/nushell/tree-sitter-nu
+
+    --"passwd",
+    -- https://github.com/ath3/tree-sitter-passwd
+  
+    --"pem",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-pem
+
+    --"perl",
     -- https://github.com/tree-sitter-perl/tree-sitter-perl
 
     "printf",
     -- https://github.com/tree-sitter-grammars/tree-sitter-printf
 
+    --"pymanifest",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-pymanifest
+
     "python",
     -- https://github.com/tree-sitter/tree-sitter-python
 
-    "query",
-    -- Treesitter query language
+    --"query",
     -- https://github.com/tree-sitter-grammars/tree-sitter-query
+    -- Treesitter query language
 
     "regex",
     -- https://github.com/tree-sitter/tree-sitter-regex
 
+    --"requirements",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-requirements
+    -- pip requirements file
+
+    --"rst",
+    -- https://github.com/stsewd/tree-sitter-rst
+
+    --"ruby",
+    -- https://github.com/tree-sitter/tree-sitter-ruby
+
+    "rust",
+    -- https://github.com/tree-sitter/tree-sitter-rust
+
+    --"scss",
+    -- https://github.com/serenadeai/tree-sitter-scss
+
     "sql",
     -- https://github.com/derekstride/tree-sitter-sql
 
-    "tmux",
-    -- https://github.com/Freed-Wu/tree-sitter-tmux
+    --"ssh_config",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-ssh-config
+
+    --"superhtml"
+    -- https://github.com/kristoff-it/superhtml
 
     "toml",
     -- https://github.com/tree-sitter-grammars/tree-sitter-toml
 
-    "tsx",
+    --"tsx",
     -- https://github.com/tree-sitter/tree-sitter-typescript
 
     "typescript",
     -- https://github.com/tree-sitter/tree-sitter-typescript
 
-    "vim",
+    --"vim",
     -- https://github.com/tree-sitter-grammars/tree-sitter-vim
 
-    "vimdoc",
+    --"vimdoc",
     -- https://github.com/neovim/tree-sitter-vimdoc
 
     "xml",
@@ -122,10 +244,13 @@ local ensure_installed = {
     "yaml",
     -- https://github.com/tree-sitter-grammars/tree-sitter-yaml
 
+    --"zig",
+    -- https://github.com/tree-sitter-grammars/tree-sitter-zig
+
     "zsh",
     -- https://github.com/georgeharker/tree-sitter-zsh
-
 }
+
 local ignore_filetypes = {
     'checkhealth',
     'lazy',
