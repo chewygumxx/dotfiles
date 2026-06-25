@@ -67,7 +67,7 @@ rules = [
     # Text
     { mime = "text/*",      use = [ "text", "exif" ] },
     { mime = "inode/empty", use = [ "text", ] },
-    { mime = "application/{json,ndjson,javascript,wine-extension-ini}", use = [ "text", "exif" ] },
+    { mime = "application/{json,ndjson,javascript,yaml}", use = [ "text", "exif" ] },
     # Media
     { mime = "video/*", use = [ "video", "copy", "media", "exif" ] },
     { mime = "audio/*", use = [ "audio", "copy", "media", "exif" ] },

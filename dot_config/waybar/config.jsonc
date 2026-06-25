@@ -180,7 +180,7 @@
 		},
 
 		"tooltip-format":				"{ipaddr}/{cidr}",
-		"tooltip-format-wifi":			"{essid} ({signalStrength}%)",
+		"tooltip-format-wifi":			"{essid} ({signalStrength}%) {ipaddr}/{cidr}",
 		"tooltip-format-ethernet":		"{ipaddr}/{cidr}",
 		"tooltip-format-disconnected":	"bruh"
 	},

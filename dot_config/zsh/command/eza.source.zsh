@@ -1,25 +1,16 @@
-# vim: ft=zsh:tabstop=4:shiftwidth=4:expandtab:tw=80
+# vim: expandtab:shiftwidth=4
 
 #
 #
-# ~/.config/zsh/command/eza.source.sh
+# ~/.config/zsh/command/eza.source.zsh
 #
 #
 
-# Aliases must be enabled before sourcing
-#setopt aliases
+[[ -n "$commands[eza]" ]] || return
 
-command -v eza &>/dev/null || return
+setopt aliases
 
-__opts_general=(
-    "--all"
-    "--group-directories-first"
-    "--oneline"
-    "--color=always"
-    "--hyperlink"
-)
-alias l="eza $(printf '%s ' "${__opts_general[@]}")"
-unset __opts_general
+alias l="eza --all --oneline --color=always --hyperlink --group-directories-first"
 alias ls='l'
 
 # Details
@@ -28,8 +19,7 @@ alias ll='l --long --header --smart-group --mounts'
 alias lll='ll --total-size'	
 
 # Tree ^-^
-alias lt='l --tree'
+alias lt="l --tree --git-ignore"
 alias llt='ll --tree'
 alias lllt='lll --tree'
 alias ltd='lt --only-dirs'
-

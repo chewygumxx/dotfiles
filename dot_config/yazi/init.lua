@@ -26,7 +26,6 @@ local mux_setup = function()
                 args = { table.concat({
                     "printf \"\\e[0;35mRecursion Depth: \\e[0;32m" .. i .. "\\n\" &&",
                     "eza",
-                    "--oneline",
                     "--all",
                     "--tree",
                     "--level " .. i,
@@ -46,7 +45,6 @@ local mux_setup = function()
                 args = { table.concat({
                     "printf \"\\e[0;95mRecursion Level: \\e[1;92m" .. i .. "\\n\" &&",
                     "eza",
-                    "--oneline",
                     "--all",
                     "--tree",
                     "--level " .. i,

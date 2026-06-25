@@ -6,9 +6,7 @@
 #
 #
 
-if ! command -v tldr &>/dev/null; then
-    return
-fi
+[[ -n "$commands[tldr]" ]] || return
 
 function tldr() {
     if [[ ${#} -eq 0 ]]; then

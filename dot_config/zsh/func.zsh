@@ -168,3 +168,18 @@ function sum-total() {
     # Reads numbers provided via stdin and prints sum total
     paste -sd+ | bc
 }
+
+function nvim() {
+    target=$1
+
+    if [[ ! ${#} -eq 1 ]]; then
+        command nvim "$@"
+    elif [[ -d "$target" ]]; then
+        cd "$target"
+    elif [[ ! -z "$(chezmoi managed "$target")" ]]; then
+        chezmoi edit --watch "$target"
+    else
+        command nvim "$@"
+    fi
+}
+
