@@ -1,0 +1,35 @@
+# vim: expandtab:shiftwidth=4
+
+#
+#
+# ~/.config/@_sysroot_etc/justfile
+#
+#
+
+# List recipes
+default:
+    just --list
+
+dest_dir :=  / "etc"
+src_dir  := invocation_directory() / "src"  # Must mirror dest_dir, filenames and directory tree
+bkp_dir  := "backup"
+bkp_suf  := ".bkp"
+
+# [group('diff')]
+# diff-so-fancy between source and destination
+diff file:
+    diff -u "{{dest_dir / trim_start_match(file, src_dir)}}" "{{file}}" | {{ require("diff-so-fancy") }}
+
+# [group('diff')]
+# [Legacy] diff between source and destination
+diff-basic file:
+    diff -u "{{dest_dir / trim_start_match(file, src_dir)}}" "{{file}}"
+
+backup file:
+    @mkdir -p "{{ bkp_dir }}"
+    cp --update "{{dest_dir / trim_start_match(file, src_dir)}}" \
+        "{{bkp_dir}}/$(cksum --algorithm=md5 '{{dest_dir / trim_start_match(file, src_dir)}}')_{{file_name(file) + bkp_suf}}"
+
+update file: (backup file)
+    echo "Updating" "{{BLUE + file}}"
+    sudo cp --update "{{file}}" "{{dest_dir / trim_start_match(file, src_dir)}}" 

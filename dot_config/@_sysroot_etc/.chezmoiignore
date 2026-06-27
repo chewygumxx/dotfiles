@@ -1,1 +1,2 @@
-wireguard/protonvpn.conf   # Contains my private VPN key
+src/wireguard/protonvpn.conf   # Contains my private VPN key
+backup/*

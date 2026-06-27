@@ -1,0 +1,52 @@
+# vim: expandtab:shiftwidth=4
+
+#
+#
+# ~/.config/@_sysroot_etc/justfile
+#
+#
+
+# List recipes
+default:
+    just --list
+
+dest_dir :=  / "etc"
+datetime := datetime("%Y-%m-%d_%H-%M-%S_")
+bkp_dir  := "backup"
+bkp_suf  := ".bkp"
+
+# [group('diff')]
+# diff-so-fancy between source and destination
+diff file:
+    diff -u "{{dest_dir / file}}" "{{file}}" | {{ require("diff-so-fancy") }}
+
+# [group('diff')]
+# [Legacy] diff between source and destination
+diff-leg file:
+    diff -u "{{dest_dir / file}}" "{{file}}"
+
+@backup file:
+    echo -e "{{NORMAL}}Creating backup of" "{{BOLD + BLUE + dest_dir / file}}" "{{NORMAL}}"
+    mkdir -p backup
+    @cp "{{dest_dir / file}}" "{{bkp_dir / datetime + file + bkp_suf}}"
+    echo
+
+@validate_backup file: 
+    echo {{
+        if path_exists( bkp_dir / datetime + file + bkp_suf ) == "true" {
+            "Backup successful"
+        } else {
+            error("Failed to resolve backup file")
+        }
+    }}
+
+    printf "%b" \
+        "{{NORMAL}}Total Backups of {{BLUE + file}}{{NORMAL}}:" \
+        "{{YELLOW + BOLD}} $(find '{{bkp_dir}}' -name  '*{{file + bkp_suf}}' | wc -l)\n" \
+        "{{NORMAL + BLUE}}backup/\n" \
+        "{{GREEN}}$(find '{{bkp_dir}}' -name  '*{{file + bkp_suf}}' -printf "    %f{{NORMAL}}\n" | sort --reverse | head -5)"  \
+        "\n    ...\n\n"
+
+update file: (backup file) (validate_backup file)
+    @echo "Updating" "{{BLUE + file}}"
+    cp --update --no-target-directory "{{file}}" "{{dest_dir}}"
