@@ -27,6 +27,7 @@ function __fzf_default () {
     #
     __fzf_default_opts=(
         --highlight-line
+        --preview-window=right
         --color 'current-fg:#e8e0ff'
         --color 'current-bg:#141337'
         --color 'current-hl:#7408ff'
@@ -66,7 +67,6 @@ __fzf_command_fd=(
     "--hidden"
     "--strip-cwd-prefix=always"
     "--one-file-system"
-    "--no-require-git" # Always respect global gitignore file
 )
 __fzf_command_fd=${(j: :)__fzf_command_fd}
 
