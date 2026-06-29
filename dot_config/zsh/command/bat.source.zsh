@@ -10,6 +10,9 @@
 # https://github.com/sharkdp/bat
 #
 
+[[ -o interactive ]] || return
+[[ -n "$commands[bat]" ]] || return
+
 # Command --help Colorisation
 #
 # Disabled due to global aliases expanding in the shell case match strings of

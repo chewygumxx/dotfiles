@@ -9,23 +9,21 @@
 #
 # Fuzzy frecency directory jumper
 # https://github.com/ajeetdsouza/zoxide
+# https://github.com/ajeetdsouza/zoxide#configuration
 #
 
 [[ -o interactive ]] || return
 [[ -n "$commands[zoxide]" ]] || return
-local __sourcefilepath="$0"
+local __this_file="$0"
 
 function __zoxide_init () {
-    # https://github.com/ajeetdsouza/zoxide#environment-variables
-    local _ZO_DATA_DIR=${XDG_DATA_HOME:-"$HOME/.local/share"}
-    local _ZO_ECHO=0
-    local _ZO_EXCLUDE_DIRS="$HOME"
-
-    local __zoxide_prefix="cd"
-    local __zoxide_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zoxide/${__zoxide_prefix:-"z"}.init.zsh"
+    local _zo_exclude_dirs=(
+        "$HOME"
+    )
+    export _ZO_EXCLUDE_DIRS=${(j|:|)_zo_exclude_dirs}
 
     local _zo_fzf_opts=(
-        $FZF_DEFAULT_OPTS
+        "$FZF_DEFAULT_OPTS"
         --preview-window=right,wrap
         --reverse
         --border
@@ -37,10 +35,13 @@ function __zoxide_init () {
     )
     export _ZO_FZF_OPTS=${(j: :)_zo_fzf_opts}
 
+    local __zoxide_prefix="cd"
+    local __zoxide_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zoxide/${__zoxide_prefix:-"z"}.init.zsh"
+
     # Regenerate init cache if missing, older than binary, older than this file
     if  [[ ! -f "$__zoxide_cache" ]] ||\
-        [[ "$commands[zoxide]" -nt "$__zoxide_cache" ]] ||\
-        [[ "$__sourcefilepath" -nt "$__zoxide_cache" ]]
+        [[ "$__zoxide_cache" -ot "$commands[zoxide]" ]] ||\
+        [[ "$__zoxide_cache" -ot "$__this_file" ]]
     then
         echo "Rebuilding zoxide source cache"
 
@@ -49,6 +50,6 @@ function __zoxide_init () {
     fi
 
     source "$__zoxide_cache"
-}; __zoxide_init; unset __zoxide_init
+}; __zoxide_init; unset -f __zoxide_init
 
-unset __sourcefilepath
+unset __this_file

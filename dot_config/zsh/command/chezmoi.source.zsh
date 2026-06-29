@@ -6,9 +6,10 @@
 #
 #
 
-setopt aliases
-
+[[ -o interactive ]] || return
 [[ -n "$commands[chezmoi]" ]] || return
+
+setopt aliases
 
 alias cz="chezmoi"
 alias cza="cz add"

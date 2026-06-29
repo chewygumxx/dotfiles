@@ -6,7 +6,9 @@
 #
 #
 
+[[ -o interactive ]] || return
 [[ -n "$commands[tldr]" ]] || return
+# [[ $(tldr --version | cut --delimiter=1 fields=1) == "tealdeer" ]] || return
 
 function tldr() {
     if [[ ${#} -eq 0 ]]; then

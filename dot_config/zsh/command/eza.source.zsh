@@ -6,6 +6,7 @@
 #
 #
 
+[[ -o interactive ]] || return
 [[ -n "$commands[eza]" ]] || return
 
 setopt aliases

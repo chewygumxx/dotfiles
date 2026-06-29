@@ -75,10 +75,10 @@ zle_highlight=('paste:none')
 
 # {{{ Sources
     __native_source_list=(
-        "prompt"
         "alias"
-        "func"
-        "completions"
+        "completion"
+        "function"
+        "prompt"
         #"zsh-vi-mode"
     )
     for native in $__native_source_list; do

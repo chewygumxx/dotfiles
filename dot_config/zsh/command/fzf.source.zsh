@@ -14,6 +14,7 @@
 # https://github.com/junegunn/fzf#environment-variables
 
 [[ -n "$commands[fzf]" ]] || return
+__this_file="$0"
 
 function __fzf_default () {
     # FZF_DEFAULT_COMMAND
@@ -25,7 +26,7 @@ function __fzf_default () {
     # FZF_DEFAULT_OPTS
     # I use it for themes :3
     #
-    __fzf_default_opts=(
+    local __fzf_default_opts=(
         --highlight-line
         --preview-window=right
         --color 'current-fg:#e8e0ff'
@@ -43,13 +44,12 @@ function __fzf_default () {
         --color 'marker:#7408cf'
     )
     export FZF_DEFAULT_OPTS=${(j: :)__fzf_default_opts}
-    unset __fzf_default_opts
 
     # FZF_DEFAULT_OPTS_FILE
     # This would be perfect for themes.
     #
     #export FZF_DEFAULT_OPTS_FILE=$XDG_CONFIG_HOME/fzf/opts.env
-}; __fzf_default; unset __fzf_default
+}; __fzf_default; unset -f __fzf_default
 
 # 
 # *** Interactive Exclusive ***
@@ -109,7 +109,7 @@ function __fzf_keybind () {
     )
     export FZF_ALT_C_OPTS=${(j: :)__fzf_alt_c_opts}
 
-}; __fzf_keybind; unset __fzf_keybind
+}; __fzf_keybind; unset -f __fzf_keybind
 
 function __fzf_completion () {
     # https://github.com/junegunn/fzf#fuzzy-completion
@@ -121,7 +121,6 @@ function __fzf_completion () {
         "--scheme=path"
     )
     export FZF_COMPLETION_OPTS=${(j: :)__fzf_completion_opts}
-    unset __fzf_completion_opts
 
     export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
     export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
@@ -137,22 +136,26 @@ function __fzf_completion () {
     #        *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
     #    esac
     #}
-}; __fzf_completion; unset __fzf_completion
+}; __fzf_completion; unset -f __fzf_completion
 
 unset __fzf_{interactive_opts,command_fd}
 
 function __fzf_init () {
     # https://github.com/junegunn/fzf#setting-up-shell-integration
-    __fzf_cache="${XDG_CACHE_HOME:-$HOME/.cache}/fzf/init.zsh"
+    local __fzf_cache="${XDG_CACHE_HOME:-$HOME/.cache}/fzf/init.zsh"
 
-    # Regenerate init cache if missing or older than fzf binary
-    if  [[ ! -f "$__fzf_cache" ]] ||\
-        [[ "$commands[fzf]" -nt "$__fzf_cache" ]]
+    # Regenerate init cache if either:
+    if  [[ ! -f "$__fzf_cache" ]] ||\                  # Missing 
+        [[ "$__fzf_cache" -ot "$commands[fzf]" ]] ||\  # Older than fzf binary
+        [[ "$__fzf_cache" -ot "$__this_file" ]]        # Older than this file
     then
+        echo "Regenerating fzf source cache"
+
         mkdir -p "${__fzf_cache%/*}"
-        fzf --zsh >| $__fzf_cache
+        fzf --zsh >| "$__fzf_cache"
     fi
 
-    source $__fzf_cache
-    unset __fzf_cache
-}; __fzf_init; unset __fzf_init
+    source "$__fzf_cache"
+}; __fzf_init; unset -f __fzf_init
+
+unset __this_file
