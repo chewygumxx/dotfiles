@@ -2,13 +2,18 @@
 
 #
 #
-# ~/.config/zsh/command/tealdeer.source.zsh
+# ~/.config/zsh/command/tldr.source.zsh
 #
+#
+
+#
+# Compatible with:
+# https://github.com/tldr-pages/tlrc
+# https://github.com/tealdeer-rs/tealdeer
 #
 
 [[ -o interactive ]] || return
 [[ -n "$commands[tldr]" ]] || return
-# [[ $(tldr --version | cut --delimiter=1 fields=1) == "tealdeer" ]] || return
 
 function tldr() {
     if [[ ${#} -eq 0 ]]; then

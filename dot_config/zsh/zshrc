@@ -92,7 +92,7 @@ zle_highlight=('paste:none')
         "eza"
         "fzf"
         "gtrash"
-        "tealdeer"
+        "tldr"
         "zoxide"
     )
     for cmd in $__cmd_source_list; do
