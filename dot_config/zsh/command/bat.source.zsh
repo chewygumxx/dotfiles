@@ -19,8 +19,7 @@
 #
 function _zle_accept_line_help_bat() {
     if [[ $BUFFER == *\ (-h|--help) ]]; then
-        # BUFFER="${BUFFER} 2>&1 | bat --language=help"
-        BUFFER=" | bat --language=help"
+        BUFFER="${BUFFER} 2>&1 | bat --language=help"
     fi
     zle .accept-line
 }
