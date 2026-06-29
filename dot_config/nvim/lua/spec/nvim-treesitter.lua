@@ -23,6 +23,8 @@ local M = {
 
 local ensure_installed = {
     -- https://github.com/nvim-treesitter/nvim-treesitter/blob/main/SUPPORTED_LANGUAGES.md
+    "awk",
+    -- https://github.com/Beaglefoot/tree-sitter-awk
 
     "bash",
     -- https://github.com/tree-sitter/tree-sitter-bash
