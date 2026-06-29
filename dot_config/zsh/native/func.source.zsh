@@ -2,10 +2,11 @@
 
 #
 #
-# ~/.config/zsh/func.zsh
+# ~/.config/zsh/native/func.source.zsh
 #
 #
 
+# Misc
 
 function print-ansi-colors() {
     __ansi16_fg=(
@@ -82,7 +83,7 @@ y() {
     IFS= read -r -d '' cwd < "$tmp"
     [ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
 
-    \rm -f -- "$tmp"
+    command rm -f -- "$tmp"
 }
 
 function backlight() {
