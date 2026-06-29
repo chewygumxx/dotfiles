@@ -16,7 +16,7 @@ compact    = false
 use_pager  = false
 
 [style.description]
-foreground = { ansi = 11 }
+foreground = { ansi = 11 } # Light Yellow
 underline  = false
 bold       = false
 italic     = false
