@@ -8,10 +8,12 @@
 #
 
 #  
+#  /etc/zshenv contains:
+#      export ZDOTDIR="${XDG_CONFIG_HOME:-"$HOME/.config"}/zsh"
 #  ~/.config/environment.d/env.conf contains:
-#      export ZDOTDIR=/home/chewygumxx/.config/zsh
+#      export ZDOTDIR="${XDG_CONFIG_HOME:-"$HOME/.config"}/zsh"
 #
-#  Symlinked: ./.zshrc -> this
+#  Symlinked: $ZDOTDIR/.zshrc -> this
 #
 
 # Shell Interactivity Check
@@ -44,7 +46,7 @@ zle_highlight=('paste:none')
     setopt chase_links
 
     # {{{ History
-        HISTFILE="$zsh_home[state]/history"
+        HISTFILE="${XDG_STATE_HOME:-"$HOME/.local/state"}/zsh/history"
 
         # SAVEHIST > HISTSIZE
         HISTSIZE=20000000
@@ -72,10 +74,17 @@ zle_highlight=('paste:none')
 # }}}
 
 # {{{ Sources
-    source $ZDOTDIR/prompt.zsh
-    source $ZDOTDIR/alias.zsh # Should probably be before func.zsh
-    source $ZDOTDIR/func.zsh
-    source $ZDOTDIR/native/completions.source.zsh
+    __native_source_list=(
+        "prompt"
+        "alias"
+        "func"
+        "completions"
+        #"zsh-vi-mode"
+    )
+    for native in $__native_source_list; do
+        source $ZDOTDIR/native/${native}.source.zsh
+    done
+    unset __native_source_list
 
     __cmd_source_list=(
         "bat"
@@ -84,9 +93,9 @@ zle_highlight=('paste:none')
         "fzf"
         "gtrash"
         "tealdeer"
+        "zoxide"
     )
     for cmd in $__cmd_source_list; do
-        #source $XDG_CONFIG_HOME/$cmd/${cmd}.source.*
         source $ZDOTDIR/command/${cmd}.source.zsh
     done
     unset __cmd_source_list
@@ -106,13 +115,6 @@ zle_highlight=('paste:none')
 autoload edit-command-line
 zle -N edit-command-line
 bindkey '^e' edit-command-line
-
-# {{{ zoxide
-    # Fuzzy frecency directory jumper
-    if command -v zoxide &>/dev/null; then
-        eval "$(zoxide init --cmd cd zsh)"
-    fi
-# }}}
 
 # {{{ luarocks
     # Exports environment variables
