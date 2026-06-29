@@ -145,9 +145,12 @@ function __fzf_init () {
     local __fzf_cache="${XDG_CACHE_HOME:-$HOME/.cache}/fzf/init.zsh"
 
     # Regenerate init cache if either:
-    if  [[ ! -f "$__fzf_cache" ]] ||\                  # Missing 
-        [[ "$__fzf_cache" -ot "$commands[fzf]" ]] ||\  # Older than fzf binary
-        [[ "$__fzf_cache" -ot "$__this_file" ]]        # Older than this file
+    #  - Missing
+    #  - Older than fzf binary
+    #  - Older than this file
+    if  [[ ! -f "$__fzf_cache" ]] ||\
+        [[ "$__fzf_cache" -ot "$commands[fzf]" ]] ||\
+        [[ "$__fzf_cache" -ot "$__this_file" ]]
     then
         echo "Regenerating fzf source cache"
 

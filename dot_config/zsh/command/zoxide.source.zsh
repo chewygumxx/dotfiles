@@ -38,12 +38,15 @@ function __zoxide_init () {
     local __zoxide_prefix="cd"
     local __zoxide_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zoxide/${__zoxide_prefix:-"z"}.init.zsh"
 
-    # Regenerate init cache if missing, older than binary, older than this file
+    # Regenerate init cache if:
+    #  - Missing
+    #  - Older than binary
+    #  - Older than this file
     if  [[ ! -f "$__zoxide_cache" ]] ||\
         [[ "$__zoxide_cache" -ot "$commands[zoxide]" ]] ||\
         [[ "$__zoxide_cache" -ot "$__this_file" ]]
     then
-        echo "Rebuilding zoxide source cache"
+        echo "Regenerating zoxide source cache"
 
         mkdir -p "${__zoxide_cache%/*}"
         zoxide init zsh --cmd "${__zoxide_prefix:-"z"}" --hook pwd >| "$__zoxide_cache"
