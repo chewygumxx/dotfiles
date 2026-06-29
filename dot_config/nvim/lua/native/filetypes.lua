@@ -1,22 +1,25 @@
-#!/usr/bin/env lua
--- vim: foldlevel=2:foldmethod=expr
+-- vim: foldlevel=3:foldmethod=expr
 
 --
 --
--- ~/.config/nvim/lua/config/filetypes.lua
+-- ~/.config/nvim/lua/native/filetypes.lua
 --
 --
 
 local M = {}
 
-local filetype_maps = {
-    { pattern = ".*/hypr/.*%.conf", ft = "hyprlang" }
-}
-
 M.setup = function()
-    for _, map in pairs(filetype_maps) do
-        vim.filetype.add({ pattern = { [map.pattern] = map.ft } })
-    end
+    vim.filetype.add({
+        extension = {
+        },
+        filename = {
+            ["ignore"]         = "gitignore",
+            [".chezmoiignore"] = "gitignore",
+        },
+        pattern = {
+            [".*/hypr/.*%.conf"] = "hyprlang",
+        },
+    })
 end
 
 return M
