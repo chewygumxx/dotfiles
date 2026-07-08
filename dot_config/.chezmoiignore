@@ -1,14 +1,16 @@
+@_sys_root/src/wireguard/*  # (Secret) VPN Private Keys
+gh/hosts.yml                # (Secret) Authetication Tokens
+kdeconnect/*                # (Secret) Keys, clipboard, remote commands
+
 bluetuith/*
-gh/*
+environment.d/*             # Likely to change
 GIMP/*
+glow/*                      # Likely to change
 gtk-3.0/*
 inkscape/*
-kdeconnect/*
 mpv/*
+nushell/*                   # Likely to change
 parallel/*
-nushell/*
-glow/*
-python/*
-rura/*
 pulse/*
-environment.d/*
+python/*                    # Likely to change
+rura/*
