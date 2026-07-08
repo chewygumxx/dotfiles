@@ -26,6 +26,7 @@ function __define_ps1 () {
     # not affected by zero width sequences
     # https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html#Visual-effects
     local __blink="%{"$'\e[5m'"%}"
+    local __none="%{"$'\e[0m'"%}"
 
     # PS1 - The Ubiquitious
     local __ps1=(
@@ -53,7 +54,7 @@ function __define_ps1 () {
 
         # Caret/Privilege
         "%(#."
-            $__blink "%F{red}%#%f"
+            $__blink "%F{red}%#%f" $__none
         "."
             "%F{#4db380}>%f"
         ")"
