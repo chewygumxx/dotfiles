@@ -82,7 +82,7 @@ zle_highlight=('paste:none')
         #"zsh-vi-mode"
     )
     for native in $__native_source_list; do
-        source $ZDOTDIR/native/${native}.source.zsh
+        source $ZDOTDIR/native/${native}.zshrc
     done
     unset __native_source_list
 
@@ -96,7 +96,7 @@ zle_highlight=('paste:none')
         "zoxide"
     )
     for cmd in $__cmd_source_list; do
-        source $ZDOTDIR/command/${cmd}.source.zsh
+        source $ZDOTDIR/command/${cmd}.zshrc
     done
     unset __cmd_source_list
 
@@ -107,7 +107,7 @@ zle_highlight=('paste:none')
         "zsh-vi-mode"
     )
     for plugin in $__zsh_plugin_list; do
-        source $ZDOTDIR/plugin/${plugin}.source.zsh
+        source $ZDOTDIR/plugin/${plugin}.zshrc
     done
     unset __zsh_plugin_list
 # }}}
