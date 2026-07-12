@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/command/bat.source.zsh
+# ~/.config/zsh/command/bat.zshrc
 #
 #
 

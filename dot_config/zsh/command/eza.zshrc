@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/command/eza.source.zsh
+# ~/.config/zsh/command/eza.zshrc
 #
 #
 

@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/prompt.zsh
+# ~/.config/zsh/prompt.zshrc
 #
 #
 

@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/command/chezmoi.source.zsh
+# ~/.config/zsh/command/chezmoi.zshrc
 #
 #
 

@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/native/func.source.zsh
+# ~/.config/zsh/native/function.zshrc
 #
 #
 

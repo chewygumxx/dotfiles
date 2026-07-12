@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/native/completions.source.zsh
+# ~/.config/zsh/native/completions.zshrc
 #
 #
 

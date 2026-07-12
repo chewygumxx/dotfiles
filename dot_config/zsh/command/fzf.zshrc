@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/command/fzf.source.zsh
+# ~/.config/zsh/command/fzf.zshrc
 #
 #
 

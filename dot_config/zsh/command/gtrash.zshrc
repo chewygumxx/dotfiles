@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/command/gtrash.source.sh
+# ~/.config/zsh/command/gtrash.zshrc
 #
 #
 

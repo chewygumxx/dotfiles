@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/plugin/plugin-zsh-vi-mode.source.zsh
+# ~/.config/zsh/plugin/plugin-zsh-vi-mode.zshrc
 #
 #
 

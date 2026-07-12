@@ -2,13 +2,11 @@
 
 #
 #
-# ~/.config/zsh/zsh_vi_mode.zsh
+# ~/.config/zsh/native/zsh-vi-mode.zshrc
 #
 #
 
-#
-# Sourced by .zshrc at startup
-#
+[[ -o interactive ]] && [[ -n "$ZVM_VERSION" ]] || return
 
 bindkey -v
 export KEYTIMEOUT=5

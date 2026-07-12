@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/command/zoxide.source.zsh
+# ~/.config/zsh/command/zoxide.zshrc
 #
 #
 
