@@ -11,6 +11,7 @@ local M = {}
 M.setup = function()
     vim.filetype.add({
         extension = {
+            zshrc = "zsh",
         },
         filename = {
             ["ignore"]         = "gitignore",
@@ -18,6 +19,8 @@ M.setup = function()
         },
         pattern = {
             [".*/hypr/.*%.conf"] = "hyprlang",
+            [".*config/zsh/.*"] = "zsh",
+            [".*config/environment.d/.*%.conf"] = "systemd",
         },
     })
 end
