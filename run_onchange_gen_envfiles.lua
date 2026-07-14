@@ -1,4 +1,4 @@
-#!/usr/bin/env lua
+#!/usr/bin/env lua5.1
 -- vim: expandtab:tabstop=4:shiftwidth=4:textwidth=100
 
 -- 
@@ -184,7 +184,7 @@ write_outfile("environment.d.conf",
     config .. "/environment.d/generated-environment.d.conf",
     env_map,
     "%s=%s\n")
-write_outfile("zshenv",
-    config .. "/zsh/env.zsh",
-    env_map,
-    "export %s='%s'\n")
+--write_outfile("zshenv",
+--    config .. "/zsh/zshenv",
+--    env_map,
+--    "export %s='%s'\n")

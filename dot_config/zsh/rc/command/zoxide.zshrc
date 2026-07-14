@@ -14,9 +14,10 @@
 
 [[ -o interactive ]] || return
 [[ -n "$commands[zoxide]" ]] || return
+
 local __this_file="$0"
 
-function __zoxide_init () {
+function __init_zoxide () {
     local _zo_exclude_dirs=(
         "$HOME"
     )
@@ -48,11 +49,11 @@ function __zoxide_init () {
     then
         echo "Regenerating zoxide source cache"
 
-        mkdir -p "${__zoxide_cache%/*}"
+        mkdir -p "${__zoxide_cache:h}"
         zoxide init zsh --cmd "${__zoxide_prefix:-"z"}" --hook pwd >| "$__zoxide_cache"
     fi
 
     source "$__zoxide_cache"
-}; __zoxide_init; unset -f __zoxide_init
+}; __init_zoxide; unset -f __init_zoxide
 
 unset __this_file

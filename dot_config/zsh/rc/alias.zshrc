@@ -8,8 +8,12 @@
 
 setopt aliases
 
+# Fix for bash/zsh completion when executing aliases via sudo
+# https://wiki.archlinux.org/title/Sudo#Passing_aliases
+alias sudo="sudo "
+
 # Bluetooth
-alias bt=bluetui
+alias bt="bluetui"
 
 # Prompt before overwriting
 alias cp="cp --interactive"
@@ -25,10 +29,10 @@ alias grep='grep	--color=auto -i'
 alias pgrep='pgrep	--color=auto -i'
 
 # Package Manager
-alias pacman=$PACMAN_WRAP
+alias pacman="yay"
 
 # Editor
-alias nano=$EDITOR
+alias nano="$EDITOR"
 
 # Impala
 alias impala='sudo impala'

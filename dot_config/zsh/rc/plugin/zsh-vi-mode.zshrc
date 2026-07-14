@@ -21,6 +21,8 @@
 
 : ${ZSH_PLUGIN_DIR:="/usr/share/zsh/plugins"}
 
+[[ -f "$ZSH_PLUGIN_DIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]] || return
+
 function zvm_config() {
     # See https://github.com/jeffreytse/zsh-vi-mode#configuration-function
     

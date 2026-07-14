@@ -16,10 +16,10 @@ autoload -Uz add-zsh-hook
 
 unsetopt single_line_zle  # For >>Right PS1
 
-setopt prompt_subst    # Prompt subject to parameter expansion, command
-                       # substitution, and arithmetic expansion
+setopt prompt_subst       # Prompt subject to parameter expansion, command
+                          # substitution, and arithmetic expansion
 
-setopt prompt_percent  # %-Based escape sequences
+setopt prompt_percent     # %-Based escape sequences
 
 function __define_ps1 () {
     # Escape sequences must be enclosed within `%{...%}` such that cursor position calculation is

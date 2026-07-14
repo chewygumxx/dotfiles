@@ -1,4 +1,4 @@
-# vim: expandtab:shiftwidth=4:tabstop=4:ft=zsh:textwidth=80
+# vim: expandtab:shiftwidth=4
 
 #
 #
@@ -10,8 +10,18 @@
 # ** This file executes at the start of *EVERY* zsh shell
 #
 
-if [[ -d $XDG_CONFIG_HOME/zsh ]]; then
-    export ZDOTDIR=$XDG_CONFIG_HOME/zsh
-elif [[ -d $HOME/.config/zsh ]]; then
-    export ZDOTDIR=$HOME/.config/zsh
-fi
+[[ -z "$XDG_DATA_HOME"   ]] && XDG_DATA_HOME="$HOME/.local/share"
+[[ -z "$XDG_STATE_HOME"  ]] && XDG_STATE_HOME="$HOME/.local/state"
+[[ -z "$XDG_CACHE_HOME"  ]] && XDG_CACHE_HOME="$HOME/.local/cache"
+[[ -z "$XDG_CONFIG_HOME" ]] && XDG_CONFIG_HOME="$HOME/.config"
+[[ -z "$XDG_RUNTIME_DIR" ]] && XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
+export XDG_DATA_HOME
+export XDG_STATE_HOME
+export XDG_CACHE_HOME
+export XDG_CONFIG_HOME
+export XDG_RUNTIME_DIR
+
+
+[[ -d "$XDG_CONFIG_HOME/zsh" ]] && ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+#export ZDOTDIR # Given this is /etc/zshenv, this is almost never necessary.

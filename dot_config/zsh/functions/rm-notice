@@ -1,0 +1,23 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4:ft=zsh
+
+#
+#
+# ~/.config/zsh/functions/rm-notice
+#
+#
+
+local n=$'\e[0m'      # None
+local grn=$'\e[0;32m' # Green   
+local ylw=$'\e[0;33m' # Yellow  
+local blu=$'\e[0;34m' # Blue    
+local MAG=$'\e[1;35m' # Magenta Bold
+
+local rm_notice_text=(
+    "${grn}gtrash ${n}is installed, try the ${blu}alias "
+    "${grn}del${ylw}='${blu}gtrash ${MAG}put${ylw}'"
+    $'\n'
+)
+printf "%s" "${rm_notice_text[@]}"
+
+#print -z "del $@"

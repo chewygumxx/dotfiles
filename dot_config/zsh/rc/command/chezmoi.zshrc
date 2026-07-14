@@ -1,4 +1,5 @@
-# vim: ft=sh:tabstop=4:shiftwidth=4:expandtab:tw=80
+#!/bin/false
+# vim: expandtab:shiftwidth=4
 
 #
 #
@@ -6,7 +7,7 @@
 #
 #
 
-[[ -o interactive ]] || return
+[[ -o interactive          ]] || return
 [[ -n "$commands[chezmoi]" ]] || return
 
 setopt aliases

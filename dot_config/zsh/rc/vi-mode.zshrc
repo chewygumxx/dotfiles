@@ -2,9 +2,11 @@
 
 #
 #
-# ~/.config/zsh/native/zsh-vi-mode.zshrc
+# ~/.config/zsh/native/vi-mode.zshrc
 #
 #
+
+return # Disable in favour of plugin 'zsh-vi-mode'
 
 [[ -o interactive ]] && [[ -n "$ZVM_VERSION" ]] || return
 
@@ -13,15 +15,18 @@ export KEYTIMEOUT=5
 
 # Change cursor shape per Vi mode
 function zle-keymap-select {
-  if [[ ${KEYMAP} == vicmd ]] ||
-     [[ $1 = 'block' ]]; then
-    echo -ne '\e[1 q'
-  elif [[ ${KEYMAP} == main ]] ||
-       [[ ${KEYMAP} == viins ]] ||
-       [[ ${KEYMAP} = '' ]] ||
-       [[ $1 = 'beam' ]]; then
-    echo -ne '\e[5 q'
-  fi
+    if  [[ ${KEYMAP} == vicmd ]] ||
+        [[ $1 = 'block' ]]
+    then
+        echo -ne '\e[1 q'
+
+    elif [[ ${KEYMAP} == main ]] ||
+         [[ ${KEYMAP} == viins ]] ||
+         [[ ${KEYMAP} = '' ]] ||
+         [[ $1 = 'beam' ]]
+    then
+        echo -ne '\e[5 q'
+    fi
 }
 zle -N zle-keymap-select
 

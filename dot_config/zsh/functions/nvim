@@ -1,0 +1,28 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.config/zsh/functions/nvim
+# 
+# 
+
+#
+# Edits via chezmoi if applicable or changes into directory
+#
+
+local target=$1
+
+if   [[ ! -e "$target" ]] || # File does not exist
+     [[ ${#} -ne 1 ]];
+then
+    command nvim "$@"
+elif [[ -d "$target" ]]; then
+    cd "$target"
+elif [[ -n "$(chezmoi managed "$target")" ]]; then
+    chezmoi edit --watch "$target"
+elif [[ $(stat --format="%G" "$target") -eq "root" ]]; then
+    SUDO_EDITOR=nvim sudoedit "$target"
+else
+    command nvim "$@"
+fi

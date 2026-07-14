@@ -1,0 +1,19 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4:ft=zsh
+
+#
+#
+# ~/.config/zsh/functions/man
+#
+#
+
+#
+# Overloads man
+#
+
+local -x PAGER='nvim +Man!'
+local -x MANWIDTH=$(( (COLUMNS - 5) < 100 ? (COLUMNS - 5) : 100 ))
+local -x MANOPT='--no-justification --no-hyphenation'
+#local -x BAT_THEME='ansi'
+#local -x BAT_STYLE='snip'
+batman $1
