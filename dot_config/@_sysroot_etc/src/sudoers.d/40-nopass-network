@@ -1,4 +1,4 @@
-#
+# vim: expandtab:shiftwidth=4:ft=sudoers
 
 #
 #
@@ -10,6 +10,8 @@
 # Network commands
 # Must follow file defining User_Alias ADMINS
 #
+
+@include /etc/sudoers.d/00-admins
 
 Cmnd_Alias NETWORK = /usr/bin/iwctl /usr/bin/impala
 
