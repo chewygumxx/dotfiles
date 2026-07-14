@@ -4,8 +4,8 @@
 
 # Specify desired highlighting theme (e.g. "TwoDark"). Run `bat --list-themes`
 # for a list of all available themes
-#--theme=chewyansi
---theme=Coldark-Dark
+--theme=chewyansi
+#--theme=Coldark-Dark
 --color=always
 --style=plain
 
