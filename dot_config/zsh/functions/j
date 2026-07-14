@@ -1,0 +1,22 @@
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.config/zsh/functions/j
+# 
+# 
+
+#
+# Generate fleeting journal entry heredoc
+#
+
+local suffix=""
+if [[ -n $1 ]]; then
+    local safe="${1//[^[:alnum:]_-]/}"
+    safe="${safe#[-.]}"
+    [[ -z $safe ]] && { print -u2 "${0}: invalid suffix argument"; return 1 }
+    suffix="_${safe}"
+fi
+
+local journal_dir="$HOME/doc/journal"
+cat >>| "$journal_dir/$(date +%Y-%m-%d)$suffix.txt" << "EOF"
