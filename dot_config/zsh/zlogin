@@ -1,0 +1,20 @@
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.config/zsh/zlogin
+# 
+# 
+
+path+=(
+    "$HOME/.local/bin"
+)
+
+#export LC_ALL="C.UTF-8"
+export EDITOR="nvim"
+export VISUAL="$EDITOR"
+export PAGER="less"
+export TERMCMD="wezterm"
+export BROWSER="firefox"
+
+# echo "$(date)" >> /tmp/zlogin.txt

@@ -1,0 +1,51 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.local/share/chezmoi/dot_config/zsh/zshenv
+# 
+# 
+
+__env_source_list=(
+    "command/fzf"
+)
+for env_source in $__env_source_list; do
+    source "$ZDOTDIR/env/${env_source}.zshenv"
+done
+unset env_source ___env_source_list
+
+export GOROOT="/usr/lib/go"
+export GOPATH="$XDG_DATA_HOME/go"
+export GOBIN="$XDG_DATA_HOME/go/bin"
+
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+
+export XDG_SCREENSHOT_DIR="~/ref/image/top-screenshot/"
+
+export NVM_DIR="$XDG_DATA_HOME/nvm"
+export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
+
+export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"
+
+export MONITOR_PRIMARY="eDP-1"
+export MONITOR_SECONDARY="HDMI-1"
+export HYPRCURSOR_SIZE="24"
+
+export ANDROID_USER_HOME="$XDG_DATA_HOME/android"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export RUSTUP_HOME="$XDG_DATA_HOME/rustup"
+export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
+export PYTHON_HISTORY="$XDG_STATE_HOME/python/history"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+export SSH_CHEWYTELE="u0_a492@192.168.4.22:8022"
+export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite/history"
+export PERL_CPANM_HOME="$XDG_CACHE_HOME/cpanm"
+
+export TERMINFO="$XDG_DATA_HOME/terminfo"
+export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
+
+export GH_TELEMETRY="false"
+export GNUPGHOME="$HOME/.local/secret/gnupg"
+export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"

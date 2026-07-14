@@ -1,0 +1,9 @@
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.config/zsh/zprofile
+# 
+# 
+
+#echo "$(date)" >> /tmp/zprofile.txt
