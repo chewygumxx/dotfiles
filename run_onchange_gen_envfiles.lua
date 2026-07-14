@@ -180,10 +180,10 @@ local write_outfile = function(env_file_type, filepath, env_table, line_format)
     print(string.format("%-20s", env_file_type), filepath)
 end
 
-write_outfile("environment.d.conf",
-    config .. "/environment.d/generated-environment.d.conf",
-    env_map,
-    "%s=%s\n")
+--write_outfile("environment.d.conf",
+--    config .. "/environment.d/generated-environment.d.conf",
+--    env_map,
+--    "%s=%s\n")
 --write_outfile("zshenv",
 --    config .. "/zsh/zshenv",
 --    env_map,
