@@ -1,10 +1,10 @@
--- vim:
+-- vim: expandtab:shiftwidth=4
 
---
---
+-- 
+-- 
 -- ~/.config/nvim/lua/native/auto_commands.lua
---
---
+-- 
+-- 
 
 local M = {}
 
@@ -24,56 +24,29 @@ local cursor_last_position = function()
         end,
     })
 end
+
 local header_template = function()
-    local fileext_to_comment = {
-        lua  = "--",
-        sql  = "--",
-        rs   = "//",
-        js   = "//",
-        py   = "#",
-        sh   = "#",
-        zsh  = "#",
-        toml = "#",
-        conf = "#",
-        ini  = ";",
-
-        target  = "#",
-        service = "#",
-        desktop = ";",
-    }
-
     local insert_header = function(filename, buf)
-        local ext = vim.fn.fnamemodify(filename, ":e")
-        if ext == "" then
-            return
-        end
-
-        local line_comment = fileext_to_comment[ext]
-        if line_comment == nil then
+        if vim.bo.commentstring == "" then
             return
         end
 
         local header_lines = {
-            line_comment .. " vim:",
+            string.format(vim.bo.commentstring, "vim: expandtab:shiftwidth=4"),
             "",
-            line_comment,
-            line_comment,
-            line_comment .. " " .. vim.fn.fnamemodify(filename, ":~"),
-            line_comment,
-            line_comment,
+            string.format(vim.bo.commentstring, ""),
+            string.format(vim.bo.commentstring, ""),
+            string.format(vim.bo.commentstring, vim.fn.fnamemodify(filename, ":~")),
+            string.format(vim.bo.commentstring, ""),
+            string.format(vim.bo.commentstring, ""),
             "",
         }
         vim.api.nvim_buf_set_lines(buf, 0, 0, false, header_lines)
     end
 
-    local matched_exts = {}
-    for key, _ in pairs(fileext_to_comment) do
-        table.insert(matched_exts, "*." .. key)
-    end
     vim.api.nvim_create_autocmd("BufNewFile", {
-        group = vim.api.nvim_create_augroup("cgxx.header_template", { clear = true } ),
-        pattern = matched_exts,
-        desc = "Inserts templated header based on extension and path.",
+        group    = vim.api.nvim_create_augroup("cgxx.header_template", { clear = true } ),
+        desc     = "Inserts templated header based on extension and path.",
         callback = function(aucmd_tbl)
             insert_header(aucmd_tbl.file, aucmd_tbl.buf)
         end,
@@ -86,7 +59,6 @@ local header_template = function()
 end
 
 M.setup = function()
-    --autosave()  -- May consider writing to a temp file rather than the original
     cursor_last_position()
     header_template()
 end
