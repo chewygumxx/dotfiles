@@ -1,0 +1,12 @@
+# vim: expandtab:shiftwidth=4:ft=sudoers
+
+#
+#
+# /etc/sudoers.d/10-insults
+#
+#
+
+# https://wiki.archlinux.org/title/Sudo#Enable_insults
+#
+# >:( meanie
+Defaults insults

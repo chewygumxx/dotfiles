@@ -11,8 +11,6 @@
 # Must follow file defining User_Alias ADMINS
 #
 
-@include /etc/sudoers.d/00-admins
-
 Cmnd_Alias NETWORK = /usr/bin/iwctl /usr/bin/impala
 
 ADMINS ALL=(ALL:ALL) NOPASSWD: NETWORK
