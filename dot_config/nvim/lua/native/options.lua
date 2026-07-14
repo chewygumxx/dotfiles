@@ -44,8 +44,10 @@ M.opts = {
     -- Window Splitting
     splitright = true,
 
-    -- Search: Ignore case unless uppercase provided
-    smartcase = true,
+    -- Search:
+    -- Ignore case unless uppercase provided.
+    ignorecase = true,
+    smartcase  = true,
 
     -- Restore view when jumping
     jumpoptions = "view",
