@@ -21,7 +21,7 @@ elif [[ -d "$target" ]]; then
     cd "$target"
 elif [[ -n "$(chezmoi managed "$target" 2>/dev/null)" ]]; then
     chezmoi edit --watch "$target"
-elif [[ "$(stat --format="%G" "$target")" -eq "root" ]]; then
+elif [[ "$(stat --format="%G" "$target")" == "root" ]]; then
     SUDO_EDITOR=nvim sudoedit "$target"
 else
     command nvim "$@"
