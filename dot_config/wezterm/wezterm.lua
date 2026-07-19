@@ -34,11 +34,11 @@ local window = function()
     M.enable_wayland = true
     M.front_end      = 'WebGpu'    -- Vulkan GPU Acceleration, *Essential*
 
-    M.exit_behavior             = "CloseOnCleanExit" -- When shell program spawned from terminal
-  --M.exit_behavior             = "Close"            -- When shell program spawned from terminal
+    --M.exit_behavior             = "CloseOnCleanExit" -- When shell program spawned from terminal
+    M.exit_behavior             = "Close"            -- When shell program spawned from terminal
 
     M.window_close_confirmation = "AlwaysPrompt"
-  --M.window_close_confirmation = "NeverPrompt"
+    M.window_close_confirmation = "NeverPrompt"
     M.skip_close_confirmation_for_processes_named = {
         'zsh',
         'fzf-cclip',
