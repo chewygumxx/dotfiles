@@ -32,7 +32,15 @@ alias pgrep='pgrep	--color=auto -i'
 alias pacman="yay"
 
 # Editor
-alias nano="$EDITOR"
+alias     v="$EDITOR"
+alias    vi="$EDITOR"
+alias   vim="$EDITOR"
+alias  nvim="$EDITOR"
+alias    hx="$EDITOR"
+alias   kak="$EDITOR"
+alias  nano="$EDITOR"
+alias  edit="$EDITOR"
+alias emacs="$EDITOR"
 
 # Impala
 alias impala='sudo impala'

@@ -7,7 +7,7 @@
 # 
 
 #
-# Generate fleeting journal entry heredoc
+# Generate fleeting journal entry and populate with cat stdin.
 #
 
 local suffix=""
@@ -18,5 +18,8 @@ if [[ -n $1 ]]; then
     suffix="_${safe}"
 fi
 
-local journal_dir="$HOME/doc/journal"
-cat >>| "$journal_dir/$(date +%Y-%m-%d)$suffix.txt" << "EOF"
+journal_dir="$HOME/doc/journal"
+local entry_path="$journal_dir/$(date +%Y-%m-%d)$suffix.txt"
+
+echo -e "\e[35mJournaling to \e[32m${(D)entry_path}\e[0m"
+cat >>| "$entry_path"
