@@ -12,20 +12,20 @@ zmodload -e zsh/parameter || zmodload zsh/parameter
 local +h functions 
 
 local this_file="$0"
-function print_help () {
-    printf "%s\n" \
+function __print_help () {
+    print -f "%s\n" \
         "git add, commit and push for the lazy" \
         "Usage: $this_file [options] [message]" \
 
-    printf "\n%s\n" "Options:"
-    printf "    %-5s %s\n" \
+    print -f "\n%s\n" "Options:"
+    print -f "    %-5s %s\n" \
         "-e " "Reuse and edit last commit message and author time, ignores -f and message" \
         "-f " "Same as -f, except don't edit the commit message" \
         "-q " "Quiet" \
         "-v " "Verbose" \
         "-h " "Print this help"
 
-    printf "\n%s" "If no option nor message is given, reuse last message with new time"
+    print -f "\n%s\n" "If no option nor message is given, reuse last message with new time"
 }
 
 # Cannot be prepended with `local` inline or else `getopt_exit=$?`
