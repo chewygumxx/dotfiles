@@ -48,6 +48,9 @@ alias impala='sudo impala'
 # SQLite
 alias sqlite='sqlite3'
 
+# GitHub CLI
+alias gist='gh gist'
+
 # WireGuard ProtonVPN
 alias vpnup='sudo wg-quick up protonvpn'
 alias vpndown='sudo wg-quick down protonvpn'
