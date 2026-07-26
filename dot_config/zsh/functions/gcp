@@ -3,7 +3,7 @@
 
 #
 #
-# ~/.config/zsh/functions/g
+# ~/.config/zsh/func/gcp
 #
 #
 
@@ -12,7 +12,7 @@ zmodload -e zsh/parameter || zmodload zsh/parameter
 local +h functions 
 
 local this_file="$0"
-function __print_help () {
+function print_help () {
     print -f "%s\n" \
         "git add, commit and push for the lazy" \
         "Usage: $this_file [options] [message]" \
@@ -20,7 +20,7 @@ function __print_help () {
     print -f "\n%s\n" "Options:"
     print -f "    %-5s %s\n" \
         "-e " "Reuse and edit last commit message and author time, ignores -f and message" \
-        "-f " "Same as -f, except don't edit the commit message" \
+        "-f " "Same as -e, except don't edit the commit message" \
         "-q " "Quiet" \
         "-v " "Verbose" \
         "-h " "Print this help"
@@ -63,14 +63,15 @@ if ! git -C . rev-parse 2>/dev/null; then
     return 1
 fi
 
-git add . $output
 if   ((  $edit  )); then
-    git commit $output --reedit-message=HEAD
+    local cm_argv=(--reedit-message=HEAD)
 elif ((  $fix   )); then
-    git commit $output --reuse-message=HEAD
-elif [[ -z "$*" ]]; then
-    git commit $output --reuse-message=HEAD --reset-author
+    local cm_argv=(--reuse-message=HEAD)
 else
-    IFS=" " git commit $output --message="$*"
+    local IFS=" " 
+    local cm_argv=(--message="${*:-"Lazy Commit: $(date)"}")
 fi
-git push $output
+
+git add .  $output 
+git commit $output $cm_argv
+git push   $output

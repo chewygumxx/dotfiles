@@ -16,20 +16,8 @@
 #  Symlinked: $ZDOTDIR/.zshrc -> this
 #
 
-#zmodload zsh/zprof
-
 # Shell Interactivity Check
 [[ -o interactive ]] || return
-
-zle_highlight=('paste:none')
-
-# Allow `# comment`. Good for copying and pasting commands from web
-setopt interactive_comments 
-
-# Resolve symbolic links to their true physical path when changing
-# directories. `cd ..` afterward will not return to the parent directory of
-# the original symbolic link. Also infers option 'chase_dots'.
-setopt chase_links
 
 ZSH_PLUGIN_DIR="/usr/share/zsh/plugins"
 __rc_source_list=(
@@ -60,10 +48,15 @@ for rc_source in $__rc_source_list; do
 done
 unset rc_source __rc_source_list ZSH_PLUGIN_DIR
 
-# Node Version Manager
-# --no-use    Load nvm only when called
-[[ -s "$NVM_DIR/nvm.sh" ]] && 
-    source "$NVM_DIR/nvm.sh"  --no-use     
+zle_highlight=('paste:none')
+
+# Allow `# comment`. Good for copying and pasting commands from web
+setopt interactive_comments 
+
+# Resolve symbolic links to their true physical path when changing
+# directories. `cd ..` afterward will not return to the parent directory of
+# the original symbolic link. Also infers option 'chase_dots'.
+setopt chase_links
 
 #
 # *** Post-Startup

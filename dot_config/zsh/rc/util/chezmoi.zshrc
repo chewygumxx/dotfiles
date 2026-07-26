@@ -7,10 +7,12 @@
 #
 #
 
-[[ -o interactive          ]] || return
-[[ -n "$commands[chezmoi]" ]] || return
+[[ -o interactive      ]] || return
+(( $+commands[chezmoi] )) || return
 
 setopt aliases
+
+hash -d chezmoi="${XDG_DATA_HOME:-"$HOME/.local/share"}/chezmoi"
 
 alias cz="chezmoi"
 alias cza="cz add"

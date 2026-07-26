@@ -7,5 +7,6 @@
 # 
 # 
 
+
 hash -d zsh="$ZDOTDIR"
 hash -d nvim_lua="$XDG_CONFIG_HOME/nvim/lua"

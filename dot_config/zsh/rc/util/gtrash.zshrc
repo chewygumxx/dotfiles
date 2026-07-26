@@ -3,12 +3,12 @@
 
 #
 #
-# ~/.config/zsh/command/gtrash.zshrc
+# ~/.config/zsh/util/gtrash.zshrc
 #
 #
 
 #
-# Depends on autoload/fpath accessible zsh files:
+# Depends on autoload-ed zsh function files:
 # - gtrash
 # - rm-notice
 #
@@ -21,6 +21,6 @@
 
 autoload -Uz gtrash rm-notice
 
-alias rm="rm-notice"
+alias rm="rm-disable"
 alias del="gtrash put"
 alias del-undo="gtrash restore-group"
