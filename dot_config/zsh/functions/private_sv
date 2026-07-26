@@ -3,18 +3,33 @@
 
 #
 #
-# ~/.config/zsh/functions/g
+# termux://~/.config/zsh/functions/sv
 #
 #
 
-# Locally scope internally declared functions
+#
+# Wrapper to compensate for lacklustre CLI 
+#
+
+if [[ -z "$TERMUX_VERSION" ]]; then
+    print -u2 "${0}: This is termux exclusive"
+    return 1
+fi
+
+if [[ -z "$commands[sv]" ]]; then
+    print -u2 "${0}: command 'sv' not found"
+    print -z "pkg install termux-services"
+    return 127
+fi
+
+# Localise internally declared functions, do not persist post-execution
 zmodload -e zsh/parameter || zmodload zsh/parameter
 local +h functions 
 
 local this_file="$0"
 function __print_help () {
     print -f "%s\n" \
-        "git add, commit and push for the lazy" \
+        "Wrapper helper of termux-service \`sv\` command" \
         "Usage: $this_file [options] [message]" \
 
     print -f "\n%s\n" "Options:"
@@ -57,20 +72,10 @@ while true; do
     esac
 done
 
-# This check is after getopt such that `g --help` still functions
-if ! git -C . rev-parse 2>/dev/null; then
-    print -u2 "${0}: Not a git repository"
-    return 1
+if [[ ${#} -lt 2 ]]; then
+    __print_help
+else
+    command sv "$@"
 fi
 
-git add . $output
-if   ((  $edit  )); then
-    git commit $output --reedit-message=HEAD
-elif ((  $fix   )); then
-    git commit $output --reuse-message=HEAD
-elif [[ -z "$*" ]]; then
-    git commit $output --reuse-message=HEAD --reset-author
-else
-    IFS=" " git commit $output --message="$*"
-fi
-git push $output
+#unset -f __print_help

@@ -57,6 +57,7 @@ download_languages = [ "en" ]
 [directories]
 # Does not perform variable expansion. 
 # If not /absolute/path/to/dir, path relative to $XDG_CONFIG_HOME/tealdeer
-# Solution: Symlink $XDG_CONFIG_HOME/tealdeer/pages to ../../alternative/specified/directory
+# Solution: Symlink $XDG_CONFIG_HOME/tealdeer/pages to
+#           ../../alternative/specified/directory
 # or just:
 custom_pages_dir = "../../doc/tealdeer"
