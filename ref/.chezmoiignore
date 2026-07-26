@@ -1,0 +1,42 @@
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.local/share/chezmoi/ref/.chezmoiignore
+# 
+# 
+
+# Ignore everything not explicitly excepted
+*
+
+# --------
+# Excepted
+# --------
+
+!/required_by.md   # Record of what references this directory
+
+!/image/           # Contains .chezmoiignore within
+
+!/schema/
+
+!/snippet/
+
+!/template/
+
+# ----------------------------------------------------
+# Don't ignore directory, but ignore everything within
+# ----------------------------------------------------
+!/audio/
+/audio/*
+
+!/doc/
+/doc/*
+
+!/font/    # Must exist as symlink target of ~/.local/share/fonts
+/font/*
+
+!/misc/
+/misc/*
+
+!/video/
+/video/*

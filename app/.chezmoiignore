@@ -1,0 +1,10 @@
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.local/share/chezmoi/scr/.chezmoiignore
+# 
+# 
+
+*
+!.gitignore

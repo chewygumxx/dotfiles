@@ -19,14 +19,11 @@ export GOROOT="/usr/lib/go"
 export GOPATH="$XDG_DATA_HOME/go"
 export GOBIN="$XDG_DATA_HOME/go/bin"
 
-export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-
-export XDG_SCREENSHOT_DIR="~/ref/image/top-screenshot/"
-
 export NVM_DIR="$XDG_DATA_HOME/nvm"
 export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 
-export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"
+export PARALLEL_HOME="$XDG_DATA_HOME/parallel"
 
 export MONITOR_PRIMARY="eDP-1"
 export MONITOR_SECONDARY="HDMI-1"
@@ -46,5 +43,6 @@ export TERMINFO="$XDG_DATA_HOME/terminfo"
 export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:/usr/share/terminfo"
 
 export GH_TELEMETRY="false"
-export GNUPGHOME="$HOME/.local/secret/gnupg"
+export DO_NOT_TRACK="true"
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
 export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"

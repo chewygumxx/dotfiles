@@ -1,20 +1,77 @@
-@_sys_root/src/wireguard/*  # (Secret) VPN Private Keys
-gh/hosts.yml                # (Secret) Authetication Tokens
-kdeconnect/*                # (Secret) Keys, clipboard, remote commands
+# vim: filetype=gitignore
 
-# (Secret) DNS Edit: cgxx.dev
-cloudflare-ddns/cf_dns_edit_cgxx_dev.token
+# 
+# 
+# ~chezmoi/dot_config/.chezmoiignore
+# 
+# 
 
-bluetuith/*
-environment.d/*             # Likely to change
-GIMP/*
-glow/*                      # Likely to change
-gtk-3.0/*
-inkscape/*
-mpv/*
-nushell/*                   # Likely to change
-parallel/*
-pulse/*
-python/*                    # Likely to change
-rura/*
+# Ignore everything not explicitly excepted
+*
 
+
+# -------------------
+# Excepted Everywhere
+# -------------------
+
+!/@_sysroot_etc/     # Contains .chezmoiignore within
+!/bat/
+!/fd/
+!/gh/config.yml
+!/git/
+!/tealdeer/
+!/yazi/
+!/zsh/               # Contains .chezmoiignore within
+!/mimeapps.list
+!/user-dirs.dirs
+!/user-dirs.locale
+
+
+# ------------------
+# Chewytop Exclusive
+# ------------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+!/btop/
+!/hypr/
+!/luarocks/
+!/mozilla            # Symlink to ../.local/share/mozilla/
+!/mozilla-filefox/   # Actual user configuration
+!/npm/
+!/npm/npmrc          # Must exist for envvar NPM_CONFIG_USERCONFIG
+!/print-quote/
+!/python/
+!/systemd/
+!/waybar/
+!/wezterm/
+!/xdg-desktop-portal/
+!/xdg-desktop-portal-termfilechooser/
+!/yay/
+
+{{- end }}
+
+
+# --------------------
+# Chewytele Exclusive
+# --------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+!/termux/        # Symlink ~/.termux -> .config/termux/ (this line)
+
+{{- end }}
+
+
+# ------------------------
+# Explicitly Always Ignore
+# ------------------------
+
+/@_sysroot_etc/src/wireguard/*  # (Secret) VPN Private Keys
+/kdeconnect/                    # (Secret) Keys, clipboard, remote commands
+/gh/hosts.yml                   # (Secret) Authetication Tokens
+
+# (Secret) Cloudflare tokens
+/cloudflare-ddns/*token*
+/cloudflare-ddns/**/*token*
+/cloudflare-ddns/cgxx_dev/dnsedit_token/

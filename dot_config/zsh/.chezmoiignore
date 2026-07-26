@@ -1,0 +1,111 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~chezmoi/dot_config/.chezmoiignore
+# 
+# 
+
+# Ignore everything not explicitly excepted
+*
+
+
+# -------------------
+# Excepted Everywhere
+# -------------------
+
+!/comp/
+/comp/*
+
+
+!/env/
+/env/*
+!/env/util/
+/env/util/*
+!/env/util/fzf.env.zsh
+
+
+!/func/
+/func/*
+!~/func/ansi16
+!~/func/gc
+!~/func/gcp
+!~/func/journal
+!~/func/nvim
+!~/func/read-pipe
+!~/func/rm-disable
+!~/func/tldr
+!~/func/y
+
+
+!/rc/
+/rc/*
+!/rc/alias.rc.zsh
+!/rc/completion.rc.zsh
+!/rc/directory.rc.zsh
+!/rc/function.rc.zsh
+!/rc/history.rc.zsh
+!/rc/prompt.rc.zsh
+
+!/rc/plugin/
+/rc/plugin/*
+!/rc/plugin/fast-syntax-highlighting.rc.zsh
+!/rc/plugin/zsh-vi-mode.rc.zsh
+
+!/rc/util/
+/rc/util/*
+!/rc/util/bat.rc.zsh
+!/rc/util/chezmoi.rc.zsh
+!/rc/util/eza.rc.zsh
+!/rc/util/fzf.rc.zsh
+!/rc/util/zoxide.rc.zsh
+
+
+!/.zlogin       # Symlink to ./zlogin
+!/zlogin
+!/.zprofile     # Symlink to ./zprofile
+!/zprofile
+!/.zshenv       # Symlink to ./zshenv
+!/zshenv
+!/.zshrc        # Symlink to ./zshrc
+!/zshrc
+
+
+# ------------------
+# Chewytop Exclusive
+# ------------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+!~/func/adb-wifi
+!~/func/clipdump
+!~/func/gtrash
+!~/func/man
+!~/func/nb
+!~/func/unicode-search-fonts
+
+!/rc/util/gtrash.rc.zsh
+
+{{- end }}
+
+
+# --------------------
+# Chewytele Exclusive
+# --------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+!~/func/pkglist
+!~/func/sv
+
+!/rc/plugin/zsh-autocomplete.rc.zsh
+
+!/rc/vi-mode.rc.zsh
+
+{{- end }}
+
+
+# ------------------------
+# Explicitly Always Ignore
+# ------------------------
+

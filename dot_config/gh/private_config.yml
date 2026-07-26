@@ -25,3 +25,9 @@ accessible_colors: disabled
 accessible_prompter: disabled
 # Whether to use a animated spinner as a progress indicator. If disabled, a textual progress indicator is used instead. Supported values: enabled, disabled
 spinner: enabled
+
+
+# Environment Variables take precedence
+#export GH_TELEMETRY=false
+#export DO_NOT_TRACK=true
+telemetry: disabled
