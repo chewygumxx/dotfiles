@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/plugin/plugin-zsh-vi-mode.zshrc
+# ~/.config/zsh/rc/plugin/zsh-vi-mode.rc.zsh
 #
 #
 
@@ -15,8 +15,6 @@
 # 
 # This line of the plugin must be nullified for fzf CTRL-R:
 #   zvm_bindkey viins '^R' history-incremental-search-backward
-#
-# Found at: /usr/share/zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh:3792
 #
 
 : ${ZSH_PLUGIN_DIR:="/usr/share/zsh/plugins"}

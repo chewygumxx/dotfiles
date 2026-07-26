@@ -3,7 +3,7 @@
 
 #
 #
-# ~/.config/zsh/command/chezmoi.zshrc
+# ~/.config/zsh/rc/util/chezmoi.rc.zsh
 #
 #
 

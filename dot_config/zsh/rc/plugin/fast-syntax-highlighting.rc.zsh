@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/plugin/fast-syntax-highlighting.zshrc
+# ~/.config/zsh/rc/plugin/fast-syntax-highlighting.rc.zsh
 #
 #
 

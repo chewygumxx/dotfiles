@@ -3,11 +3,11 @@
 
 #
 #
-# ~/.config/zsh/native/function.zshrc
+# ~/.config/zsh/rc/function.rc.zsh
 #
 #
 
-local user_zshfunc_dir="$ZDOTDIR/functions"
+local user_zshfunc_dir="$ZDOTDIR/func"
 
 fpath+=("$user_zshfunc_dir")
 

@@ -3,9 +3,10 @@
 
 # 
 # 
-# ~/.config/zsh/rc/named-dirs.zshrc
+# ~/.config/zsh/rc/directory.rc.zsh
 # 
 # 
+
 
 
 hash -d zsh="$ZDOTDIR"

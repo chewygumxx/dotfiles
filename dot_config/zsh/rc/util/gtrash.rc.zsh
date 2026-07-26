@@ -3,7 +3,7 @@
 
 #
 #
-# ~/.config/zsh/util/gtrash.zshrc
+# ~/.config/zsh/util/gtrash.rc.zsh
 #
 #
 

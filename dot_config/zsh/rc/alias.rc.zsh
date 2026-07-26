@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/alias.zshrc
+# ~/.config/zsh/alias.rc.zsh
 #
 #
 

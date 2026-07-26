@@ -8,12 +8,12 @@
 # 
 
 __env_source_list=(
-    "command/fzf"
+    "util/fzf"
 )
-for env_source in $__env_source_list; do
-    source "$ZDOTDIR/env/${env_source}.zshenv"
+for source in $__env_source_list; do
+    source "$ZDOTDIR/env/${source}.zshenv"
 done
-unset env_source ___env_source_list
+unset source ___env_source_list
 
 export GOROOT="/usr/lib/go"
 export GOPATH="$XDG_DATA_HOME/go"

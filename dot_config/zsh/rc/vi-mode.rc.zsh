@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/native/vi-mode.zshrc
+# ~/.config/zsh/rc/vi-mode.rc.zsh
 #
 #
 

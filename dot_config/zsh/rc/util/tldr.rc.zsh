@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/command/tldr.zshrc
+# ~/.config/zsh/rc/util/tldr.rc.zsh
 #
 #
 

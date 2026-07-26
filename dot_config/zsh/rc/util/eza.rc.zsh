@@ -3,7 +3,7 @@
 
 #
 #
-# ~/.config/zsh/command/eza.zshrc
+# ~/.config/zsh/rc/util/eza.rc.zsh
 #
 #
 

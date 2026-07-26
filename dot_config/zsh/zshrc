@@ -25,7 +25,7 @@ __rc_source_list=(
     "completion"
     "function"
     "history"
-    "named-dirs"
+    "directory"
     "prompt"
     #"vi-mode"
     
@@ -44,7 +44,7 @@ __rc_source_list=(
     "plugin/zsh-vi-mode"
 )
 for rc_source in $__rc_source_list; do
-    source "$ZDOTDIR/rc/${rc_source}.zshrc"
+    source "$ZDOTDIR/rc/${rc_source}.rc.zsh"
 done
 unset rc_source __rc_source_list ZSH_PLUGIN_DIR
 

@@ -2,7 +2,7 @@
 
 #
 #
-# ~/.config/zsh/plugin/zsh-autocomplete.zshrc
+# ~/.config/zsh/rc/plugin/zsh-autocomplete.rc.zsh
 #
 #
 

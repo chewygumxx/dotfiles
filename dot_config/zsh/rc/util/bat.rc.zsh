@@ -3,7 +3,7 @@
 
 #
 #
-# ~/.config/zsh/command/bat.zshrc
+# ~/.config/zsh/rc/util/bat.rc.zsh
 #
 #
 

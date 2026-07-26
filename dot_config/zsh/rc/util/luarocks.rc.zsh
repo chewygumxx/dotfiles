@@ -3,7 +3,7 @@
 
 #
 #
-# ~/.config/zsh/command/luarocks.zshrc
+# ~/.config/zsh/rc/util/luarocks.rc.zsh
 #
 #
 

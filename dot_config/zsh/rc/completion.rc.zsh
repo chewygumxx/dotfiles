@@ -3,7 +3,7 @@
 
 #
 #
-# ~/.config/zsh/native/completions.zshrc
+# ~/.config/zsh/rc/completion.rc.zsh
 #
 #
 

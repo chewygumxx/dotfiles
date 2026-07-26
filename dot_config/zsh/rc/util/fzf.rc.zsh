@@ -3,7 +3,7 @@
 
 #
 #
-# ~/.config/zsh/command/fzf.zshrc
+# ~/.config/zsh/rc/util/fzf.rc.zsh
 #
 #
 

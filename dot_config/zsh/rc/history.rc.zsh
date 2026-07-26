@@ -3,7 +3,7 @@
 
 #
 #
-# ~/.config/zsh/native/history.zshrc
+# ~/.config/zsh/rc/history.rc.zsh
 #
 #
 
