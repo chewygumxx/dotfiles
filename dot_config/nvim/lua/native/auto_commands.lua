@@ -26,36 +26,97 @@ local cursor_last_position = function()
 end
 
 local header_template = function()
-    local insert_header = function(filename, buf)
-        if vim.bo.commentstring == "" then
-            return
+    local source_dirs = {
+        "~/.config/zsh",
+        "~/.local/share/chezmoi/dot_config/zsh",
+        "~/doc/synexus/.zsh",
+
+        "~/.config/hypr",
+        "~/.config/nvim/lua",
+        "~/.config/luarocks",
+        "~/.config/wezterm",
+        "~/.config/yay",
+        "~/.config/yazi",
+
+        "~/.local/share/hyprland",
+        "~/.local/share/lua",
+        "~/.local/share/luarocks",
+        "~/.local/share/yazi/plugins",
+        "~/.local/share/nvim",
+
+        "~/.local/share/chezmoi/dot_config",
+        "~/.local/share/chezmoi/dot_local/share",
+    }
+
+    local shebangs = {
+        sh     = "#!/bin/sh",
+        bash   = "#!/usr/bin/env bash",
+        just   = "#!/usr/bin/env -S just --working-directory . --justfile",
+        lua    = "#!/usr/bin/env lua",
+        python = "#!/usr/bin/env python3",
+        zsh    = "#!/usr/bin/env zsh",
+    }
+    local get_shebang = function(home_path, buf)
+        for _,dir in ipairs(source_dirs) do
+            if home_path:find(dir .. '/', 1, true) == 1 then
+                return "#!/bin/false"
+            end
         end
 
-        local header_lines = {
-            string.format(vim.bo.commentstring, "vim: expandtab:shiftwidth=4"),
-            "",
-            string.format(vim.bo.commentstring, ""),
-            string.format(vim.bo.commentstring, ""),
-            string.format(vim.bo.commentstring, vim.fn.fnamemodify(filename, ":~")),
-            string.format(vim.bo.commentstring, ""),
-            string.format(vim.bo.commentstring, ""),
-            "",
-        }
-        vim.api.nvim_buf_set_lines(buf, 0, 0, false, header_lines)
+        return shebangs[vim.bo[buf].filetype]
     end
 
-    vim.api.nvim_create_autocmd("BufNewFile", {
-        group    = vim.api.nvim_create_augroup("cgxx.header_template", { clear = true } ),
-        desc     = "Inserts templated header based on extension and path.",
-        callback = function(aucmd_tbl)
-            insert_header(aucmd_tbl.file, aucmd_tbl.buf)
-        end,
-    })
+    local modeline = "vim: expandtab:shiftwidth=4"
+
+    local insert_header = function(filename, buf)
+        local comment = vim.bo[buf].commentstring
+        if comment == "" then
+            return
+        end
+        local home_path = vim.fn.fnamemodify(filename, ":~")
+
+        local header_lines = {
+            string.format(comment, modeline),
+            "",
+            string.format(comment, ""),
+            string.format(comment, ""),
+            string.format(comment, home_path),
+            string.format(comment, ""),
+            string.format(comment, ""),
+            "",
+        }
+
+        local shebang = get_shebang(home_path, buf)
+        if shebang ~= nil then
+            table.insert(header_lines, 1, shebang)
+        end
+
+        vim.api.nvim_buf_set_lines(buf, 0, 0, false, header_lines)
+    end
 
     vim.api.nvim_create_user_command("CGInsertHeader", 
         function() insert_header(vim.fn.expand("%"), vim.api.nvim_get_current_buf()) end,
         { desc = "Prepend buffer with a header, templated according to filepath and extension." }
     )
+
+    vim.api.nvim_create_autocmd("BufNewFile", {
+        group = vim.api.nvim_create_augroup("cgxx.header_template", { clear = true }),
+        desc  = "Marks buffer as new for pending header insertion.",
+        callback = function(aucmd_tbl)
+            vim.b[aucmd_tbl.buf].cgxx_pending_header = true
+        end,
+    })
+
+    vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("cgxx.header_template_apply", { clear = true }),
+        desc  = "Inserts templated header once filetype (and commentstring) is known.",
+        callback = function(aucmd_tbl)
+            if vim.b[aucmd_tbl.buf].cgxx_pending_header then
+                vim.b[aucmd_tbl.buf].cgxx_pending_header = nil
+                insert_header(aucmd_tbl.file, aucmd_tbl.buf)
+            end
+        end,
+    })
 end
 
 M.setup = function()
