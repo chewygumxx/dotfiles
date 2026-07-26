@@ -6,4 +6,5 @@
 # 
 # 
 
+# Test if zprofile is sourced
 #echo "$(date)" >> /tmp/zprofile.txt

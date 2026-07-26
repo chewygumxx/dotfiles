@@ -6,6 +6,9 @@
 # 
 # 
 
+# Test if zprofile is sourced
+#echo "$(date)" >> /tmp/zlogin.txt
+
 path+=(
     "$HOME/.local/bin"
 )
