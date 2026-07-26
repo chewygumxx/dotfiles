@@ -45,6 +45,8 @@
 
 !/dev/
 /dev/*
+!/dev/_gist/
+/dev/_gist/*
 
 !/doc/
 /doc/*
