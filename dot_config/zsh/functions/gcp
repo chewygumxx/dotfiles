@@ -1,0 +1,67 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4
+
+#
+#
+# ~/.config/zsh/functions/g
+#
+#
+
+local this_file="$0"
+function print_help () {
+    printf "%s\n" \
+        "git add, commit and push for the lazy" \
+        "Usage: $this_file [options] [message]" \
+
+    printf "\n%s\n" "Options:"
+    printf "    %-5s %s\n" \
+        "-e " "Reuse and edit last commit message and author time, ignores -f and message" \
+        "-f " "Same as -f, except don't edit the commit message" \
+        "-q " "Quiet" \
+        "-v " "Verbose" \
+        "-h " "Print this help"
+
+    printf "\n%s" "If no option nor message is given, reuse last message with new time"
+}
+
+getopt_parsed=$(getopt -n "$0" -o "efqvh" -- "$@")
+getopt_exit=$?
+if [[ $getopt_exit -ne 0 ]]; then 
+    print -u2 "${0}: getopt parse failed"
+    return $getopt_exit
+fi
+eval set -- "$getopt_parsed"
+unset getopt_{exit,parsed}
+
+local edit=0
+local fix=0
+local output=""
+
+while true; do
+    case "$1" in
+        -e) edit=1;      shift    ;;
+        -f) fix=1;       shift    ;;
+        -q) output="-q"; shift    ;;
+        -v) output="-v"; shift    ;;
+        -h) print_help;  return 0 ;;
+        --) shift;       break    ;;
+        *)  print -u2 "${0}: Error while parsing getopt_parsed: '$1'"; return 1 ;;
+    esac
+done
+
+if ! git -C . rev-parse 2>/dev/null; then
+    print -u2 "${0}: Not a git repository"
+    return 1
+fi
+
+git add . $output
+if   ((  $edit  )); then
+    git commit $output --reedit-message=HEAD
+elif ((  $fix   )); then
+    git commit $output --reuse-message=HEAD
+elif [[ -z "$*" ]]; then
+    git commit $output --reuse-message=HEAD --reset-author
+else
+    IFS=" " git commit $output --message="$*"
+fi
+git push $output
