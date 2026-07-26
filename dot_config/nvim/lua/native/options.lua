@@ -12,6 +12,7 @@ M.opts = {
     -- System
     clipboard = "unnamedplus",
     undofile  = true,
+    mouse = "",
 
     -- Tabspace
     expandtab  = true,

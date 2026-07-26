@@ -1,0 +1,13 @@
+# vim: nofoldenable
+
+#
+#
+# ~/.config/systemd/user/tor-browser.service
+#
+#
+
+[Unit]
+Description=Tor Browser
+
+[Service]
+ExecStart=/usr/bin/tor-browser

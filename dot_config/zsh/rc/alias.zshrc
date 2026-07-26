@@ -15,6 +15,10 @@ alias sudo="sudo "
 # Bluetooth
 alias bt="bluetui"
 
+# KDEConnect
+alias kdecon="kdeconnect-cli --device 1396134ad80c4647aa7c6b1f76d823e3"
+alias kdecon-cb="kdecon --send-clipboard"
+
 # Prompt before overwriting
 alias cp="cp --interactive"
 alias mv="mv --interactive"
@@ -26,7 +30,6 @@ alias du='du --block-size=1K'
 
 # Show colour and case-insensitive
 alias grep='grep	--color=auto -i'
-alias pgrep='pgrep	--color=auto -i'
 
 # Package Manager
 alias pacman="yay"

@@ -39,7 +39,6 @@ export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PYTHON_HISTORY="$XDG_STATE_HOME/python/history"
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
-export SSH_CHEWYTELE="u0_a492@192.168.4.22:8022"
 export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite/history"
 export PERL_CPANM_HOME="$XDG_CACHE_HOME/cpanm"
 

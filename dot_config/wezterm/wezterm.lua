@@ -6,39 +6,25 @@
 --    
 --
 
---
---    ( ( Lua5.4 ) )
---
-
--- *******************
---
---    DEBUG OVERLAY: Ctrl+Shift+Escape
---
---    Access to internal debug Lua REPL where invokation of the following will
---    return a pretty-printed Lua table.
---
---    print(wezterm.color.get_default_colors())
---
--- *******************
-
 local wezterm = require('wezterm')
 local M       = wezterm.config_builder()
 
-local intrinsic = function()
-    M.automatically_reload_config = false
-    M.check_for_updates = false
-    M.term = "wezterm"
-end
+M.term = "wezterm"
+M.enable_wayland = true
+M.check_for_updates = false
+M.debug_key_events = false
+M.automatically_reload_config = false
 
 local window = function()
-    M.enable_wayland = true
-    M.front_end      = 'WebGpu'    -- Vulkan GPU Acceleration, *Essential*
+    -- Vulkan GPU Acceleration, *Essential*
+    M.front_end      = 'WebGpu'   
 
-    --M.exit_behavior             = "CloseOnCleanExit" -- When shell program spawned from terminal
-    M.exit_behavior             = "Close"            -- When shell program spawned from terminal
+    -- When shell program spawned from terminal
+    M.exit_behavior   = "Close"
+    --M.exit_behavior = "CloseOnCleanExit" 
 
-    M.window_close_confirmation = "AlwaysPrompt"
-    M.window_close_confirmation = "NeverPrompt"
+    --M.window_close_confirmation = "AlwaysPrompt"
+    M.window_close_confirmation   = "NeverPrompt"
     M.skip_close_confirmation_for_processes_named = {
         'zsh',
         'fzf-cclip',
@@ -46,7 +32,7 @@ local window = function()
     }
 
     M.detect_password_input = true
-  --M.default_cursor_style  = 'BlinkingUnderline' -- Pretty sure zsh vi mode is overriding this.
+  --M.default_cursor_style  = 'BlinkingUnderline'
     M.cursor_blink_ease_in  = 'Linear'
     M.cursor_blink_ease_out = 'Linear'
     M.cursor_blink_rate = 2000
@@ -60,98 +46,92 @@ local window = function()
     }
 end
 
-local theme = {
-    font  = function()
-        M.font         = wezterm.font_with_fallback({
-            "AnonymicePro Nerd Font Mono",
-            "Noto Sans Symbols 2",
-            "Noto Sans Math"
-        })
-        M.font_size    = 11 -- pt
-        M.font_dirs    = { os.getenv("HOME") .. '/ref/font' }
-        M.font_locator = 'ConfigDirsOnly' -- Optomisation Attempt, may break intolerably 
-        M.line_height  = 1.1
+local font   = function()
+    M.font   = wezterm.font_with_fallback({
+        "AnonymicePro Nerd Font Propo",
+        "Noto Sans Symbols 2",
+        "Noto Sans Math"
+    })
+    M.font_size    = 11 -- pt
+    M.line_height  = 1.1
+    M.font_dirs    = { os.getenv("HOME") .. '/ref/font' }
+    M.font_locator = 'ConfigDirsOnly' -- Optomisation Attempt, may break intolerably 
 
-        M.anti_alias_custom_block_glyphs = true
-    end,
-    color = function()
-        M.background = { {
-            height   = '100%',
-            width    = '100%',
-            source   = { Color = "#000000" },
-            opacity  = 0.8,
-        } }
+    M.anti_alias_custom_block_glyphs = true
+end
+
+local color  = function()
+    M.background = { {
+        height   = '100%',
+        width    = '100%',
+        source   = { Color = "#000000" },
+        opacity  = 0.8,
+    } }
+    
+    M.colors = {           -- fg/bg: base, cursor, selection
+        foreground = '#9493de',
+        --foreground = '#a0a0d9',
+        --foreground = '#b1a3e5',
+        --background = '#03030b',   -- Defunct (See: M.background)
+   
+        cursor_fg = 'black',        -- Block cursor text
+        cursor_bg = '#cad6ff',      -- Block cursor background
+        cursor_border = '#a0a0d9',  -- Block cursor border
         
-        M.bold_brightens_ansi_colors = "No"
-        M.colors = {
-            --foreground = '#a0a0d9',
-            --foreground = '#b1a3e5',
-            foreground = '#9493de',
-            --background = '#03030b',    -- Ignored. See in-file variable: M.background
-       
-            -- ** Cursor
-        
-            -- Overrides the cell background color when the current cell is occupied by the
-            -- cursor and the cursor style is set to Block
-            cursor_bg = '#cad6ff',
-            -- Overrides the text color when the current cell is occupied by the cursor
-            cursor_fg = 'black',
-            -- Specifies the border color of the cursor when the cursor style is set to Block,
-            -- or the color of the vertical or horizontal bar when the cursor style is set to
-            -- Bar or Underline.
-            cursor_border = '#a0a0d9',
-        
-            
-            -- ** Selection
-            -- The only color variables that respect the alpha in rgba(), hsla(), hwb() and hsv()
-            selection_fg = 'none',    -- Preserve foreground colour
-            selection_bg = 'rgba(116, 8, 196, 0.1)',
-        }
-        -- ANSI 0-7
-        M.colors.ansi = {            
-            "#000000",        --0 Black (also sets background of dynamic characters (progress bars))
-            "#dc143c",        --1 Red
-            "#0fe192",        --2 Green
-            "#c6c45e",        --3 Yellow
-            "#5f95fa",        --4 Blue
-            "#7408ff",        --5 Magenta
-            "#7fc5df",        --6 Cyan
-            "#cad6ff",        --7 White
-        }
-        -- ANSI 8-15
-        M.colors.brights = {
-          --"#555555",        --08 Bright Black (Gray)
-          --"#2d2857",        --08 Bright Black (Gray)
-          --"#3d3470",        --08 Bright Black (Gray)
-            "#4e4189",        --08 Bright Black (Gray)
-            "#e3365e",        --09 Bright Red
-            "#0fff72",        --10 Bright Green
-            "#ffca44",        --11 Bright Yellow
-            "#7fc5ff",        --12 Bright Blue
-            "#a430ff",        --13 Bright Magenta
-            "#8be9fd",        --14 Bright Cyan
-            "#e8e0ff",        --15 Bright White
-        }
-        -- ANSI 16-255
-      --M.colors.indexed = { [136] = '#af8700' },
-    end,
-}
+        selection_fg = 'none',      -- Preserve foreground
+        selection_bg = 'rgba(116, 8, 196, 0.1)',
+    }
+
+    -----------
+    -- ** ANSI
+    -----------
+
+    M.bold_brightens_ansi_colors = "No"
+    
+    M.colors.ansi = {     -- ANSI 0-7
+        "#000000",        -- 0 Black    (dynamic background (ie. progress bars))
+        "#dc143c",        -- 1 Red
+        "#0fe192",        -- 2 Green
+        "#c6c45e",        -- 3 Yellow
+        "#5f95fa",        -- 4 Blue
+        "#7408ff",        -- 5 Magenta
+        "#7fc5df",        -- 6 Cyan
+        "#cad6ff",        -- 7 White
+    }
+    
+    M.colors.brights = {  -- ANSI 8-15
+      --"#555555",        -- 08 Bright Black (Gray)
+      --"#2d2857",        -- 08 Bright Black (Gray)
+      --"#3d3470",        -- 08 Bright Black (Gray)
+        "#4e4189",        -- 08 Bright Black (Gray)
+        "#e3365e",        -- 09 Bright Red
+        "#0fff72",        -- 10 Bright Green
+        "#ffca44",        -- 11 Bright Yellow
+        "#7fc5ff",        -- 12 Bright Blue
+        "#a430ff",        -- 13 Bright Magenta
+        "#8be9fd",        -- 14 Bright Cyan
+        "#e8e0ff",        -- 15 Bright White
+    }
+    
+    M.colors.indexed = {  -- ANSI 16-255
+        --[136] = '#af8700'
+    }
+end
 
 M.keys = {}
 local act     = wezterm.action
 local act_cb  = wezterm.action_callback
 local keymap  = function(map) table.insert(M.keys, map) end
 local input = {
-    wezterm_debug_keys  = function()
-        M.debug_key_events = true
-    end,
     wezterm_intrinsic = function()
         M.disable_default_key_bindings = true
       --M.enable_kitty_keyboard = true -- No idea what this does
 
         keymap({ mods = "CTRL|SHIFT",     key = "Escape", action = act.ShowDebugOverlay    })
         keymap({ mods = "CTRL|ALT|SHIFT", key = "Escape", action = act.ReloadConfiguration })
+    end,
 
+    command_pallete = function()
         M.command_palette_rows = 15 
         M.command_palette_font = M.font
         M.command_palette_font_size = 13
@@ -250,24 +230,24 @@ local tab = {
             active_tab = {
                 bg_color = '#2d2857',
                 fg_color = '#7fb5ff',
-              --intensity = 'Normal', -- "Half", "Normal" or "Bold"    (Default: "Normal")
-              --underline = 'None',   -- "None", "Single" or "Souble"  (Default: "None")
+              --intensity = 'Normal', -- "Half", "Normal" or "Bold"
+              --underline = 'None',   -- "None", "Single" or "Souble"
               --italic = false,
               --strikethrough = false,
             },
             inactive_tab = {
                 bg_color = '#090a24',
                 fg_color = '#7408ff',
-              --intensity = 'Normal', -- "Half", "Normal" or "Bold"    (Default: "Normal")
-              --underline = 'None',   -- "None", "Single" or "Souble"  (Default: "None")
+              --intensity = 'Normal', -- "Half", "Normal" or "Bold"
+              --underline = 'None',   -- "None", "Single" or "Souble"
               --italic = false,
               --strikethrough = false,
             },
             inactive_tab_hover = {
                 bg_color = '#141337',
                 fg_color = '#7408ff',
-              --intensity = 'Normal', -- "Half", "Normal" or "Bold"    (Default: "Normal")
-              --underline = 'None',   -- "None", "Single" or "Souble"  (Default: "None")
+              --intensity = 'Normal', -- "Half", "Normal" or "Bold"
+              --underline = 'None',   -- "None", "Single" or "Souble"
                 italic = true,
               --strikethrough = false,
             },
@@ -278,15 +258,16 @@ local tab = {
             new_tab_hover = {
                 bg_color = '#806fc0',
                 fg_color = '#060616',
-              --intensity = 'Normal', -- "Half", "Normal" or "Bold"    (Default: "Normal")
-              --underline = 'None',   -- "None", "Single" or "Souble"  (Default: "None")
+              --intensity = 'Normal', -- "Half", "Normal" or "Bold"
+              --underline = 'None',   -- "None", "Single" or "Souble"
               --italic = false,
               --strikethrough = false,
             },
         }
     end,
+
     input = function()
-        local rename_tab      = act.PromptInputLine({
+        local rename_tab = act.PromptInputLine({
             description = 'Rename Tab',
             action = wezterm.action_callback(function(window, pane, line)
                 if line then
@@ -323,12 +304,10 @@ local tab = {
 }
 
 local setup = function()
-    intrinsic()
-
     window()
 
-    theme.font()
-    theme.color()
+    font()
+    color()
 
   --input.wezterm_debug_keys()
     input.wezterm_intrinsic()
