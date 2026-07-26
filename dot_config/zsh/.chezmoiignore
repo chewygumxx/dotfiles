@@ -50,6 +50,9 @@
 !/rc/plugin/
 /rc/plugin/*
 !/rc/plugin/fast-syntax-highlighting.rc.zsh
+!/rc/plugin/zsh-autocomplete.rc.zsh
+!/rc/plugin/zsh-autosuggestions.rc.zsh
+!/rc/plugin/zsh-completions.rc.zsh
 !/rc/plugin/zsh-vi-mode.rc.zsh
 
 !/rc/util/
@@ -98,7 +101,6 @@
 !~/func/pkglist
 !~/func/sv
 
-!/rc/plugin/zsh-autocomplete.rc.zsh
 
 !/rc/vi-mode.rc.zsh
 

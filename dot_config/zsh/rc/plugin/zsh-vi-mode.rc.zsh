@@ -17,9 +17,12 @@
 #   zvm_bindkey viins '^R' history-incremental-search-backward
 #
 
-: ${ZSH_PLUGIN_DIR:="/usr/share/zsh/plugins"}
+plugin="zsh-vi-mode"
 
-[[ -f "$ZSH_PLUGIN_DIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh" ]] || return
+if [[ ! -d "$ZSH_HOME_DIRS[PLUGIN]/$plugin" ]]; then
+    git clone "https://github.com/jeffreytse/$plugin.git" \
+        "$ZSH_HOME_DIRS[PLUGIN]/$plugin"
+fi
 
 function zvm_config() {
     # See https://github.com/jeffreytse/zsh-vi-mode#configuration-function
@@ -40,10 +43,12 @@ function zvm_config() {
     ZVM_CLIPBOARD_PASTE_CMD="wl-paste --no-newline"
 
     ZVM_TMPDIR="${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh-vi-mode/tempbuf"
-    mkdir -p $ZVM_TMPDIR
+    mkdir -p "$ZVM_TMPDIR"
 
     ZVM_OPEN_CMD="handlr open"
     ZVM_OPEN_URL_CMD="firefox --new-tab"
 }
 
-source $ZSH_PLUGIN_DIR/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+source "$ZSH_HOME_DIRS[PLUGIN]/$plugin/$plugin.plugin.zsh" 2>/dev/null
+unset plugin
+

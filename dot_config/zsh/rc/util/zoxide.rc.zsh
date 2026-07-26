@@ -12,8 +12,8 @@
 # https://github.com/ajeetdsouza/zoxide#configuration
 #
 
-[[ -o interactive ]] || return
-[[ -n "$commands[zoxide]" ]] || return
+[[ -o interactive     ]] || return
+(( $+commands[zoxide] )) || return
 
 local __this_file="$0"
 
@@ -37,7 +37,7 @@ function __init_zoxide () {
     export _ZO_FZF_OPTS=${(j: :)_zo_fzf_opts}
 
     local __zoxide_prefix="cd"
-    local __zoxide_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zoxide/${__zoxide_prefix:-"z"}.init.zsh"
+    local __zoxide_cache="$ZSH_HOME_DIRS[GENSOURCE]/zoxide.init.zsh"
 
     # Regenerate init cache if:
     #  - Missing

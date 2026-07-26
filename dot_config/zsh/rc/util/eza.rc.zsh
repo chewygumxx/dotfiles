@@ -7,8 +7,8 @@
 #
 #
 
-[[ -o interactive ]] || return
-[[ -n "$commands[eza]" ]] || return
+[[ -o interactive  ]] || return
+(( $+commands[eza] )) || return
 
 setopt aliases
 

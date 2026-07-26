@@ -2,14 +2,14 @@
 
 #
 #
-# ~/.config/zsh/rc/plugin/fast-syntax-highlighting.rc.zsh
+# ~/.config/zsh/rc/plugin/zsh-completions.rc.zsh
 #
 #
 
-plugin="fast-syntax-highlighting"
+plugin="zsh-completions"
 
 if [[ ! -d "$ZSH_HOME_DIRS[PLUGIN]/$plugin" ]]; then
-    git clone "https://github.com/zdharma-continuum/$plugin.git" \
+    git clone "https://github.com/zsh-users/$plugin.git" \
         "$ZSH_HOME_DIRS[PLUGIN]/$plugin"
 fi
 

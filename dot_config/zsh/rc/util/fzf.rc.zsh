@@ -13,8 +13,8 @@
 # https://github.com/junegunn/fzf#environment-variables
 #
 
-[[ -o interactive ]] || return
-[[ -n "$commands[fzf]" ]] || return
+[[ -o interactive  ]] || return
+(( $+commands[fzf] )) || return
 __this_file="$0"
 
 __fzf_interactive_opts=(
@@ -103,7 +103,7 @@ unset __fzf_{interactive_opts,command_fd}
 
 function __fzf_init () {
     # https://github.com/junegunn/fzf#setting-up-shell-integration
-    local __fzf_cache="${XDG_CACHE_HOME:-$HOME/.cache}/fzf/init.zsh"
+    local __fzf_cache="$ZSH_HOME_DIRS[GENSOURCE]/fzf.init.zsh"
 
     # Regenerate init cache if either:
     #  - Missing

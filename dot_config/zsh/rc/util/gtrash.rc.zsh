@@ -1,5 +1,5 @@
 #!/bin/false
-# vim: filetype=sh:expandtab:shiftwidth=4:textwidth=80
+# vim: expandtab:shiftwidth=4:textwidth=80
 
 #
 #
@@ -16,8 +16,8 @@
 # https://github.com/umlx5h/gtrash/blob/main/doc/configuration.md
 #
 
-[[ -o interactive         ]] || return
-[[ -n "$commands[gtrash]" ]] || return
+[[ -o interactive     ]] || return
+(( $+commands[gtrash] )) || return
 
 autoload -Uz gtrash rm-notice
 

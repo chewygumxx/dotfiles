@@ -19,28 +19,30 @@
 # Shell Interactivity Check
 [[ -o interactive ]] || return
 
-ZSH_PLUGIN_DIR="/usr/share/zsh/plugins"
 __rc_source_list=(
+    "directory"  # Declares other zsh directories
     "alias"
     "completion"
     "function"
     "history"
-    "directory"
     "prompt"
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
     #"vi-mode"
+{{- end }}
     
     "util/bat"
     "util/chezmoi"
     "util/eza"
     "util/fzf"
+{{- if eq .chezmoi.hostname "chewytop" }}
     "util/gtrash"
     "util/luarocks"
-    "util/tldr"
+{{- end }}
     "util/zoxide"
 
     "plugin/fast-syntax-highlighting"
-    #"plugin/zsh-autocomplete"
-    #"plugin/zsh-autosuggestions"
+    "plugin/zsh-autosuggestions"
+    "plugin/zsh-completions"
     "plugin/zsh-vi-mode"
 )
 for rc_source in $__rc_source_list; do

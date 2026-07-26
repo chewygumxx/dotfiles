@@ -1,0 +1,39 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.config/zsh/rc/directory.rc.zsh
+# 
+# 
+
+typeset -A ZSH_HOME_DIRS=(
+    [CACHE]="$XDG_CACHE_HOME/zsh"
+    [STATE]="$XDG_STATE_HOME/zsh"
+    [DATA]="$XDG_DATA_HOME/zsh"
+
+    [PLUGIN]="$XDG_DATA_HOME/zsh/plugin"
+    [SITE_FUNC]="$XDG_DATA_HOME/zsh/site-functions"
+    [COMPCACHE]="$XDG_CACHE_HOME/zsh/compcache"
+    [GENSOURCE]="$XDG_CACHE_HOME/zsh/gen_source"
+)
+
+mkdir -p "${(v)ZSH_HOME_DIRS[@]}"
+
+hash -d zsh="$ZDOTDIR"
+hash -d nvim="$XDG_CONFIG_HOME/nvim/lua"
+hash -d yazi="$XDG_CONFIG_HOME/yazi"
+
+hash -d cz="$XDG_DATA_HOME/chezmoi"
+hash -d zsh="$XDG_DATA_HOME/chezmoi/dot_config"
+hash -d nvim="$XDG_DATA_HOME/chezmoi/dot_config/nvim/lua"
+hash -d yazi="$XDG_DATA_HOME/chezmoi/dot_config/yazi"
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+hash -d ff="$HOME/net/firefox"
+{{- end }}
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/usr" }}
+hash -d pref="$PREFIX"
+hash -d cgxx="/storage/emulated/0/_chewygumxx"
+{{- end }}

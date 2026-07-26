@@ -9,8 +9,7 @@
 
 [[ -o interactive ]] || return
 
-HISTFILE="${XDG_STATE_HOME:-"$HOME/.local/state"}/zsh/history"
-mkdir -p "${HISTFILE:h}"
+HISTFILE="$ZSH_HOME_DIRS[PLUGIN]/history"
 
 # SAVEHIST > HISTSIZE
 HISTSIZE=20000000
@@ -26,7 +25,7 @@ setopt inc_append_history_time
 setopt extended_history         
                                 
 # Upon SHELL exit: Append to history file, rather than rewrite
-setopt append_history
+#setopt append_history
 
 # Share a live, common history among all active shells
-setopt share_history
+#setopt share_history

@@ -6,6 +6,12 @@
 #
 #
 
-: ${ZSH_PLUGIN_DIR:="/usr/share/zsh/plugins"}
+plugin="zsh-autocomplete"
 
-source $ZSH_PLUGIN_DIR/zsh-autocomplete/zsh-autocomplete.plugin.zsh 2>/dev/null
+if [[ ! -d "$ZSH_HOME_DIRS[PLUGIN]/$plugin" ]]; then
+    git clone "https://github.com/marlonrichert/$plugin.git" \
+        "$ZSH_HOME_DIRS[PLUGIN]/$plugin"
+fi
+
+source "$ZSH_HOME_DIRS[PLUGIN]/$plugin/$plugin.plugin.zsh" 2>/dev/null
+unset plugin
