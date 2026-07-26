@@ -1,0 +1,30 @@
+#!/usr/bin/env zsh
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.local/bin/cloudflare-ddns-update
+# 
+# 
+
+set -euo pipefail
+
+token="${CREDENTIALS_DIRECTORY}/token"
+
+current_ip="$(curl -fsS https://cloudflare.com/cdn-cgi/trace | awk -F= '/^ip=/{print $2}')"
+
+dns_ip="$(curl -fsS -X GET "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${RECORD_ID}" \
+  -H "Authorization: Bearer ${token}" \
+  -H "Content-Type: application/json" \
+  | jq -r '.result.content')"
+
+if [[ "$current_ip" == "$dns_ip" ]]; then
+    print "DNS Record A"
+    exit 0
+fi
+
+
+curl -fsS -X PATCH "https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records/${RECORD_ID}" \
+  -H "Authorization: Bearer ${token}" \
+  -H "Content-Type: application/json" \
+  --data "{\"type\":\"A\",\"name\":\"${RECORD_NAME}\",\"content\":\"${current_ip}\",\"ttl\":1,\"proxied\":false}"
