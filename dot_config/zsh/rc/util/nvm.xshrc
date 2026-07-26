@@ -1,0 +1,18 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4
+
+#
+#
+# ~/.config/zsh/command/chezmoi.zshrc
+#
+#
+
+#
+# Node Version Manager
+#
+
+[[ -o interactive          ]] || return
+[[ ! -s "$NVM_DIR/nvm.sh"  ]] || return
+
+# --no-use    Load nvm only when called
+source "$NVM_DIR/nvm.sh"  --no-use     
