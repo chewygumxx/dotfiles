@@ -11,7 +11,7 @@ __env_source_list=(
     "util/fzf"
 )
 for source in $__env_source_list; do
-    source "$ZDOTDIR/env/${source}.zshenv"
+    source "$ZDOTDIR/env/${source}.env.zsh"
 done
 unset source ___env_source_list
 
