@@ -7,22 +7,23 @@
 # 
 # 
 
-#
-# Edit via chezmoi if applicable or change into directory
-#
+if (( ! $+commands[nvim] )); then
+    print -u2 "${0}: Command not found: nvim"
+    return 127
+fi
+
+zmodload -F zsh/stat b:zstat 2>/dev/null
 
 local target="$1"
 
-if   [[ ! -e "$target" ]] || # File does not exist
-     [[ ${#} -ne 1 ]];
-then
+if (( $# != 1 )) || [[ ! -e "$target" ]]; then
     command nvim "$@"
 elif [[ -d "$target" ]]; then
     cd "$target"
+elif [[ "$(zstat +uid "$target")" == 0 ]]; then
+    SUDO_EDITOR=nvim sudoedit "$target"
 elif [[ -n "$(chezmoi managed "$target" 2>/dev/null)" ]]; then
     chezmoi edit --watch "$target"
-elif [[ "$(stat --format="%G" "$target")" == "root" ]]; then
-    SUDO_EDITOR=nvim sudoedit "$target"
 else
     command nvim "$@"
 fi

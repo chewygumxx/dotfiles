@@ -20,4 +20,5 @@ local rm_notice_text=(
 )
 printf "%s" "${rm_notice_text[@]}"
 
+# Gentle Punishment
 #print -z "del $@"
