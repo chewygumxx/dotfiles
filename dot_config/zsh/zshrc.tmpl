@@ -47,7 +47,7 @@ __rc_source_list=(
 {{- if eq .chezmoi.hostname "chewytop" }}
     "plugin/zsh-vi-mode"
 {{- else if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
-    #"plugin/zsh-vi-mode"
+    "plugin/zsh-vi-mode"
 {{- end }}
 )
 for rc_source in $__rc_source_list; do
