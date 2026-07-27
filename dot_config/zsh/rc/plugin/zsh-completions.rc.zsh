@@ -12,12 +12,12 @@
 
 plugin="zsh-completions"
 
-if [[ ! -d "$ZSH_HOME_DIRS[PLUGIN]/$plugin" ]]; then
+if [[ ! -d "$zsh_dirs[plugin]/$plugin" ]]; then
     git clone "https://github.com/zsh-users/$plugin.git" \
-        "$ZSH_HOME_DIRS[PLUGIN]/$plugin"
+        "$zsh_dirs[plugin]/$plugin"
 fi
 
-fpath+=("$ZSH_HOME_DIRS[PLUGIN]/$plugin/src")
+fpath+=("$zsh_dirs[plugin]/$plugin")
 
-source "$ZSH_HOME_DIRS[PLUGIN]/$plugin/$plugin.plugin.zsh" 2>/dev/null
+source "$zsh_dirs[plugin]/$plugin/$plugin.plugin.zsh" 2>/dev/null
 unset plugin

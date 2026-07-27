@@ -9,7 +9,7 @@
 
 [[ -o interactive ]] || return
 
-HISTFILE="$ZSH_HOME_DIRS[PLUGIN]/history"
+HISTFILE="$zsh_dirs[state]/history"
 
 # SAVEHIST > HISTSIZE
 HISTSIZE=20000000

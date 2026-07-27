@@ -7,10 +7,6 @@
 #
 #
 
-local user_zshfunc_dir="$ZDOTDIR/func"
+fpath+=("$ZDOTDIR/func")
 
-fpath+=("$user_zshfunc_dir")
-
-autoload -Uz $user_zshfunc_dir/*(N:t)
-
-unset user_zshfunc_dir
+autoload -Uz "$ZDOTDIR/func"/*(N:t)

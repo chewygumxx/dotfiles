@@ -8,10 +8,10 @@
 
 plugin="zsh-autocomplete"
 
-if [[ ! -d "$ZSH_HOME_DIRS[PLUGIN]/$plugin" ]]; then
+if [[ ! -d "$zsh_dirs[plugin]/$plugin" ]]; then
     git clone "https://github.com/marlonrichert/$plugin.git" \
-        "$ZSH_HOME_DIRS[PLUGIN]/$plugin"
+        "$zsh_dirs[plugin]/$plugin"
 fi
 
-source "$ZSH_HOME_DIRS[PLUGIN]/$plugin/$plugin.plugin.zsh" 2>/dev/null
+source "$zsh_dirs[plugin]/$plugin/$plugin.plugin.zsh" 2>/dev/null
 unset plugin

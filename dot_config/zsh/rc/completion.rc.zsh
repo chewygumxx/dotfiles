@@ -10,17 +10,15 @@
 [[ -o interactive ]] || return
 
 fpath+=(
-    "$ZDOTDIR/completions"
-    "$ZSH_HOME_DIRS[SITE_FUNC]"
-    "$ZSH_HOME_DIRS[PLUGIN]/zsh-completions/src"
+    "$ZDOTDIR/comp"
+    "$zsh_dirs[site_func]"
 )
 
 autoload -Uz compinit
 setopt list_types
 
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$ZSH_HOME_DIRS[COMPCACHE]"
-unset COMPCACHE
+zstyle ':completion:*' cache-path "$zsh_dirs[compcache]"
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''
@@ -92,8 +90,8 @@ setopt extended_glob
 # Glob explanation:
 #   N      Return an empty list if nothing found, instead of an error
 #   mh-24  Return files less than 24 hours old.
-if [[ -n "$ZSH_HOME_DIRS[CACHE]"(Nmh-24) ]]; then
-    compinit -C -d  "${ZSH_HOME_DIRS[CACHE]}"
+if [[ -n "$zsh_dirs[cache]"(Nmh-24) ]]; then
+    compinit -C -d  "${zsh_dirs[cache]}/zcompdump"
 else
-    compinit -d     "${ZSH_HOME_DIRS[CACHE]}"
+    compinit -d     "${zsh_dirs[cache]}/zcompdump"
 fi

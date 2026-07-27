@@ -37,7 +37,7 @@ function __init_zoxide () {
     export _ZO_FZF_OPTS=${(j: :)_zo_fzf_opts}
 
     local __zoxide_prefix="cd"
-    local __zoxide_cache="$ZSH_HOME_DIRS[GENSOURCE]/zoxide.init.zsh"
+    local __zoxide_cache="$zsh_dirs[gensource]/zoxide.init.zsh"
 
     # Regenerate init cache if:
     #  - Missing

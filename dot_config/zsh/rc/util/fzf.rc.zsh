@@ -103,7 +103,7 @@ unset __fzf_{interactive_opts,command_fd}
 
 function __fzf_init () {
     # https://github.com/junegunn/fzf#setting-up-shell-integration
-    local __fzf_cache="$ZSH_HOME_DIRS[GENSOURCE]/fzf.init.zsh"
+    local __fzf_cache="$zsh_dirs[gensource]/fzf.init.zsh"
 
     # Regenerate init cache if either:
     #  - Missing

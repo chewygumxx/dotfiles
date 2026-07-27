@@ -19,9 +19,9 @@
 
 plugin="zsh-vi-mode"
 
-if [[ ! -d "$ZSH_HOME_DIRS[PLUGIN]/$plugin" ]]; then
+if [[ ! -d "$zsh_dirs[plugin]/$plugin" ]]; then
     git clone "https://github.com/jeffreytse/$plugin.git" \
-        "$ZSH_HOME_DIRS[PLUGIN]/$plugin"
+        "$zsh_dirs[plugin]/$plugin"
 fi
 
 function zvm_config() {
@@ -49,6 +49,6 @@ function zvm_config() {
     ZVM_OPEN_URL_CMD="firefox --new-tab"
 }
 
-source "$ZSH_HOME_DIRS[PLUGIN]/$plugin/$plugin.plugin.zsh" 2>/dev/null
+source "$zsh_dirs[plugin]/$plugin/$plugin.plugin.zsh" 2>/dev/null
 unset plugin
 
