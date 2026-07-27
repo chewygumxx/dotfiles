@@ -10,23 +10,16 @@
 [[ -o interactive ]] || return
 
 fpath+=(
-    "$XDG_DATA_HOME/zsh/site-functions"
-    "$XDG_CONFIG_HOME/zsh/completions"
+    "$ZDOTDIR/completions"
+    "$ZSH_HOME_DIRS[SITE_FUNC]"
+    "$ZSH_HOME_DIRS[PLUGIN]/zsh-completions/src"
 )
 
 autoload -Uz compinit
 setopt list_types
 
-COMPCACHE="$XDG_CACHE_HOME/zsh/compcache"
-
-# TODO(@chewygumxx): (Priority: Low) cgxx_todo_zsh_first_install
-# Compose a first-time zsh installaiton script to render these redundant.
-# (Directory creation is already a core functionality of chezmoi.)
-# (Will likely also require bespoke debugging tooling :/)
-mkdir -p "$COMPCACHE"
-
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$COMPCACHE"
+zstyle ':completion:*' cache-path "$ZSH_HOME_DIRS[COMPCACHE]"
 unset COMPCACHE
 
 zstyle ':completion:*' menu select
@@ -95,19 +88,12 @@ bindkey -M menuselect '^l' vi-forward-char
 
 _comp_options+=(globdots)
 
-
-COMPDUMP="$XDG_CACHE_HOME/zsh/zcompdump"
-
-# TODO(@chewygumxx): (Priority: Low) cgxx_todo_zsh_first_install
-mkdir -p "${COMPDUMP:h}"
-
 setopt extended_glob
 # Glob explanation:
 #   N      Return an empty list if nothing found, instead of an error
 #   mh-24  Return files less than 24 hours old.
-if [[ -n $COMPDUMP(Nmh-24) ]]; then
-    compinit -C -d  $COMPDUMP
+if [[ -n "$ZSH_HOME_DIRS[CACHE]"(Nmh-24) ]]; then
+    compinit -C -d  "${ZSH_HOME_DIRS[CACHE]}"
 else
-    compinit -d     $COMPDUMP
+    compinit -d     "${ZSH_HOME_DIRS[CACHE]}"
 fi
-unset COMPDUMP
