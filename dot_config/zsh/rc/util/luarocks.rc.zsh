@@ -17,12 +17,9 @@
 
 local __this_file="$0"
 
-
 function __init_luarocks() {
     local __lua_version="5.1"
     local __luarocks_cache="$zsh_dirs[gensource]/luarocks.init.zsh"
-
-    print "$__luarocks_cache"
 
     # regenerate init cache if either:
     #  - missing
@@ -33,8 +30,6 @@ function __init_luarocks() {
         [[ "$__luarocks_cache" -ot "$__this_file" ]]
     then
         echo "Regenerating luarocks source cache"
-
-        mkdir -p "${__luarocks_cache:h}"
         luarocks --lua-version "$__lua_version" path --bin >| "$__luarocks_cache"
     fi
 
