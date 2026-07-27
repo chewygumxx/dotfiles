@@ -19,6 +19,8 @@
 # Shell Interactivity Check
 [[ -o interactive ]] || return
 
+setopt re_match_pcre
+
 __rc_source_list=(
     "directory"               # Declares further standard zsh directories
     "plugin/zsh-completions"  # Called before completion
