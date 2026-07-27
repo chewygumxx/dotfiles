@@ -27,15 +27,15 @@
 
 !/func/
 /func/*
-!~/func/ansi16
-!~/func/gc
-!~/func/gcp
-!~/func/journal
-!~/func/nvim
-!~/func/read-pipe
-!~/func/rm-disable
-!~/func/tldr
-!~/func/y
+!/func/ansi16
+!/func/gc
+!/func/gcp
+!/func/journal
+!/func/nvim
+!/func/read-pipe
+!/func/rm-disable
+!/func/tldr
+!/func/y
 
 
 !/rc/
@@ -80,12 +80,12 @@
 
 {{- if eq .chezmoi.hostname "chewytop" }}
 
-!~/func/adb-wifi
-!~/func/clipdump
-!~/func/gtrash
-!~/func/man
-!~/func/nb
-!~/func/unicode-search-fonts
+!/func/adb-wifi
+!/func/clipdump
+!/func/gtrash
+!/func/man
+!/func/nb
+!/func/unicode-search-fonts
 
 !/rc/util/gtrash.rc.zsh
 
@@ -98,8 +98,8 @@
 
 {{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
 
-!~/func/pkglist
-!~/func/sv
+!/func/pkglist
+!/func/sv
 
 
 !/rc/vi-mode.rc.zsh

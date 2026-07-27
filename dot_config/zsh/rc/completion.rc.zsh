@@ -10,16 +10,24 @@
 [[ -o interactive ]] || return
 
 fpath+=(
-    "$ZDOTDIR/completions"
-    "$ZSH_HOME_DIRS[DATA]/site-functions"
-    "$ZSH_HOME_DIRS[PLUGIN]/zsh-completions/src"
+    "$XDG_DATA_HOME/zsh/site-functions"
+    "$XDG_CONFIG_HOME/zsh/completions"
 )
 
 autoload -Uz compinit
 setopt list_types
 
+COMPCACHE="$XDG_CACHE_HOME/zsh/compcache"
+
+# TODO(@chewygumxx): (Priority: Low) cgxx_todo_zsh_first_install
+# Compose a first-time zsh installaiton script to render these redundant.
+# (Directory creation is already a core functionality of chezmoi.)
+# (Will likely also require bespoke debugging tooling :/)
+mkdir -p "$COMPCACHE"
+
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$ZSH_HOME_DIRS[COMPCACHE]"
+zstyle ':completion:*' cache-path "$COMPCACHE"
+unset COMPCACHE
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''
@@ -85,10 +93,13 @@ bindkey -M menuselect '^k' vi-up-line-or-history
 bindkey -M menuselect '^j' vi-down-line-or-history
 bindkey -M menuselect '^l' vi-forward-char
 
-
-
 _comp_options+=(globdots)
-COMPDUMP="$ZSH_HOME_DIRS[CACHE]/zcompdump"
+
+
+COMPDUMP="$XDG_CACHE_HOME/zsh/zcompdump"
+
+# TODO(@chewygumxx): (Priority: Low) cgxx_todo_zsh_first_install
+mkdir -p "${COMPDUMP:h}"
 
 setopt extended_glob
 # Glob explanation:

@@ -19,8 +19,6 @@
 # Shell Interactivity Check
 [[ -o interactive ]] || return
 
-fpath+=("$XDG_DATA_HOME/zsh/plugin/zsh-completions/src")
-
 __rc_source_list=(
     "directory"  # Declares other zsh directories
     "alias"
@@ -28,9 +26,7 @@ __rc_source_list=(
     "function"
     "history"
     "prompt"
-{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
     #"vi-mode"
-{{- end }}
     
     "util/bat"
     "util/chezmoi"
