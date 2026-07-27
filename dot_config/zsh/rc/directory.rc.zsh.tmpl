@@ -7,18 +7,19 @@
 # 
 # 
 
-typeset -A ZSH_HOME_DIRS=(
-    [CACHE]="$XDG_CACHE_HOME/zsh"
-    [STATE]="$XDG_STATE_HOME/zsh"
-    [DATA]="$XDG_DATA_HOME/zsh"
+typeset -A zsh_dirs=(
+    [data]="$XDG_DATA_HOME/zsh"
+    [plugin]="$XDG_DATA_HOME/zsh/plugin"
+    [site_func]="$XDG_DATA_HOME/zsh/site-functions"
 
-    [PLUGIN]="$XDG_DATA_HOME/zsh/plugin"
-    [SITE_FUNC]="$XDG_DATA_HOME/zsh/site-functions"
-    [COMPCACHE]="$XDG_CACHE_HOME/zsh/compcache"
-    [GENSOURCE]="$XDG_CACHE_HOME/zsh/gen_source"
+    [state]="$XDG_STATE_HOME/zsh"
+
+    [cache]="$XDG_CACHE_HOME/zsh"
+    [compcache]="$XDG_CACHE_HOME/zsh/compcache"
+    [gensource]="$XDG_CACHE_HOME/zsh/gen_source"
 )
 
-mkdir -p "${(v)ZSH_HOME_DIRS[@]}"
+mkdir -p "${(v)zsh_dirs[@]}"
 
 hash -d zsh="$ZDOTDIR"
 hash -d nvim="$XDG_CONFIG_HOME/nvim/lua"

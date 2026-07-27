@@ -20,7 +20,9 @@
 [[ -o interactive ]] || return
 
 __rc_source_list=(
-    "directory"  # Declares other zsh directories
+    "directory"               # Declares further standard zsh directories
+    "plugin/zsh-completions"  # Called before completion
+
     "alias"
     "completion"
     "function"
@@ -33,6 +35,7 @@ __rc_source_list=(
     "util/eza"
     "util/fzf"
 {{- if eq .chezmoi.hostname "chewytop" }}
+    "util/nvm"
     "util/gtrash"
     "util/luarocks"
 {{- end }}
@@ -41,7 +44,6 @@ __rc_source_list=(
     "plugin/fast-syntax-highlighting"
     #"plugin/zsh-autosuggestions"
     #"plugin/zsh-autocomplete"
-    "plugin/zsh-completions"
 {{- if eq .chezmoi.hostname "chewytop" }}
     "plugin/zsh-vi-mode"
 {{- else if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
