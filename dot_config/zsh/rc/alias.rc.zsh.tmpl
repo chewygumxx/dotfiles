@@ -62,6 +62,17 @@ alias   kak="$EDITOR"
 alias  nano="$EDITOR"
 alias emacs="$EDITOR"
 
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+# Package Manager
+alias pki="pkg install"
+alias pks="pkg search"
+
+# Clipboard
+alias cb-copy="termux-clipboard-set"
+alias cb-paste="termux-clipboard-get"
+alias del=trash-put
+{{- end }}
+
 # Linters
 alias lint-json="json-glib-validate"
 alias lint-toml="tombi lint"
