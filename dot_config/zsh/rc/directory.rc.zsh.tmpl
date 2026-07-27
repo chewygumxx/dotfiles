@@ -34,7 +34,7 @@ hash -d cz_yazi="$XDG_DATA_HOME/chezmoi/dot_config/yazi"
 hash -d ff="$HOME/net/firefox"
 {{- end }}
 
-{{- if eq .chezmoi.destDir "/data/data/com.termux/files/usr" }}
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
 hash -d pref="$PREFIX"
 hash -d cgxx="/storage/emulated/0/_chewygumxx"
 {{- end }}
