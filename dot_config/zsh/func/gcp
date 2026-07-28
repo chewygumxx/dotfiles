@@ -8,7 +8,7 @@
 #
 
 # Locally scope internally declared functions
-zmodload -e zsh/parameter || zmodload zsh/parameter
+#zmodload -e zsh/parameter || zmodload zsh/parameter
 local +h functions 
 
 local this_file="$0"

@@ -1,0 +1,13 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.local/share/chezmoi/dot_config/zsh/zshenv
+# 
+# 
+
+# Intentionally not unset
+source "$XDG_CONFIG_HOME/zsh/env/"{,util/}*.env.zsh
+
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"

@@ -8,11 +8,7 @@
 # 
 
 typeset -A zsh_dirs=(
-    [user]="$XDG_CONFIG_HOME/zsh"
-    [user_comp]="$XDG_CONFIG_HOME/zsh/comp"
-    [user_func]="$XDG_CONFIG_HOME/zsh/func"
-    [user_env]="$XDG_CONFIG_HOME/zsh/env"
-    [user_rc]="$XDG_CONFIG_HOME/zsh/rc"
+    [conf]="$XDG_CONFIG_HOME/zsh"
 
     [cache]="$XDG_CACHE_HOME/zsh"
     [cache_comp]="$XDG_CACHE_HOME/zsh/completions"
@@ -28,15 +24,13 @@ typeset -A zsh_dirs=(
     [state]="$XDG_STATE_HOME/zsh"
 )
 
-zsh_mkdir="$XDG_CACHE_HOME/.zsh_mkdir"
+init_dirs="$XDG_CACHE_HOME/.zsh_dirs_initialised"
 # Re-mkdir zsh directories if either:
 #  - Missing
 #  - Older than this file
-if  [[ ! -f "$zsh_mkdir" || "$zsh_mkdir" -ot "${0}" ]]
-then
+if  ! [[ "$init_dirs" -nt "${0}" ]]; then
     print "Creating zsh directories"
     mkdir -p "${(v)zsh_dirs[@]}"
-    touch "$zsh_mkdir"
+    touch "$init_dirs"
 fi
-unset zsh_mkdir
-
+unset init_dirs

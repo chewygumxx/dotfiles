@@ -1,0 +1,62 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4:ft=zsh
+
+# 
+# 
+# ~/.config/zsh/func/alias-def
+# 
+# 
+
+local +h functions
+local this_file="${0}"
+
+function print_help () {
+    print -f "%s\n" \
+        "Safety wrapper for alias, will throw an error if unresolvable" \
+        "Usage: $this_file [opts] name=alias [name=alias] ..."
+
+    print -f "\n%s\n" "Options:"
+    print -f "    %12s %s\n" \
+        "-g|--global " "Define as a global alias" \
+        "-h|--help "   "Print this help"
+}
+
+
+while true; do
+    case $1 in
+        -g|--global) local global=1; shift 1  ;;
+        -h|--help)   print_help;     return 0 ;;
+        *) break ;;
+    esac
+done
+
+if [[ ${#} -eq 0 ]]; then
+    print -u2 "${0}: Nothing provided"
+    return 1
+fi
+
+function trim_space () { return "${${1##[[:space:]]##}%%[[:space:]]%%}" }
+
+while [[ -n "$1" ]]; do
+    local name="$(trim_space "${1%%=*}")"
+    local value="$(trim_space "${1#*=}")"
+
+    if [[ -z "$name" ]]; then
+        print -u2 "${0}: Invalid alias: $1"
+        return 1
+    fi
+
+    local call="${${(s: :)value}[1]}" 
+    if ! (( global \
+        || $+aliases[$call] \
+        || $+builtins[$call] \
+        || $+commands[$call] \
+        || $+functions[$call] ))
+    then
+        print -u2 "${0}: Invalid alias of '$name': '$call' not found"
+        return 127
+    fi
+
+    builtin alias ${global:+'-g'} $name="$value"
+    shift
+done

@@ -7,14 +7,8 @@
 #
 #
 
-func_dirs=(
-    "$zsh_dirs[user_func]"
-    "$zsh_dirs[share_func]"
+fpath+=(
+    "$zsh_dirs[conf]/func"
 )
 
-for dir in $func_dirs; do
-    fpath+="$dir"
-    autoload -Uz "$dir"/*(N:t)
-done
-
-unset func_dirs dir
+autoload -Uz "$zsh_dirs[conf]/func"/*(N:t)

@@ -19,34 +19,20 @@
 # Shell Interactivity Check
 [[ -o interactive ]] || return
 
-setopt re_match_pcre
-
-__rc_source_list=(
-    "directory"   # Declares further standard zsh directories
-
-    "completion"
-    "function"
-
-    "alias"
-    "history"
-    "plugin"
-    "prompt"
-    
-    "util/bat"
-    "util/chezmoi"
-    "util/eza"
-    "util/fzf"
-    "util/nvm"
-    "util/gtrash"
-    "util/luarocks"
-    "util/zoxide"
+zshrcs=( "$zsh_dirs[conf]/rc/"{,util/}*.rc.zsh )
+zshrcs=(
+    ${(M)zshrcs:#*completion*}
+    ${(M)zshrcs:#*function*}
+    ${zshrcs:#*(completion|function)*}
 )
-for rc_source in $__rc_source_list; do
-    source "$ZDOTDIR/rc/${rc_source}.rc.zsh"
+
+for source in $zshrcs; do
+    source "$source"
 done
-unset rc_source __rc_source_list ZSH_PLUGIN_DIR
 
 zle_highlight=('paste:none')
+
+setopt re_match_pcre
 
 # Allow `# comment`. Good for copying and pasting commands from web
 setopt interactive_comments 

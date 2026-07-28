@@ -11,16 +11,12 @@ hash -d zsh="$ZDOTDIR"
 hash -d nvim="$XDG_CONFIG_HOME/nvim/lua"
 hash -d yazi="$XDG_CONFIG_HOME/yazi"
 
-hash -d cz="$XDG_DATA_HOME/chezmoi"
-hash -d cz_zsh="$XDG_DATA_HOME/chezmoi/dot_config/zsh"
-hash -d cz_nvim="$XDG_DATA_HOME/chezmoi/dot_config/nvim/lua"
-hash -d cz_yazi="$XDG_DATA_HOME/chezmoi/dot_config/yazi"
+if (( $+commands[systemdctl] )); then
+    hash -d ff="$HOME/net/firefox"
+fi
 
-{{- if eq .chezmoi.hostname "chewytop" }}
-hash -d ff="$HOME/net/firefox"
-{{- end }}
+if [[ -v TERMUX_VERSION ]]; then
+    hash -d pref="$PREFIX"
+    hash -d cgxx="/storage/emulated/0/_chewygumxx"
+fi
 
-{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
-hash -d pref="$PREFIX"
-hash -d cgxx="/storage/emulated/0/_chewygumxx"
-{{- end }}
