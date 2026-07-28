@@ -8,15 +8,12 @@
 # 
 
 for xdg in XDG_RUNTIME_DIR XDG_{DATA,CACHE,CONFIG,STATE}_HOME; do
-    if   [[ ! -v $xdg ]]; then
-        print -u2 "$xdg has not been set"
-        xdg_fail=1
-    elif [[ ! -d "${(P)xdg}" ]]; then
-        print -u2 "$xdg directory does not exist: ${(P)xdg}"
+    if   [[ ! -v $xdg || ! -d "${(P)xdg}" ]]; then
+        print -u2 "$xdg either not set, or directory does not exist: ${(P)xdg}"
         xdg_fail=1
     fi
 done
-if (( xdg_fail )); then return 1 fi
+(( xdg_fail )) && return 1
 
 typeset -A zsh_dirs=(
     [user]="$XDG_CONFIG_HOME/zsh"
