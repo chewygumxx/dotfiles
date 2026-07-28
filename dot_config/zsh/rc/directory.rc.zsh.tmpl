@@ -8,15 +8,26 @@
 # 
 
 typeset -A zsh_dirs=(
-    [data]="$XDG_DATA_HOME/zsh"
-    [plugin]="$XDG_DATA_HOME/zsh/plugin"
-    [site_func]="$XDG_DATA_HOME/zsh/site-functions"
-
-    [state]="$XDG_STATE_HOME/zsh"
+    [config]="$ZDOTDIR"
+    [user_comp]="$ZDOTDIR/comp"
+    [user_func]="$ZDOTDIR/func"
+    [user_env]="$ZDOTDIR/env"
+    [user_rc]="$ZDOTDIR/rc"
 
     [cache]="$XDG_CACHE_HOME/zsh"
+    [cache_comp]="$XDG_CACHE_HOME/zsh/comp"  # For zstyle, not compinit
     [compcache]="$XDG_CACHE_HOME/zsh/compcache"
+    [cache_init]="$XDG_CACHE_HOME/zsh/init"  # Generated source files of utils
     [gensource]="$XDG_CACHE_HOME/zsh/gen_source"
+
+    [data]="$XDG_DATA_HOME/zsh"
+    [share]="$XDG_DATA_HOME/zsh"
+    [share_func]="$XDG_DATA_HOME/zsh/functions"
+    [share_comp]="$XDG_DATA_HOME/zsh/completions"
+    [share_plug]="$XDG_DATA_HOME/zsh/plugins"
+    [plugin]="$XDG_DATA_HOME/zsh/plugins"
+
+    [state]="$XDG_STATE_HOME/zsh"
 )
 
 mkdir -p "${(v)zsh_dirs[@]}"

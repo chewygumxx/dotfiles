@@ -8,21 +8,11 @@
 
 #
 # TODO(@chewygumxx): (Priority: Medium) 
-# This plugin is both incredibly valued and pervasively problematic. It is
-# worthwhile to fork and gut it of inconvienience.
+# This plugin is both incredibly valued and pervasively problematic.
+# It defers setting of keybinds, overwriting anything I set in rc files
 #
-
-# 
-# This line of the plugin must be nullified for fzf CTRL-R:
-#   zvm_bindkey viins '^R' history-incremental-search-backward
+# It is worthwhile to fork and gut it of inconvienience.
 #
-
-plugin="zsh-vi-mode"
-
-if [[ ! -d "$zsh_dirs[plugin]/$plugin" ]]; then
-    git clone "https://github.com/jeffreytse/$plugin.git" \
-        "$zsh_dirs[plugin]/$plugin"
-fi
 
 function zvm_config() {
     # See https://github.com/jeffreytse/zsh-vi-mode#configuration-function
@@ -42,13 +32,9 @@ function zvm_config() {
     ZVM_CLIPBOARD_COPY_CMD="wl-copy --trim-newline"
     ZVM_CLIPBOARD_PASTE_CMD="wl-paste --no-newline"
 
-    ZVM_TMPDIR="${XDG_CACHE_HOME:-$HOME/.local/cache}/zsh-vi-mode/tempbuf"
+    ZVM_TMPDIR="$zsh_dirs[cache_zvm]"
     mkdir -p "$ZVM_TMPDIR"
 
     ZVM_OPEN_CMD="handlr open"
     ZVM_OPEN_URL_CMD="firefox --new-tab"
 }
-
-source "$zsh_dirs[plugin]/$plugin/$plugin.plugin.zsh" 2>/dev/null
-unset plugin
-

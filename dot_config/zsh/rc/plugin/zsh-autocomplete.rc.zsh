@@ -6,12 +6,12 @@
 #
 #
 
-plugin="zsh-autocomplete"
+slug="marlonrichert/sh-autocomplete"
+plugin="${slug##*/}"
 
 if [[ ! -d "$zsh_dirs[plugin]/$plugin" ]]; then
-    git clone "https://github.com/marlonrichert/$plugin.git" \
-        "$zsh_dirs[plugin]/$plugin"
+    git clone "https://github.com/$slug.git" "$zsh_dirs[plugin]/$plugin"
 fi
 
 source "$zsh_dirs[plugin]/$plugin/$plugin.plugin.zsh" 2>/dev/null
-unset plugin
+unset plugin slug

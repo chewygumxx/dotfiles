@@ -1,4 +1,5 @@
-# vim:
+#!/bin/false
+# vim: expandtab:shiftwidth=4
 
 #
 #
@@ -6,12 +7,14 @@
 #
 #
 
-plugin="fast-syntax-highlighting"
+slug="zdharma-continuum/fast-syntax-highlighting"
+
+plugin="${slug##*/}"
 
 if [[ ! -d "$zsh_dirs[plugin]/$plugin" ]]; then
-    git clone "https://github.com/zdharma-continuum/$plugin.git" \
-        "$zsh_dirs[plugin]/$plugin"
+    git clone "https://github.com/$slug.git" "$zsh_dirs[plugin]/$plugin"
 fi
 
-source "$zsh_dirs[plugin]/$plugin/$plugin.plugin.zsh" 2>/dev/null
-unset plugin
+source "$zsh_dirs[plugin]/$plugin/$plugin.plugin.zsh"
+
+unset plugin slug

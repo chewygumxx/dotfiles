@@ -10,15 +10,26 @@
 [[ -o interactive ]] || return
 
 fpath+=(
-    "$ZDOTDIR/comp"
-    "$zsh_dirs[site_func]"
+    "$zsh_dirs[share_comp]"
+    "$zsh_dirs[user_comp]"
 )
+
+function load_plugin_zsh_completions () {
+    local slug="zsh-users/zsh-completions"
+    local plugin="${slug##*/}"
+
+    if [[ ! -d "$zsh_dirs[plugin]/$plugin" ]]; then
+        git clone "https://github.com/$slug.git" "$zsh_dirs[plugin]/$plugin"
+    fi
+
+    fpath+="$zsh_dirs[plugin]/$plugin/src"
+}; load_plugin_zsh_completions; unset -f load_plugin_zsh_completions
 
 autoload -Uz compinit
 setopt list_types
 
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$zsh_dirs[compcache]"
+zstyle ':completion:*' cache-path "$zsh_dirs[cache_zstyle_comp]"
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''
