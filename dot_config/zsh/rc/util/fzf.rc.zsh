@@ -15,7 +15,6 @@
 
 [[ -o interactive  ]] || return
 (( $+commands[fzf] )) || return
-__this_file="$0"
 
 __fzf_interactive_opts=(
     "--reverse"
@@ -101,25 +100,26 @@ function __fzf_completion () {
 
 unset __fzf_{interactive_opts,command_fd}
 
-function __fzf_init () {
-    # https://github.com/junegunn/fzf#setting-up-shell-integration
-    local __fzf_cache="$zsh_dirs[gensource]/fzf.init.zsh"
 
-    # Regenerate init cache if either:
-    #  - Missing
-    #  - Older than fzf binary
-    #  - Older than this file
-    if  [[ ! -f "$__fzf_cache" ]] ||\
-        [[ "$__fzf_cache" -ot "$commands[fzf]" ]] ||\
-        [[ "$__fzf_cache" -ot "$__this_file" ]]
-    then
-        echo "Regenerating fzf source cache"
+#
+# Generate and initialise shell integration
+# https://github.com/junegunn/fzf#setting-up-shell-integration
+#
 
-        mkdir -p "${__fzf_cache%/*}"
-        fzf --zsh >| "$__fzf_cache"
-    fi
+init_cache="$zsh_dirs[cache_init]/fzf.init.zsh"
 
-    source "$__fzf_cache"
-}; __fzf_init; unset -f __fzf_init
+# Regenerate init cache if either:
+#  - Missing
+#  - Older than fzf binary
+#  - Older than this file
+if  [[ ! -f "$init_cache" ]] ||\
+    [[ "$init_cache" -ot "$commands[fzf]" ]] ||\
+    [[ "$init_cache" -ot "${0}" ]]
+then
+    echo "Regenerating fzf source cache"
+    fzf --zsh >| "$init_cache"
+fi
 
-unset __this_file
+source "$init_cache"
+
+unset init_cache

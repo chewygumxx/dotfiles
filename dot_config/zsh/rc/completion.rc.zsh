@@ -29,7 +29,7 @@ autoload -Uz compinit
 setopt list_types
 
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$zsh_dirs[cache_zstyle_comp]"
+zstyle ':completion:*' cache-path "$zsh_dirs[cache_zstylecomp]"
 
 zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''

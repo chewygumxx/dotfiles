@@ -22,37 +22,24 @@
 setopt re_match_pcre
 
 __rc_source_list=(
-    "directory"               # Declares further standard zsh directories
+    "directory"   # Declares further standard zsh directories
 
-    "plugin/zsh-completions"  # Called before completion
-
-    "completion"              # ~~ Completion
+    "completion"
+    "function"
 
     "alias"
-    "function"                # Adds func dir to fpath
     "history"
+    "plugin"
     "prompt"
-    #"vi-mode"
     
     "util/bat"
     "util/chezmoi"
     "util/eza"
     "util/fzf"
-{{- if eq .chezmoi.hostname "chewytop" }}
     "util/nvm"
     "util/gtrash"
     "util/luarocks"
-{{- end }}
     "util/zoxide"
-
-    "plugin/fast-syntax-highlighting"
-    #"plugin/zsh-autosuggestions"
-    #"plugin/zsh-autocomplete"
-{{- if eq .chezmoi.hostname "chewytop" }}
-    "plugin/zsh-vi-mode"
-{{- else if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
-    "plugin/zsh-vi-mode"
-{{- end }}
 )
 for rc_source in $__rc_source_list; do
     source "$ZDOTDIR/rc/${rc_source}.rc.zsh"

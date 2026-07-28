@@ -3,7 +3,7 @@
 
 #
 #
-# ~/.config/zsh/rc/util/chezmoi.rc.zsh
+# ~/.config/zsh/rc/util/nvm.rc.zsh
 #
 #
 

@@ -36,24 +36,21 @@ function __init_zoxide () {
     )
     export _ZO_FZF_OPTS=${(j: :)_zo_fzf_opts}
 
-    local __zoxide_prefix="cd"
-    local __zoxide_cache="$zsh_dirs[gensource]/zoxide.init.zsh"
+    local __init_cache="$zsh_dirs[cache_init]/zoxide.init.zsh"
 
     # Regenerate init cache if:
     #  - Missing
     #  - Older than binary
     #  - Older than this file
-    if  [[ ! -f "$__zoxide_cache" ]] ||\
-        [[ "$__zoxide_cache" -ot "$commands[zoxide]" ]] ||\
-        [[ "$__zoxide_cache" -ot "$__this_file" ]]
+    if  [[ ! -f "$__init_cache" ]] ||\
+        [[ "$__init_cache" -ot "$commands[zoxide]" ]] ||\
+        [[ "$__init_cache" -ot "$__this_file" ]]
     then
         echo "Regenerating zoxide source cache"
-
-        mkdir -p "${__zoxide_cache:h}"
-        zoxide init zsh --cmd "${__zoxide_prefix:-"z"}" --hook pwd >| "$__zoxide_cache"
+        zoxide init zsh --cmd cd --hook pwd >| "$__init_cache"
     fi
 
-    source "$__zoxide_cache"
+    source "$__init_cache"
 }; __init_zoxide; unset -f __init_zoxide
 
 unset __this_file
