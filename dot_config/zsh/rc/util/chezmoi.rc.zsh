@@ -24,39 +24,10 @@ alias czd="cz destory"
 # Directory 
 #
 
-#$hash -d cz="$XDG_DATA_HOME/chezmoi"
-#$hash -d cz_zsh="$XDG_DATA_HOME/chezmoi/dot_config/zsh"
-#$hash -d cz_nvim="$XDG_DATA_HOME/chezmoi/dot_config/nvim/lua"
-#$hash -d cz_yazi="$XDG_DATA_HOME/chezmoi/dot_config/yazi"
-
-function zsh_dir_fn_chezmoi () {
-    emulate -L zsh
-    setopt extended_glob
-
-    local -a match mbeing mend
-    case $1 in
-        d)
-            for dir in "$XDG_DATA_HOME/chezmoi/"{dot_{config,local}/,}; do
-                if [[ $2 = (#b)$dir/([^/]##)* ]]; then
-                    reply=("cz:$match[1]")
-                    return 0
-                fi
-            done
-        ;;
-        n)
-            if [[ $2 = (#b)cz:(?*) ]]; then
-                for dir in "$XDG_DATA_HOME/chezmoi/"{dot_{config,local}/,}$match[1]; do
-                    if [[ -d "$dir" ]]; then
-                        reply=( "$dir" )
-                        return 0
-                    fi
-                done
-            fi
-        ;;
-        c) ;;
-    esac
-    return 1
-}; zsh_directory_name_functions+=(zsh_dir_fn_chezmoi)
+hash -d cz="$XDG_DATA_HOME/chezmoi"
+hash -d cz_zsh="$XDG_DATA_HOME/chezmoi/dot_config/zsh"
+hash -d cz_nvim="$XDG_DATA_HOME/chezmoi/dot_config/nvim/lua"
+hash -d cz_yazi="$XDG_DATA_HOME/chezmoi/dot_config/yazi"
 
 # 
 # Completions
