@@ -21,6 +21,7 @@ alias du='du --block-size=1K'
 alias grep='grep --color=auto -i'
 
 # Git
+alias ga='git add'
 alias gs='git status' # Overwrites 'gs' of ghostscript. Never use it
 alias gist='gh gist'
 

@@ -7,16 +7,19 @@
 # 
 # 
 
+
 hash -d zsh="$ZDOTDIR"
 hash -d nvim="$XDG_CONFIG_HOME/nvim/lua"
 hash -d yazi="$XDG_CONFIG_HOME/yazi"
 
 if (( $+commands[systemdctl] )); then
+    hash -d nex="$HOME/doc/synaptic-nexus"
     hash -d ff="$HOME/net/firefox"
-fi
 
-if [[ -v TERMUX_VERSION ]]; then
+elif [[ -v TERMUX_VERSION ]]; then
+    hash -d nex="$HOME/doc/synaptic-nexus"
     hash -d pref="$PREFIX"
     hash -d cgxx="/storage/emulated/0/_chewygumxx"
+
 fi
 
