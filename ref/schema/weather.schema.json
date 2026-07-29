@@ -1,0 +1,91 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://chewygumxx.me/ref/schema/weather.schema.json",
+
+    "title": "Weather",
+    "description": "Select data sourced from a Weather API",
+
+    "type": "object",
+    "required": [ "location", "current" ],
+    "additionalProperties": false,
+    "properties": {
+        "location": { "type": "string" },
+        "summary_forecast": { "type": "string" },
+
+        "current": {
+            "type": "object",
+            "required": [ "time", "unixtime", "temp", "feelslike", "conditions", "icon" ],
+            "additionalProperties": false,
+            "properties": {
+                "unixtime":   { "type": "integer" },
+                "time":       { "type": "string"  },
+
+                "temp":       { "type": "integer" },
+                "feelslike":  { "type": "integer" },
+
+                "conditions": { "type": "string"  },
+                "icon":       { "type": "string"  },
+
+                "precip":     { "type": "number", "multipleOf": 0.1 },
+                "precipprob": { "type": "integer" },
+                "windgust":   { "type": "integer" },
+                "windspeed":  { "type": "integer" },
+                "uvindex":    { "type": "integer" }
+            }
+        },
+
+        "days": {
+            "description": "Weather forecast by day.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [ "date", "temp", "icon" ],
+                "additionalProperties": false,
+                "properties": {
+                    "date": { "type": "string", "format": "date" },
+                    
+                    "temp":         { "type": "integer" },
+                    "tempmax":      { "type": "integer" },
+                    "tempmin":      { "type": "integer" },
+                    "feelslike":    { "type": "integer" },
+                    "feelslikemax": { "type": "integer" },
+                    "feelslikemin": { "type": "integer" },
+
+                    "icon":         { "type": "string"  },
+                    "conditions":   { "type": "string"  },
+                    "description":  { "type": "string"  },
+
+                    "precip":       { "type": "number", "multipleOf": 0.1 },
+                    "precipprob":   { "type": "integer" },
+                    "windgust":     { "type": "integer" },
+                    "windspeed":    { "type": "integer" },
+                    "uvindex":      { "type": "integer" },
+
+                    "hours": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": [ "time", "temp", "icon" ],
+                            "additionalProperties": false,
+                            "properties": {
+                                "time-hour":  { "type": "integer", "minimum": 0, "maximum": 23 },
+                    
+                                "temp":       { "type": "integer" },
+                                "feelslike":  { "type": "integer" },
+
+                                "icon":       { "type": "string"  },
+                                "conditions": { "type": "string"  },
+
+                                "precip":     { "type": "number", "multipleOf": 0.1 },
+                                "precipprob": { "type": "integer" },
+                                "windgust":   { "type": "integer" },
+                                "windspeed":  { "type": "integer" },
+                                "uvindex":    { "type": "integer" }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+} 

@@ -1,0 +1,115 @@
+---
+- cmd:  "just"
+  tags: [ script ]
+  alts: [ make ]
+
+- cmd:  "hyperfine"
+  tags: [ benchmark ]
+
+- cmd:  "eza"
+  tags: [ filesystem ]
+  alts: [ ls, lsd ]
+
+- cmd:  "gtrash"
+  tags: [ filesystem ]
+
+- cmd:  "yazi"
+  tags: [ filesystem ]
+
+- cmd:  "vidir"
+  tags: [ filesystem ]
+  alts: [ massren, yazi ]
+
+- cmd:  "gtrash"
+  tags: [ filesystem ]
+
+- cmd:  "fd"
+  tags: [ filesystem ]
+  alts: [ find ]
+
+- cmd:  "aria2c"
+  tags: [ download, torrent, client ]
+  alts: [ transmission-cli, wget, curl ]
+
+- cmd:  "bluetui"
+  tags: [ tui, network, device, bluetooth ]
+  alts: [ bluetoothctl ]
+
+- cmd:  "makepkg"
+  tags: [ arch_linux, system, package ]
+
+- cmd:  "cclip"
+  tags: [ clipboard ]
+  alts: [ clipse ]
+
+- cmd:  "systemd-tui"
+  tags: [ tui, systemd, service ]
+
+- cmd:  "nvim"
+  tags: [ tui, text-editor ]
+  alts: [ vi, vim, micro, hx, nano, emacs ]
+
+- cmd:  "kdeconnect"
+  tags: [ ]
+
+- cmd:  "bc"
+  tags: [ math, calculator ]
+  alts: [ nu ]
+
+- cmd:  "jq"
+  tags: [ jsonl, json, object ]
+
+- cmd:  "yq"
+  tags: [ json, object, yaml, toml, xml ]
+
+- cmd:  "jo"
+  tags: [ json, object ]
+
+- cmd:  "dust"
+  tags: [ filesystem ]
+  alts: [ du ]
+
+- cmd:  "bat"
+  tags: [ theme, pager ]
+  alts: [ less, cat ]
+
+- cmd:  "impala"
+  tags: [ tui, network, wifi ]
+  alts: [ iwctl ]
+
+- cmd:  "chezmoi"
+  tags: [ dotfiles, git, backup ]
+  alts: [ stow, git ]
+
+- cmd:  "ssh-add <identity>"
+  tags: [ identity, security, remote ]
+
+- cmd:  "git gist create"
+  tags: [ github, gist, pastebin, snippet ]
+
+- cmd:  "jdupes"
+  tags: [ filesystem, duplicate ]
+
+- cmd:  "poppler"
+  tags: [ pdf ]
+
+- cmd:  "pdftk"
+  tags: [ pdf ]
+
+- cmd:  "pdfgrep"
+  tags: [ pdf ]
+
+- cmd:  "pandoc"
+  tags: [ md, html, pdf, document, markup ]
+
+- cmd:  "pup"
+  tags: [ html ]
+
+
+
+
+
+
+
+
+---

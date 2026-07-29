@@ -1,0 +1,107 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://chewygumxx.me/ref/schema/gh-repo.schema.json",
+
+    "title": "GitHub Repository - Metadata and Personal Notes",
+    "description": "Information regarding a specific GitHub repository and my remarks regarding it.",
+
+    "type": "object",
+    "required": [ "meta", "gh-api" ],
+    "additionalProperties": false,
+    "properties": {
+        "meta": {
+            "type": "object",
+            "description": "Intrinsic metadata pertaining to this object",
+
+            "required": [ "date_created", "schema" ],
+            "additionalProperties": false,
+            "properties": {
+                "date_created": {
+                    "type": "string",
+                    "description": "When this object was originally created.",
+                    "format": "date-time"
+                },
+                "schema" : {
+                    "type": "string",
+                    "description": "The schema employed to validate this object.",
+                    "format": "uri"
+                }
+            }
+        },
+
+        "cgxx": {
+            "type": "object",
+            "description": "How this package relates to me. Manually populated, not derived from GitHub API",
+
+            "additionalProperties": false,
+            "properties": {
+                "installed": { "type": "boolean" },
+                "pacman_yay": {
+                    "type": "string",
+                    "description": "Package available via Arch Official/User Repository",
+                    "pattern": "^[a-z_@\\+][a-z_@\\+\\-\\.]*$"
+                },
+                "value": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10
+                },
+                "tags": {
+                    "type": "array",
+                    "items": { "type": "string", "pattern": "^[a-z0-9\\-]+(?::[a-z0-9\\-]+)?$" },
+                    "uniqueItems": true
+                },
+                "note": { "type": "string" }
+            }
+        },
+
+        "gh_api": {
+            "type": "object",
+            "description": "Select properties of JSON object returned by GitHub API call of repository",
+
+            "required": [ "full_name" ],
+            "additionalProperties": false,
+            "properties": {
+                "full_name": {
+                    "type": "string",
+                    "description": "The repository slug. Format: <username>/<repository>",
+                    "pattern": "^[\\w](?:[\\w]|-(?=[\\w])){0,38}/[\\w\\-\\.]+$"
+                },
+                "html_url": {
+                    "type": "string",
+                    "description": "URL of the repository homepage",
+                    "format": "uri"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The repo's *very* brief description"
+                },
+                "topics": {
+                    "type": "array",
+                    "description": "Assigned GitHub topics.",
+                    "items": { "type": "string", "pattern": "^[a-z0-9\\-]+$" }
+                },
+                "pushed_at": {
+                    "type": "string",
+                    "description": "Time of last commit",
+                    "format": "date-time"
+                },
+                "open_issues": {
+                    "type": "integer",
+                    "description": "Number of remaining open issues.",
+                    "minimum": 0
+                },
+                "stargazers_count": {
+                    "type": "integer",
+                    "description": "Star count",
+                    "minimum": 0
+                },
+                "language": {
+                    "type": "string",
+                    "description": "Major programming language of repository"
+                },
+                "default_branch": { "type": "string" }
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://chewygumxx.me/ref/schema/firefox-prefs.schema.json",
+
+    "title": "Personal Array of Firefox Preferences",
+    "description": "An array of objects that each describe my personally set firefox preferences.",
+
+    "type": "array",
+    "minItems": 1,
+    "items": {
+        "type": "object",
+        "required": [ "pref", "value", "sync" ],
+        "additionalProperties": false,
+        "$comment": "This schema will NOT invalidate duplicate preference-value definitions.",
+        "properties": {
+            "pref": {
+                "type": "string",
+                "pattern": "^[a-zA-Z][a-zA-Z0-9._@{}-]*$"
+            },
+            "value": {
+                "type": [ "string", "integer", "boolean" ]
+            },
+            "sync": {
+                "type": "boolean",
+                "description": "Firefox Sync. Define additional preference of same name prepended with 'services.sync.prefs.sync.', set to the value of this boolean."
+            },
+            "note": {
+                "type": "string",
+                "description": "Define two additional preferences of same name, both appended with '.cgxx-note', one (dummy) set to value of this string, the other prepended with 'services.sync.prefs.sync.' set to the sync property value of this object. Purpose of dummy preference is for in-situ reference when browsing `about:config`."
+            }
+        },
+        "examples": [
+            {
+                "pref": "browser.download.folderList",
+                "value": 2,
+                "sync": false,
+                "note": "2 => Download directory path defined by `browser.download.dir`. Not synced given potential differences between respective host filesystems. See: https://searchfox.org/firefox-main/source/browser/components/preferences/config/downloads.mjs#157"
+            },
+            {
+                "pref": "browser.display.background_color.dark",
+                "value": "#03030b",
+                "sync": true
+            },
+            {
+                "pref": "devtools.chrome.enabled",
+                "value": true,
+                "sync": true,
+                "note": "Enables the Browser Console for executing JavaScript expressions."
+            },
+            {
+                "pref": "services.sync.prefs.dangerously_allow_arbitrary",
+                "value": false,
+                "sync": false,
+                "note": "Sync floodgate lever. Before enabling, see: https://support.mozilla.org/en-US/kb/sync-custom-preferences#:~:text=Sync%20custom%20preferences,-For"
+            }
+        ]
+    }
+}
