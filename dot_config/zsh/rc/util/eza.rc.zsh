@@ -21,7 +21,7 @@ alias ll='l --long --header --smart-group --mounts'
 alias lll='ll --total-size'	
 
 # Tree ^-^
-alias lt="l --tree --git-ignore"
+alias lt="l --tree" 
 alias llt='ll --tree'
 alias lllt='lll --tree'
 alias ltd='lt --only-dirs'

@@ -42,13 +42,14 @@ function __define_ps1 () {
         # Shell level
         "%(2L.%F{#ec5f66}<%L>%f .)"
 
-        # Background Jobs
-        "%(1j.%F{#4db380}[%j] .)"
-
         # Current Working Directory
         # - If root, absolute from /
         # - If user, relative to $HOME 
         "%F{magenta}%(#.%d.%~)%f"
+
+        # Background Jobs
+        #"%(1j.%F{#4db380}[%j] .)"
+        "%(1j. %F{2}[%B%j%b].)"
 
         "%(?..%F{red}%B %?%b%f)" # Exit Code (if not zero)
 
