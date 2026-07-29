@@ -21,7 +21,7 @@
 !/git/
 !/tealdeer/
 !/yazi/
-!/zsh/               # Contains .chezmoiignore within
+!/zsh/
 !/mimeapps.list
 !/user-dirs.dirs
 !/user-dirs.locale
@@ -34,6 +34,7 @@
 {{- if eq .chezmoi.hostname "chewytop" }}
 
 !/btop/
+!/environment.d/
 !/hypr/
 !/luarocks/
 !/mozilla            # Symlink to ../.local/share/mozilla/

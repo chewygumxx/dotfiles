@@ -60,6 +60,9 @@ if (( $+commands[systemctl] )); then # chewytop
     
     # SQLite
     alias sqlite='sqlite3'
+
+    alias new-dl='print -r "\"$(tail -1 $XDG_CACHE_HOME/inotify-net-firefox.log.txt)\""'
+
 elif [[ -v TERMUX_VERSION ]]; then
     # Package Manager
     alias pki="pkg install"

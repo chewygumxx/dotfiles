@@ -7,6 +7,8 @@
 # 
 # 
 
+setopt extended_glob
+
 local +h functions
 local this_file="${0}"
 
@@ -35,7 +37,7 @@ if [[ ${#} -eq 0 ]]; then
     return 1
 fi
 
-function trim_space () { return "${${1##[[:space:]]##}%%[[:space:]]%%}" }
+function trim_space () { print -r -- "${${1##[[:space:]]##}%%[[:space:]]%%}" }
 
 while [[ -n "$1" ]]; do
     local name="$(trim_space "${1%%=*}")"

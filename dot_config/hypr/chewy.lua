@@ -23,7 +23,7 @@ M.clipman = {
 }
 
 M.screenshot = {
-    destination = "~/ref/image/top-screenshot/$(date +%Y-%m-%d-%H-%M-%S).screenshot.png",
+    destination = "~/ref/image/top/screenshot/$(date +%Y-%m-%d_%H-%M-%S).screenshot.png",
     cmd = {},
 }
 M.screenshot.cmd.all    = "grim "                 .. M.screenshot.destination
