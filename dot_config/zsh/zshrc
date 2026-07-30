@@ -20,10 +20,13 @@
 [[ -o interactive ]] || return
 
 zshrcs=( "$zsh_dirs[conf]/rc/"{,util/}*.rc.zsh )
-zshrcs=(
-    ${(M)zshrcs:#*completion*}
-    ${(M)zshrcs:#*function*}
-    ${zshrcs:#*(completion|function)*}
+
+zshrcs=(                        # ** Order Rationale **
+    ${(M)zshrcs:#*completion*}  # Minimise fpath for completion index
+    ${(M)zshrcs:#*function*}    # Provide functions for other source
+    ${(M)zshrcs:#*plugin*}      # Query whether zsh-vi-mode is enabled
+
+    ${zshrcs:#*(completion|function|plugin)*}
 )
 
 for source in $zshrcs; do

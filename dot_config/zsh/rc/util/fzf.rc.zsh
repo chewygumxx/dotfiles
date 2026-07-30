@@ -114,12 +114,17 @@ init_cache="$zsh_dirs[cache_init]/fzf.init.zsh"
 #  - Older than this file
 if  [[ ! -f "$init_cache" ]] ||\
     [[ "$init_cache" -ot "$commands[fzf]" ]] ||\
-    [[ "$init_cache" -ot "${0}" ]]
+    [[ "$init_cache" -ot "${(%):-%N}" ]]
 then
     echo "Regenerating fzf source cache"
     fzf --zsh >| "$init_cache"
 fi
 
-source "$init_cache"
+# Ensure fzf keybinds are not overridden by plugin 'zsh-vi-mode'
+if [[ -n "${(M)plugins:#*zsh-vi-mode*}" ]]; then
+    zvm_after_init_commands+=("source ${(q)init_cache}")
+else
+    source "$init_cache"
+fi
 
 unset init_cache

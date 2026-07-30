@@ -25,14 +25,16 @@ alias ga='git add'
 alias gs='git status' # Overwrites 'gs' of ghostscript. Never use it
 alias gist='gh gist create'
 
-# Editor
 : ${EDITOR:="nvim"}
 alias     e="$EDITOR"
 alias  edit="$EDITOR"
+
 alias     v="$EDITOR"
 alias    vi="$EDITOR"
 alias   vim="$EDITOR"
 alias  nvim="$EDITOR"
+alias  nivm="$EDITOR"
+
 alias    hx="$EDITOR"
 alias   kak="$EDITOR"
 alias  nano="$EDITOR"
