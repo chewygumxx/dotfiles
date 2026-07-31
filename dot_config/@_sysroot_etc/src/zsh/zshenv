@@ -15,20 +15,21 @@
 # XDG Directories
 # ----------------
 
-[[ -z "$XDG_DATA_HOME"   ]] && XDG_DATA_HOME="$HOME/.local/share"
-[[ -z "$XDG_STATE_HOME"  ]] && XDG_STATE_HOME="$HOME/.local/state"
-[[ -z "$XDG_CACHE_HOME"  ]] && XDG_CACHE_HOME="$HOME/.local/cache"
-[[ -z "$XDG_CONFIG_HOME" ]] && XDG_CONFIG_HOME="$HOME/.config"
-[[ -z "$XDG_RUNTIME_DIR" ]] && XDG_RUNTIME_DIR="/run/user/$(id -u)"
+: ${XDG_DATA_HOME:="$HOME/.local/share"}
+: ${XDG_STATE_HOME:="$HOME/.local/state"}
+: ${XDG_CACHE_HOME:="$HOME/.local/cache"}
+: ${XDG_CONFIG_HOME:="$HOME/.config"}
+: ${XDG_RUNTIME_DIR:="/run/user/$(id -u)"}
 
 export XDG_{DATA,STATE,CACHE,CONFIG}_HOME XDG_RUNTIME_DIR
 
+# --------
+# ZDOTDIR
+# --------
 # The most efficacious and idiosyncratic method of creating a new custom zsh
 # shell from template is to inline prepend the `zsh -i` invocation with
 # environment variables. 
 #
 # The most powerful being ZDOTDIR
-# 
-if [[ -z "$ZDOTDIR" && -d "$XDG_CONFIG_HOME/zsh" ]]; then
-    ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-fi
+
+: ${ZDOTDIR="$XDG_CONFIG_HOME/zsh"}
