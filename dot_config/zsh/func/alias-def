@@ -10,12 +10,12 @@
 setopt extended_glob
 
 local +h functions
-local __this_file="${(%):-%N}"
+local this_file="${(%):-%N}"
 
 function print_help () {
     print -f "%s\n" \
         "Safety wrapper for alias, will throw an error if unresolvable" \
-        "Usage: $__this_file [opts] name=alias [name=alias] ..."
+        "Usage: $this_file [opts] name=alias [name=alias] ..."
 
     print -f "\n%s\n" "Options:"
     print -f "    %12s %s\n" \
@@ -33,7 +33,7 @@ while true; do
 done
 
 if [[ ${#} -eq 0 ]]; then
-    print -u2 "${__this_file}: Nothing provided"
+    print -u2 "${(%):-%N}: Nothing provided"
     return 1
 fi
 
@@ -44,14 +44,14 @@ while [[ -n "$1" ]]; do
     local value="$(trim_space "${1#*=}")"
 
     if [[ -z "$name" ]]; then
-        print -u2 "${__this_file}: Invalid alias: $1"
+        print -u2 "${(%):-%N}: Invalid alias: $1"
         return 1
     fi
 
     local call="${${(s: :)value}[1]}" 
-    if [[ ! -v global ]] && ! whence -v $call &>/dev/null; then
+    if [[ ! -v global && ! whence -v $call &>/dev/null ]]; then
     then
-        print -u2 "${__this_file}: Invalid invocation of alias '$name': '$call' not found"
+        print -u2 "${0}: Invalid alias of '$name': '$call' not found"
         return 127
     fi
 
