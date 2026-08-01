@@ -13,6 +13,8 @@
 # https://github.com/junegunn/fzf#environment-variables
 #
 
+return # While active: ~/.config/zsh/env/util/temp_fzf.env.zsh
+
 [[ -o interactive  ]] || return
 (( $+commands[fzf] )) || return
 
