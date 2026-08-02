@@ -51,7 +51,7 @@ for ext in "avif" "bmp" "gif" "ico" "jfif" "jpg" "jpeg" "png" "svg" "tif" "tiff"
 done
 
 # Source
-for ext in "css" "js" "lua" "py" "rs" "sql" "styl" "tsx" "zsh"; do
+for ext in "css" "js" "lua" "py" "rs" "sql" "styl" "tsx" "zsh" "zshrc" "zshenv"; do
     ls_colors+=("*.$ext=$color[yellow]")
 done
 
@@ -59,3 +59,6 @@ done
 for ext in "avi" "m4v" "mkv" "mov" "mp4" "mpeg" "mpg" "webm"; do
     ls_colors+=("*.$ext=$color[bold];$color[magenta]")
 done
+
+typeset -gx ZLS_COLORS="$LS_COLORS"
+typeset -gx EZA_COLORS="$LS_COLORS"

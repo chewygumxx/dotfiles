@@ -1,3 +1,0 @@
-~/.local/share/fonts -> ~/ref/font
-
-    ~/ref/font is a target of symlink at ~/.local/share/fonts
