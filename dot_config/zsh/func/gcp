@@ -11,7 +11,7 @@
 #zmodload -e zsh/parameter || zmodload zsh/parameter
 local +h functions 
 
-local this_file="$0"
+local this_file="${(%):-%N}"
 function print_help () {
     print -f "%s\n" \
         "git add, commit and push for the lazy" \

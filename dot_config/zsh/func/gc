@@ -10,5 +10,4 @@
 # Overwrites gc command (I never use it)
 #
 
-local IFS=" "
-git commit --message="${*:-"Lazy Commit: $(date)"}"
+IFS=" " git commit --message="${*:-"Lazy Commit: $(date)"}"

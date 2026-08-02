@@ -13,6 +13,7 @@ plugins=(
     "zdharma-continuum/fast-syntax-highlighting"
     "zsh-users/zsh-autosuggestions"
     "jeffreytse/zsh-vi-mode"
+    "chewygumxx/zsh-als"
 )
 
 for slug in $plugins; do

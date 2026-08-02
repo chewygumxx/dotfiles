@@ -1,9 +1,14 @@
+#!/bin/false
 # vim: expandtab:tabstop=4:shiftwidth=4:tw=0
 
 #
 #
 # ~/.config/zsh/alias.rc.zsh
 #
+#
+
+#
+# Function file 'func/als' groups aliases
 #
 
 setopt aliases
