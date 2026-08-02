@@ -37,8 +37,9 @@ keymap = [
 
     { on = [ "g", "h" ],       run = "cd ~",                              desc = "Go home" },
     { on = [ "g", "c" ],       run = "cd ~/.config",                      desc = "Go ~/.config" },
-    { on = [ "g", "d" ],       run = "cd ~/net/ffox",                     desc = "Go ~/net/ffox" },
+    { on = [ "g", "d" ],       run = "cd ~/net/firefox",                  desc = "Go ~/net/firefox" },
     { on = [ "g", "y" ],       run = "cd ~/.config/yazi",                 desc = "Go ~/.config/yazi" },
+    { on = [ "g", "n" ],       run = "cd ~/doc/synaptic-nexus",                 desc = "Go ~/doc/synaptic-nexus" },
     { on = [ "g", "<Space>" ], run = "cd --interactive",                  desc = "Jump interactively" },
     # }}}
 
