@@ -85,3 +85,4 @@ else
     print -u2 "${0}: Unable to discern either chewytop or chewytele"
     return 1
 fi
+alias nex-init='source /home/chewygum/doc/synaptic-nexus/nex.rc.zsh'
