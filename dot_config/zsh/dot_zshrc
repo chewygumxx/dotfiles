@@ -1,0 +1,10 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.config/zsh/.zshrc
+# 
+# 
+
+source "${${(%):-%N}:A:h}/zshrc"
