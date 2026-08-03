@@ -15,7 +15,7 @@ setopt aliases
 alias cz="chezmoi"
 alias cze="cz edit --watch"
 
-alias cza="cz add --verbose --new"
+alias cza="cz apply"
 alias czr="cz re-add"
 alias czf="cz forget"
 alias czd="cz destory"
@@ -24,10 +24,8 @@ alias czd="cz destory"
 # Directory 
 #
 
-hash -d cz="$XDG_DATA_HOME/chezmoi"
-hash -d cz_zsh="$XDG_DATA_HOME/chezmoi/dot_config/zsh"
-hash -d cz_nvim="$XDG_DATA_HOME/chezmoi/dot_config/nvim/lua"
-hash -d cz_yazi="$XDG_DATA_HOME/chezmoi/dot_config/yazi"
+hash -d cz="$XDG_DATA_HOME/chezmoi/dot_config"
+hash -d czroot="$XDG_DATA_HOME/chezmoi"
 
 # 
 # Completions
