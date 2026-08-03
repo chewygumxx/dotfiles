@@ -7,4 +7,11 @@
 # 
 # 
 
-source "${${(%):-%N}:A:h}/zshenv"
+# Intentionally not unset
+zshenvs=( "$XDG_CONFIG_HOME/zsh/env/"{,util/}*.env.zsh )
+
+for source in $zshenvs; do
+    source "$source"
+done
+
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"

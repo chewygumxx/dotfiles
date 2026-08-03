@@ -1,10 +1,48 @@
-#!/bin/false
-# vim: expandtab:shiftwidth=4
+# vim: expandtab:tabstop=4:shiftwidth=4:textwidth=80:
+# vim: foldmethod=marker
 
-# 
-# 
+#
+#
 # ~/.config/zsh/.zshrc
-# 
-# 
+#
+#
 
-source "${${(%):-%N}:A:h}/zshrc"
+# Shell Interactivity Check
+[[ -o interactive ]] || return
+
+# Variable `zsh_dirs` associative array set from zshenv
+zshrcs=( "$zsh_dirs[conf]/rc/"{,util/}*.rc.zsh )
+
+zshrcs=(                        # ** Order Rationale **
+    ${(M)zshrcs:#*ls_colors*}   # Provides for completion
+    ${(M)zshrcs:#*completion*}  # Minimise fpath for completion index
+    ${(M)zshrcs:#*function*}    # Provide functions for other source
+    ${(M)zshrcs:#*plugin*}      # Query whether zsh-vi-mode is enabled
+
+    ${zshrcs:#*(ls_colors|completion|function|plugin)*}
+)
+
+for source in $zshrcs; do
+    source "$source"
+done
+
+zle_highlight=('paste:none')
+
+setopt re_match_pcre
+
+# Allow `# comment`. Good for copying and pasting commands from web
+setopt interactive_comments 
+
+# Resolve symbolic links to their true physical path when changing
+# directories. `cd ..` afterward will not return to the parent directory of
+# the original symbolic link. Also infers option 'chase_dots'.
+setopt chase_links
+
+#
+# *** Post-Startup
+#
+
+# Splash
+#print-quote
+
+#zprof
