@@ -1,0 +1,72 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~chezmoi/dot_config/.chezmoiignore
+# 
+# 
+
+# Ignore everything not explicitly excepted
+*
+@_sysroot_etc/src/wireguard/**  # (Secret) VPN Private Keys
+kdeconnect/**                   # (Secret) Keys, clipboard, remote commands
+cloudflare-ddns/**              # (Secret) Cloudflare tokens
+gh/hosts.yml                    # (Secret) Authetication Tokens
+waybar/modules/weather/open_weather_map.apikey
+waybar/modules/weather/weather_out.json
+
+# -------------------
+# Excepted Everywhere
+# -------------------
+
+!@_sysroot_etc/     # Contains .chezmoiignore within
+!bat/
+!fd/
+!gh/
+!gh/config.yml
+!git/
+!nvim/
+!tealdeer/
+!yazi/
+!zsh/
+!mimeapps.list
+!user-dirs.dirs
+!user-dirs.locale
+
+
+# ------------------
+# Chewytop Exclusive
+# ------------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+!btop/
+!environment.d/
+!hypr/
+!luarocks/
+!mozilla            # Symlink to ../.local/share/mozilla/
+!mozilla-firefox/   # Actual user configuration
+!npm/
+!npm/npmrc          # Must exist for envvar NPM_CONFIG_USERCONFIG
+!print-quote/
+!python/
+!systemd/
+!waybar/
+!wezterm/
+!xdg-desktop-portal/
+!xdg-desktop-portal-termfilechooser/
+!yay/
+
+{{- end }}
+
+
+# --------------------
+# Chewytele Exclusive
+# --------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+!termux/        # Symlink ~/.termux -> .config/termux/ (this line)
+
+{{- end }}
+

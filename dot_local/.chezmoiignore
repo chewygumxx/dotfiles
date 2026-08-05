@@ -1,0 +1,69 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~/.local/share/chezmoi/dot_local/.chezmoiignore
+# 
+# 
+
+# Ignore everything not explicitly excepted
+*
+
+
+# -------------------
+# Excepted Everywhere
+# -------------------
+
+# Contains .chezmoiignore within
+!share/
+
+# Does not contain chezmoi within
+bin/**
+!bin/                   # Everything, on both tele and top
+
+cache/**
+!cache/
+cache/cpanm/**
+!cache/cpanm/           # Must exist for envvar PERL_CPANM_HOME
+cache/npm/**
+!cache/npm/             # Must exist for envvar NPM_CONFIG_CACHE
+cache/yazi/**
+!cache/yazi/            # Must exist for preview cache (maybe, it might mkdir)
+cache/zsh/**
+!cache/zsh/
+cache/zsh/compcache/**
+!cache/zsh/compcache/   # Must exist for zsh zstyle completion cache
+cache/zsh/gen_source/**
+!cache/zsh/gen_source/  # Must exist for shell utility generated source
+
+state/**
+!state/
+state/python/**
+!state/python/          # Must exist for envvar PYTHON_HISTORY
+state/sqlite/**
+!state/sqlite/          # Must exist for envvar SQLITE_HISTORY
+state/zsh/**
+!state/zsh/             # Must exist for zsh history
+
+
+# ------------------
+# Chewytop Exclusive
+# ------------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+cache/json-weather/**
+!cache/json-weather/    # Must exist
+
+{{- end }}
+
+
+# -------------------
+# Chewytele Exclusive
+# -------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+!sym/**   # Everything
+
+{{- end }}

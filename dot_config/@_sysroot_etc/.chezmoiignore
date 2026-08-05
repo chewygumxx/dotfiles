@@ -1,0 +1,62 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~/.local/share/chezmoi/.chezmoiignore
+# 
+# 
+
+# Ignore everything not explicitly excepted
+*
+
+
+# -------------------
+# Excepted Everywhere
+# -------------------
+
+!backup/
+!script/
+!src/
+
+
+# ------------------
+# Chewytop Exclusive
+# ------------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+!just/
+!justfile
+!src/default/
+!src/ly/
+src/ly/save.txt
+!src/makepkg.conf.d/
+!src/ssh/
+!src/sudoers.d/
+!src/systemd/
+!src/zsh/
+!src/fstab
+!src/locale.gen
+!src/makepkg.conf
+!src/pacman.conf
+!src/sudoers
+
+{{- end }}
+
+
+# -------------------
+# Chewytele Exclusive
+# -------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+!src/zshenv
+!src/zshrc
+
+{{- end }}
+
+# ------------------------
+# Explicitly Always Ignore
+# ------------------------
+
+src/wireguard/**
