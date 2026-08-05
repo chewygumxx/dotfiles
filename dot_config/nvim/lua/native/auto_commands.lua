@@ -1,3 +1,4 @@
+#!/bin/false
 -- vim: expandtab:shiftwidth=4
 
 -- 
@@ -66,6 +67,34 @@ local header_template = function()
         return shebangs[vim.bo[buf].filetype]
     end
 
+    -- The order matters, first to match is replaced and returned.
+    local header_path_substitute = {
+        { patt = "local/share/chezmoi/dot_", repl = "" },
+        { patt = "%.local/share/chezmoi/", repl = "" },
+        { patt = "~/doc/synaptic%-nexus", repl = "~chewygumxx/synaptic-nexus.git:" },
+        { patt = "~/dev/_gist/(%w+)", repl = "~chewygumxx/%1.git:" },
+        { patt = "~/dev/(%w+)", repl = "~chewygumxx/%1.git:" },
+    }
+    
+    local header_path = function(home_path)
+        -- Chezmoi intrinsic
+        if home_path:find("%.chezmoi", 1, true) then
+            return
+        end
+    
+        for _,substitute in ipairs(header_path_substitute) do
+            local pattern = substitute.patt
+            local replace = substitute.repl
+    
+            local header_path, match = home_path:gsub(pattern, replace)
+            if match == 1 then
+                return header_path
+            end
+        end
+    
+        return home_path
+    end
+
     local modeline = "vim: expandtab:shiftwidth=4"
 
     local insert_header = function(filename, buf)
@@ -80,7 +109,7 @@ local header_template = function()
             "",
             string.format(comment, ""),
             string.format(comment, ""),
-            string.format(comment, home_path),
+            string.format(comment, header_path(home_path)),
             string.format(comment, ""),
             string.format(comment, ""),
             "",
@@ -95,7 +124,9 @@ local header_template = function()
     end
 
     vim.api.nvim_create_user_command("CGInsertHeader", 
-        function() insert_header(vim.fn.expand("%"), vim.api.nvim_get_current_buf()) end,
+        function()
+            insert_header(vim.fn.expand("%"), vim.api.nvim_get_current_buf())
+        end,
         { desc = "Prepend buffer with a header, templated according to filepath and extension." }
     )
 
