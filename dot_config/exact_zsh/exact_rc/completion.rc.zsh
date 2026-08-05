@@ -82,7 +82,7 @@ if (( $+commands[fzf] )); then
     # To allow fzf-tab to capture the unambiguous prefix: Force zsh not to show completion menu
     zstyle ':completion:*' menu no
     # Preview directory's content with eza when completing cd
-    zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza_wrap $realpath' # Depends on eza_wrap function
+    zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --all --oneline --color=always --group-directories-first --long --git --no-permissions --no-filesize --no-user --no-time --ignore-glob="[0-9a-f][0-9a=f]|.obsidian|.zettel-notes" $realpath'
 
     # Custom fzf flags
     # By default, fzf-tab does not follow FZF_DEFAULT_OPTS
