@@ -75,7 +75,7 @@ local ensure_installed = {
     --"go",
     -- https://github.com/tree-sitter/tree-sitter-go
 
-    --"gotmpl",
+    "gotmpl",
     -- https://github.com/ngalaiko/tree-sitter-go-template
     -- Golang text/template
   
@@ -271,6 +271,7 @@ M.config = function()
     local ts = require('nvim-treesitter')
 
     vim.treesitter.language.register('ini', 'systemd')
+    vim.treesitter.language.register('gotmpl', 'template')
 
     -- Install core parsers after lazy.nvim finishes loading all plugins
     vim.api.nvim_create_autocmd('User', {

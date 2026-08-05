@@ -14,7 +14,7 @@ fpath+=(
     "$zsh_dirs[user_comp]"
 )
 
-function load_plugin_zsh_completions () {
+() {
     local slug="zsh-users/zsh-completions"
     local plugin="${slug##*/}"
 
@@ -22,8 +22,8 @@ function load_plugin_zsh_completions () {
         git clone "https://github.com/$slug.git" "$zsh_dirs[plugin]/$plugin"
     fi
 
-    fpath+="$zsh_dirs[plugin]/$plugin/src"
-}; load_plugin_zsh_completions; unset -f load_plugin_zsh_completions
+    fpath+=( "$zsh_dirs[plugin]/$plugin/src" )
+}
 
 autoload -Uz compinit
 setopt list_types
