@@ -16,15 +16,20 @@
 [[ -o interactive  ]] || return
 (( $+commands[fzf] )) || return
 
-__this_file="$(\builtin print -D ${${(%):-%N}:A})"
+typeset -g __fzf_rc_file="$(\builtin print -D ${${(%):-%N}:A})"
 
 function __fzf_shell_integration () {
-    local ctx="${__this_file}: (${(%):-%N})"
+    local ctx="${__fzf_rc_file}: (${(%):-%N})"
+    unset __fzf_rc_file
     unset -f "${(%):-%N}"
 
-    local data_dir="/usr/share/fzf"
-    if [[ -d "$fzf_data_dir" ]]; then
-        printf -u2 "$ctx Not found: $fzf_data_dir/"
+    local data_dir
+    if   [[ -d "/usr/share/fzf"    ]]; then  # Arch Linux
+        data_dir="/usr/share/fzf"
+    elif [[ -d "$PREFIX/share/fzf" ]]; then  # Termux
+        data_dir="$PREFIX/share/fzf"
+    else
+        print -u2 "$ctx fzf data directory not found at '/usr/share/fzf' or '\$PREFIX/share/fzf'"
         return 1
     fi
 
@@ -39,8 +44,8 @@ function __fzf_shell_integration () {
     #     Fuzzy-find directories recursively from CWD and cd
     # https://github.com/junegunn/fzf#key-bindings-for-command-line
 
-    if [[ -r "$data_dir/key-bindings.zsh" ]]; then
-        printf -u2 "$ctx Not found: $data_dir/key-bindings.zsh"
+    if [[ ! -r "$data_dir/key-bindings.zsh" ]]; then
+        print -u2 "$ctx Not found: $data_dir/key-bindings.zsh"
         return 1
     fi
 
@@ -94,10 +99,10 @@ function __fzf_shell_integration () {
 
     # Plugin 'fzf-tab' loaded:
     # Do not source fzf/completion.zsh. Do not overwrite keybind '^I' (Tab).
-    [[ "$fzf_default_completion" == "fzf-tab-complete" ]] && return
+    (( $+widgets[fzf-tab-complete] )) && return
 
-    if [[ -r "$data_dir/completion.zsh" ]]; then
-        printf -u2 "$ctx Not found: $data_dir/completion.zsh"
+    if [[ ! -r "$data_dir/completion.zsh" ]]; then
+        print -u2 "$ctx Not found: $data_dir/completion.zsh"
         return 1
     fi
 
@@ -126,8 +131,6 @@ function __fzf_shell_integration () {
 
     source "$data_dir/completion.zsh"
 }
-
-unset __this_file
 
 # -----------
 # Initialise
