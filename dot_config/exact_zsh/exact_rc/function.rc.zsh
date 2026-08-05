@@ -12,3 +12,4 @@ fpath+=(
 )
 
 autoload -Uz "$zsh_dirs[conf]/func"/*(N:t)
+
