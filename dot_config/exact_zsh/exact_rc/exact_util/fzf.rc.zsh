@@ -16,71 +16,98 @@
 [[ -o interactive  ]] || return
 (( $+commands[fzf] )) || return
 
-__fzf_interactive_opts=(
-    "--reverse"
-    "--border"
-    "--height 40%"
-)
-__fzf_interactive_opts=${(j: :)__fzf_interactive_opts}
-__fzf_command_fd=(
-    "fd"
-    "--hidden"
-    "--strip-cwd-prefix=always"
-    "--one-file-system"
-)
-__fzf_command_fd=${(j: :)__fzf_command_fd}
+__this_file="$(\builtin print -D ${${(%):-%N}:A})"
 
-function __fzf_keybind () {
-    #   CTRL-R
-    #       Fuzzy-find command history
-    #   CTRL-T
-    #       Fuzzy-find files recursively from CWD
-    #   ALT-C
-    #       Fuzzy-find directories recursively from CWD and cd
-    #
-    #   https://github.com/junegunn/fzf#key-bindings-for-command-line
+function __fzf_shell_integration () {
+    local ctx="${__this_file}: (${(%):-%N})"
+    unset -f "${(%):-%N}"
+
+    local data_dir="/usr/share/fzf"
+    if [[ -d "$fzf_data_dir" ]]; then
+        printf -u2 "$ctx Not found: $fzf_data_dir/"
+        return 1
+    fi
+
+    # ---------
+    # Keybinds
+    # ---------
+    # CTRL-R
+    #     Fuzzy-find command history
+    # CTRL-T
+    #     Fuzzy-find files recursively from CWD
+    # ALT-C
+    #     Fuzzy-find directories recursively from CWD and cd
+    # https://github.com/junegunn/fzf#key-bindings-for-command-line
+
+    if [[ -r "$data_dir/key-bindings.zsh" ]]; then
+        printf -u2 "$ctx Not found: $data_dir/key-bindings.zsh"
+        return 1
+    fi
+
+    local interactive_opts=(
+        "--reverse"
+        "--border"
+        "--height 40%"
+    )
+    local command_fd=(
+        "fd"
+        "--hidden"
+        "--strip-cwd-prefix=always"
+        "--one-file-system"
+    )
 
     #export FZF_CTRL_R_COMMAND="echo 'Custom commands not yet supported'"
-    local __fzf_ctrl_r_opts=(
-        "$__fzf_interactive_opts"
+    local ctrl_r_opts=(
+        $interactive_opts
         "--scheme=history"
         "--with-nth 2.."
     )
-    export FZF_CTRL_R_OPTS=${(j: :)__fzf_ctrl_r_opts}
+    export FZF_CTRL_R_OPTS=${(j: :)ctrl_r_opts}
 
-    local __fzf_ctrl_t_command=(
-        "$__fzf_command_fd"
+    local ctrl_t_command=(
+        $command_fd
     )
-    export FZF_CTRL_T_COMMAND=${(j: :)__fzf_ctrl_t_command}
-    local __fzf_ctrl_t_opts=(
-        "$__fzf_interactive_opts"
+    export FZF_CTRL_T_COMMAND=${(j: :)ctrl_t_command}
+    local ctrl_t_opts=(
+        $interactive_opts
         "--scheme=path"
     )
-    export FZF_CTRL_T_OPTS=${(j: :)__fzf_ctrl_t_opts}
+    export FZF_CTRL_T_OPTS=${(j: :)ctrl_t_opts}
 
-    local __fzf_alt_c_command=(
-        "$__fzf_command_fd"
+    local alt_c_command=(
+        $command_fd
         "--type directory"
     )
-    export FZF_ALT_C_COMMAND=${(j: :)__fzf_alt_c_command}
-    local __fzf_alt_c_opts=(
-        "$__fzf_interactive_opts"
+    export FZF_ALT_C_COMMAND=${(j: :)alt_c_command}
+    local alt_c_opts=(
+        $interactive_opts
         "--scheme=path"
     )
-    export FZF_ALT_C_OPTS=${(j: :)__fzf_alt_c_opts}
+    export FZF_ALT_C_OPTS=${(j: :)alt_c_opts}
 
-}; __fzf_keybind; unset -f __fzf_keybind
+    source "$data_dir/key-bindings.zsh"
 
-function __fzf_completion () {
+    # -----------
+    # Completion
+    # -----------
     # https://github.com/junegunn/fzf#fuzzy-completion
+
+    # Plugin 'fzf-tab' loaded:
+    # Do not source fzf/completion.zsh. Do not overwrite keybind '^I' (Tab).
+    [[ "$fzf_default_completion" == "fzf-tab-complete" ]] && return
+
+    if [[ -r "$data_dir/completion.zsh" ]]; then
+        printf -u2 "$ctx Not found: $data_dir/completion.zsh"
+        return 1
+    fi
 
     export FZF_COMPLETION_TRIGGER='**'
 
-    local __fzf_completion_opts=(
-        "$__fzf_interactive_opts"
+    local completion_opts=(
+        $interactive_opts
         "--scheme=path"
     )
-    export FZF_COMPLETION_OPTS=${(j: :)__fzf_completion_opts}
+    export FZF_COMPLETION_OPTS=${(j: :)completion_opts}
 
     export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
     export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
@@ -96,35 +123,19 @@ function __fzf_completion () {
     #        *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
     #    esac
     #}
-}; __fzf_completion; unset -f __fzf_completion
 
-unset __fzf_{interactive_opts,command_fd}
+    source "$data_dir/completion.zsh"
+}
 
+unset __this_file
 
-#
-# Generate and initialise shell integration
-# https://github.com/junegunn/fzf#setting-up-shell-integration
-#
-
-init_cache="$zsh_dirs[cache_init]/fzf.init.zsh"
-
-# Regenerate init cache if either:
-#  - Missing
-#  - Older than fzf binary
-#  - Older than this file
-if  [[ ! -f "$init_cache" ]] ||\
-    [[ "$init_cache" -ot "$commands[fzf]" ]] ||\
-    [[ "$init_cache" -ot "${(%):-%N}" ]]
-then
-    echo "Regenerating fzf source cache"
-    fzf --zsh >| "$init_cache"
-fi
+# -----------
+# Initialise
+# -----------
 
 # Ensure fzf keybinds are not overridden by plugin 'zsh-vi-mode'
-if [[ -n "${(M)plugins:#*zsh-vi-mode*}" ]]; then
-    zvm_after_init_commands+=("source ${(q)init_cache}")
+if [[ -n "${ZVM_VERSION-}" ]]; then
+    zvm_after_init_commands+=(__fzf_shell_integration)
 else
-    source "$init_cache"
+    __fzf_shell_integration
 fi
-
-unset init_cache

@@ -79,5 +79,5 @@ function eza_wrap () {
         opts+=( "--no-permissions" "--no-user" "--no-filesize" "--no-time")
     fi
 
-    \command eza "${opts[@]}" "${args[@]}"
+    \builtin command eza "${opts[@]}" "${args[@]}"
 }
