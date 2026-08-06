@@ -21,15 +21,17 @@ setopt prompt_subst       # Prompt subject to parameter expansion, command
 
 setopt prompt_percent     # %-Based escape sequences
 
-function __define_ps1 () {
-    # Escape sequences must be enclosed within `%{...%}` such that cursor position calculation is
-    # not affected by zero width sequences
-    # https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html#Visual-effects
-    local __blink="%{"$'\e[5m'"%}"
-    local __none="%{"$'\e[0m'"%}"
 
-    # PS1 - The Ubiquitious
-    local __ps1=(
+
+# Escape sequences must be enclosed within `%{...%}` such that cursor position calculation is
+# not affected by zero width sequences
+# https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html#Visual-effects
+
+eval "$( () {
+    local blink="%{"$'\e[5m'"%}"
+    local none="%{"$'\e[0m'"%}"
+
+    local clock=(
         "%F{#626262}[%f"
         "%F{#5f95fa}%D{%H}%f"
         "%F{#7171d3}:%f"
@@ -37,32 +39,42 @@ function __define_ps1 () {
         "%F{#7171d3}:%f"
         "%F{#5f95fa}%D{%S}%f"
         "%F{#626262}]%f"
-        " "
-
-        # Shell level
-        "%(2L.%F{#ec5f66}<%L>%f .)"
-
-        # Current Working Directory
-        # - If root, absolute from /
-        # - If user, relative to $HOME 
-        "%F{magenta}%(#.%d.%~)%f"
-
-        # Background Jobs
-        #"%(1j.%F{#4db380}[%j] .)"
-        "%(1j. %F{2}[%B%j%b].)"
-
-        "%(?..%F{red}%B %?%b%f)" # Exit Code (if not zero)
-
-        # Caret/Privilege
-        "%(#."
-            $__blink "%F{red}%#%f" $__none
-        "."
-            "%F{#4db380}>%f"
+    )
+    local caret_privilege=(
+        "%(#."                              # If user is root
+            $blink "%F{red}%#%f" $none      #   Caret is a blinking red '#'
+        "."                                 # Else
+            "%F{#4db380}>%f"                #   Caret is green '>'
         ")"
     )
+    local shell_level="%(2L.%F{#ec5f66}<%L>%f .)"
+    local curr_work_dir="%F{magenta}%(#.%d.%~)%f"   # If root, /absolute/path, otherwise ~named/path
+    local background_jobs="%(1j.%F{2} [%B%j%b].)"
+    local exit_code="%(?..%F{red}%B %?%b%f)"        # Exit Code (if not zero)
 
-    PS1=${(j::)__ps1}
-}; __define_ps1; unset -f __define_ps1
+    typeset -A __ps1_mods
+    __ps1_mods=( 
+        [clock]="${(j::)clock}"
+        [shlvl]="$shell_level"
+        [cwd]="$curr_work_dir"
+        [jobs]="$background_jobs"
+        [exit]="$exit_code"
+        [caret]="${(j::)caret_privilege}"
+    )
+
+    PS1=(
+        $__ps1_mods[clock]
+        " "
+        $__ps1_mods[shlvl]
+        $__ps1_mods[cwd]
+
+        $__ps1_mods[jobs]
+        $__ps1_mods[exit]
+        $__ps1_mods[caret]
+    )
+    PS1="${(j::)PS1}"
+} )"
+
 
 function __preexec_rps1() {
     time_invoked=$SECONDS

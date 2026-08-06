@@ -89,7 +89,7 @@ if (( $+commands[fzf] )); then
     zstyle ':fzf-tab:*' use-fzf-default-opts yes
     #zstyle ':fzf-tab:*' fzf-flags --color=fg:1,fg+:2 --bind=tab:accept
     # Switch group using `<` and `>`
-    #zstyle ':fzf-tab:*' switch-group '<' '>'
+    zstyle ':fzf-tab:*' switch-group '<' '>'
 else 
     zstyle ':completion:*:*:*:*:descriptions' format '%F{blue}[%d]%f'
     zstyle ':completion:*' menu select
