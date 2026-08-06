@@ -46,7 +46,7 @@ if ! (( ${#jobstates} )); then
     return
 fi
 
-local red=$'\e[31m' grn=$'\e[32m' cyn=$'\e[36m' wht=$'\e[37m' BLK=$'\e[90m'
+local red=$'\e[31m' grn=$'\e[32m' ylw=$'\e[33m' cyn=$'\e[36m' wht=$'\e[37m' BLK=$'\e[90m' n=$'\e[0m' b=$'\e[1m' d=$'\e[2m'
 
 local job call wdir state hue print_text
 local -a jobs_list
@@ -65,15 +65,21 @@ for job in ${(kon)jobstates}; do
     state=${jobstates[$job]%%:*}
     case $state in
         running)   hue=$grn state='Exec' ;;
-        suspended) hue=$cyn state='Rest' ;;
+        suspended) hue=$ylw state='Rest' ;;
         *)         hue=$red   ;;
     esac
 
-    print_text="${wht}${job}> ${hue}${state} "
-    print_text+="${call}"
-    print_text+="${BLK}(${wdir})"
+    hue+=$b
+    job="${hue}${job}${n}"
+    state="${hue}${state}${n}"
+    call="${hue}${d}${call}${n}"
 
-    jobs_list+=( "${hue}[ ${print_text} ${hue}]"$'\e[0m' )
+    print_text="${BLK}[${job}${BLK}] "
+    print_text+="${state} "
+    print_text+="${call} "
+    # print_text+="${BLK}(${wdir})"
+
+    jobs_list+=( "${hue}[${n}${print_text}${hue}]${n}" )
 done
 
 typeset -g __bg_jobs_info="${(j: :)jobs_list}"$'\n'
