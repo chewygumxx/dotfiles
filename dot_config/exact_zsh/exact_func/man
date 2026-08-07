@@ -3,17 +3,20 @@
 
 #
 #
-# ~/.config/zsh/functions/man
+# ~/.config/zsh/func/man
 #
 #
 
 #
-# Overloads man
+# Shadow function of man
 #
 
-local -x PAGER='nvim +Man!'
+local -x MANPAGER='nvim +Man!'
 local -x MANWIDTH=$(( (COLUMNS - 5) < 100 ? (COLUMNS - 5) : 100 ))
 local -x MANOPT='--no-justification --no-hyphenation'
-#local -x BAT_THEME='ansi'
-#local -x BAT_STYLE='snip'
-batman $1
+
+if (( $+commands[batman] )); then
+#    batman "$@"
+fi
+
+command man "$@"

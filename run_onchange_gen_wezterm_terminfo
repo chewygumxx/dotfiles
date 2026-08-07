@@ -1,8 +1,8 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 #
 #
-# ~/.local/share/chezmoi/run_onchange_weaterm_terminfo
+# ~chewygumxx/dotfiles.git:/run_onchange_wezterm_terminfo.sh
 #
 #
 

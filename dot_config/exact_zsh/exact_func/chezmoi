@@ -1,0 +1,13 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.config/zsh/func/chezmoi
+# 
+# 
+
+local -x TMPDIR="$XDG_CACHE_HOME/chezmoi"
+[[ ! -d "$TMPDIR" ]] && command mkdir -p "$TMPDIR"
+
+command chezmoi "$@"

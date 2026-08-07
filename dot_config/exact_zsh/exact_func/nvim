@@ -1,29 +1,70 @@
 #!/bin/false
-# vim: expandtab:shiftwidth=4
+# vim: expandtab:shiftwidth=4:ft=zsh
 
 # 
 # 
-# ~/.config/zsh/functions/nvim
+# ~/.config/zsh/func/nvim
 # 
 # 
+
+local __this_file="${(D)${${(%):-%N}:A}}"
 
 if (( ! $+commands[nvim] )); then
-    print -u2 "${0}: Command not found: nvim"
+    print -u2 "${__this_file}: Command not found: nvim"
     return 127
 fi
 
-zmodload -F zsh/stat b:zstat 2>/dev/null
-
-local target="$1"
-
-if (( $# != 1 )) || [[ ! -e "$target" ]]; then
+if (( $# != 1 )); then
     command nvim "$@"
-elif [[ -d "$target" ]]; then
-    cd "$target"
-elif [[ "$(zstat +uid "$target")" == 0 ]]; then
-    SUDO_EDITOR=nvim sudoedit "$target"
-elif [[ -n "$(chezmoi managed "$target" 2>/dev/null)" ]]; then
-    chezmoi edit --watch "$target"
-else
-    command nvim "$@"
+    return
 fi
+
+local target="${1:a}"
+
+
+# ---------
+# New File
+# ---------
+
+if [[ ! -e "$target" ]]; then
+    command nvim "$target"
+    local nvim_exit=$?
+
+    if [[ ! -e "$target" ]]; then
+        return $nvim_exit
+    fi
+
+
+    if (( $+commands[chezmoi] )); then
+        local source_dir
+        if source_dir="$(command chezmoi source-path "${target:h}" 2>/dev/null)"; then
+            [[ "${source_dir:t}" == exact_* ]] && command chezmoi add "$target"
+        fi
+    fi
+
+    return $nvim_exit
+fi
+
+
+# ---------------
+# File Exists
+# ---------------
+
+if [[ -d "$target" ]]; then
+    cd "$target"
+    return
+fi
+
+if (( $(zstat +uid "$target") == 0 )); then
+    SUDO_EDITOR=nvim command sudoedit "$target"
+    return
+fi
+
+if (( $+commands[chezmoi] )) && [[ -n "$(command chezmoi managed "$target" 2>/dev/null)" ]]; then
+    local -x TMPDIR="$XDG_CACHE_HOME/chezmoi"
+    [[ ! -d "$TMPDIR" ]] && command mkdir -p "$TMPDIR"
+    command chezmoi edit --watch "$target"
+    return
+fi
+
+command nvim "$@"
