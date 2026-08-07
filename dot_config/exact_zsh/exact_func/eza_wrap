@@ -1,0 +1,41 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.config/zsh/func/eza_wrap
+# 
+# 
+
+#
+# Wrapper function for eza
+#
+
+local -a opts=( "${eza_opts[@]}" )
+local -a args=()
+local -i ignore=1
+local -i long=0
+
+while (( $# )); do
+    case "$1" in
+        -u|--unignore) ignore=0; shift;;
+        -l|--long)     long+=1;  shift;;
+        -*)  opts+=( "$1"     ); shift;;
+        *)   args+=( "${1:a}" ); shift;; # Show absolute filepath for --tree
+    esac
+done
+
+
+(( ignore )) && opts+=( "--ignore-glob" "${(j:|:)eza_ignore_glob}" )
+
+if   (( long == 0 )); then;
+    opts+=( "--no-permissions" "--no-user" "--no-filesize" "--no-time")
+elif (( long == 1 )); then;
+    opts+=( "--header" "--mounts" "--no-user")
+elif (( long >  1 )); then;
+    opts+=( "--header" "--extended" "--mounts" "--group" "--smart-group" )
+else
+    print -u2 "${(D)${${(%):-%N}:A}}: Variable 'long' is somehow negative"
+fi
+
+\builtin command eza "${opts[@]}" "${args[@]}"

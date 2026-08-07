@@ -18,7 +18,6 @@
 !share/
 
 # Does not contain chezmoi within
-bin/**
 !bin/                   # Everything, on both tele and top
 
 cache/**

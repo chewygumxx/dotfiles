@@ -10,27 +10,32 @@
 [[ -o interactive  ]] || return
 (( $+commands[eza] )) || return 127
 
-eza_opts=(
-    "--all"
-    "--long"
-    "--git"
-    "--color=always"
-    "--hyperlink"
-    "--group-directories-first"
-)
-
-eza_ignore_glob=(
-    "[0-9a-f][0-9a-f]"  # .git/objects/*
-    ".obsidian"
-    ".zettel-notes"
-    #".git"
-)
-
 setopt aliases
 
-alias l="eza_wrap"
+# Check if autoloaded zsf function eza_wrap file available
+if (( $+functions[eza_wrap] )); then
+    typeset -ga eza_{opts,ignore_glob}
+    eza_opts=(
+        "--all"
+        "--long"
+        "--git"
+        "--color=always"
+        "--hyperlink"
+        "--group-directories-first"
+    )
+    eza_ignore_glob=(
+        "[0-9a-f][0-9a-f]"  # .git/objects/*
+        ".obsidian"
+        ".zettel-notes"
+        #".git"
+    )
+    alias l="eza_wrap"
+else
+    alias l="eza"
+fi
+
 alias ll="l --long"
-alias lll='ll --long --total-size --all'
+alias lll='ll --long --total-size'
 
 alias la="l --unignore"
 alias lla="ll --unignore"
@@ -52,32 +57,3 @@ alias lllat='llla --tree'
 alias ldt='ld --tree'
 alias lldt='lld --tree'
 alias llldt='llld --tree --follow-symlinks'
-
-function eza_wrap () {
-    local -a opts=( "${eza_opts[@]}" )
-    local -a args=()
-    local -i ignore=1
-    local -i long=0
-
-    while (( $# )); do
-        case "$1" in
-            -u|--unignore) ignore=0; shift;;
-            -l|--long)     long+=1;  shift;;
-            -*)  opts+=( "$1"     ); shift;;
-            *)   args+=( "${1:a}" ); shift;; # Show absolute filepath for --tree
-        esac
-    done
-
-
-    (( ignore )) && opts+=( "--ignore-glob" "${(j:|:)eza_ignore_glob}" )
-
-    if   (( long == 1)); then;
-        opts+=( "--header" "--mounts" "--no-user")
-    elif (( long >= 2)); then;
-        opts+=( "--header" "--mounts" "--group" "--smart-group" )
-    else
-        opts+=( "--no-permissions" "--no-user" "--no-filesize" "--no-time")
-    fi
-
-    \builtin command eza "${opts[@]}" "${args[@]}"
-}
