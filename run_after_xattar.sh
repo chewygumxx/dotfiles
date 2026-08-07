@@ -12,6 +12,8 @@
 # platform and destination filesystem support it. Logs skips and
 # failures to a dedicated log.
 #
+# Fails on paths containing newline characters.
+#
 
 set -eu
 
@@ -34,7 +36,7 @@ log() {
 
 if ! mkdir_stdouterr="$(mkdir -p "$log_dir" 2>&1)"; then
     log WARN "Failed to create log file directory"
-    log WARN "$mkdir_stdourerr"
+    log WARN "$mkdir_stdouterr"
 fi
 
 # ---------------------
@@ -60,13 +62,15 @@ else
 	exit 0
 fi
 
-probe_file=$(mktemp "$CHEZMOI_DEST_DIR/.chezmoi_xattr_probe.XXXXXX")
-: > "$probe_file" 2>/dev/null || {
-	log WARN "Could not create probe file at ${probe_file}; skipping"
-	exit 0
-}
-if ! set_xattr "$XATTR_NAME" "probe" "$probe_file" >/dev/null 2>&1; then
-	log WARN "Destination filesystem at ${CHEZMOI_DEST_DIR} appears not to support xattrs; skipping"
+if ! probe_file=$(mktemp "$CHEZMOI_DEST_DIR/.chezmoi_xattr_probe.XXXXXX" 2>&1); then
+    log WARN "Could not create probe file: ${probe_file}"
+	log WARN "$probe_file"
+    exit 0
+fi
+
+if ! set_xattr_stdouterr="$(set_xattr "$XATTR_NAME" "probe" "$probe_file" 2>&1)"; then
+	log WARN "Destination filesystem at ${CHEZMOI_DEST_DIR} appears not to support xattrs"
+	log WARN "$set_xattr_stdouterr"
 	rm -f "$probe_file"
 	exit 0
 fi
@@ -83,13 +87,17 @@ tag() {
     if [ "$1" = "managed" ] || [ "$1" = "unmanaged" ]; then
         paths="$(chezmoi "$1" --path-style=absolute --exclude=symlinks,remove,scripts)"
     elif [ "$1" = "ignored" ]; then
-        paths="$(chezmoi "$1" -0 | xargs -0 printf "$CHEZMOI_DEST_DIR/%s\n")"
+        laths="$(chezmoi "$1" -0 | xargs -0 printf "$CHEZMOI_DEST_DIR/%s\n")"
     else
         log ERROR "(tag) Tag provided not 'ignored', 'managed' or 'unmanaged': $1"
         exit 1
     fi
 
-    run_log=$(mktemp)
+    if ! run_log=$(mktemp 2>&1); then
+        log ERROR "Could not create run log: ${run_log}"
+        exit 1
+    fi
+
     printf "%s" "$paths" | while IFS= read -r file; do
         # Validate either regular file or directory
         [ ! -f "$file" ] && [ ! -d "$file" ] && continue
