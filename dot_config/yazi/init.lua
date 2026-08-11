@@ -1,3 +1,5 @@
+-- vim: expandtab:shiftwidth=4
+
 --
 --
 -- ~/.config/yazi/init.lua

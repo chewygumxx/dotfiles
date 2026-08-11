@@ -3,7 +3,7 @@
 # 
 # 
 # ~chewygumxx/dotfiles.git
-# ::: :/dot_config/systemd/user/gpg-socket-path-override.service
+# ::: :/dot_config/systemd/user/gpg-systemd-socket-override.service
 # 
 # 
 
@@ -13,20 +13,21 @@
 # most conventionally from: ~/.config/environment.d/*.conf
 #
 # Must be enabled to preceed gpg
-# Dependant on PATH executable: gpg-socket-path-override
+# Dependent on absolute filepath to executable: gpg-systemd-socket-override
 #
 
 [Unit]
-Description=Executes script to generate GnuPG socket overrides
+Description=Script to generate GnuPG socket overrides
 ConditionEnvironment=GNUPGHOME
-Before=dirmngr.socket keyboxd.socket gpg-agent.socket gpg-agent-ssh.socket gpg-agent-extra.socket gpg-agent-browser.socket
+DefaultDependencies=no
+Before=sockets.target dirmngr.socket keyboxd.socket gpg-agent.socket gpg-agent-ssh.socket gpg-agent-extra.socket gpg-agent-browser.socket
 Wants=dirmngr.socket keyboxd.socket gpg-agent.socket gpg-agent-ssh.socket gpg-agent-extra.socket gpg-agent-browser.socket
 
 [Service]
 Type=oneshot
 Environment=SYSTEMD_UNIT=%n
-ExecStart=gpg-socket-path-override
+ExecStart=%h/.local/bin/gpg-systemd-socket-override
 RemainAfterExit=yes
 
 [Install]
-WantedBy=default.target
+WantedBy=sockets.target

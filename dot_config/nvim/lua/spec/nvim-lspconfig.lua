@@ -8,7 +8,7 @@
 --
 
 local M = {
-    'neovim/nvim-lspconfig',
+    'https://github.com/neovim/nvim-lspconfig',
     enabled = true,
 }
 

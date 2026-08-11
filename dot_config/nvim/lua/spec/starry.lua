@@ -1,4 +1,5 @@
--- vim:
+#!/bin/false
+-- vim: expandtab:shiftwidth=4
 
 --
 --
