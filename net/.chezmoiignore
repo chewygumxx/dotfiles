@@ -2,53 +2,32 @@
 
 # 
 # 
-# ~/.local/share/chezmoi/net/.chezmoiignore
+# ~chewygumxx/dotfiles.git
+# ::: :/net/.chezmoiignore
 # 
 # 
 
-# Ignore everything not explicitly excepted
-*
+
+# -------------------
+# Ignored Everywhere
+# -------------------
 
 
-# ------------------
-# Chewytop Exclusive
-# ------------------
+# -----------------
+# Chewytop Ignored
+# -----------------
 
 {{- if eq .chezmoi.hostname "chewytop" }}
 
-# Does not contain .chezmoiignore within
-!aria2/
-
-firefox/**
-!firefox/
-firefox/ext-imagus-mod/**
-!firefox/ext-imagus-mod/
-firefox/ext-save-in/**
-!firefox/ext-save-in/
-firefox/ext-sidebery/**
-!firefox/ext-sidebery/
-firefox/ext-tab-image-saver/**
-!firefox/ext-tab-image-saver/
-
-gallery-dl/**
-!gallery-dl/
-!gallery-dl/filename.scr.txt
-!gallery-dl/gallery-dl.conf
-!gallery-dl/options.scr.txt
-!gallery-dl/run.sh
-!gallery-dl/wl-paste_daemon.sh
-
-git/**
-!git/
-
-tel-dl/**
-!tel-dl/
 
 {{- end }}
 
 
-# ------------------------
-# Explicitly Always Ignore
-# ------------------------
+# ------------------
+# Chewytele Ignored
+# ------------------
 
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+{{- end }}
 

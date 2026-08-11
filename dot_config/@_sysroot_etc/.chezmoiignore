@@ -2,61 +2,50 @@
 
 # 
 # 
-# ~/.local/share/chezmoi/.chezmoiignore
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/@_sysroot_etc/.chezmoiignore
 # 
 # 
 
-# Ignore everything not explicitly excepted
-*
-
 
 # -------------------
-# Excepted Everywhere
+# Ignored
 # -------------------
 
-!backup/
-!script/
-!src/
-
+src/ly/save.txt
+src/wireguard/
 
 # ------------------
-# Chewytop Exclusive
+# Chewytop Ignored
 # ------------------
 
 {{- if eq .chezmoi.hostname "chewytop" }}
 
-!just/
-!justfile
-!src/default/
-!src/ly/
-src/ly/save.txt
-!src/makepkg.conf.d/
-!src/ssh/
-!src/sudoers.d/
-!src/systemd/
-!src/zsh/
-!src/fstab
-!src/locale.gen
-!src/makepkg.conf
-!src/pacman.conf
-!src/sudoers
+src/zshenv
+src/zshrc
 
 {{- end }}
 
 
 # -------------------
-# Chewytele Exclusive
+# Chewytele Ignored
 # -------------------
 
 {{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
 
-!src/zshenv
-!src/zshrc
+just/
+justfile
+src/default/
+src/ly/
+src/makepkg.conf.d/
+src/ssh/
+src/sudoers.d/
+src/systemd/
+src/zsh/
+src/fstab
+src/locale.gen
+src/makepkg.conf
+src/pacman.conf
+src/sudoers
 
 {{- end }}
-
-# ------------------------
-# Explicitly Always Ignore
-# ------------------------
-
-src/wireguard/**

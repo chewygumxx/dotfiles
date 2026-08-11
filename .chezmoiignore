@@ -2,82 +2,39 @@
 
 # 
 # 
-# ~/.local/share/chezmoi/.chezmoiignore
+# ~chewygumxx/dotfiles.git
+# ::: :/.chezmoiignore
 # 
 # 
 
-# Ignore everything not explicitly excepted
-*
-
-
 # -------------------
-# Excepted Everywhere
+# Ignored Everywhere
 # -------------------
 
-!.bash_history  # For ~czroot/remove_dot_bash_history
-!gen_wezterm_terminfo
-!xattar.sh
-
-# Contain .chezmoiignore within
-!.config/
-!.local/
-
-# Does not contain .chezmoiignore within
-.ssh/**
-!.ssh/
-!.ssh/config
-.ssh/id/**
-!.ssh/id/
-
-
-# Contain .chezmoiignore within
-!net/
-!ref/
-
-# Does not contain .chezmoiignore within
-app/**
-!app/
-
-arc/**
-!arc/
-
-dev/**
-!dev/
-dev/_gist/**
-!dev/_gist/
-
-doc/**
-!doc/
-!doc/tealdeer/
-
-scr/**
-!scr/
+sec/
 
 # ------------------
-# Chewytop Exclusive
+# Chewytop Ignored
 # ------------------
 
 {{- if eq .chezmoi.hostname "chewytop" }}
 
-# Explicitly always ignore
-sec/
+.termux       # Symlink ~/.termux ->    .config/termux/
+.shortcuts    # Symlink ~/.shortcuts -> .termux/shortcuts/
+
+_chewygumxx   # Symlink to Symlink   ./.local/sym/_chewygumxx 
+              # (which then symlinks directory /share/emulated/0/_chewygumxx/)
+
+downloads/
 
 {{- end }}
 
 
 # -------------------
-# Chewytele Exclusive
+# Chewytele Ignored
 # -------------------
 
 {{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
 
-!.termux       # Symlink ~/.termux ->    .config/termux/
-!.shortcuts    # Symlink ~/.shortcuts -> .termux/shortcuts/
-
-!_chewygumxx   # Symlink to Symlink   ./.local/sym/_chewygumxx 
-                # (which then symlinks directory /share/emulated/0/_chewygumxx/)
-
-downloads/**
-!downloads/
 
 {{- end }}

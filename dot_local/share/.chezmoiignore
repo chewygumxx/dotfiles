@@ -2,77 +2,63 @@
 
 # 
 # 
-# ~/.local/share/chezmoi/dot_local/.chezmoiignore
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_local/.chezmoiignore
 # 
 # 
 
-# Ignore everything not explicitly excepted
-*
-
 # -------------------
-# Excepted Everywhere
+# Ignored Everywhere
 # -------------------
 
-# ------------------
-# Chewytop Exclusive
-# ------------------
+audacity/
+bluetui/
+cclip/
+chezmoi/
+cpanm/
+dbus-1/
+flatpak/
+godot/
+gvfs-metadata/
+hyprland/
+iwctl/
+kactivitymanagerd/
+KDE/
+keyrings/
+kpeoplevcard/
+locale/
+lua/
+luarocks/
+man/
+mime/
+nvim/
+pki/
+rura/
+systemctl-tui/
+systemd/
+vulkan/
+wezterm/
+yarn/
+zathura/
+zoxide/
+recently-used.xbel
+user-places.xbel
+user-places.xbel.bak
+user-places.xbel.tbcache
+
+
+# -----------------
+# Chewytop Ignored
+# -----------------
 
 {{- if eq .chezmoi.hostname "chewytop" }}
 
-!fonts        # Symlink to ../../ref/font
-
-android/**
-!android/     # Must exist for envvar ANDROID_USER_HOME
-cargo/**
-!cargo/       # Must exist for envvar CARGO_HOME
-go/**
-!go/          # Must exist for envvar GOPATH
-go/bin/**
-!go/bin/      # Must exist for envvar GOBIN
-gnupg/**
-!gnupg/       # Must exist for envvar GNUPGHOME
-gradle/**
-!gradle/      # Must exist for envvar GRADLE_USER_HOME
-nvm/**
-!nvm/         # Must exist for envvar NPM_CONFIG_CACHE
-!nvm/.npmrc   # Symlink to ../../../.config/nvm/npmrc
-
-mozilla/**
-!mozilla/     # Must exist as symlink target of ~/.config/mozilla
-mozilla/firefox/**
-!mozilla/firefox/
-!mozilla/firefox/installs.ini      # Symlinks to ~/.config/mozilla-firefox/installs.ini
-!mozilla/firefox/profiles.ini      # Symlinks to ~/.config/mozilla-firefox/profiles.ini
-mozilla/firefox/chewyfox/**
-!mozilla/firefox/chewyfox/
-!mozilla/firefox/chewyfox/chrome   # Symlinks to directory ~/.config/mozilla-firefox/chewyfox/chrome
-!mozilla/firefox/chewyfox/user.js  # Symlinks to ~/.config/mozilla-firefox/chewyfox/user.js
-
-parallel/**
-!parallel/      # Must exist for envvar PARALLEL_HOME
-rustup/**
-!rustup/        # Must exist for envvar RUSTUP_HOME
-terminfo/**
-!terminfo/      # Must exist for envvars TERMINFO and TERMINFO_DIRS
-
-# XDG Trash Spec
-Trash/**
-!Trash/
-Trash/files/**
-!Trash/files/
-Trash/info/**
-!Trash/info/
-
-yazi/**
-!yazi/
-yazi/plugins/**
-!yazi/plugins/  # Must exist as symlink target of ~/.config/yazi/plugins
 
 {{- end }}
 
-# -------------------
-# Chewytele Exclusive
-# -------------------
+# ------------------
+# Chewytele Ignored
+# ------------------
 
 {{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
 

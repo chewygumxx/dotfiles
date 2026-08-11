@@ -60,4 +60,4 @@ download_languages = [ "en" ]
 # Solution: Symlink $XDG_CONFIG_HOME/tealdeer/pages to
 #           ../../alternative/specified/directory
 # or just:
-custom_pages_dir = "../../doc/tealdeer"
+custom_pages_dir = "./doc"

@@ -2,71 +2,107 @@
 
 # 
 # 
-# ~chezmoi/dot_config/.chezmoiignore
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/.chezmoiignore
 # 
 # 
 
-# Ignore everything not explicitly excepted
-*
+
+# --------
+# Ignored
+# --------
+
+# Secret
 @_sysroot_etc/src/wireguard/**  # (Secret) VPN Private Keys
-kdeconnect/**                   # (Secret) Keys, clipboard, remote commands
-cloudflare-ddns/**              # (Secret) Cloudflare tokens
+kdeconnect/                     # (Secret) Keys, clipboard, remote commands
+cloudflare-ddns/                # (Secret) Cloudflare tokens
 gh/hosts.yml                    # (Secret) Authetication Tokens
 waybar/modules/weather/open_weather_map.apikey
+
+
+#@_sysroot_etc
+audacity/
+#bat/
+bluetuith/
+#btop/
+chezmoi/
+chromium/
+dconf/
+#environment.d/
+#gh/
+GIMP/
+#git/
+#glow/
+go/
+#handlr/
+#hypr/
+inkscape/
+lazysql/
+#luarocks/
+#mozilla -> ../.local/share/mozilla/
+#mozilla-firefox/
+#mpv/
+#npm/
+#nushell/
+#nvim/
+#nvm/
+#print-quote/
+#pulse  -> ../.local/share/pulse/
+#python/
+#rura/
+#systemd/
+#tealdeer/
+#waybar/
 waybar/modules/weather/weather_out.json
-
-# -------------------
-# Excepted Everywhere
-# -------------------
-
-!@_sysroot_etc/     # Contains .chezmoiignore within
-!bat/
-!fd/
-!gh/
-!gh/config.yml
-!git/
-!nvim/
-!tealdeer/
-!yazi/
-!zsh/
-!mimeapps.list
-!user-dirs.dirs
-!user-dirs.locale
-
+#wezterm/
+#xdg-desktop-portal/
+#xdg-desktop-portal-termfilechooser/
+#yay/
+#yazi/
+#zsh/
+kactivitymanagerdrc
+#mimeapps.list
+pavucontrol.ini
+#user-dirs.dirs
+#user-dirs.locale
 
 # ------------------
-# Chewytop Exclusive
+# Chewytop Ignored
 # ------------------
 
 {{- if eq .chezmoi.hostname "chewytop" }}
 
-!btop/
-!environment.d/
-!hypr/
-!luarocks/
-!mozilla            # Symlink to ../.local/share/mozilla/
-!mozilla-firefox/   # Actual user configuration
-!npm/
-!npm/npmrc          # Must exist for envvar NPM_CONFIG_USERCONFIG
-!print-quote/
-!python/
-!systemd/
-!waybar/
-!wezterm/
-!xdg-desktop-portal/
-!xdg-desktop-portal-termfilechooser/
-!yay/
+termux/
 
 {{- end }}
 
 
 # --------------------
-# Chewytele Exclusive
+# Chewytele Ignored
 # --------------------
 
 {{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
 
-!termux/        # Symlink ~/.termux -> .config/termux/ (this line)
+
+btop/
+environment.d/
+handlr/
+hypr/
+luarocks/
+mozilla
+mozilla-firefox/
+mpv/
+npm/
+nvm/
+pulse
+print-quote/
+python/
+systemd/
+waybar/
+wezterm/
+xdg-desktop-portal/
+xdg-desktop-portal-termfilechooser/
+yay/
 
 {{- end }}
 

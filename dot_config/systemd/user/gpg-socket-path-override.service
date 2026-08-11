@@ -1,0 +1,27 @@
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/systemd/user/gpg-socket-path-override.service
+# 
+# 
+
+#
+# Adaptive GnuPG socket resolution for custom GNUPGHOME.
+# Resolves hashed socket directories before socket initialisation.
+#
+# Yes, it's an abomination.
+#
+
+[Unit]
+Before=dirmngr.socket keyboxd.socket gpg-agent.socket gpg-agent-ssh.socket gpg-agent-extra.socket gpg-agent-browser.socket
+Wants=dirmngr.socket keyboxd.socket gpg-agent.socket gpg-agent-ssh.socket gpg-agent-extra.socket gpg-agent-browser.socket
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'sysu="%E/systemd/user"; for daemon in dirmngr keyboxd gpg-agent gpg-agent-ssh gpg-agent-extra gpg-agent-browser; do; path="$(gpgconf --list-dirs ${daemon#gpg-}-socket)"; [ -z "${path}" ] && continue; [ ! -d "${sysu}/${daemon}.socket.d" ] && mkdir -p "${sysu}/${daemon}.socket.d"; printf "# Generated Override of: %%s\n\n[Socket]\nListenStream=\nListenStream=%%s\n" "${sysu}/%n" "$path" > "${sysu}/${daemon}.socket.d/override.conf"; done; systemctl --user daemon-reload'
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target

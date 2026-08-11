@@ -1,40 +1,30 @@
-# vim: expandtab:shiftwidth=4
+# vim: filetype=gitignore
 
 # 
 # 
-# ~/.local/share/chezmoi/ref/image/.chezmoiignore
+# ~chewygumxx/dotfiles.git
+# ::: :/ref/image/.chezmoiignore
 # 
 # 
 
-# Ignore everything not explicitly excepted
-*
+# -------------------
+# Ignored Everywhere
+# -------------------
 
-!profile/
+# -----------------
+# Chewytop Ignored
+# -----------------
 
-icon/**
-!icon/
+{{- if eq .chezmoi.hostname "chewytop" }}
 
-tel/**
-!tel/
-tel/camera/**
-!tel/camera/
-tel/screenshot/**
-!tel/screenshot/
-tel/wallpaper/**
-!tel/wallpaper/
+{{- end }}
 
-top/**
-!top/
-top/screenshot/**
-!top/screenshot/
 
-top/wallpaper/**
-!top/wallpaper/
-!top/wallpaper/current_eDP-1   # Symlink
-!top/wallpaper/current_HDMI-1  # Symlink
+# ------------------
+# Chewytele Ignored
+# ------------------
 
-top/wallpaper/cyberpunk/**
-!top/wallpaper/cyberpunk/
-!top/wallpaper/cyberpunk/desktopbg-cyberpunk_tropical_streetview.jpeg
-!top/wallpaper/cyberpunk/desktopbg-cyberpunk_pixelpunk_skyscraper_bridge.jpeg
-!top/wallpaper/cyberpunk/desktopbg-cyberpunk_pixelpunk_skyscraperpanorama.jpeg
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+
+{{- end }}

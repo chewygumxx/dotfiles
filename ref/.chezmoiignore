@@ -1,39 +1,30 @@
-# vim: expandtab:shiftwidth=4
+# vim: filetype=gitignore
 
 # 
 # 
-# ~/.local/share/chezmoi/ref/.chezmoiignore
+# ~chewygumxx/dotfiles.git
+# ::: :/ref/.chezmoiignore
 # 
 # 
 
-# Ignore everything not explicitly excepted
-*
+# -------------------
+# Ignored Everywhere
+# -------------------
 
-# --------
-# Excepted
-# --------
+# -----------------
+# Chewytop Ignored
+# -----------------
 
-!required_by.md   # Record of what references this directory
+{{- if eq .chezmoi.hostname "chewytop" }}
 
-!image/           # Contains .chezmoiignore within
-!schema/
-!snippet/
-!template/
+{{- end }}
 
-# ----------------------------------------------------
-# Don't ignore directory, but ignore everything within
-# ----------------------------------------------------
-audio/**
-!audio/
 
-doc/**
-!doc/
+# ------------------
+# Chewytele Ignored
+# ------------------
 
-font/**
-!font/    # Must exist as symlink target of ~/.local/share/fonts
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
 
-misc/**
-!misc/
 
-video/**
-!video/
+{{- end }}

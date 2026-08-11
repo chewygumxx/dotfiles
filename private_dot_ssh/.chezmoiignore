@@ -1,0 +1,15 @@
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/private_dot_ssh/.chezmoiignore
+# 
+# 
+
+# -------------------
+# Ignored Everywhere
+# -------------------
+
+authorized_keys
+known_hosts

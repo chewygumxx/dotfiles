@@ -1,0 +1,35 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/ref/image/top/wallpaper/cyberpunk/.chezmoiignore
+# 
+# 
+
+# -------------------
+# Ignored Everywhere
+# -------------------
+
+*
+!desktopbg-cyberpunk_tropical_streetview.jpeg
+!desktopbg-cyberpunk_pixelpunk_skyscraper_bridge.jpeg
+!desktopbg-cyberpunk_pixelpunk_skyscraperpanorama.jpeg
+
+# -----------------
+# Chewytop Ignored
+# -----------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+{{- end }}
+
+
+# ------------------
+# Chewytele Ignored
+# ------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+
+{{- end }}

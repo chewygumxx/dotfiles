@@ -1,0 +1,34 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_local/share/private_mozilla/private_firefox/.chezmoiignore
+# 
+# 
+
+# -------------------
+# Ignored Everywhere
+# -------------------
+
+Crash Reports/
+firefox-mpris/
+Pending Pings/
+Prolfile Groups/
+
+# ------------------
+# Chewytop Exclusive
+# ------------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+{{- end }}
+
+
+# -------------------
+# Chewytele Exclusive
+# -------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+{{- end }}

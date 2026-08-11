@@ -1,0 +1,35 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_local/share/terminfo/.chezmoiignore
+# 
+# 
+
+#
+# Must exist for envvar TERMINFO and TERMINFO_DIRS
+#
+
+# -------------------
+# Ignored Everywhere
+# -------------------
+
+*
+
+# ------------------
+# Chewytop Exclusive
+# ------------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+{{- end }}
+
+
+# -------------------
+# Chewytele Exclusive
+# -------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+{{- end }}

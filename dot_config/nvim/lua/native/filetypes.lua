@@ -1,4 +1,4 @@
--- vim: foldlevel=3:foldmethod=expr
+-- vim: expandtab:shiftwidth=4:foldlevel=3:foldmethod=expr
 
 --
 --
@@ -16,11 +16,16 @@ M.setup = function()
         filename = {
             ["ignore"]         = "gitignore",
             [".chezmoiignore"] = "gitignore",
+            [".assetsignore"]  = "gitignore",  -- CloudFlare Worker wrangler config
         },
         pattern = {
+            [".*gnupg/.*%.conf"] = "gpg",
             [".*/hypr/.*%.conf"] = "hyprlang",
-            [".*config/zsh/.*"] = "zsh",
             [".*config/environment.d/.*%.conf"] = "systemd",
+
+            [".*config/zsh/.*"]    = "zsh",
+            [".*zsh/func/.*"]      = "zsh",
+            [".*zsh/functions/.*"] = "zsh",
         },
     })
 end
