@@ -209,4 +209,5 @@ M.setup = function()
     })
 end
 
+M.setup()
 return M

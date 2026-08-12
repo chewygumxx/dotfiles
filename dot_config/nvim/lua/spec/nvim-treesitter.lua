@@ -16,7 +16,7 @@
 ---@module "lazy"
 ---@type LazySpec
 local M = {
-    url     = "https://github.com/nvim-treesitter/nvim-treesitter",
+    url     = "https://github.com/nvim-treesitter/nvim-treesitter.git",
     enabled = true,
     branch  = 'main',
     build   = ':TSUpdate',

@@ -1,9 +1,15 @@
--- vim:
+#!/bin/false
+-- vim: expandtab:shiftwidth=4:filetype=lua:
 
 --
 --
--- ~/.config/nvim/lua/native/user_commands.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/dot_config/nvim/lua/general/usercmd.lua
 --
+--
+
+--
+-- 
 --
 
 local M = {}
@@ -166,4 +172,3 @@ function M.setup()
 end
 
 return M
-

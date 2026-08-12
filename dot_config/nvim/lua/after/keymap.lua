@@ -1,19 +1,20 @@
-#!/usr/bin/env lua
--- vim: foldlevel=1:foldmethod=expr
+#!/bin/false
+-- vim: expandtab:shiftwidth=4:filetype=lua:
 
 --
 --
--- ~/.config/nvim/lua/native/keymap.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/dot_config/nvim/lua/base/keymap.lua
 --
 --
 
 local M = {}
 
+vim.g.mapleader  = "\\"
 vim.g.timeoutlen = 1000  -- Time to complete keymap sequence
-vim.g.mapleader = "\\"
+vim.g.showcmd    = true  -- Show keystrokes right of message buffer
 
 local normal_leader = {
-    --{{!CLOSE
     blink_relativenumber = function()
         vim.api.nvim_set_keymap('n', '<leader>nn', '', {
             desc = "Blink option relativenumber temporarily",

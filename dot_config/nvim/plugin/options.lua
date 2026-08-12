@@ -102,4 +102,5 @@ M.setup = function()
     set_nvim_options(M.opts)
 end
 
+M.setup()
 return M

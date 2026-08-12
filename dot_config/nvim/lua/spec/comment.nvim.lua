@@ -1,5 +1,5 @@
 #!/bin/false
--- vim: expandtab:shiftwidth=4
+-- vim: expandtab:shiftwidth=4:ft=lua:
 
 --
 --
@@ -10,7 +10,7 @@
 
 --
 -- Cross-filetype commenting utility sourcing Neovim-native treesitter and
--- commentstring to provide uniform commenting application via keymap
+-- commentstring to provide uniform comment operation via keymap
 --
 
 
@@ -54,11 +54,13 @@ M.opts = {
 }
 
 M.keys = {
-    { M.opts.toggler.line,  desc = "Comment: Toggle line"         },
-    { M.opts.toggler.block, desc = "Comment: Toggle block"        },
-    { M.opts.extra.above,   desc = "Comment: Add above"           },
-    { M.opts.extra.below,   desc = "Comment: Add below"           },
-    { M.opts.extra.eol,     desc = "Comment: Append to line end"  },
+    { M.opts.toggler.line,                        desc = "Comment: Toggle line"        },
+    { M.opts.toggler.block,                       desc = "Comment: Toggle block"       },
+    { M.opts.opleader.line,  mode = { "n", "v" }, desc = "Comment: line operator"      },
+    { M.opts.opleader.block, mode = { "n", "v" }, desc = "Comment: block operator"     },
+    { M.opts.extra.above,                         desc = "Comment: Add above"          },
+    { M.opts.extra.below,                         desc = "Comment: Add below"          },
+    { M.opts.extra.eol,                           desc = "Comment: Append to line end" },
 }
 
 return M
