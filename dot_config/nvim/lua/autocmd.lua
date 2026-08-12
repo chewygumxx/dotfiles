@@ -11,7 +11,8 @@ local M = {}
 
 local cursor_last_position = function()
     vim.api.nvim_create_autocmd("BufReadPost", {
-        desc = "Move cursor to last position within file",
+        desc  = "Move cursor to last position within file",
+        group = M.augroup_file_entry,
         callback = function () vim.schedule( function ()
             -- Skip if the cursor was already moved (e.g. by gF, a line-number arg, etc.)
             local cur = vim.api.nvim_win_get_cursor(0)
@@ -23,12 +24,12 @@ local cursor_last_position = function()
     })
 end
 
-
-local readonly_remap_q_quit = function()
+local unmodifiable_q_quit = function()
     vim.api.nvim_create_autocmd("BufReadPost", {
-        desc = "Keymap setup for read-only buffers",
+        desc  = "For unmodifiable buffers: Keymap (nv) q->quit ",
+        group = M.augroup_file_entry,
         callback = function(event)
-            bufnr = event.buf or 0
+            local bufnr = event.buf or 0
             if vim.bo[bufnr].readonly or not vim.bo[bufnr].modifiable then
                 vim.keymap.set({ "n", "v" }, "q", "<cmd>q<CR>", {
                     buffer = bufnr,
@@ -41,8 +42,9 @@ local readonly_remap_q_quit = function()
 end
 
 M.setup = function()
+    M.augroup_file_entry = vim.api.nvim_create_augroup("cgxx.file_entry", { clear = true })
     cursor_last_position()
-    readonly_remap_q_quit()
+    unmodifiable_q_quit()
 end
 
 return M
