@@ -11,6 +11,35 @@
 # Wrapper function for eza
 #
 
+local __this_file="${(D)${${(%):-%N}:a}}"
+
+
+# ---------------------
+# Validate Environment
+# ---------------------
+
+if (( ! $+commands[eza] )); then
+    print -u2 "${__this_file}: Command not found: eza"
+    return 127
+fi
+
+local envvar
+for envvar in eza_opts eza_ignore_glob; do
+    if [[ ! -v "$envvar" ]]; then
+        print -u2 "${__this_file}: [WARN] Variable not set: $envvar"
+        continue
+    fi
+
+    if [[ "${(Pt)envvar}" != array* ]]; then
+        print -u2 "${__this_file}: [WARN] Variable is not an array: $envvar"
+    fi
+done
+
+
+# -----------------
+# Invocation Parse
+# -----------------
+
 local -a opts=( "${eza_opts[@]}" )
 local -a args=()
 local -i ignore=1
@@ -18,13 +47,17 @@ local -i long=0
 
 while (( $# )); do
     case "$1" in
-        -u|--unignore) ignore=0; shift;;
-        -l|--long)     long+=1;  shift;;
-        -*)  opts+=( "$1"     ); shift;;
-        *)   args+=( "${1:a}" ); shift;; # Show absolute filepath for --tree
+        -u|--unignore) ignore=0;     shift;;
+        -l|--long)     long+=1;      shift;;
+        -*)            opts+=("$1"); shift;;
+        *)             args+=("$1"); shift;;
     esac
 done
 
+
+# --------
+# Options
+# --------
 
 (( ignore )) && opts+=( "--ignore-glob" "${(j:|:)eza_ignore_glob}" )
 
@@ -33,9 +66,28 @@ if   (( long == 0 )); then;
 elif (( long == 1 )); then;
     opts+=( "--header" "--mounts" "--no-user")
 elif (( long >  1 )); then;
-    opts+=( "--header" "--extended" "--mounts" "--group" "--smart-group" )
+    opts+=( "--header" "--mounts" "--extended" "--group" "--smart-group" )
 else
     print -u2 "${(D)${${(%):-%N}:A}}: Variable 'long' is somehow negative"
 fi
 
-\builtin command eza "${opts[@]}" "${args[@]}"
+
+# ---------
+# Argument 
+# ---------
+
+(( ${#args} == 0 )) && args+=( "${PWD}" )
+
+# Show directory path for --tree
+typeset -a dirs=()
+local dirpath
+for dirpath in "${args[@]}"; do
+    dirs+=( "${dirpath:a}" )
+done
+
+
+# --------
+# Execute
+# --------
+
+\builtin command eza "${opts[@]}" "${dirs[@]}"

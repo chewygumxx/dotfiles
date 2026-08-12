@@ -10,36 +10,14 @@
 [[ -o interactive  ]] || return
 (( $+commands[eza] )) || return 127
 
+
+
 setopt aliases
+# Check if zsh wrapper function available
 
-# Check if autoloaded zsf function eza_wrap file available
-if (( $+functions[eza_wrap] )); then
-    typeset -ga eza_{opts,ignore_glob}
-    eza_opts=(
-        "--all"
-        "--long"
-        "--git"
-        "--color=always"
-        "--hyperlink"
-        "--group-directories-first"
-    )
-    eza_ignore_glob=(
-        "[0-9a-f][0-9a-f]"  # .git/objects/*
-        ".obsidian"
-        ".zettel-notes"
-        #".git"
-    )
-    alias l="eza_wrap"
-else
-    alias l="eza"
-fi
-
+alias l="eza"
 alias ll="l --long"
 alias lll='ll --long --total-size'
-
-alias la="l --unignore"
-alias lla="ll --unignore"
-alias llla='lll --unignore'
 
 alias ld='l --only-dirs --show-symlinks' # I never use GNU `ld`
 alias lld='ll --only-dirs'
@@ -50,10 +28,41 @@ alias lt="l --tree"
 alias llt='ll --tree'
 alias lllt='lll --tree'
 
-alias lat="la --tree" 
-alias llat='lla --tree'
-alias lllat='llla --tree'
-
 alias ldt='ld --tree'
 alias lldt='lld --tree'
 alias llldt='llld --tree --follow-symlinks'
+
+
+# -----------------
+# Wrapper Function
+# -----------------
+
+() {
+    local wrapfunc="eza_wrap"
+    if (( $+functions[$wrapfunc] )); then
+        typeset -ga eza_{opts,ignore_glob}
+        eza_opts=(
+            "--all"
+            "--group-directories-first"
+            "--color=always"
+            "--hyperlink"
+            "--git"
+        )
+        eza_ignore_glob=(
+            "[0-9a-f][0-9a-f]"  # .git/objects/* subdirectories
+            ".obsidian"
+            ".zettel-notes"
+            #".git"
+        )
+
+        alias l="$wrapfunc"
+
+        alias la="l --unignore"
+        alias lla="ll --unignore"
+        alias llla='lll --unignore'
+        
+        alias lat="la --tree" 
+        alias llat='lla --tree'
+        alias lllat='llla --tree'
+    fi
+}
