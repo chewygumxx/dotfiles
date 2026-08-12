@@ -11,6 +11,8 @@
 # Function file 'func/als' groups aliases
 #
 
+local __this_file="${(D)${${(%):-%N}:A}}"
+
 setopt aliases
 
 # Prompt before overwriting
@@ -32,21 +34,6 @@ alias gist='gh gist create'
 
 # Synaptic Nexus
 alias nex='unalias nex; source "$HOME/doc/synaptic-nexus/nex.rc.zsh"'
-
-: ${EDITOR:="nvim"}
-alias     e="$EDITOR"
-alias  edit="$EDITOR"
-
-alias     v="$EDITOR"
-alias    vi="$EDITOR"
-alias   vim="$EDITOR"
-alias  nvim="$EDITOR"
-alias  nivm="$EDITOR"
-
-alias    hx="$EDITOR"
-alias   kak="$EDITOR"
-alias  nano="$EDITOR"
-alias emacs="$EDITOR"
 
 if (( $+commands[systemctl] )); then # chewytop
     # WireGuard ProtonVPN

@@ -3,7 +3,7 @@
 
 # 
 # 
-# ~/.config/zsh/rc/util/env.rc.zsh
+# ~/.config/zsh/rc/util/environment.rc.zsh
 # 
 # 
 
