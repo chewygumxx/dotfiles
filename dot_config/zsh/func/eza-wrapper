@@ -1,14 +1,16 @@
 #!/bin/false
-# vim: expandtab:shiftwidth=4
+# vim: expandtab:shiftwidth=4:filetype=zsh:
 
 # 
 # 
-# ~/.config/zsh/func/eza_wrap
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/zsh/func/eza-wrapper
 # 
 # 
 
 #
-# Wrapper function for eza
+# Zsh function for wrapping command line utility: eza
+# Dependent upon array variables: __eza_opts __eza_ignore_glob
 #
 
 local __this_file="${(D)${${(%):-%N}:a}}"
@@ -19,19 +21,19 @@ local __this_file="${(D)${${(%):-%N}:a}}"
 # ---------------------
 
 if (( ! $+commands[eza] )); then
-    print -u2 "${__this_file}: Command not found: eza"
+    print -u2 "${__this_file}: [FATAL] Command not found: eza"
     return 127
 fi
 
 local envvar
-for envvar in eza_opts eza_ignore_glob; do
+for envvar in __eza_opts __eza_ignore_glob; do
     if [[ ! -v "$envvar" ]]; then
-        print -u2 "${__this_file}: [WARN] Variable not set: $envvar"
+        print -u2 "${__this_file}: [ERROR] Variable not set: $envvar"
         continue
     fi
 
     if [[ "${(Pt)envvar}" != array* ]]; then
-        print -u2 "${__this_file}: [WARN] Variable is not an array: $envvar"
+        print -u2 "${__this_file}: [ERROR] Variable is not an array: $envvar"
     fi
 done
 
@@ -40,7 +42,7 @@ done
 # Invocation Parse
 # -----------------
 
-local -a opts=( "${eza_opts[@]}" )
+local -a opts=( "${__eza_opts[@]}" )
 local -a args=()
 local -i ignore=1
 local -i long=0
@@ -59,7 +61,7 @@ done
 # Options
 # --------
 
-(( ignore )) && opts+=( "--ignore-glob" "${(j:|:)eza_ignore_glob}" )
+(( ignore )) && opts+=( "--ignore-glob" "${(j:|:)__eza_ignore_glob}" )
 
 if   (( long == 0 )); then;
     opts+=( "--no-permissions" "--no-user" "--no-filesize" "--no-time")
