@@ -37,6 +37,25 @@ alias y=yazi
 # Synaptic Nexus
 alias nex='unalias nex; source "$HOME/doc/synaptic-nexus/nex.rc.zsh"'
 
+# Editor
+(( $+aliases[edit] )) && unalias edit
+if   (( $+functions[nvim-wrapper] )); then alias edit="nvim-wrapper"
+elif (( $+commands["$VISUAL"]     )); then alias edit="\builtin command $VISUAL"
+elif (( $+commands["$EDITOR"]     )); then alias edit="\builtin command $EDITOR"
+elif (( $+commands[nvim]          )); then alias edit="\builtin command nvim"
+elif (( $+commands[vim]           )); then alias edit="\builtin command vim"
+elif (( $+commands[vi]            )); then alias edit="\builtin command vi"
+else
+    print -u2 "${__this_file}: [ERROR] Unable to resolve editor. Editors aliases not set"
+fi
+
+(( $+aliases[edit] )) && () {
+    local __alias
+    for __alias in e ed edit v vi vim nvim nivm hx kak nano emacs; do
+        alias "$__alias"="${aliases[edit]}"
+    done
+}
+
 if (( $+commands[systemctl] )); then # chewytop
     # WireGuard ProtonVPN
     alias vpnup='sudo wg-quick up protonvpn'
