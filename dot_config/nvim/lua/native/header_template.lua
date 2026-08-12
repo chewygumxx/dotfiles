@@ -8,6 +8,10 @@
 --
 --
 
+--
+-- Immutable header text for all text file formats
+--
+
 local M = {}
 
 local modeline = "vim: expandtab:shiftwidth=4"
@@ -66,9 +70,10 @@ local buffer_github_slug = function(bufnr, remote_name)
     return github_slug_from_url(vim.trim(result.stdout))
 end
 
+---Deduce if buffer is of git repository
 ---@param bufnr integer?
 ---@return boolean
-local function buffer_has_git_ancestor(bufnr)
+local buffer_has_git_ancestor = function(bufnr)
     bufnr = bufnr or 0
     local bufname = vim.api.nvim_buf_get_name(bufnr)
     if bufname == "" then

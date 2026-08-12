@@ -3,13 +3,14 @@
 
 --
 --
--- ~/.config/nvim/lua/spec/nvim-lspconfig.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/dot_config/nvim/lua/spec/nvim-lspconfig.lua
 --
 --
 
 local M = {
-    'https://github.com/neovim/nvim-lspconfig',
-    enabled = true,
+    url     = 'https://github.com/neovim/nvim-lspconfig',
+    enabled = false,
 }
 
 return M

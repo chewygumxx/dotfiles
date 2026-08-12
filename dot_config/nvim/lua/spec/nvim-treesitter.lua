@@ -3,23 +3,24 @@
 
 --
 --
--- ~/.config/nvim/lua/spec/nvim-treesitter.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/dot_config/nvim/lua/spec/comment.nvim.lua
 --
 --
 
---
--- https://github.com/nvim-treesitter/nvim-treesitter
+-- 
+-- Neovim treesitter parser manager and query collection. Also includes
+-- staged features for potential future Neovim-native implementation.
 --
 
 ---@module "lazy"
 ---@type LazySpec
 local M = {
-    'nvim-treesitter/nvim-treesitter',
+    url     = "https://github.com/nvim-treesitter/nvim-treesitter",
     enabled = true,
-
     branch  = 'main',
-    lazy    = false,
     build   = ':TSUpdate',
+    lazy    = false,
 }
 
 local ensure_installed = {
@@ -269,11 +270,10 @@ local ignore_filetypes = {
 -- Ripped this from:
 -- https://www.reddit.com/r/neovim/comments/1pndf9e/my_new_nvimtreesitter_configuration_for_the_main/
 M.config = function()
-    local ts = require('nvim-treesitter')
-
-    vim.treesitter.language.register('ini', 'systemd')
+    vim.treesitter.language.register('ini',    'systemd' )
     vim.treesitter.language.register('gotmpl', 'template')
 
+    local ts = require('nvim-treesitter')
     -- Install core parsers after lazy.nvim finishes loading all plugins
     vim.api.nvim_create_autocmd('User', {
         pattern  = 'LazyDone',
@@ -324,7 +324,7 @@ M.config = function()
     -- Auto-install parsers and enable highlighting on FileType
     vim.api.nvim_create_autocmd('FileType', {
         group = vim.api.nvim_create_augroup('TreesitterSetup', { clear = true }),
-        desc = 'Enable treesitter functionality',
+        desc  = 'Enable treesitter functionality',
         callback = function(event)
           --vim.notify(require('inspect')(event), vim.log.levels.INFO)
 
