@@ -12,40 +12,25 @@
 -- Neovim initialisation root
 --
 
--- Fundamental settings
--- Stable and rudimentary fallback options, keymaps, highlights, et cetera.
--- Settings are not to be considered stable, nor safe from overwrite.
--- Defines essentials including, non-exhaustively:
--- - vim.g.mapleader
--- - Yank to system clipboard
--- - Yank to blackhole register
--- - Transparent background
--- Before all, in the event Neovim initialisation fails
-require("stable").setup()
-
 -- Initialisation Order
-local init_modules = {
-    -- Filetype heuristic resolution matrix
-    -- Before plugin_manager,  for lazy-load filetype triggers
-    "util.ftmatrix",
+local modules = {
+    "filetype",  -- Filetype heuristic resolution matrix
 
-    -- Universal augroup definitions
-    -- Before plugin_manager,  for augroup dependent plugin spec
-    "util.augroup",
+    "option",
+    "keymap",
+    "autocmd",
+    "usercmd",
 
     -- Plugin lazy-load management
-    -- After  stable.keymap,   for lazy-load keymap triggers involving vim.g.mapleader
-    -- After  util.ftmatrix,   for lazy-load filetype triggers
-    -- After  util.augroup,    for augroup dependent plugin spec
-    -- Before after.highlight, for treesitter parsing and colorscheme overwrite
-    "plugin_manager",
+    -- After  keymap,     for lazy-load keymap triggers involving vim.g.mapleader
+    -- After  filetype,   for lazy-load filetype triggers
+    -- After  autocmd,    for augroup dependent plugin spec
+    -- Before highlight,  for treesitter parsing and colorscheme overwrite
+    "util.plugin_manager",
 
-    -- Modules of the './lua/after/' directory are intended for setup via
-    -- './after/trigger.lua'
-    -- Prevents settings overwrite by plugins not designated for lazy loading.
-    -- These include colorscheme highlight overwrites and persistent keymaps.
+    "highlight"
 }
 
-for _, module in ipairs(init_modules) do
+for _, module in ipairs(modules) do
     require(module).setup()
 end

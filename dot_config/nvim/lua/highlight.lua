@@ -4,12 +4,13 @@
 --
 --
 -- ~chewygumxx/dotfiles.git
--- ::: :/dot_config/nvim/lua/stable/highlight.lua
+-- ::: :/dot_config/nvim/lua/highlight.lua
 --
 --
 
 --
--- Stable and fundamental fallback highlights
+-- Fundamental universal highlight group definitions
+-- Initialised after treesitter and colorscheme plugins
 --
 
 local M = {}

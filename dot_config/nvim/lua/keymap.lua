@@ -4,7 +4,7 @@
 --
 --
 -- ~chewygumxx/dotfiles.git
--- ::: :/dot_config/nvim/lua/base/keymap.lua
+-- ::: :/dot_config/nvim/lua/keymap.lua
 --
 --
 
@@ -84,7 +84,6 @@ normal_leader.setup = function (self)
 end
 
 local remap_native = {
-    --{{!CLOSE
     blackhole_register = function()
         vim.api.nvim_set_keymap('n', 'x', '"_x', {
             desc = "Route single character deletion into blackhole register",
@@ -118,37 +117,9 @@ remap_native.setup = function(self)
     self.file_creation()
 end
 
-local read_only = {
-    --{{!CLOSE
-    remap_q_quit = function(event)
-        vim.api.nvim_buf_set_keymap(event.buf, "n", "q", "<cmd>q<CR>", {
-            desc = "Quit read-only buffer",
-            noremap = true,
-        })
-    end,
-}
-read_only.setup = function (self)
-    local set_keymaps = function(event)
-          self.remap_q_quit(event)
-    end
-
-    vim.api.nvim_create_autocmd({ "BufReadPost" }, {
-        --{{!CLOSE
-        desc = "Keymap setup for read-only buffers",
-        group = vim.g.file_welcome,
-        callback = function(event)
-            if vim.bo.readonly or not vim.bo.modifiable then
-                set_keymaps(event)
-            end
-        end,
-    })
-end
-
 function M.setup()
-    --for _, api_call in pairs(normal_leader) do api_call() end
     normal_leader:setup()
     remap_native:setup()
-    read_only:setup()
 end
 
 return M

@@ -53,4 +53,13 @@ M.toggle = function(bufnr)
     update_keymaps(bufnr)
 end
 
+local act_func = {
+    toggle  = function(_) M.toggle()  end,
+    enable  = function(_) M.enable()  end,
+    disable = function(_) M.disable() end,
+}
+M.command = function(act)
+    return act_func[act]
+end
+
 return M

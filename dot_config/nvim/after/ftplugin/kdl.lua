@@ -4,7 +4,7 @@
 --
 --
 -- ~chewygumxx/dotfiles.git
--- ::: :/dot_config/nvim/lua/filetype/filetype_kdl.lua
+-- ::: :/dot_config/nvim/after/ftplugin/kdl.lua
 --
 --
 
@@ -14,10 +14,16 @@
 
 local M = {}
 
-local M.hlgroup_defs = {
+local hlgroup_defs = {
     ["@type.kdl"]                  = { link = "@property" },
     ["@punctuation.bracket.kdl"]   = { link = "PreProc"   },
     ["@punctuation.delimiter.kdl"] = { link = "Macro"     },
 }
+
+M.setup = function()
+    for hlgroup, defmap in pairs(hlgroup_defs) do
+        vim.api.nvim_set_hl(0, hlgroup, defmap)
+    end
+end
 
 return M

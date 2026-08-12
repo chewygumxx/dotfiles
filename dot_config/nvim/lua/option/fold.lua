@@ -4,12 +4,12 @@
 --
 --
 -- ~chewygumxx/dotfiles.git
--- ::: :/dot_config/nvim/lua/util/foldtext.lua
+-- ::: :/dot_config/nvim/lua/option/fold.lua
 --
 --
 
 --
--- Rendered text substituted in place for collapsed fold
+-- Neovim fold mannerism
 --
 
 local M = {}
@@ -51,7 +51,11 @@ end
 
 M.setup = function()
     _G.cgxx_foldtext = foldtext
-    vim.g.foldtext = "v:lua.cgxx_foldtext()"
+    vim.g.foldtext   = "v:lua.cgxx_foldtext()"
+
+    vim.g.foldmethod = "expr"
+    vim.g.foldlevel  = 2
+    vim.g.fillchars  = "fold: "
 end
 
 return M
