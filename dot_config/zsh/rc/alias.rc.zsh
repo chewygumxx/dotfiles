@@ -32,6 +32,8 @@ alias ga='git add'
 alias gs='git status' # Overwrites 'gs' of ghostscript. Never use it
 alias gist='gh gist create'
 
+alias y=yazi
+
 # Synaptic Nexus
 alias nex='unalias nex; source "$HOME/doc/synaptic-nexus/nex.rc.zsh"'
 
