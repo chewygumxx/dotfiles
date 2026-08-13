@@ -1,4 +1,5 @@
--- vim: expandtab:shiftwidth=4
+#!/bin/false
+-- vim: expandtab:shiftwidth=4:filetype=lua:
 
 --
 --
@@ -6,9 +7,8 @@
 --
 --
 
--- Stop fucking up my options
+-- 
+-- Filetype-specific configuration for manpages
+--
 
-local opts = require("native.options").opts
-
-vim.api.nvim_set_option_value("number", opts.number, {})
-vim.api.nvim_set_option_value("relativenumber", opts.relativenumber, {})
+vim.wo.number = true

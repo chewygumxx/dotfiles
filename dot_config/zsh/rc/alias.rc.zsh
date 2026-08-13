@@ -37,26 +37,12 @@ alias y=yazi
 # Synaptic Nexus
 alias nex='unalias nex; source "$HOME/doc/synaptic-nexus/nex.rc.zsh"'
 
-# Editor
 () {
-    (( $+aliases[edit]   )) && unalias edit
-    (( $+functions[nvim] )) &&   alias edit="nvim"
-
-    local cmd alias
-    for cmd in "${VISUAL%% *}" "${EDITOR%% *}" nvim vim vi; do
-        (( $+alias[edit]    )) && break
-        (( $+commands[$cmd] )) && alias "edit=\builtin command $cmd"
-    done
-
+    local alias
     for alias in e ed edit v vi vim nvim nivm hx kak nano emacs; do
-        alias "$alias=${aliases[edit]}"
+        alias "$alias=nvim"
     done
 }
-
-if (( ! $+aliases[edit] )); then
-    print -n -u2 "${__this_file}: [ERROR] "
-    print    -u2 "Unable to resolve editor. Editor aliases not set"
-fi
 
 if (( $+commands[systemctl] )); then # chewytop
     # WireGuard ProtonVPN
