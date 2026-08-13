@@ -3,7 +3,8 @@
 
 #
 #
-# ~/.config/zsh/alias.rc.zsh
+# ~chewygumxx/dotfiles.git
+# ::: :/.config/zsh/alias.rc.zsh
 #
 #
 
@@ -20,9 +21,9 @@ alias cp="cp --interactive"
 alias mv="mv --interactive"
 
 # Human readable
-alias free='free --mebi'
 alias df='df --human-readable'
 alias du='du --block-size=1K'
+alias free='free --mebi'
 
 # Show colour and case-insensitive
 alias grep='grep --color=auto -i'
@@ -33,6 +34,9 @@ alias gs='git status' # Overwrites 'gs' of ghostscript. Never use it
 alias gist='gh gist create'
 
 alias y=yazi
+
+# SQLite
+alias sqlite='sqlite3'
 
 # Synaptic Nexus
 alias nex='unalias nex; source "$HOME/doc/synaptic-nexus/nex.rc.zsh"'
@@ -59,27 +63,24 @@ if (( $+commands[systemctl] )); then # chewytop
     
     # KDEConnect
     alias kdecon="kdeconnect-cli --device 1396134ad80c4647aa7c6b1f76d823e3"
-    alias kdecon-cb="kdecon --send-clipboard"
+    alias kdecon-clip="kdecon --send-clipboard"
     
     # Network
     alias impala='sudo impala'
     alias bt="bluetui"
+fi
     
-    # SQLite
-    alias sqlite='sqlite3'
-
-elif [[ -v TERMUX_VERSION ]]; then
-    (( $+commands[trash-put] )) && alias del="trash-put"
+if [[ -v TERMUX_VERSION ]]; then
+    # Print Dimensions
+    alias st='stty size'
 
     # Package Manager
     alias pki="pkg install"
     alias pks="pkg search"
     
     # Clipboard
-    alias cb-copy="termux-clipboard-set"
-    alias cb-paste="termux-clipboard-get"
-else
-    print -u2 "${(D)${${(%):-%N}:A}}: Unable to discern whether" \
-        "chewytop or chewytele"
-    return 1
+    alias wl-copy="termux-clipboard-set"
+    alias wl-paste="termux-clipboard-get"
+
+    (( $+commands[trash-put] )) && alias del="trash-put"
 fi

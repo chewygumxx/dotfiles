@@ -11,6 +11,6 @@
 # Must follow file defining User_Alias ADMINS
 #
 
-Cmnd_Alias NETWORK = /usr/bin/iwctl /usr/bin/impala
+Cmnd_Alias NETWORK = /usr/bin/iwctl, /usr/bin/impala
 
 ADMINS ALL=(ALL:ALL) NOPASSWD: NETWORK
