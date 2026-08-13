@@ -46,9 +46,11 @@ fi
 
 fpath+=(
     "${zsh_dirs[func]}"
+    "${zsh_dirs[wrap]}"
 )
 
 autoload -Uz "${zsh_dirs[func]}"/*(N:t)
+autoload -Uz "${zsh_dirs[wrap]}"/*(N:t)
 
 # Wrapper Functions
 () {

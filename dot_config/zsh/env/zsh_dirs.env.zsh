@@ -9,13 +9,14 @@
 
 typeset -A zsh_dirs=(
     [conf]="$XDG_CONFIG_HOME/zsh"
+     [env]="$XDG_CONFIG_HOME/zsh/env"
+
     [comp]="$XDG_CONFIG_HOME/zsh/comp"
-    [env]="$XDG_CONFIG_HOME/zsh/env"
-    [env_util]="$XDG_CONFIG_HOME/zsh/env/util"
     [func]="$XDG_CONFIG_HOME/zsh/func"
-    [rc]="$XDG_CONFIG_HOME/zsh/rc"
-    [rc_plugin]="$XDG_CONFIG_HOME/zsh/rc/plugin"
-    [rc_util]="$XDG_CONFIG_HOME/zsh/rc/util"
+    [wrap]="$XDG_CONFIG_HOME/zsh/wrap"
+
+      [rc]="$XDG_CONFIG_HOME/zsh/rc"
+    [util]="$XDG_CONFIG_HOME/zsh/util"
 
     [cache]="$XDG_CACHE_HOME/zsh"
     [cache_comp]="$XDG_CACHE_HOME/zsh/completions"

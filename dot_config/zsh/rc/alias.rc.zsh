@@ -38,23 +38,25 @@ alias y=yazi
 alias nex='unalias nex; source "$HOME/doc/synaptic-nexus/nex.rc.zsh"'
 
 # Editor
-(( $+aliases[edit] )) && unalias edit
-if   (( $+functions[nvim-wrapper] )); then alias edit="nvim-wrapper"
-elif (( $+commands["$VISUAL"]     )); then alias edit="\builtin command $VISUAL"
-elif (( $+commands["$EDITOR"]     )); then alias edit="\builtin command $EDITOR"
-elif (( $+commands[nvim]          )); then alias edit="\builtin command nvim"
-elif (( $+commands[vim]           )); then alias edit="\builtin command vim"
-elif (( $+commands[vi]            )); then alias edit="\builtin command vi"
-else
-    print -u2 "${__this_file}: [ERROR] Unable to resolve editor. Editors aliases not set"
-fi
+() {
+    (( $+aliases[edit]   )) && unalias edit
+    (( $+functions[nvim] )) &&   alias edit="nvim"
 
-(( $+aliases[edit] )) && () {
-    local __alias
-    for __alias in e ed edit v vi vim nvim nivm hx kak nano emacs; do
-        alias "$__alias"="${aliases[edit]}"
+    local cmd alias
+    for cmd in "${VISUAL%% *}" "${EDITOR%% *}" nvim vim vi; do
+        (( $+alias[edit]    )) && break
+        (( $+commands[$cmd] )) && alias "edit=\builtin command $cmd"
+    done
+
+    for alias in e ed edit v vi vim nvim nivm hx kak nano emacs; do
+        alias "$alias=${aliases[edit]}"
     done
 }
+
+if (( ! $+aliases[edit] )); then
+    print -n -u2 "${__this_file}: [ERROR] "
+    print    -u2 "Unable to resolve editor. Editor aliases not set"
+fi
 
 if (( $+commands[systemctl] )); then # chewytop
     # WireGuard ProtonVPN
@@ -80,9 +82,9 @@ if (( $+commands[systemctl] )); then # chewytop
     # SQLite
     alias sqlite='sqlite3'
 
-    alias new-dl='print -r "\"$(tail -1 $XDG_CACHE_HOME/inotify-net-firefox.log.txt)\""'
-
 elif [[ -v TERMUX_VERSION ]]; then
+    (( $+commands[trash-put] )) && alias del="trash-put"
+
     # Package Manager
     alias pki="pkg install"
     alias pks="pkg search"
@@ -90,9 +92,8 @@ elif [[ -v TERMUX_VERSION ]]; then
     # Clipboard
     alias cb-copy="termux-clipboard-set"
     alias cb-paste="termux-clipboard-get"
-    
-    (( $+commands[trash-put] )) && alias del="trash-put"
 else
-    print -u2 "${0}: Unable to discern either chewytop or chewytele"
+    print -u2 "${(D)${${(%):-%N}:A}}: Unable to discern whether" \
+        "chewytop or chewytele"
     return 1
 fi

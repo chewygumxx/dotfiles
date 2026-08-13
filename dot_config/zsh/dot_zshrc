@@ -11,7 +11,7 @@
 [[ -o interactive ]] || return
 
 # Variable `zsh_dirs` associative array set from zshenv
-zshrcs=( "$zsh_dirs[conf]/rc/"{,util/}*.rc.zsh )
+zshrcs=( "$zsh_dirs[conf]/"{rc/,util/}*.rc.zsh )
 
 zshrcs=(                        # ** Order Rationale **
     ${(M)zshrcs:#*ls_colors*}   # Provides for completion
