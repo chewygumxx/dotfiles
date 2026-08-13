@@ -1,0 +1,15 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4:filetype=zsh:
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/zsh/func/ansi-filter
+#
+#
+
+#
+# Filters ANSI escape codes from stdin and prints to stdout
+#
+
+

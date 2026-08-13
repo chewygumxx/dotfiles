@@ -7,7 +7,8 @@
 # 
 # 
 
-typeset -A zsh_dirs=(
+typeset -gA zsh_dirs
+zsh_dirs=(
     [conf]="$XDG_CONFIG_HOME/zsh"
      [env]="$XDG_CONFIG_HOME/zsh/env"
 
@@ -17,12 +18,13 @@ typeset -A zsh_dirs=(
 
       [rc]="$XDG_CONFIG_HOME/zsh/rc"
     [util]="$XDG_CONFIG_HOME/zsh/util"
+    [spec]="$XDG_CONFIG_HOME/zsh/spec"
 
     [cache]="$XDG_CACHE_HOME/zsh"
     [cache_comp]="$XDG_CACHE_HOME/zsh/completions"
-    [cache_init]="$XDG_CACHE_HOME/zsh/init"  # Generated source files of utils
+    [cache_init]="$XDG_CACHE_HOME/zsh/init"
     [cache_zstylecomp]="$XDG_CACHE_HOME/zsh/zstylecomp"
-    [cache_zvm]="$XDG_CACHE_HOME/zsh/zsh-vi-mode" # Plugin tempfiles
+    [cache_zvm]="$XDG_CACHE_HOME/zsh/zsh-vi-mode"
 
     [share]="$XDG_DATA_HOME/zsh"
     [share_func]="$XDG_DATA_HOME/zsh/functions"

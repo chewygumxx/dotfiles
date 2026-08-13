@@ -1,81 +1,31 @@
 #!/bin/false
-# vim: expandtab:shiftwidth=4
+# vim: expandtab:shiftwidth=4:filetype=zsh
 
 #
 #
-# termux://~/.config/zsh/functions/sv
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/zsh/func/sv
 #
 #
 
 #
-# Wrapper to compensate for lacklustre CLI 
+# Termux sv wrapper to compensate for lacklustre CLI 
 #
+
+local __this_file="${(D)${${(%):-%N}:A}}"
+local +h functions 
 
 if [[ -z "$TERMUX_VERSION" ]]; then
-    print -u2 "${0}: This is termux exclusive"
+    print -u2 "${__this__file}: This is termux exclusive"
     return 1
 fi
 
 if [[ -z "$commands[sv]" ]]; then
-    print -u2 "${0}: command 'sv' not found"
-    print -z "pkg install termux-services"
+    print -u2 "${__this_file}: command 'sv' not found"
+    print -z "command pkg install termux-services"
     return 127
 fi
 
-# Localise internally declared functions, do not persist post-execution
-zmodload -e zsh/parameter || zmodload zsh/parameter
-local +h functions 
-
-local this_file="$0"
-function __print_help () {
-    print -- -f "%s\n" \
-        "Wrapper helper of termux-service \`sv\` command" \
-        "Usage: $this_file [options] [message]" \
-
-    print -- -f "\n%s\n" "Options:"
-    print -- -f "    %-5s %s\n" \
-        "\-e " "Reuse and edit last commit message and author time, ignores -f and message" \
-        "\-f " "Same as -f, except don't edit the commit message" \
-        "\-q " "Quiet" \
-        "\-v " "Verbose" \
-        "\-h " "Print this help"
-
-    print -- -f "\n%s\n" "If no option nor message is given, reuse last message with new time"
-}
-
-# Cannot be prepended with `local` inline or else `getopt_exit=$?`
-# will always be 0
-local getopt_parsed
-getopt_parsed=$(getopt -n "$0" -o "efqvh" -- "$@")
-local getopt_exit=$?
-if [[ $getopt_exit -ne 0 ]]; then 
-    print -u2 "${0}: getopt parse failed"
-    return $getopt_exit
-fi
-eval set -- "$getopt_parsed"
-
-local edit=0
-local fix=0
-local output=""
-
-while true; do
-    case "$1" in
-        -e) edit=1;      shift    ;;
-        -f) fix=1;       shift    ;;
-        -q) output="-q"; shift    ;;
-        -v) output="-v"; shift    ;;
-        -h) print_help;  return 0 ;;
-        --) shift;       break    ;;
-        *)  print -u2 "${0}: Error while parsing getopt_parsed: '$1'"
-            return 1
-            ;;
-    esac
-done
-
-if [[ ${#} -lt 2 ]]; then
-    __print_help
-else
-    command sv "$@"
-fi
-
-#unset -f __print_help
+# 
+#
+#
