@@ -21,8 +21,7 @@ Host *.github.com github.com
 {{- else if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
     IdentityFile   ~/.ssh/id/chewytele-github
 {{- end }}
-
-{{- if eq .chezmoi.hostname "chewytop" }}
+{{ if eq .chezmoi.hostname "chewytop" }}
 Host chewytele
     Hostname       192.168.4.22
     Port           8022
