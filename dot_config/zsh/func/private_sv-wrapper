@@ -34,11 +34,11 @@ function __print_help () {
 
     print -f "\n%s\n" "Options:"
     print -f "    %-5s %s\n" \
-        "-e " "Reuse and edit last commit message and author time, ignores -f and message" \
-        "-f " "Same as -f, except don't edit the commit message" \
-        "-q " "Quiet" \
-        "-v " "Verbose" \
-        "-h " "Print this help"
+        "\-e " "Reuse and edit last commit message and author time, ignores -f and message" \
+        "\-f " "Same as -f, except don't edit the commit message" \
+        "\-q " "Quiet" \
+        "\-v " "Verbose" \
+        "\-h " "Print this help"
 
     print -f "\n%s\n" "If no option nor message is given, reuse last message with new time"
 }

@@ -7,6 +7,10 @@
 #
 #
 
+#
+#
+#
+
 [[ -o interactive      ]] || return
 (( $+commands[chezmoi] )) || return
 
@@ -15,14 +19,13 @@ setopt aliases
 alias cz="chezmoi"
 alias cze="cz edit --watch"
 
-alias cza="cz apply"
+alias cza="cz add"
 alias czr="cz re-add"
+alias czp="cz apply"
 alias czf="cz forget"
 alias czd="cz destory"
 
-#
 # Directory 
-#
 
 hash -d cz="$XDG_DATA_HOME/chezmoi/dot_config"
 hash -d czroot="$XDG_DATA_HOME/chezmoi"
