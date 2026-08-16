@@ -43,7 +43,7 @@ if [[ ! -e "$target" ]]; then
     if (( $+commands[chezmoi] )); then
         local source_dir
         if source_dir="$(command chezmoi source-path "${target:h}" 2>/dev/null)"; then
-            [[ "${source_dir:t}" == exact_* ]] && command chezmoi add --prompt "$target"
+            command chezmoi add --prompt "$target"
         fi
     fi
 
