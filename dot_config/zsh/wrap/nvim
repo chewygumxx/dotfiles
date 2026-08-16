@@ -3,9 +3,14 @@
 
 # 
 # 
-# ~/.config/zsh/func/nvim
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/zsh/wrap/nvim
 # 
 # 
+
+#
+# Zsh wrapper function for Neovim.
+#
 
 local __this_file="${(D)${${(%):-%N}:A}}"
 
@@ -38,7 +43,7 @@ if [[ ! -e "$target" ]]; then
     if (( $+commands[chezmoi] )); then
         local source_dir
         if source_dir="$(command chezmoi source-path "${target:h}" 2>/dev/null)"; then
-            [[ "${source_dir:t}" == exact_* ]] && command chezmoi add "$target"
+            [[ "${source_dir:t}" == exact_* ]] && command chezmoi add --prompt "$target"
         fi
     fi
 
@@ -64,7 +69,7 @@ if (( $+commands[chezmoi] )) && [[ -n "$(command chezmoi managed "$target" 2>/de
     local -x TMPDIR="$XDG_CACHE_HOME/chezmoi"
     [[ ! -d "$TMPDIR" ]] && command mkdir -p "$TMPDIR"
     command nvim "$target"
-    command chezmoi re-add "$target"
+    command chezmoi re-add "$target" &!
     return
 fi
 

@@ -8,118 +8,128 @@
 --
 --
 
+--
+-- Neovim configuration of keymaps
+--
+
 local M = {}
 
 vim.g.mapleader  = "\\"
-vim.g.timeoutlen = 1000  -- Time to complete keymap sequence
-vim.g.showcmd    = true  -- Show keystrokes right of message buffer
+vim.o.timeoutlen = 1000  -- Time to complete keymap sequence
+vim.o.showcmd    = true  -- Show keystrokes right of message buffer
 
-local normal_leader = {
-    blink_relativenumber = function()
-        vim.api.nvim_set_keymap('n', '<leader>nn', '', {
-            desc = "Blink option relativenumber temporarily",
-            callback = function() 
-                local toggle_relativenumber = function()
-                    vim.o.relativenumber = not vim.o.relativenumber
-                end
-
-                toggle_relativenumber()
-                vim.defer_fn(toggle_relativenumber, 2000)
-            end,
-        })
-    end,
-    clear_hlsearch = function()
-        vim.api.nvim_set_keymap('n', '<leader>h',  '<cmd>noh<CR>', {
-            desc = ":noh - Clear highlight of search match",
-            noremap = true,
-        })
-    end,
-    flash_linenumber = function()
-        vim.api.nvim_set_keymap('n', '<leader>nn', '', {
-            desc = "Briefly flash line number gutter",
-            callback = function() 
-                local old_hl_linenr = vim.api.nvim_get_hl(0, { name = "LineNr" })
-                local old_o_number = vim.o.number
-                local old_o_relativenumber = vim.o.relativenumber
-
-                vim.api.nvim_set_hl(0, "LineNr", { link = "ErrorMsg" })
-                vim.o.number = true
-                vim.o.relativenumber = false
-
-                vim.defer_fn(function()
-                    vim.api.nvim_set_hl(0, "LineNr", old_hl_linenr)
-                    vim.o.number = old_o_number
-                    vim.o.relativenumber = old_o_relativenumber
-                end, 3000)
-            end,
-        })
-    end,
-    format_buffer = function()
-        vim.api.nvim_set_keymap('n', '<leader>tw', 'gggqG', {
-            desc = "Format buffer line wrapping according to textwidth",
-        })
-    end,
-    inspect = function()
-        vim.api.nvim_set_keymap('n', '<leader>in', '<cmd>Inspect<CR>', {
-            desc = ":Inspect highlight groups under cursor",
-        })
-    end,
-    reload_foldmethod = function()
-        vim.api.nvim_set_keymap('n', '<leader>rf', '', {
-            desc = "Reload foldmethod",
-            callback = function()
-                vim.o.foldmethod = vim.o.foldmethod
-                vim.print("foldmethod=" .. vim.o.foldmethod) 
-            end
-        })
-    end,
-}
-normal_leader.setup = function (self)
-  --self.blink_relativenumber()
-    self.clear_hlsearch()
-    self.flash_linenumber()
-    self.format_buffer()
-    self.inspect()
-    self.reload_foldmethod()
+M.clear_hlsearch = function(lhs, desc)
+    local lhs  = lhs  or '<leader>h'
+    local desc = desc or ":noh - Clear highlight of search match"
+    vim.keymap.set({ 'n' }, lhs, '<cmd>noh<CR>', { desc = desc })
 end
 
-local remap_native = {
-    blackhole_register = function()
-        vim.api.nvim_set_keymap('n', 'x', '"_x', {
-            desc = "Route single character deletion into blackhole register",
-            noremap = true,
-        })
-        vim.api.nvim_set_keymap('v', 'p', '"_dP', {
-            desc = "Route pasted over selection into blackhole register",
-            noremap = true,
-        })
-    end,
-    visual_indent_persist = function()
-        local desc = "Remain in select mode after indenting"
-        vim.api.nvim_set_keymap('n', '>', '>gv', { desc = desc, noremap = true })
-        vim.api.nvim_set_keymap('x', '<', '<gv', { desc = desc, noremap = true })
-    end,
-    file_navigation = function()
-        local desc    = "Route gf to gF, go to line number if provided"
-        vim.api.nvim_set_keymap('n', 'gf', 'gF', { desc = desc, noremap = true })
-        vim.api.nvim_set_keymap('x', 'gf', 'gF', { desc = desc, noremap = true })
-    end,
-    file_creation = function()
-        local desc = "Create new file according to path under cursor"
-        vim.api.nvim_set_keymap('n', 'gF', '<cmd>e <cfile><CR>', { desc = desc, noremap = true })
-        vim.api.nvim_set_keymap('x', 'gF', '<cmd>e <cfile><CR>', { desc = desc, noremap = true })
-    end
-}
-remap_native.setup = function(self)
-    self.blackhole_register()
-    self.visual_indent_persist()
-    self.file_navigation()
-    self.file_creation()
+M.toggle_relativenumber = function(lhs, desc)
+    local lhs  = lhs  or '<leader>rn'
+    local desc = desc or "Toggle relativenumber"
+    vim.keymap.set({ 'n' }, lhs, function() 
+        vim.o.relativenumber = not vim.o.relativenumber
+    end, { desc = desc })
 end
 
-function M.setup()
-    normal_leader:setup()
-    remap_native:setup()
+M.blink_relativenumber = function(lhs, desc)
+    local lhs  = lhs  or '<leader>nn'
+    local desc = desc or "Blink relativenumber"
+    vim.keymap.set('n', lhs, function()
+        local old_relativenumber = vim.o.relativenumber
+        vim.o.relativenumber = not old_relativenumber
+        vim.defer_fn(function()
+            vim.o.relativenumber = old_relativenumber
+        end, 2000)
+    end, { desc = desc })
+end
+
+M.blink_linenumber = function(lhs, desc)
+    local lhs  = lhs  or '<leader>ln'
+    local desc = desc or "Blink line number in gutter"
+    vim.keymap.set({ 'n' }, lhs, function() 
+        local old_o_number = vim.o.number
+        local old_o_relativenumber = vim.o.relativenumber
+        local old_hl_linenr = vim.api.nvim_get_hl(0, { name = "LineNr" })
+
+        vim.api.nvim_set_hl(0, "LineNr", { link = "ErrorMsg" })
+        vim.o.number = true
+        vim.o.relativenumber = false
+
+        vim.defer_fn(function()
+            vim.api.nvim_set_hl(0, "LineNr", old_hl_linenr)
+            vim.o.number = old_o_number
+            vim.o.relativenumber = old_o_relativenumber
+        end, 3000)
+    end, { desc = desc })
+end
+
+M.format_buffer = function(lhs, desc)
+    local lhs  = lhs  or '<leader>tw'
+    local desc = desc or "Format buffer line wrapping according to textwidth"
+    vim.keymap.set({ 'n' }, lhs, 'gggqG', { desc = desc })
+end
+
+M.inspect = function(lhs, desc)
+    local lhs  = lhs  or '<leader>in'
+    local desc = desc or ":Inspect highlight groups under cursor"
+    vim.keymap.set({ 'n' }, lhs, '<cmd>Inspect<CR>', { desc = desc })
+end
+
+M.reload_foldmethod = function(lhs, desc)
+    local lhs  = lhs  or '<leader>rf'
+    local desc = desc or "Reload foldmethod"
+    vim.keymap.set({ 'n' }, lhs, function()
+        vim.o.foldmethod = vim.o.foldmethod
+        vim.print("foldmethod=" .. vim.o.foldmethod) 
+    end, { desc = desc })
+end
+
+M.visual_indent_persist = function(indent, dedent, desc)
+    local indent = indent or '>'
+    local dedent = dedent or '<'
+    local desc   = desc   or "Remain in visual mode after indenting"
+    vim.keymap.set('x', indent, '>gv', { desc = desc })
+    vim.keymap.set('x', dedent, '<gv', { desc = desc })
+end
+
+M.file_goto = function(lhs, desc)
+    local lhs  = lhs  or "gf"
+    local desc = desc or "Open file and if provided, go to line number"
+    vim.keymap.set({ 'n', 'x' }, lhs, 'gF', { desc = desc })
+end
+
+M.file_create_or_open = function(lhs, desc)
+    local lhs  = lhs  or "gF"
+    local desc = desc or "Create or open new file according to path under cursor"
+    vim.keymap.set({ 'n', 'x' }, lhs, '<cmd>e <cfile><CR>', { desc = desc })
+end
+
+M.blackhole_register = function()
+    vim.keymap.set({ 'n' }, 'x', '"_x', {
+        desc = "Blackhole Register: Single character deletion"
+    })
+    vim.keymap.set({ 'v' }, 'p', '"_dP', {
+        desc = "Blackhole Register: Pasted over selection"
+    })
+end
+
+M.setup = function()
+    M.clear_hlsearch("<leader>h")
+    M.toggle_relativenumber("<leader>rn")
+    M.blink_relativenumber("<leader>nn")
+    M.blink_linenumber("<leader>ln")
+    M.format_buffer("<leader>tw")
+    M.inspect("<leader>in")
+    M.reload_foldmethod("<leader>rf")
+
+    -- Without arguments, replace native keymaps
+    M.visual_indent_persist()
+    M.file_goto()
+    M.file_create_or_open()
+
+    -- Doesn't accept arguments
+    M.blackhole_register()
 end
 
 return M

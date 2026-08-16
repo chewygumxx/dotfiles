@@ -49,11 +49,17 @@ local redirect_awkward_pager = function()
     end
 end
 
+local insert_header = function()
+    local desc = "Prepend buffer with a header, templated according to filepath and extension."
+    local ih   = require("util.header")
+    vim.api.nvim_create_user_command("XXInsertHeader", ih.command, { desc = desc })
+end
 
 M.setup = function()
     visual_traversal()
     interpret_escape()
     redirect_awkward_pager()
+    insert_header()
 end
 
 return M

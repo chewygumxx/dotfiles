@@ -14,7 +14,7 @@
 
 -- Initialisation Order
 local modules = {
-    "filetype",  -- Filetype heuristic resolution matrix
+    "util.ftmatrix",  -- Filetype heuristic resolution matrix
 
     "option",
     "keymap",

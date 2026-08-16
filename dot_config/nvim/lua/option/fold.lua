@@ -51,11 +51,11 @@ end
 
 M.setup = function()
     _G.cgxx_foldtext = foldtext
-    vim.g.foldtext   = "v:lua.cgxx_foldtext()"
+    vim.opt.foldtext = "v:lua.cgxx_foldtext()"
 
-    vim.g.foldmethod = "expr"
-    vim.g.foldlevel  = 2
-    vim.g.fillchars  = "fold: "
+    vim.o.foldmethod = "expr"
+    vim.o.foldlevel  = 2
+    vim.o.fillchars  = "fold: "
 end
 
 return M

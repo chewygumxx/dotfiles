@@ -45,6 +45,7 @@ M.setup = function()
     M.augroup_file_entry = vim.api.nvim_create_augroup("cgxx.file_entry", { clear = true })
     cursor_last_position()
     unmodifiable_q_quit()
+    require("util.header").autocmd()
 end
 
 return M

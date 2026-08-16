@@ -9,16 +9,17 @@
 --
 
 --
--- The Snippet Engine
+-- Snippet Engine
+-- https://github.com/L3MON4D3/LuaSnip/blob/master/DOC.md
 --
 
 
 ---@module "lazy"
----@type LazySpec
+---@type   LazySpec
 local M = {
-    url     = "https://github.com/L3MON4D3/LuaSnip.git",
+    "L3MON4D3/LuaSnip",
     enabled = true,
-    version = "v2.5.0",
+    version = "v2.5.*",
     build   = "make install_jsregexp",
 }
 
