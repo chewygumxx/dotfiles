@@ -12,6 +12,8 @@
 -- Markdown filetype settings
 --
 
+vim.bo.shiftwidth = 2
+
 local hlgroup_defs = {
     ["@markup.heading"]      = { fg = "#aaa6fa", bold = true },
     ["@markup.heading.1"]    = { fg = "#7fb5ff", bold = true },
