@@ -14,22 +14,35 @@
 
 local M
 
-local opts = {
+local options = {
     number = true,
 }
 
 local hlgroup_defs = {
 }
 
-M.setup = function(file, buf)
+
+M.autocmd = function()
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = "man",
+        desc  = "Filetype specialised module: Markdown",
+        group = vim.api.nvim_create_augroup("cgxx.filetype_markdown", { clear = true }),
+        callback = function(opts)
+            M.setup(opts.file, opts.buf)
+        end,
+    })
+end
+
+M.setup = function(file, buf) -- Argument 'file' is a placeholder for now
     file = file or vim.fn.expand("%")
     buf  = buf  or 0
 
-    for opt, value in pairs(opts) do
+    for opt, value in pairs(options) do
         vim.api.nvim_set_option_value(opt, value, { buf = buf })
     end
-    for hlgroup, defmap in ipairs(hlgroup_defs) do
-        vim.api.nvim_set_hl(0, hlgroup, defmap)
+    for hlgroup, defmap in pairs(hlgroup_defs) do
+        vim.api.nvim_set_hl(0, hlgroup .. ".markdown",        defmap)
+        vim.api.nvim_set_hl(0, hlgroup .. ".markdown_inline", defmap)
     end
 end
 

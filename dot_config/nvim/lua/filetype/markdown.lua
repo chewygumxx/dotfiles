@@ -1,5 +1,6 @@
 #!/bin/false
--- vim: expandtab:shiftwidth=4
+-- vim: expandtab:shiftwidth=4:filetype=lua:
+-- luacheck: globals vim
 
 --
 --
@@ -14,7 +15,7 @@
 
 local M = {}
 
-local opts = {
+local options = {
     shiftwidth = 2,
 }
 
@@ -29,8 +30,7 @@ local hlgroup_defs = {
     ["@markup.list"]         = { link = "@markup.heading.markdown" },
 
 
-    -- Depends on custom 
-    ["@markup.link.text"]    = { link = "@function.call" },
+    -- Depends on custom
     ["@markup.link.text"]    = { link = "@function.call" },
     ["@markup.link.label"]   = { link = "@property" },
     ["@markup.link.url"]     = { fg = "#6f25f6", underline = true },
@@ -40,17 +40,28 @@ local hlgroup_defs = {
     ["@_label"]              = { link = "@punctuation.special.markdown" },
 }
 
-M.setup = function(file, buf)
+M.setup = function(file, buf) -- Argument 'file' is a placeholder for now
     file = file or vim.fn.expand("%")
     buf  = buf  or 0
 
-    for opt, value in pairs(opts) do
+    for opt, value in pairs(options) do
         vim.api.nvim_set_option_value(opt, value, { buf = buf })
     end
-    for hlgroup, defmap in ipairs(hlgroup_defs) do
+    for hlgroup, defmap in pairs(hlgroup_defs) do
         vim.api.nvim_set_hl(0, hlgroup .. ".markdown",        defmap)
         vim.api.nvim_set_hl(0, hlgroup .. ".markdown_inline", defmap)
     end
+end
+
+M.autocmd = function()
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = "markdown",
+        desc  = "Filetype specialised module: Markdown",
+        group = vim.api.nvim_create_augroup("cgxx.filetype_markdown", { clear = true }),
+        callback = function(opts)
+            M.setup(opts.file, opts.buf)
+        end,
+    })
 end
 
 return M
