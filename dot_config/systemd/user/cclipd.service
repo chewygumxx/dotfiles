@@ -1,15 +1,21 @@
-# vim: nofoldenable
+# vim: expandtab:shiftwidth=4:filetype=systemd:
 
-#
-#
-# ~/.config/systemd/user/cclipd.service
-#
-#
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/systemd/user/cclipd.service
+# 
+# 
+
+# 
+# 
+# 
 
 [Unit]
 Description="Clipboard capture daemon: cclipd"
 
 [Service]
+ConditionEnvironment=WAYLAND_DISPLAY
 ExecStart=cclipd -S -t "image/png" -t "image/*" -t "text/plain;charset=utf-8" -s 2
 
 [Install]
