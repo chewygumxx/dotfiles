@@ -28,47 +28,48 @@ alias free='free --mebi'
 # Show colour and case-insensitive
 alias grep='grep --color=auto -i'
 
-# Git
-alias ga='git add'
-alias gs='git status' # Overwrites 'gs' of ghostscript. Never use it
-alias gist='gh gist create'
+# Fix for bash/zsh completion when executing aliases via sudo
+# https://wiki.archlinux.org/title/Sudo#Passing_aliases
+alias sudo="sudo "
 
-alias y=yazi
-
-# SQLite
-alias sqlite='sqlite3'
-
-# Synaptic Nexus
-alias nex='unalias nex; source "$HOME/doc/synaptic-nexus/nex.rc.zsh"'
-
-() {
+# Neovim/Editor
+(( $+commands[nvim] )) && () {
     local alias
-    for alias in e ed edit v vi vim nvim nivm hx kak nano emacs; do
+    for alias in e ed edit v vi vim nivm hx kak nano emacs; do
         alias "$alias=nvim"
     done
 }
 
-if (( $+commands[systemctl] )); then # chewytop
-    # WireGuard ProtonVPN
-    alias vpnup='sudo wg-quick up protonvpn'
-    alias vpndown='sudo wg-quick down protonvpn'
-    alias vpnstat='sudo wg show'
+# Git
+if (( $+commands[git] )); then
+    alias ga='git add'
+    alias gs='git status' # Overwrites 'gs' of ghostscript. Never use it
+fi
+
+(( $+commands[gh] )) && alias gist='gh gist create'
+
+(( $+commands[yazi] )) && alias y=yazi
+
+# Proton Pass
+if (( $+commands[pass-cli] )); then
+    alias pass='pass-cli'
+fi
+
+# SQLite
+(( $+commands[sqlite3] )) && alias sqlite='sqlite3'
 
     # Package Manager
-    alias pacman="yay"
+(( $+commands[yay] )) && alias pacman="yay"
     
-    # Fix for bash/zsh completion when executing aliases via sudo
-    # https://wiki.archlinux.org/title/Sudo#Passing_aliases
-    alias sudo="sudo "
     
-    # KDEConnect
+if (( $+commands[kdeconnect-cli] )); then
     alias kdecon="kdeconnect-cli --device 1396134ad80c4647aa7c6b1f76d823e3"
     alias kdecon-clip="kdecon --send-clipboard"
-    
-    # Network
-    alias impala='sudo impala'
-    alias bt="bluetui"
 fi
+    
+# Network
+(( $+commands[impala]  )) && alias impala='sudo impala'
+(( $+commands[bluetui] )) && alias bt="bluetui"
     
 if [[ -v TERMUX_VERSION ]]; then
     # Print Dimensions

@@ -90,7 +90,7 @@ M.command = function(opts)
 end 
 
 M.setup = function()
-    vim.api.nvim_create_user_command("CGInterpretEscape", M.usercmd_wrapper, {
+    vim.api.nvim_create_user_command("XXInterpretEscape", M.command, {
         desc = "Translate and interpret escape codes in terminal buffer",
         bang = true,
     })
