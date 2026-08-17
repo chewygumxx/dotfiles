@@ -14,9 +14,9 @@
 
 local M = {}
 
-local util_modeline = require("util.modeline")
-local util_shebang  = require("util.shebang")
-local util_git      = require("util.git")
+local util_modeline = _G.require_guard("util.modeline")
+local util_shebang  = _G.require_guard("util.shebang")
+local util_git      = _G.require_guard("util.git")
 
 M.insert = function(file, buf, opt)
     local file = file or vim.fn.expand("%")
@@ -102,20 +102,20 @@ end
 
 M.autocmd = function()
     vim.api.nvim_create_autocmd("BufNewFile", {
-        group = vim.api.nvim_create_augroup("cgxx.header_template", { clear = true }),
-        desc  = "Marks buffer as new for pending header insertion.",
-        callback = function(aucmd_tbl)
-            vim.b[aucmd_tbl.buf].cgxx_pending_header = true
+        group = vim.api.nvim_create_augroup("cgxx.header_mark_pending", { clear = true }),
+        desc  = "Designates new file buffer for pending header insertion.",
+        callback = function(opts)
+            vim.b[opts.buf].cgxx_pending_header = true
         end,
     })
 
     vim.api.nvim_create_autocmd("FileType", {
-        group = vim.api.nvim_create_augroup("cgxx.header_template_apply", { clear = true }),
-        desc  = "Inserts templated header once filetype (and commentstring) is known.",
-        callback = function(aucmd_tbl)
-            if vim.b[aucmd_tbl.buf].cgxx_pending_header then
-                vim.b[aucmd_tbl.buf].cgxx_pending_header = nil
-                M.insert(aucmd_tbl.file, aucmd_tbl.buf)
+        group = vim.api.nvim_create_augroup("cgxx.header_apply_insert", { clear = true }),
+        desc  = "Inserts templated header into new file buffer once filetype is known.",
+        callback = function(opts)
+            if  vim.b[opts.buf].cgxx_pending_header then
+                vim.b[opts.buf].cgxx_pending_header = nil
+                M.insert(opts.file, opts.buf)
             end
         end,
     })

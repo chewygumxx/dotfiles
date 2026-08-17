@@ -9,8 +9,8 @@
 --
 
 local M = {
-    url     = 'https://github.com/neovim/nvim-lspconfig',
-    enabled = false,
+    'neovim/nvim-lspconfig',
+    enabled = true,
 }
 
 return M

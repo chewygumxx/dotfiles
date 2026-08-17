@@ -12,12 +12,23 @@
 -- Neovim initialisation root
 --
 
+
+_G.require_guard = function(modpath)
+    local ok, module = pcall(require, modpath)
+    if not ok then
+        vim.notify("Failed to require() module: " .. modpath, vim.log.levels.ERROR)
+        return
+    end
+    return module
+end
+
 -- Initialisation Order
 local modules = {
-    "util.ftmatrix",  -- Filetype heuristic resolution matrix
+    "option",    -- Should be overwritten by filetype, and includes essential opts
+    "keymap",    -- Should be overwritten by filetype
 
-    "option",
-    "keymap",
+    "filetype",
+
     "autocmd",
     "usercmd",
 
@@ -26,11 +37,11 @@ local modules = {
     -- After  filetype,   for lazy-load filetype triggers
     -- After  autocmd,    for augroup dependent plugin spec
     -- Before highlight,  for treesitter parsing and colorscheme overwrite
-    "util.plugin_manager",
+    "plugin_manager",
 
     "highlight"
 }
 
-for _, module in ipairs(modules) do
-    require(module).setup()
+for _, modpath in ipairs(modules) do
+    _G.require_guard(modpath).setup()
 end

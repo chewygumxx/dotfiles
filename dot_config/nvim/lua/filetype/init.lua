@@ -32,12 +32,9 @@ local ft_specialised = function()
                 return
             end
 
-            local modpath = __this_module .. "." .. filetype
-            local ok, module = pcall(require, modpath)
-            if not ok then
-                vim.notify("Failed to require() filetype module: " .. modpath,
-                    vim.log.levels.ERROR)
-                return
+            local module = _G.require_guard(__this_module .. "." .. filetype)
+            if not module then
+                return 
             end
 
             if module.setup then
@@ -48,7 +45,15 @@ local ft_specialised = function()
 end
 
 M.setup = function()
-    require(__this_module .. ".ftmatrix").setup()
+    local module = _G.require_guard(__this_module .. ".ftmatrix")
+    if not module then
+        return 
+    end
+
+    if module.setup then
+        module.setup()
+    end
+
     ft_specialised()
 end
 

@@ -12,21 +12,17 @@
 -- Filetype-specific configuration for manpages
 --
 
-local M
+local M = {}
 
 local options = {
     number = true,
 }
 
-local hlgroup_defs = {
-}
-
-
 M.autocmd = function()
     vim.api.nvim_create_autocmd("FileType", {
         pattern = "man",
-        desc  = "Filetype specialised module: Markdown",
-        group = vim.api.nvim_create_augroup("cgxx.filetype_markdown", { clear = true }),
+        desc  = "Filetype specialised module: manpages",
+        group = vim.api.nvim_create_augroup("cgxx.filetype_manpages", { clear = true }),
         callback = function(opts)
             M.setup(opts.file, opts.buf)
         end,
@@ -38,11 +34,7 @@ M.setup = function(file, buf) -- Argument 'file' is a placeholder for now
     buf  = buf  or 0
 
     for opt, value in pairs(options) do
-        vim.api.nvim_set_option_value(opt, value, { buf = buf })
-    end
-    for hlgroup, defmap in pairs(hlgroup_defs) do
-        vim.api.nvim_set_hl(0, hlgroup .. ".markdown",        defmap)
-        vim.api.nvim_set_hl(0, hlgroup .. ".markdown_inline", defmap)
+        vim.o[opt] = value
     end
 end
 

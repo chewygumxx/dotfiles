@@ -18,7 +18,7 @@
 ---@type   LazySpec
 local M = {
     "L3MON4D3/LuaSnip",
-    enabled = true,
+    enabled = false,
     version = "v2.5.*",
     build   = "make install_jsregexp",
 }
