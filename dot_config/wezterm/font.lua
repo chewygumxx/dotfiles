@@ -25,7 +25,7 @@ M.setup = function(cfg)
     cfg.font_size    = 11 -- pt
     cfg.line_height  = 1.1
     cfg.font_dirs    = { os.getenv("HOME") .. '/ref/font' }
-    cfg.font_locator = 'ConfigDirsOnly' -- Optomisation Attempt, may break intolerably 
+    cfg.font_locator = 'ConfigDirsOnly' -- Optimisation Attempt, may break intolerably 
 
     cfg.anti_alias_custom_block_glyphs = true
 

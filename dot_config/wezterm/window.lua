@@ -1,4 +1,4 @@
-#!/usr/bin/env lua
+#!/bin/false
 -- vim: expandtab:shiftwidth=4:filetype=lua:
 
 -- 
@@ -16,22 +16,14 @@ local M = {}
 
 M.setup = function(cfg)
     -- Vulkan GPU Acceleration, *Essential*
-    cfg.front_end      = 'WebGpu'   
+    cfg.front_end = 'WebGpu'   
 
     -- When shell program spawned from terminal
-    cfg.exit_behavior   = "Close"
-    --cfg.exit_behavior = "CloseOnCleanExit" 
+    cfg.exit_behavior = "Close"
 
-    --cfg.window_close_confirmation = "AlwaysPrompt"
-    cfg.window_close_confirmation   = "NeverPrompt"
-    cfg.skip_close_confirmation_for_processes_named = {
-        'zsh',
-        'fzf-cclip',
-        'yazi',       -- For termfilechooser 
-    }
+    cfg.window_close_confirmation = "NeverPrompt"
 
     cfg.detect_password_input = true
-  --cfg.default_cursor_style  = 'BlinkingUnderline'
     cfg.cursor_blink_ease_in  = 'Linear'
     cfg.cursor_blink_ease_out = 'Linear'
     cfg.cursor_blink_rate = 2000

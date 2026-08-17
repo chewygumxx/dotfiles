@@ -1,4 +1,4 @@
-#!/usr/bin/env lua
+#!/bin/false
 -- vim: expandtab:shiftwidth=4:filetype=lua:
 
 -- 
@@ -14,13 +14,11 @@
 
 local wezterm = require("wezterm")
 local act     = wezterm.action
-local act_cb  = wezterm.action_callback
 
 local M = {}
 
 
 local wezterm_intrinsic = function(cfg)
-    cfg.disable_default_key_bindings = true
     --cfg.enable_kitty_keyboard = true -- No idea what this does
 
     table.insert(cfg.keys, { mods = "CTRL|SHIFT",     key = "Escape", action = act.ShowDebugOverlay    })
@@ -29,7 +27,7 @@ local wezterm_intrinsic = function(cfg)
     return cfg
 end
 
-local command_pallete = function(cfg)
+local command_palette = function(cfg)
     cfg.command_palette_rows = 15 
     cfg.command_palette_font = cfg.font
     cfg.command_palette_font_size = 13
@@ -98,8 +96,8 @@ local pane_input = function(cfg)
 
     local nvim_scrollback = wezterm.action_callback(function(window, pane)
         -- Read entire scrollback...
-        local area = pane:get_dimensions().scrollback_row
-        local text = pane:get_lines_as_escapes(scrollback_area)
+        local area = pane:get_dimensions().scrollback_rows
+        local text = pane:get_lines_as_escapes(area)
 
         -- ... into temporary file
         local temp_file   = "/tmp/" .. os.date("%Y-%m-%d_%H-%M-%S_wezterm-scrollback.log.ansi")
@@ -111,7 +109,7 @@ local pane_input = function(cfg)
         -- In new tab of current window,
         -- Invoke Neovim to open file, save a copy, then finally interpret escape codes.
         window:perform_action(act.SpawnCommandInNewTab({
-            args = { 'nvim', '+CGInterpretEscape', temp_file },
+            args = { 'nvim', '+XXInterpretEscape', temp_file },
         }), pane)
     end)
     table.insert(cfg.keys, { mods = "CTRL|ALT|SHIFT", key = "V",  action = nvim_scrollback })
@@ -217,9 +215,11 @@ local input = function(cfg)
 end
 
 M.setup = function(cfg)
+    cfg.disable_default_key_bindings = true
     cfg.keys = {}
+
     cfg = wezterm_intrinsic(cfg)
-    cfg = command_pallete(cfg)
+    cfg = command_palette(cfg)
     cfg = essential(cfg)
     cfg = modes_copy_and_search(cfg)
     cfg = pane_intrinsic(cfg)

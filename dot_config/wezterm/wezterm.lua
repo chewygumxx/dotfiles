@@ -46,6 +46,7 @@ local setup = function(cfg)
         cfg = color.setup(cfg)
     end
 
+    -- Dependent upon cfg.font
     local keymap = require_guard("keymap")
     if keymap and keymap.setup then
         cfg = keymap.setup(cfg)

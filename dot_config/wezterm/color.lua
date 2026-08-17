@@ -1,4 +1,4 @@
-#!/usr/bin/env lua
+#!/bin/false
 -- vim: expandtab:shiftwidth=4:filetype=lua:
 
 -- 
