@@ -1,15 +1,15 @@
 -- vim: expandtab:shiftwidth=4:filetype=lua:
 
--- 
--- 
+--
+--
 -- ~chewygumxx/dotfiles.git
 -- ::: :/dot_config/wezterm/wezterm.lua
--- 
--- 
+--
+--
 
--- 
--- 
--- 
+--
+--
+--
 
 local wezterm = require('wezterm')
 
