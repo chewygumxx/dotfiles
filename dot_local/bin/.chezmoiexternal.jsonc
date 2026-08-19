@@ -1,0 +1,21 @@
+// vim: expandtab:shiftwidth=4:filetype=jsonc:
+
+// 
+// 
+// ~chewygumxx/dotfiles.git
+// ::: :/dot_local/bin/.chezmoiexternal.jsonc
+// 
+// 
+
+// 
+// 
+// 
+
+{
+    "systemd-override-gpg-socket": {
+        "type": "file",
+        "url": "https://raw.githubusercontent.com/chewygumxx/systemd-override-gpg-socket/refs/heads/main/systemd-override-gpg-socket",
+        "refreshPeriod": "168h",
+        "executable": true
+    }
+}

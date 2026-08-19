@@ -1,0 +1,20 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4:filetype=gitignore:
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/systemd/user/.chezmoiignore
+# 
+# 
+
+# 
+# Ignore generated files and directories
+# 
+
+gpg-agent-browser.socket.d/
+gpg-agent-ssh.socket.d/
+gpg-agent.socket.d/
+gpg-agent-extra.socket.d/
+dirmngr.socket.d/
+keyboxd.socket.d/
