@@ -13,9 +13,9 @@
 
 [Unit]
 Description="Clipboard capture daemon: cclipd"
+ConditionEnvironment=WAYLAND_DISPLAY
 
 [Service]
-ConditionEnvironment=WAYLAND_DISPLAY
 ExecStart=cclipd -S -t "image/png" -t "image/*" -t "text/plain;charset=utf-8" -s 2
 
 [Install]

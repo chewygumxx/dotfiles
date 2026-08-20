@@ -1,5 +1,5 @@
 #!/bin/false
--- vim: expandtab:shiftwidth=4:filetype=lua:
+-- vim:set expandtab shiftwidth=4 filetype=lua:
 
 --
 --
@@ -32,15 +32,13 @@ M.base = function(opt)
         or (vim.bo[buf].commentstring ~= "" and vim.bo[buf].commentstring)
         or "%s"
 
-    local modeline = "vim: "
-    modeline = modeline .. (et and "expandtab:" or "")
-    modeline = modeline .. (sw and "shiftwidth=" .. tostring(sw) ..  ":" or "")
-    modeline = modeline .. (ft and ft ~= "" and "filetype=" .. ft .. ":" or "")
+    local modeline = "vim:set "
+    modeline = modeline .. (et and " expandtab" or "")
+    modeline = modeline .. (sw and " shiftwidth=" .. tostring(sw) or "")
+    modeline = modeline .. (ft and ft ~= "" and " filetype=" .. ft or "")
     modeline = modeline .. (append or "")
 
-    if not modeline:match(":$") then
-        modeline = modeline .. ":"
-    end
+    modeline = modeline .. ":"
 
     return string.format(commentstring, modeline)
 end
