@@ -14,7 +14,7 @@
 #
 
 local __this_file="${(D)${${(%):-%N}:a}}"
-
+local __eza_ignore_glob=( $__eza_ignore_glob )
 
 # ---------------------
 # Validate Environment
@@ -49,11 +49,24 @@ local -i long=0
 
 while (( $# )); do
     case "$1" in
-        -u|--unignore) ignore=0;     shift;;
-        -l|--long)     long+=1;      shift;;
-        -*)            opts+=("$1"); shift;;
-        *)             args+=("$1"); shift;;
+        -u|--unignore)
+            ignore=0
+            ;;
+        -l|--long)
+            long+=1
+            ;;
+        -T|--tree)
+            opts+=("$1")
+            __eza_ignore_glob+=( ".git" )
+            ;;
+        -*)
+            opts+=("$1")
+            ;;
+        *)
+            args+=("$1")
+            ;;
     esac
+    shift
 done
 
 

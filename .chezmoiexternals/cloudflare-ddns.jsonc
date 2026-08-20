@@ -1,0 +1,27 @@
+// vim:set expandtab:shiftwidth=4:filetype=jsonc:
+
+// 
+// 
+// ~chewygumxx/dotfiles.git
+// ::: :/.chezmoiexternals/cloudflare-ddns.jsonc
+// 
+// 
+
+{
+    "dot_config/systemd/user/cloudflare-ddns@.service": {
+        "type": "file",
+        "refreshPeriod": "168h",
+        "url": "https://raw.githubusercontent.com/chewygumxx/cloudflare-ddns/refs/heads/main/cloudflare-ddns%40.service"
+    },
+    "dot_config/systemd/user/cloudflare-ddns@.timer": {
+        "type": "file",
+        "refreshPeriod": "168h",
+        "url": "https://raw.githubusercontent.com/chewygumxx/cloudflare-ddns/refs/heads/main/cloudflare-ddns%40.timer"
+    },
+    "dot_local/bin/cloudflare-ddns-update": {
+        "type": "file",
+        "executable": true,
+        "refreshPeriod": "168h",
+        "url": "https://raw.githubusercontent.com/chewygumxx/cloudflare-ddns/refs/heads/main/cloudflare-ddns-update"
+    }
+}
