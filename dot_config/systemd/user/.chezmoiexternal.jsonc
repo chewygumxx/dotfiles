@@ -14,7 +14,17 @@
 {
     "systemd-override-gpg-socket.service": {
         "type": "file",
-        "url": "https://raw.githubusercontent.com/chewygumxx/systemd-override-gpg-socket/refs/heads/main/systemd-override-gpg-socket.service",
-        "refreshPeriod": "168h"
+        "refreshPeriod": "168h",
+        "url": "https://raw.githubusercontent.com/chewygumxx/systemd-override-gpg-socket/refs/heads/main/systemd-override-gpg-socket.service"
+    },
+    "cloudflare-ddns@.service": {
+        "type": "file",
+        "refreshPeriod": "168h",
+        "url": "https://raw.githubusercontent.com/chewygumxx/cloudflare-ddns/refs/heads/main/cloudflare-ddns%40.service"
+    },
+    "cloudflare-ddns@.timer": {
+        "type": "file",
+        "refreshPeriod": "168h",
+        "url": "https://raw.githubusercontent.com/chewygumxx/cloudflare-ddns/refs/heads/main/cloudflare-ddns%40.timer"
     }
 }
