@@ -51,9 +51,7 @@ fi
 (( $+commands[yazi] )) && alias y=yazi
 
 # Proton Pass
-if (( $+commands[pass-cli] )); then
-    alias pass='pass-cli'
-fi
+(( $+commands[pass-cli] )) && alias pass='pass-cli'
 
 # SQLite
 (( $+commands[sqlite3] )) && alias sqlite='sqlite3'

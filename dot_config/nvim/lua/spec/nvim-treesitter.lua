@@ -267,7 +267,7 @@ local ignore_filetypes = {
     'man',
 }
 
--- Ripped this from:
+-- Ripped from:
 -- https://www.reddit.com/r/neovim/comments/1pndf9e/my_new_nvimtreesitter_configuration_for_the_main/
 M.config = function()
     vim.treesitter.language.register('ini',    'systemd' )

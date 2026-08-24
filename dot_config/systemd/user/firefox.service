@@ -1,10 +1,11 @@
-# vim: nofoldenable
+# vim:set expandtab shiftwidth=4 filetype=systemd:
 
-#
-#
-# ~/.config/systemd/user/firefox.service
-#
-#
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/systemd/user/firefox.service
+# 
+# 
 
 [Unit]
 Description=Mozilla Firefox
