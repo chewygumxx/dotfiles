@@ -1,5 +1,5 @@
 #!/bin/false
-# vim: expandtab:shiftwidth=4:filetype=zsh:
+# vim:set expandtab shiftwidth=4 filetype=zsh:
 
 #
 #
@@ -9,8 +9,7 @@
 #
 
 #
-# Zsh source file to prepare interactive utility 'eza'.
-# Optionally dependent on configurable wrapper and rm-notice function.
+# Zsh source file to prepare interactive utility 'gtrash'.
 #
 # https://github.com/umlx5h/gtrash
 # https://github.com/umlx5h/gtrash/blob/main/doc/configuration.md
@@ -36,5 +35,3 @@ fi
 
 alias del="gtrash put"
 alias del-undo="gtrash restore-group"
-
-alias rm="rm-disable"
