@@ -4,7 +4,7 @@
 # 
 # 
 # ~chewygumxx/dotfiles.git
-# ::: :/dot_config/zsh/wrap/rm-disable
+# ::: :/dot_config/zsh/wrap/rm
 # 
 # 
 
@@ -14,12 +14,15 @@ local ylw=$'\e[0;33m' # Yellow
 local blu=$'\e[0;34m' # Blue    
 local MAG=$'\e[1;35m' # Magenta Bold
 
-if (( $+commands[gtrash] )); then
+if (( $+commands[gtrash] )) && (( $+aliases[del] )); then
     printf "%s\n" "${grn}gtrash ${n}is installed, try the ${blu}alias ${grn}del${ylw}='${blu}gtrash ${MAG}put${ylw}'"
-    
-    # Gentle
-    #print -z "del $@"
+    #print -z "del $@"  # Gentle nudge
+    return
+fi
 
+if (( $+commands[trash-put] )) && (( $+aliases[del] )); then
+    printf "%s\n" "${grn}trash-cli ${n}is installed, try the ${blu}alias ${grn}del${ylw}='${blu}trash-put${ylw}'"
+    #print -z "del $@"  # Gentle nudge
     return
 fi
 
