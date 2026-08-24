@@ -18,5 +18,5 @@ if (( $# == 1 )) && [[ "$1" == "--user" ]] && (( $+commands[systemctl-tui] )); t
     return
 fi
 
-systemctl "$@"
+command systemctl "$@"
 
