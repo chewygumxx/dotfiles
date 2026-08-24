@@ -1,12 +1,12 @@
 #!/bin/false
--- vim: expandtab:shiftwidth=4:filetype=lua:
+-- vim:set expandtab shiftwidth=4 filetype=lua:
 
---
---
+-- 
+-- 
 -- ~chewygumxx/dotfiles.git
 -- ::: :/dot_config/nvim/lua/util/git.lua
---
---
+-- 
+-- 
 
 --
 -- Helper functions for git
@@ -41,7 +41,7 @@ M.path = function(file)
     end
     
     local root = result.stdout:gsub("%s+$", "")
-    return ":" .. vim.fn.fnamemodify(file, "%:p"):sub(#root + 1)
+    return ":" .. vim.fn.fnamemodify(file, ":p"):sub(#root + 1)
 end
 
 return M
