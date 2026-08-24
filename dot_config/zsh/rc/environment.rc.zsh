@@ -77,9 +77,3 @@ fi
 if (( $+commands[sqlite3] )); then
     export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite/history"
 fi
-
-# Terminfo
-if (( $+commands[wezterm] )); then
-    export TERMINFO="$XDG_DATA_HOME/terminfo"
-    export TERMINFO_DIRS="${TERMINFO}:/usr/share/terminfo"
-fi
