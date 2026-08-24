@@ -32,7 +32,7 @@ M.base = function(opt)
         or (vim.bo[buf].commentstring ~= "" and vim.bo[buf].commentstring)
         or "%s"
 
-    local modeline = "vim:set "
+    local modeline = "vim:set"
     modeline = modeline .. (et and " expandtab" or "")
     modeline = modeline .. (sw and " shiftwidth=" .. tostring(sw) or "")
     modeline = modeline .. (ft and ft ~= "" and " filetype=" .. ft or "")
