@@ -1,0 +1,16 @@
+// vim:set expandtab shiftwidth=4 filetype=jsonc:
+
+// 
+// 
+// ~chewygumxx/dotfiles.git
+// ::: :/.chezmoiexternals/print-quote.jsonc
+// 
+// 
+
+{
+    ".local/bin/print-quote": {
+        "type": "archive-file",
+        "url": "https://github.com/chewygumxx/print-quote/releases/download/v1.0.0/print-quote-v1.0.0-x86_64-unknown-linux-gnu.tar.gz",
+        "path": "print-quote"
+    }
+}
