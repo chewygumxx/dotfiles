@@ -1,15 +1,12 @@
 #!/bin/false
-# vim: expandtab:shiftwidth=4
+# vim:set expandtab shiftwidth=4 filetype=zsh:
 
 # 
 # 
-# ~/.config/zsh/functions/y
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/zsh/wrap/yazi
 # 
 # 
-
-#
-# Yazi shortcut, also does other stuff
-#
 
 local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 
