@@ -1,10 +1,12 @@
--- vim: expandtab:shiftwidth=4
+#!/bin/false
+-- vim:set expandtab shiftwidth=4 filetype=lua:
 
---
---
--- ~/.config/hypr/chewy.lua
---
---
+-- 
+-- 
+-- ~chewygumxx/dotfiles.git
+-- ::: :/dot_config/hypr/chewy.lua
+-- 
+-- 
 
 local M = {}
 
@@ -19,7 +21,7 @@ M.terminal.cmd.float = M.terminal.cmd.base .. "--class term-float"
 M.terminal.cmd.tiled = M.terminal.cmd.base .. "--class term-tiled"
 
 M.clipman = {
-    cmd = M.terminal.cmd.base .. "--class fzf-cclip 'fzf-cclip'"
+    cmd = M.terminal.cmd.base .. "--class cclip-fzf 'cclip-fzf'"
 }
 
 M.screenshot = {

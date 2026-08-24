@@ -1,10 +1,12 @@
--- vim: expandtab:shiftwidth=4
+#!/usr/bin/env lua
+-- vim:set expandtab shiftwidth=4 filetype=lua:
 
---
---
--- ~/.config/hypr/window_rules.lua
---
---
+-- 
+-- 
+-- ~chewygumxx/dotfiles.git
+-- ::: :/dot_config/hypr/window_workspace_rules.lua
+-- 
+-- 
 
 local M = {}
 
@@ -73,8 +75,8 @@ local window_rules = {
 
     clipboard_manager = function()
         hl.window_rule({
-            name = "terminal-clipboard-manager-fzf-cclip",
-            match = { class = "fzf-cclip", },
+            name = "terminal-clipboard-manager-cclip-fzf",
+            match = { class = "cclip-fzf", },
 
             float = true,
             size = { 1100, 652 },
