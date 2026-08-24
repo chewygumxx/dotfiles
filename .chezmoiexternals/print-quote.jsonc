@@ -10,7 +10,7 @@
 {
     ".local/bin/print-quote": {
         "type": "archive-file",
-        "url": "https://github.com/chewygumxx/print-quote/releases/download/v1.1.0/print-quote-v1.1.0-x86_64-unknown-linux-gnu.tar.gz",
+        "url": "https://github.com/chewygumxx/print-quote/releases/download/v1.1.2/print-quote-v1.1.2-x86_64-unknown-linux-gnu.tar.gz",
         "path": "print-quote"
     }
 }
