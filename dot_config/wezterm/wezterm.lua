@@ -1,13 +1,9 @@
--- vim: expandtab:shiftwidth=4:filetype=lua:
+-- vim:set expandtab shiftwidth=4 filetype=lua:
 
 --
 --
 -- ~chewygumxx/dotfiles.git
 -- ::: :/dot_config/wezterm/wezterm.lua
---
---
-
---
 --
 --
 
@@ -24,13 +20,17 @@ end
 
 local cfg = wezterm.config_builder()
 
-cfg.term = "wezterm"
 cfg.enable_wayland = true
 cfg.check_for_updates = false
 cfg.debug_key_events = false
 cfg.automatically_reload_config = false
 
 local setup = function(cfg)
+    local terminfo = require_guard("terminfo")
+    if terminfo and terminfo.setup then
+        cfg = terminfo.setup(cfg)
+    end
+
     local window = require_guard("window")
     if window and window.setup then
         cfg = window.setup(cfg)
