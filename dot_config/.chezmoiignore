@@ -15,6 +15,7 @@
 # Secret
 @_sysroot_etc/src/wireguard/**  # (Secret) VPN Private Keys
 kdeconnect/                     # (Secret) Keys, clipboard, remote commands
+cloudflare-ddns/                # (Secret) API Tokens
 gh/hosts.yml                    # (Secret) Authetication Tokens
 waybar/modules/weather/open_weather_map.apikey
 
