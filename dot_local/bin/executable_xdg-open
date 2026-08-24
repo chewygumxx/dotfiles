@@ -1,9 +1,10 @@
 #!/bin/sh
-# vim: 
+# vim:set expandtab shiftwidth=4 filetype=sh:
 
-#
-#
-# ~/.local/bin/xdg-open
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_local/bin/xdg-open
 #
 #
 
@@ -11,4 +12,7 @@
 # Shadow file redirection
 #
 
-exec /usr/bin/handlr open "$@"
+command -v handlr &>/dev/null && exec command handlr open "$@"
+
+exec command xdg-open "$@"
+

@@ -1,9 +1,10 @@
 #!/bin/sh
-# vim:
+# vim:set expandtab shiftwidth=4 filetype=sh:
 
-#
-#
-# ~/.local/bin/wget
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_local/bin/wget
 #
 #
 
@@ -14,4 +15,4 @@
 cache="${XDG_CACHE_HOME:-$HOME/.cache}/wget"
 mkdir -p "$cache" || exit 1
 
-exec /usr/bin/wget --hsts-file="$cache/wget-hsts" "$@"
+exec command wget --hsts-file="$cache/wget-hsts" "$@"
