@@ -72,12 +72,6 @@ M.insert = function(file, buf, opt)
         lines[#lines + 1] = string.format(commentstring, "")
     end
  
-    -- Description
-    lines[#lines + 1] = ""
-    lines[#lines + 1] = string.format(commentstring, "")
-    lines[#lines + 1] = string.format(commentstring, "")
-    lines[#lines + 1] = string.format(commentstring, "")
-
     -- Markdown Frontmatter
     if vim.bo[buf].filetype == "markdown" then
         lines[#lines + 1] = ""
