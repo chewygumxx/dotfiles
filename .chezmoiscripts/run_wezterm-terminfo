@@ -61,7 +61,7 @@ __log () {
 cleanup=()
 trap 'rm -f -- "${cleanup[@]}"' EXIT
 
-if errfile="$(mktemp "${__this_file##*/}_errfile.XXXXXXX" 2>&1)"; then :; else
+if errfile="$(mktemp "${TMPDIR:-/tmp}/${__this_file##*/}_errfile.XXXXXXX" 2>&1)"; then :; else
     exit_code=$?
     __log FATAL "mktemp exited with code $exit_code"
     __log FATAL "$errfile"
@@ -95,7 +95,7 @@ __validate_dependencies() {
 
 __generate_terminfo() {
     #shellcheck disable=SC2155
-    local tmp="$(__guard mktemp "${__this_file##*/}_curl.XXXXXXX")"
+    local tmp="$(__guard mktemp "${TMPDIR:-/tmp}/${__this_file##*/}_curl.XXXXXXX")"
     cleanup+=("$tmp")
     __guard curl \
         --silent \
@@ -148,7 +148,7 @@ __validate_dependencies
 generation_info="wezterm_version=$(__guard wezterm --version)"
 generation_info+=$'\n'"terminfo_url=$url"
 generation_info+=$'\n'"dest=$dest"
-generation_info+=$'\n'"script_hash=$(__guard sha256sum "$__this_file")"
+generation_info+=$'\n'"script_hash=$(__guard sha256sum <"$__this_file")"
 
 if [[ ! -f "$last_success" ]] || [[ "$generation_info" != "$(<"$last_success")" ]]; then
     __generate_terminfo
