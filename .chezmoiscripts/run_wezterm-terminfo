@@ -45,15 +45,9 @@ dependencies=( curl tic sha256sum )
 __log () {
     local level="INFO"
     case "$1" in
-        INFO)
-            (( verbose )) || return
-            shift
-            ;;
-        NOTICE|WARN|ERROR|FATAL)
-            level="$1"
-            shift
-            ;;
+        INFO|NOTICE|WARN|ERROR|FATAL) level="$1"; shift ;;
     esac
+    [[ $level == INFO ]] && (( verbose )) && return
 
     printf "%s: [%s] %s\n" "${__this_file##*/}" "$level" "$*" >&2
 }
