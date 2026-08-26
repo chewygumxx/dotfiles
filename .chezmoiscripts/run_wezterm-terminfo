@@ -114,12 +114,12 @@ __generate_terminfo() {
     __guard tic -x -o "$dest" -- "$tmp"
 
     __guard mkdir -p -- "${last_success%/*}"
-    if printf "%s\n" "$generation_info" > "$last_success" 2>"$errfile"; then :; else
+    if printf "%s\n" "$generation_info" 2>"$errfile" >"$last_success"; then :; else
         exit_code=$?
         __log FATAL "Failed to write generation info to: $last_success"
         __log FATAL "printf redirection exited $exit_code"
-        __log FATAL "Exec: printf \"%s\n\" \"$generation_info\" > \"$last_success\""
-        __log FATAL "stderr: <$errfile"
+        __log FATAL "Exec: printf \"%s\n\" \"\$generation_info\" > \"$last_success\""
+        __log FATAL "stderr: $(<"$errfile")"
         exit "$exit_code"
     fi
     __log NOTICE "Regeneration successful"
