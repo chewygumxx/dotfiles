@@ -109,7 +109,7 @@ __generate_terminfo() {
         --output "$tmp" \
         -- "$url"
     
-    __log NOTICE "Regenerating to: ${dest@Q}"
+    __log NOTICE "Regenerating to: $dest"
     __guard mkdir -p -- "$dest"
     __guard tic -x -o "$dest" -- "$tmp"
 
@@ -133,7 +133,7 @@ __generate_terminfo() {
         fi
     fi
 
-    __log NOTICE "Ensure the following directory is included in WezTerm TERMINFO or TERMINFO_DIRS: ${dest@Q}"
+    __log NOTICE "Ensure the following directory is included in WezTerm TERMINFO or TERMINFO_DIRS: $dest"
 }
 
 
