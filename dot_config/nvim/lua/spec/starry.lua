@@ -1,11 +1,13 @@
 #!/bin/false
--- vim: expandtab:shiftwidth=4
+-- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
 
---
---
--- ~/.config/nvim/lua/spec/starry.lua
---
---
+-- 
+-- 
+-- ~chewygumxx/dotfiles.git
+-- ::: :/dot_config/nvim/lua/spec/starry.lua
+-- 
+-- 
 
 local M = {
     'ray-x/starry.nvim',

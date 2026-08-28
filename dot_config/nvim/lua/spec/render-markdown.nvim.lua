@@ -14,7 +14,8 @@
 
 local M = {
     'MeanderingProgrammer/render-markdown.nvim',
-    enabled = true,
+    enabled = false,
+
     ft = { "markdown" },
     dependencies = {
         'nvim-treesitter/nvim-treesitter',

@@ -46,6 +46,7 @@ M.insert = function(file, buf, opt)
             ft = vim.bo[buf].filetype,
             commentstring = commentstring
         })
+        lines[#lines + 1] = string.format(commentstring, "SPDX-License-Identifier: GPL-3.0-only")
     end
 
     local slug
