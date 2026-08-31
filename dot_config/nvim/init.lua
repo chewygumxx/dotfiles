@@ -43,5 +43,8 @@ local modules = {
 }
 
 for _, modpath in ipairs(modules) do
-    _G.require_guard(modpath).setup()
+    local module = _G.require_guard(modpath)
+    if module then
+        module.setup()
+    end
 end

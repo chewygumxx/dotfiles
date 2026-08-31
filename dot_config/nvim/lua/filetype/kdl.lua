@@ -38,7 +38,7 @@ M.setup = function(file, buf)
     file = file or vim.fn.expand("%")
     buf  = buf  or 0
 
-    for opt, value in pairs(options) do
+    for opt, value in pairs(opts) do
         vim.api.nvim_set_option_value(opt, value, { buf = buf })
     end
     for hlgroup, defmap in pairs(hlgroup_defs) do

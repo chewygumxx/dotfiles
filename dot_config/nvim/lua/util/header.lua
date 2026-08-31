@@ -19,6 +19,10 @@ local util_shebang  = _G.require_guard("util.shebang")
 local util_git      = _G.require_guard("util.git")
 
 M.insert = function(file, buf, opt)
+    if not (util_modeline and util_shebang and util_git) then
+        return
+    end
+
     local file = file or vim.fn.expand("%")
     local buf  = buf  or 0
     local opt  = opt  or {}
