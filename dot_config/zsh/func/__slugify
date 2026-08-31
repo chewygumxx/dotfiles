@@ -17,7 +17,7 @@ while true; do
         -D|--no-dot)        allow="${allow//./}" ;;
         -H|--no-hyphen)     allow="${allow//-/}" ;;
         -U|--no-underscore) allow="${allow//_/}" ;;
-        --) shift; break &;
+        --) shift; break ;;
         *)  break ;;
     esac
     shift
