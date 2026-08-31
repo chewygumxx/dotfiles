@@ -21,8 +21,8 @@ local f   = ls.function_node
 local rep = require("luasnip.extras").rep
 
 local git  = require("util.git")
-local slug = function() git.slug() end
-local path = function() git.path() end
+local slug = function() return git.slug() end
+local path = function() return git.path() end
 
 local modeline = require("util.modeline").base({
     et = true,
