@@ -16,7 +16,7 @@
     "default_branch": "main",
     "description": "My chezmoi-managed dotfiles",
     "category": "dotfiles",
-    "topics": [ "dotfiles", "config", "nvim-config", "zsh-config" ],
+    "topics": [ "dotfiles", "config", "nvim-config", "zsh-config", "chezmoi" ],
     "license": {
         "filepath":  "./LICENSE",
         "spdx_id":   "GPL-3.0-only",
