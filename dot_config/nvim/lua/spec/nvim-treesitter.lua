@@ -4,7 +4,7 @@
 --
 --
 -- ~chewygumxx/dotfiles.git
--- ::: :/dot_config/nvim/lua/spec/comment.nvim.lua
+-- ::: :/dot_config/nvim/lua/spec/nvim-treesitter.lua
 --
 --
 
@@ -270,6 +270,11 @@ local ignore_filetypes = {
 -- Ripped from:
 -- https://www.reddit.com/r/neovim/comments/1pndf9e/my_new_nvimtreesitter_configuration_for_the_main/
 M.config = function()
+    local custom_predicates = _G.require_guard("util.treesitter")
+    if custom_predicates then
+        custom_predicates.setup()
+    end
+
     vim.treesitter.language.register('ini',    'systemd' )
     vim.treesitter.language.register('gotmpl', 'template')
 
