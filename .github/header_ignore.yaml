@@ -3,10 +3,12 @@
 
 #
 #
-# ~chewygumxx/sync-header-metadata.git
+# ~chewygumxx/dotfiles.git
 # ::: :/.github/header_ignore.yaml
 #
 #
 
 ignore:
     - /LICENSE
+    - /.chezmoiroot
+    - /.chezmoiversion
