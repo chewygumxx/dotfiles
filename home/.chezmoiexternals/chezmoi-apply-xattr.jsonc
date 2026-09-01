@@ -11,6 +11,6 @@
     ".local/bin/chezmoi-apply-xattr": {
         "type": "file",
         "executable": true,
-        "url": "https://github.com/chewygumxx/chezmoi-apply-xattr/releases/download/v1.0.0/chezmoi-apply-xattr"
+        "url": {{ gitHubLatestReleaseAssetURL "chewygumxx/chezmoi-apply-xattr" "chezmoi-apply-xattr" | quote }}
     }
 }
