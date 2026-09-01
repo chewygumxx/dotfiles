@@ -1,11 +1,13 @@
-# vim: filetype=gitignore
+# vim:set expandtab shiftwidth=4 filetype=gitignore:
+# SPDX-License-Identifier: GPL-3.0-only
 
-# 
-# 
+#
+#
 # ~chewygumxx/dotfiles.git
 # ::: :/ref/image/tel/screenshot/.chezmoiignore
-# 
-# 
+#
+#
+
 
 # -------------------
 # Ignored Everywhere
@@ -13,11 +15,13 @@
 
 *
 
+
 # -----------------
 # Chewytop Ignored
 # -----------------
 
 {{- if eq .chezmoi.hostname "chewytop" }}
+
 
 {{- end }}
 
