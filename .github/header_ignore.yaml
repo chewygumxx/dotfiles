@@ -14,3 +14,15 @@ ignore:
     - /.chezmoiversion
     - "symlink_*"
     - "*.json"
+    - "*.gif"
+    - "*.png"
+    - "*.svg"
+    - "*.jpg"
+    - "*.jpeg"
+    - "*.tiff"
+    - "*.webm"
+    - "*.mp4"
+    - "*.mkv"
+    - "*.ogg"
+    - "*.flac"
+
