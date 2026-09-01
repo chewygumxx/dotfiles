@@ -1,7 +1,0 @@
-[Unit]
-Description=KDE Connect daemon
-
-[Service]
-Type=dbus
-BusName=org.kde.kdeconnect.daemon
-ExecStart=/usr/bin/kdeconnectd
