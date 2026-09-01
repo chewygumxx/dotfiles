@@ -1,8 +1,10 @@
-# vim: expandtab:shiftwidth=4:ft=ssh_config
+# vim:set expandtab shiftwidth=4 ft=ssh_config:
+# SPDX-License-Identifier: GPL-3.0-only
 
 #
 #
-# ~/.ssh/config
+# ~chewygumxx/dotfiles.git
+# ::: :/private_dot_ssh/config.tmpl
 #
 #
 
@@ -27,7 +29,7 @@ Host chewytele
     Port           8022
     IdentityFile   ~/.ssh/id/chewytop-tele
     IdentitiesOnly yes
-{{- else if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+{{ else if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
 Host chewytop
     Hostname       192.168.4.21
     Port           22
