@@ -12,3 +12,4 @@ ignore:
     - /LICENSE
     - /.chezmoiroot
     - /.chezmoiversion
+    - symlink_*
