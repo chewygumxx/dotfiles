@@ -1,0 +1,38 @@
+{
+    "showIntro": false,
+    "messageTemplate": "@type(@scope): @message",
+    "commitTitleCharLimit": 60,
+    "commitBodyLineLength": 40,
+
+    "prefixes": [
+        { "type":  "feat",     "description": "Adding new feature/function/option" },
+        { "type":  "fix",      "description": "Correcting malfunction" },
+        { "type":  "chore",    "description": "Maintenance, repository organisation" },
+        { "type":  "style",    "description": "Formatting, whitespace, indentation" },
+        { "type":  "ci",       "description": "Continuous integration/deployment" },
+        { "type":  "docs",     "description": "Documentation and comments" },
+        { "type":  "refactor", "description": "Purely structural" },
+        { "type":  "perf",     "description": "Performance improvement" },
+        { "type":  "build",    "description": "Compilation, tools and dependency" },
+        { "type":  "test",     "description": "Quality assurance infrastructure"},
+        { "type":  "revert",   "description": "Rewind time, rollback" }
+    ],
+    "allowCustomPrefixes": true,
+
+    "scopes": [
+        { "name": "chezmoi",  "description": "Chezmoi miscellanious" },
+        { "name": "external", "description": "Chezmoi external" },
+        { "name": "ignore",   "description": "Chezmoi ignore" },
+        { "name": "remove",   "description": "Chezmoi remove" },
+        { "name": "nvim",     "description": "Neovim" },
+        { "name": "zsh",      "description": "Z Shell" },
+        { "name": "yazi",     "description": "" },
+        { "name": "herdr",    "description": "" },
+        { "name": "hypr",     "description": "Hyprland" },
+        { "name": "claude",   "description": "" },
+        { "name": "firefox",  "description": "" },
+        { "name": "systemd",  "description": "" },
+        { "name": "wezterm",  "description": "" }
+    ],
+    "allowCustomScopes": true
+}
