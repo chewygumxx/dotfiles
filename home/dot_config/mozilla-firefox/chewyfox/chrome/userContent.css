@@ -1,0 +1,93 @@
+/* vim:foldlevel=1
+*/
+
+/* {{{ True Dark Mode of about:* pages */
+@-moz-document
+url-prefix("about:about"),
+url-prefix("about:addons"),
+url-prefix("about:blank"),
+url-prefix("about:config"),
+url-prefix("about:downloads"),
+url-prefix("about:home"),
+url-prefix("about:memory"),
+url-prefix("about:mozilla"),
+url-prefix("about:newtab"),
+url-prefix("about:preferences"),
+url-prefix("about:profiles"),
+url-prefix("about:settings") {
+	:root {
+		--base-0: #03030b;
+		--base-1: #040512;
+		--base-2: #060616;
+		--base-3: #090a24;
+		--base-4: #0b0c2d;
+		--base-5: #141337;
+		--base-6: #2d2857;
+		
+		--purp-dark:        #4e4581;
+		--purp-subtle:      #806fc0;
+		--purp-indigo-deep: #6161a3;
+		--purp-indigo:      #7171d3;
+		--purp-neon:        #7408ff;
+		--purp-bright:      #b66ffd;
+		--purp-white:       #b399ff;
+		
+		--blue-cornflower:  #5f95fa;
+		--blue-cyan:        #43cfea;
+		--blue:             #87afff;
+		--blue-electric:    #66ccff;
+		
+		--cool-white-0: #cad6ff;
+		--cool-white-1: #e8e0ff;
+
+		--domain:              var(--purp-indigo);
+		--domain-subtitle:     var(--purp-indigo);
+		--domain-subtitle-ext: var(--purp-indigo-deep);
+		
+		--link: var(--blue-electric);
+		--link-visited: var(--purp-neon);
+		
+		--date: var(--purp-indigo-deep);
+		
+		--text-color: var(--cool-white-0)!important;
+		--in-content-page-color: var(--text-color) !important;
+		--in-content-text-color: var(--text-color) !important;
+		--in-content-deemphasised-text: var(--purp-subtle) !important;
+
+		--in-content-page-background: var(--base-0) !important;
+		--background-color-canvas: var(--in-content-page-background) !important;
+		--in-content-box-background: var(--base-3) !important;
+
+		/* Button */
+		--button-text-color: var(--text-color) !important;
+
+		/* Button: Hover */
+		--button-border-color-hover: var(--base-4) !important;
+		--button-background-color-hover: var(--base-2) !important;
+
+		scrollbar-color: rgb(45,40,87) rgb(3,3,11) !important;/* #2d2857 var(--in-content-page-background) */ 
+		/* color: var(--in-content-text-color) !important; */
+		/* background: var(--in-content-page-background) !important; */
+		
+	}
+
+	menulist > menupopup { background-color: var(--in-content-page-background) !important; }
+
+	.updateSettingCrossUserWarningContainer,
+	.info-panel,
+	.extension-controlled,
+	.message-bar,
+	html|message-bar,
+	.alert,
+	treecol{
+		background-color: var (--in-content-box-background) !important;
+		color var(--in-content-text-color) !important;
+	}
+	.menulist-dropmarker,
+	.checkbox-icon{
+		-moz-context-properties: fill;
+		fill : CurrentColor !important;
+	}
+}
+/* }}} */
+

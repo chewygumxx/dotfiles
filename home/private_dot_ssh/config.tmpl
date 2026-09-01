@@ -1,0 +1,38 @@
+# vim:set expandtab shiftwidth=4 ft=ssh_config:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/private_dot_ssh/config.tmpl
+#
+#
+
+#
+# Templated with chezmoi
+#
+
+AddKeysToAgent yes
+IdentityAgent  "${XDG_RUNTIME_DIR}/ssh-agent.socket"
+
+Host *.github.com github.com 
+    User           git
+    IdentitiesOnly yes
+{{- if      eq .chezmoi.hostname "chewytop" }}
+    IdentityFile   ~/.ssh/id/chewytop-github
+{{- else if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+    IdentityFile   ~/.ssh/id/chewytele-github
+{{- end }}
+{{ if eq .chezmoi.hostname "chewytop" }}
+Host chewytele
+    Hostname       192.168.4.22
+    Port           8022
+    IdentityFile   ~/.ssh/id/chewytop-tele
+    IdentitiesOnly yes
+{{ else if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+Host chewytop
+    Hostname       192.168.4.21
+    Port           22
+    IdentityFile   ~/.ssh/id/chewytele-top
+    IdentitiesOnly yes
+{{- end }}

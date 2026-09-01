@@ -1,0 +1,65 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_local/.chezmoiignore
+# 
+# 
+
+# -------------------
+# Ignored Everywhere
+# -------------------
+
+audacity/
+bluetui/
+cclip/
+chezmoi/
+cpanm/
+dbus-1/
+flatpak/
+godot/
+gvfs-metadata/
+hyprland/
+iwctl/
+kactivitymanagerd/
+KDE/
+keyrings/
+kpeoplevcard/
+locale/
+lua/
+luarocks/
+man/
+mime/
+nvim/
+pki/
+rura/
+systemctl-tui/
+systemd/
+vulkan/
+wezterm/
+yarn/
+zathura/
+zoxide/
+recently-used.xbel
+user-places.xbel
+user-places.xbel.bak
+user-places.xbel.tbcache
+
+
+# -----------------
+# Chewytop Ignored
+# -----------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+
+{{- end }}
+
+# ------------------
+# Chewytele Ignored
+# ------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+{{- end }}

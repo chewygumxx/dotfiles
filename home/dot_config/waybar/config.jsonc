@@ -1,0 +1,312 @@
+// vim:set expandtab shiftwidth=4 filetype=jsonc foldlevel=1:
+// SPDX-License-Identifier: GPL-3.0-only
+
+// 
+// 
+// ~chewygumxx/dotfiles.git
+// ::: :/dot_config/waybar/config.jsonc
+// 
+// 
+
+//
+// https://github.com/Alexays/Waybar/wiki
+//
+
+{
+    "position":    "top",
+    "height":       36,
+    "width":        1881,
+    "spacing":      0,
+    "margin-top":   15,
+    "layer":       "bottom", // Don't cover context menus
+    "fixed-center": true,
+
+    "modules-left": [
+        "battery#key",
+        "battery#value",
+
+        "custom/sep",
+
+        "cpu#key",
+        "cpu#value",
+        "memory#key",
+        "memory#value",
+        "temperature#key",
+        "temperature#value",
+
+        "custom/sep",
+
+        "network#key",
+        "network#up",
+        "network#down",
+
+        "custom/sep",
+
+        "pulseaudio#key",
+        "pulseaudio#value",
+    ],
+//  "modules-center": [ "hyprland/workspaces" ],
+    "modules-right": [ 
+        "custom/weather_desc",
+        "custom/weather_icon",
+        "custom/weather_temp",
+
+        "custom/sep",
+
+        "clock#day",
+        "custom/comma",
+
+        "clock#date",
+
+        "custom/hyphen",
+
+        "clock#hours",
+        "custom/colon",
+        "clock#minutes",
+        "custom/colon",
+        "clock#seconds"
+    ],
+
+    "custom/sep":    { "format": "|" },
+    "custom/comma":  { "format": "," },
+    "custom/hyphen": { "format": "-" },
+    "custom/colon":  { "format": ":" },
+
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs":    true,
+        "warp-on-scroll": false,
+        "sort-by":        "number",
+
+        "format": "{icon} {name}",
+        "format-window-separator" : "  ",
+        "format-icons": {
+            "terminal":   " ",
+            "firefox":    "",
+            "code":       "",
+            "sqlite":     "\uf1c0",
+            "kdeconnect": "📞",
+            "obsidian":   "☑",
+            "default":    ""
+        }
+    },
+
+    "battery#key": {
+        "interval": 5,
+        "bat":     "BAT0",
+        "adapter": "AC",
+        "full-at":  90,
+        "states": {
+            "max":  100,
+            "high": 90,
+            "med":  60,
+            "low":  30,
+            "crit": 10
+        },
+
+        "format-charging": "🗲",
+        "format-plugged":  "", 
+        "format-full":     "", 
+        "format-max":      "",
+        "format-high":     "", 
+        "format-med":      "", 
+        "format-low":      "", 
+        "format-crit":     "", 
+        "max-length":       2
+    },
+    "battery#value": {
+        "interval": 5,
+        "bat":     "BAT0",
+        "adapter": "AC",
+        "full-at":  90,
+        "states": {
+            "max":  90,
+            "high": 75,
+            "med":  50,
+            "warn": 20,
+            "crit": 10
+        },
+
+        "format":     "{capacity}%",
+        "format-alt": "{timeTo}",
+    },
+
+    "cpu#key": {
+        "interval": 2,
+        "format":  ""
+    },
+    "cpu#value": {
+        "interval": 2,
+        "format":  "{usage}%"
+    },
+
+    "memory#key": { 
+        "interval": 2,
+        "format":  "" 
+    },
+    "memory#value": {
+        "interval": 2,
+        "format":  "{}%"
+    },
+
+    "temperature#key": {
+        "interval": 2,
+        "critical-threshold": 80,
+        "format":  "{icon}",
+        "format-icons": [
+            ""
+        ]
+    },
+    "temperature#value": {
+        "interval": 2,
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C"
+    },
+
+    "network#key": {
+        "interval": 2,
+        "format": "{icon}",
+        "format-icons": {
+            "wifi": "",
+            "ethernet": " ",
+            "linked": " ",
+            "disconnected": ""
+        },
+        "tooltip-format": "{ipaddr}/{cidr}",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
+        "tooltip-format-ethernet": "{ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "bruh"
+    },
+    "network#up": {
+        "interval": 2,
+        "format": "&#x202b;{bandwidthUpBytes}&#x202c;",
+        "format-disconnected": ">tfw no connect",
+        "tooltip-format": "{ipaddr}/{cidr}",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "bruh"
+    },
+    "network#down": {
+        "interval": 2,
+        "format": "&#x202b;{bandwidthDownBytes}&#x202c;",
+        "tooltip-format": "{ipaddr}/{cidr}",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "bruh"
+    },
+
+    "pulseaudio#key": {
+        "format": "{icon}",
+        "format-bluetooth": "{icon}",
+        "format-bluetooth-muted": "{icon}",
+        "format-muted": "\uf6a9",
+        "format-icons": {
+            "headphone":  " ",
+            "hands-free": "",
+            "headset":    "",
+            "phone":      "",
+            "portable":   "",
+            "car":        "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pulsemixer --toggle-mute"
+    },
+    "pulseaudio#value": {
+        "format": "{volume}%",
+        "format-muted": "mute",
+        "format-bluetooth-muted": "mute",
+        "on-click": "pulsemixer --toggle-mute"
+    },
+
+    "custom/weather_desc" :{
+        "interval": 60,
+        "exec": "sed -n \"1p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
+        "return-type": "json"
+    },
+    "custom/weather_icon" :{
+        "interval": 60,
+        "exec": "sed -n \"2p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
+        "return-type": "json"
+    },
+    "custom/weather_temp" :{
+        "interval": 60,
+        "exec": "sed -n \"3p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
+        "return-type": "json"
+    },
+
+    "clock#day": {
+        "interval": 60,
+        "format": "{:%A}",
+        "format-alt": "{:%a}",
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "mode": "year",
+            "mode-mon-col": 3,
+            "first-day-of-week": 0,   // Sunday = 0, Saturday =6
+            "format": {
+                "months":   "<span color='#8874ed'>{}</span>",
+                "weekdays": "<span color='#7408ff'>{}</span>",
+                "days":     "<span color='#4e4189'>{}</span>",
+                "today":    "<span color='#7fb5ff'><b>{}</b></span>"
+            }
+        }
+    },
+    "clock#date": {
+        "interval": 60,
+        "format":         "{:%d %B %Y}",
+        "format-alt":     "{:%Y-%m-%d}",
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "mode":             "year",
+            "mode-mon-col":      3,
+            "first-day-of-week": 0,   // Sunday = 0, Saturday =6
+            "format": {
+                "months":   "<span color='#8874ed'>{}</span>",
+                "weekdays": "<span color='#7408ff'>{}</span>",
+                "days":     "<span color='#4e4189'>{}</span>",
+                "today":    "<span color='#7fb5ff'><b>{}</b></span>"
+            }
+        }
+    },
+    "clock#hours": {
+        "interval": 1,
+        "tooltip": true,
+        "timezones": [
+            "Australia/Melbourne",
+            "Europe/London",
+            "UTC",
+            "US/Pacific",
+            "US/Eastern"
+        ],
+        "format": "{:%H}",
+        "tooltip-format": "{tz_list}",
+        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}"
+    },
+    "clock#minutes": {
+        "interval": 1,
+        "tooltip": true,
+        "timezones": [
+            "Australia/Melbourne",
+            "Europe/London",
+            "UTC",
+            "US/Pacific",
+            "US/Eastern"
+        ],
+        "format": "{:%M}",
+        "tooltip-format": "{tz_list}",
+        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}"
+    },
+    "clock#seconds": {
+        "interval": 1,
+        "tooltip": true,
+        "timezones": [
+            "Australia/Melbourne",
+            "Europe/London",
+            "UTC",
+            "US/Pacific",
+            "US/Eastern"
+        ],
+        "format": "{:%S}",
+        "tooltip-format": "{tz_list}",
+        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}"
+    },
+    "tray": { "spacing": 10 }
+}

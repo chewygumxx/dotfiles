@@ -1,0 +1,36 @@
+# vim:set expandtab shiftwidth=4 filetype=gitignore:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/ref/image/top/wallpaper/.chezmoiignore
+#
+#
+
+
+# -------------------
+# Ignored Everywhere
+# -------------------
+
+
+# -----------------
+# Chewytop Ignored
+# -----------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+
+{{- end }}
+
+
+# ------------------
+# Chewytele Ignored
+# ------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+symlink_current_eDP-1
+symlink_current_HDMI-1
+
+{{- end }}

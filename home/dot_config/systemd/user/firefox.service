@@ -1,0 +1,14 @@
+# vim:set expandtab shiftwidth=4 filetype=systemd:
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/systemd/user/firefox.service
+# 
+# 
+
+[Unit]
+Description=Mozilla Firefox
+
+[Service]
+ExecStart=/usr/bin/firefox

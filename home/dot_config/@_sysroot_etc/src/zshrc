@@ -1,0 +1,29 @@
+#!/data/data/com.termux/files/usr/bin/zsh
+# vim: expandtab:shiftwidth=4:textwidth=72
+
+#
+#
+# termux:~PREFIX/etc/zshrc
+#
+#
+
+# Handles nonexistent commands.
+#if [[ -x "${PREFIX}/libexec/termux/command-not-found" ]]; then
+#	command_not_found_handler() {
+#		"${PREFIX}/libexec/termux/command-not-found" "$1"
+#    
+#       # I'm giving up
+#       #
+#       # I've been here for two hours on an LSD trip.
+#       # Having to repeatedly overwrite this very fucking file so
+#       # my otherwise adequately justifiable persistent undotree
+#       # Neovim configuration doesn't reciprocally backfire in
+#       # response to my regularly scheduled termux-nvim input
+#       # bitchfit.
+#       #
+#       # I need a better means of keyboard.
+#
+#       # NOTE: Foremostly, I need to cultivate self-compassion
+#       # to substitute this descructive self-languishing.
+#    }
+#fi

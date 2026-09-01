@@ -1,0 +1,35 @@
+`gallery-dl --extractor-info` for twitter.tweet extractor:
+
+```
+Category / Subcategory
+  "twitter" / "tweet"
+
+Filename format (default):
+  "{tweet_id}_{num}.{extension}"
+
+Directory format (default):
+  ["{category}","{user[name]}"]
+
+Archive format (default):
+  "{tweet_id}_{retweet_id}_{num}"
+```
+
+----
+
+
+The keyword 'count' returns the number of media items within a single tweet.
+The keyword 'num'   returns which item number of media.
+
+"extractor": {
+    "twitter": {
+        "cookies": "
+
+        "directory": [ "." ],
+
+        "archive": "archive.sqlite3",
+        "filename": {
+            "count > 1": "twitter_{user.name}_id{tweet_id}_p{num}of{count}.{extension}",
+            "":          "twitter_{user.name}_id{tweet_id}.{extension}"
+        },
+
+

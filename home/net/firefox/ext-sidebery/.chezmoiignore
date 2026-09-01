@@ -1,0 +1,33 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/net/firefox/ext-sidebery/.chezmoiignore
+# 
+# 
+
+
+# -------------------
+# Ignored Everywhere
+# -------------------
+
+*
+
+# -----------------
+# Chewytop Ignored
+# -----------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+{{- end }}
+
+
+# ------------------
+# Chewytele Ignored
+# ------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+{{- end }}
+

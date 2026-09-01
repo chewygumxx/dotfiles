@@ -1,0 +1,91 @@
+/* ==UserStyle==
+@name           
+@namespace      https://github.com/chewygumxx
+@version        1.0.0
+@description    
+@author         chewygumxx <cgumxx@pm.me> (https://github.com/chewygumxx)
+@license        WTFPL
+
+@homepageURL    https://github.com/chewygumxx/
+@supportURL     https://github.com/chewygumxx/
+@updateURL      https://raw.githubusercontent.com/chewygumxx/
+==/UserStyle== */
+
+@-moz-document url("chewygumxx.com/template.user.css"),
+domain("chewygumxx.com"),
+regexp('^https://.*$')
+{
+    :root {
+        --base-00: #03030b;
+        --base-01: #040512;
+        --base-02: #060616;
+        --base-03: #090a24;
+        --base-04: #0b0c2d;
+        --base-05: #141337;
+        --base-06: #2d2857;
+        --base-07: #3d3470;
+        --base-08: #4e4189;
+        --base-09: #5d4e9e;
+        --base-10: #6b5aaf;
+        --base-11: #7a67bf;
+        --base-12: #8875cc;
+        --base-13: #9684d6;
+        --base-14: #a493de;
+        --base-15: #b1a3e5;
+        --base-16: #bdb3eb;
+        --base-17: #c8c2ef;
+        --base-18: #cad6ff;
+        --base-19: #d3d0f3;
+        --base-20: #dcdaf6;
+        --base-21: #e4e2f8;
+        --base-22: #e8e0ff;
+
+		--cool-white-8: #cad6ff;
+		--cool-white-9: #e8e0ff;   
+
+		--purp-dark:        #4e4581;
+		--purp-subtle-0:    #806fc0;
+        --purp-subtle-1:    #827dbd;
+		--purp-indigo-deep: #6161a3;
+		--purp-indigo:      #7171d3;
+		--purp-neon:        #7408ff;
+		--purp-bright:      #b66ffd;
+		--purp-white:       #b399ff;
+		
+		--blue-cornflower:  #5f95fa;
+		--blue-cyan:        #43cfea;
+		--blue:             #87afff;
+		--blue-electric:    #66ccff;
+        --blue-muted:       #7171d3;
+        --blue-deep:        #032042;
+        --blue-afternoon:   #6da7ec;
+		
+        --bluepurp-0: #7fb5ff;
+        --bluepurp-1: #8394f6;
+        --bluepurp-2: #8874ed;
+        --bluepurp-3: #8d53e5;
+        --bluepurp-4: #9233dc;
+        --bluepurp-5: #7408c4;
+ 		
+		--domain:              var(--purp-indigo);
+		--domain-subtitle:     var(--purp-indigo);
+		--domain-subtitle-ext: var(--purp-indigo-deep);
+		
+		--link: var(--blue-electric);
+		--link-visited: var(--purp-neon);
+		
+		--date: var(--purp-indigo-deep);
+
+        --select-bg: var(--blue-deep);
+        --select-fg: var(--bluepurp-0);
+
+        --monospace:  "AnonymicePro Nerd Font Propo";
+        --sans-serif: "Inter Variable";
+    }
+
+    ::selection {
+      background-color: var(--select-bg);
+      color: var(--select-fg);
+    }
+
+}

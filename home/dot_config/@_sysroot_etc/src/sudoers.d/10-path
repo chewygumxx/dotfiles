@@ -1,0 +1,9 @@
+# vim: expandtab:shiftwidth=4:ft=sudoers
+
+#
+#
+# /etc/sudoers.d/10-path
+#
+#
+
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin"

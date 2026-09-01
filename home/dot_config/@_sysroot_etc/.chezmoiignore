@@ -1,0 +1,51 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/@_sysroot_etc/.chezmoiignore
+# 
+# 
+
+
+# -------------------
+# Ignored
+# -------------------
+
+src/ly/save.txt
+src/wireguard/
+
+# ------------------
+# Chewytop Ignored
+# ------------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+src/zshenv
+src/zshrc
+
+{{- end }}
+
+
+# -------------------
+# Chewytele Ignored
+# -------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+just/
+justfile
+src/default/
+src/ly/
+src/makepkg.conf.d/
+src/ssh/
+src/sudoers.d/
+src/systemd/
+src/zsh/
+src/fstab
+src/locale.gen
+src/makepkg.conf
+src/pacman.conf
+src/sudoers
+
+{{- end }}

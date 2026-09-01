@@ -1,0 +1,16 @@
+// vim:set expandtab shiftwidth=4 filetype=jsonc:
+
+// 
+// 
+// ~chewygumxx/dotfiles.git
+// ::: :/.chezmoiexternals/chezmoi-apply-xattr.jsonc
+// 
+// 
+
+{
+    ".local/bin/chezmoi-apply-xattr": {
+        "type": "file",
+        "executable": true,
+        "url": "https://github.com/chewygumxx/chezmoi-apply-xattr/releases/download/v1.0.0/chezmoi-apply-xattr"
+    }
+}

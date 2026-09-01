@@ -1,0 +1,16 @@
+# vim: expandtab:shiftwidth=4:ft=sudoers
+
+#
+#
+# /etc/sudoers.d/40-cmd-network.sudoers
+#
+#
+
+#
+# Network commands
+# Must follow file defining User_Alias ADMINS
+#
+
+Cmnd_Alias NETWORK = /usr/bin/iwctl, /usr/bin/impala
+
+ADMINS ALL=(ALL:ALL) NOPASSWD: NETWORK

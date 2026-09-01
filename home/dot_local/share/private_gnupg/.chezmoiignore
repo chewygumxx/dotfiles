@@ -1,0 +1,30 @@
+#!/bin/false
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :dot_local/share/private_gnupg/.chezmoiignore
+# 
+# 
+
+#
+# Directory must exist for envvar GNUPGHOME
+#
+
+
+# Directories
+
+crls.d/
+openpgp-revocs.d/
+private-keys-v1.d/
+public-keys.d/
+
+# Files
+
+.gpg-connect_history
+#common.conf 
+#dirmngr.conf
+random_seed
+sshcontrol
+trustdb.gpg

@@ -1,0 +1,16 @@
+# vim: nofoldenable
+
+#
+#
+# ~/.config/systemd/user/wl-clip-persist.service
+#
+#
+
+[Unit]
+Description="Wayland Clip Perist, prevents clipped content loss after application quit."
+
+[Service]
+ExecStart=/usr/bin/wl-clip-persist --clipboard regular --write-timeout 10000
+
+[Install]
+WantedBy=hyprland-post.target

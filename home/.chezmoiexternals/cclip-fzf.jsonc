@@ -1,0 +1,16 @@
+// vim:set expandtab shiftwidth=4 filetype=jsonc:
+
+// 
+// 
+// ~chewygumxx/dotfiles.git
+// ::: :/.chezmoiexternals/cclip-fzf.jsonc
+// 
+// 
+
+{
+    ".local/bin/cclip-fzf": {
+        "type": "file",
+        "executable": true,
+        "url": "https://github.com/chewygumxx/cclip-fzf/releases/download/v1.0.0/cclip-fzf"
+    }
+}

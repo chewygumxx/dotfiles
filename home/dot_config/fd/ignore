@@ -1,0 +1,18 @@
+# Referenced by `eza` and `fd`
+
+# Compilation Artefacts
+**/target/
+
+# Package Managers
+**/node_modules/
+**/go/pkg/
+**/rustup/toolchains
+**/cargo/registry
+
+# Miscellaneous
+**/.git/
+**/cache/
+**/Trash/
+**/ext-sidebery/
+**firefox/*/storage/default  
+

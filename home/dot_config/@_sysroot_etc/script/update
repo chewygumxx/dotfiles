@@ -1,0 +1,132 @@
+#!/usr/bin/env zsh
+# vim: expandtab:shiftwidth=4
+
+# 
+# 
+# ~/.config/@_sysroot_etc/script/update
+# 
+# 
+
+local this_file="$0"
+function error_exit () { print -u2 "${this_file}: $1"; [[ ${#} -eq 2 ]] && exit $2; }
+
+USERCONF_ETC="$XDG_CONFIG_HOME/@_sysroot_etc"
+[[ "$(pwd)" -eq "$USERCONF_ETC" ]] || error_exit "Filenames must be relative to $USERCONF_ETC" 1
+
+local backup=""
+local interactive=""
+local verbose=1
+
+function print_help () {
+    typeset -A fmt
+    fmt=(
+        [head]=$'\e[1;34m'  [norm]=$'\e[0m'    [punc]=$'\e[0;35m'
+        [exec]=$'\e[0;32m'  [path]=$'\e[0;95m'
+         [opt]=$'\e[0;95m'   [val]=$'\e[0;36m'
+    )
+
+    local intro=(
+        "$fmt[head]Update $fmt[path]/etc "
+        "$fmt[head]files according to predefined rules" $'\n'
+        $'\n'
+        "$fmt[head]Usage$fmt[punc]: $fmt[exec]${this_file} "
+        "$fmt[punc][$fmt[opt]OPTIONS$fmt[punc]] "
+        "$fmt[punc]<$fmt[path]FILES$fmt[punc]>" $'\n'
+    )
+    printf "%s" $intro
+        
+    local opt_align=20
+
+    printf "\n%s\n" "$fmt[head]FILE OPTIONS$fmt[punc]:"
+    local file_opt=(
+        "$fmt[opt]-b$fmt[punc], $fmt[opt]--backup"
+            "$fmt[norm](Default) Create backup of destination file"
+        "$fmt[opt]-n$fmt[punc], $fmt[opt]--no-backup"
+            "$fmt[norm]Skip backup of destination file"
+    )
+    printf "    %-${opt_align}s %s\n" $file_opt
+
+    printf "\n%s\n" "$fmt[head]META OPTIONS$fmt[punc]:"
+    local meta_opt=(
+        "$fmt[opt]-i$fmt[punc], $fmt[opt]--interactive"
+            "$fmt[norm]Confirm before update"
+        "$fmt[opt]-v$fmt[punc], $fmt[opt]--verbose"
+            "$fmt[norm]Verbose output"
+        "$fmt[opt]-q$fmt[punc], $fmt[opt]--quiet"
+            "$fmt[norm]Quiet output"
+        "$fmt[opt]-h$fmt[punc], $fmt[opt]--help"
+            "$fmt[norm]Print help"
+    )
+    printf "    %-${opt_align}s %s\n" $meta_opt
+}
+function resolve_dest () {
+    typeset -A src_dest
+    src_dest=(
+        #[source_pattern]=( "sub/path/under/sysroot/etc" "644 (chmod octect)" )
+        [zshenv]=(       "zsh/zshenv"   )
+        [zprofile]=(     "zsh/zprofile" )
+        [sudoers]=(   "sudoers"   0440 )
+        [sudoers.d/]=(   "sudoers.d/"   0440 )
+        [default/grub]=( "default/grub" )
+        [ly/]=(          "ly/"  )
+        [ssh_config]=(   "ssh/ssh_config.d/" )
+        [sshd_config]=(  "ssh/sshd_config.d/" )
+        [systemd/logind]=( "systemd/logind.conf.d/"    644 )
+        [systemd/resolved]=( "systemd/resolved.conf.d/"    644 )
+        [systemd/networkd]=( "systemd/networkd.conf.d/"    644 )
+        [systemd/sleep]=( "systemd/sleep.conf.d/"    644 )
+        [wireguard/]=(     "wireguard/"    644 )
+        [chrony.conf]=(     "chrony.conf"    644 )
+        [fstab]=(     "fstab"    644 )
+        [hostname]=(     "hostname"    644 )
+        [host.conf]=(     "host.conf"    644 )
+        [hosts]=(     "hosts"    644 )
+        [locale.conf]=(     "locale.conf"    644 )
+        [locale.gen]=(     "locale.gen"    644 )
+        [localtime]=(     "localtime"    644 )
+        [makepkg.conf]=(     "makepkg.conf.d/"    644 )
+        [mkinitcpio.conf]=(     "mkinitcpio.conf.d/"    644 )
+        [named.conf]=(     "named.conf"    644 )
+        [pacman.conf]=(     "pacman.conf"    644 )
+        [resolv.conf]=(     "resolv.conf"    644 )
+    )
+}
+
+#
+# ** Argument Parse via 'getopt'
+#
+
+[[ -z "$command[getopt]" ]]   && error_exit "Command 'getopt' not found" 127
+getopt --test; [[ $? -ne 4 ]] && error_exit "Command 'getopt' not enhanced version" 1
+
+getopt_opts=(
+    --name        "$this_file"
+    --shell       "bash"
+    --options     "bnhv"
+    --longoptions "backup,no-backup,help,verbose"
+    -- "$@"
+)
+getopt_parsed=$(getopt $getopt_opts)
+
+getopt_exit=$?
+[[ $getopt_exit -ne 0 ]] && error_exit "Command 'getopt' failed" $getopt_exit
+
+eval set -- "$getopt_parsed"
+unset getopt_{opts,parsed,exit}
+
+while true; do
+    case "$1" in
+        -b|--backup)      backup=1;      shift 1 ;;
+        -n|--no-backup)   backup="";     shift 1 ;;
+
+        -i|--interactive) interactive=1; shift 1 ;;
+        -v|--verbose)     verbose=1;     shift 1 ;;
+        -q|--quiet)       verbose="";    shift 1 ;;
+
+        -h|--help)        print_help;    exit 0  ;;
+        --)               shift;         break   ;;
+        *)                error_exit "Error while parsing getopt_out: '$1'" 1 ;;
+    esac
+done
+
+local source_files=( $@ )

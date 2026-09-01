@@ -1,0 +1,35 @@
+# vim: filetype=gitignore
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_local/share/go/.chezmoiignore
+# 
+# 
+
+#
+# Must exist for envvar GOPATH
+#
+
+# -------------------
+# Ignored Everywhere
+# -------------------
+
+pkg/
+
+# ------------------
+# Chewytop Exclusive
+# ------------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+{{- end }}
+
+
+# -------------------
+# Chewytele Exclusive
+# -------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+{{- end }}

@@ -1,0 +1,16 @@
+# vim: expandtab:shiftwidth=4:ft=sudoers
+
+#
+#
+# /etc/sudoers.d/00-admins
+#
+#
+
+#
+# Filename must start with '00' such that following sudoers files use alias
+# Filename must not contain '.'
+#
+
+User_Alias ADMINS = chewygum, chewygumxx, %wheel
+
+ADMINS ALL=(ALL:ALL) ALL

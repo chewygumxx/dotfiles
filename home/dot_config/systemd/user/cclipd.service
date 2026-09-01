@@ -1,0 +1,22 @@
+# vim: expandtab:shiftwidth=4:filetype=systemd:
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/dot_config/systemd/user/cclipd.service
+# 
+# 
+
+# 
+# 
+# 
+
+[Unit]
+Description="Clipboard capture daemon: cclipd"
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+ExecStart=cclipd -S -t "image/png" -t "image/*" -t "text/plain;charset=utf-8" -s 2
+
+[Install]
+WantedBy=hyprland-post.target
