@@ -1,0 +1,19 @@
+// vim:set expandtab shiftwidth=4 filetype=jsonc:
+// SPDX-License-Identifier: GPL-3.0-only
+
+//
+//
+// ~chewygumxx/dotfiles.git
+// ::: :/home/.chezmoiexternals/meteor.jsonc
+//
+//
+
+
+{
+    ".local/bin/meteor": {
+        "type": "archive-file",
+        "url": {{ gitHubLatestReleaseAssetURL "stefanlogue/meteor" (printf "meteor-%s-%s.zip" .chezmoi.os .chezmoi.arch) | quote }},
+        "executable": true,
+        "path": "meteor"
+    }
+}
