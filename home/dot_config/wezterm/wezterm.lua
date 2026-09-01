@@ -3,7 +3,7 @@
 --
 --
 -- ~chewygumxx/dotfiles.git
--- ::: :/dot_config/wezterm/wezterm.lua
+-- ::: :/home/dot_config/wezterm/wezterm.lua
 --
 --
 

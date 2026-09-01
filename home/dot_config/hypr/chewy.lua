@@ -4,7 +4,7 @@
 -- 
 -- 
 -- ~chewygumxx/dotfiles.git
--- ::: :/dot_config/hypr/chewy.lua
+-- ::: :/home/dot_config/hypr/chewy.lua
 -- 
 -- 
 

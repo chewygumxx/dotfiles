@@ -4,7 +4,7 @@
 -- 
 -- 
 -- ~chewygumxx/dotfiles.git
--- ::: :/dot_config/wezterm/font.lua
+-- ::: :/home/dot_config/wezterm/font.lua
 -- 
 -- 
 

@@ -4,7 +4,7 @@
 -- 
 -- 
 -- ~chewygumxx/dotfiles.git
--- ::: :/dot_config/hypr/window_workspace_rules.lua
+-- ::: :/home/dot_config/hypr/window_workspace_rules.lua
 -- 
 -- 
 
