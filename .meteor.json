@@ -17,7 +17,7 @@
         { "type": "test",     "description": "Quality assurance infrastructure"},
         { "type": "revert",   "description": "Rewind time, rollback" }
     ],
-    "allowCustomPrefixes": true,
+    "allowCustomPrefixes": false,
 
     "scopes": [
         { "name": "chezmoi",  "description": "Chezmoi miscellanious" },
