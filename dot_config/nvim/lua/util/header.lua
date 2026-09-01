@@ -18,6 +18,14 @@ local util_modeline = _G.require_guard("util.modeline")
 local util_shebang  = _G.require_guard("util.shebang")
 local util_git      = _G.require_guard("util.git")
 
+
+local trim_lines = function(lines)
+    for i=1,#lines,1 do
+        lines[i] = lines[i]:gsub("[ \t]+$", "")
+    end
+    return lines
+end
+
 M.insert = function(file, buf, opt)
     if not (util_modeline and util_shebang and util_git) then
         return
@@ -32,8 +40,10 @@ M.insert = function(file, buf, opt)
         return
     end
 
+    -- Modeline
     local lines = {}
     if vim.bo[buf].filetype == "markdown" then
+        -- Markdown Frontmatter Start
         commentstring = "# %s"
         lines[#lines + 1] = "---"
         lines[#lines + 1] = util_modeline.base({
@@ -50,9 +60,12 @@ M.insert = function(file, buf, opt)
             ft = vim.bo[buf].filetype,
             commentstring = commentstring
         })
-        lines[#lines + 1] = string.format(commentstring, "SPDX-License-Identifier: GPL-3.0-only")
     end
 
+    -- License
+    lines[#lines + 1] = string.format(commentstring, "SPDX-License-Identifier: GPL-3.0-only")
+
+    -- (Slug and) Path
     local slug
     local path = util_git.path(file)
     if path:find(":", 1, true) == 1 then
@@ -77,20 +90,20 @@ M.insert = function(file, buf, opt)
         lines[#lines + 1] = string.format(commentstring, "")
     end
  
-    -- Markdown Frontmatter
+    -- Markdown Frontmatter End
     if vim.bo[buf].filetype == "markdown" then
         lines[#lines + 1] = ""
         lines[#lines + 1] = "ctime: " .. os.date("%Y-%m-%d")
-        lines[#lines + 1] = "title: "
+        lines[#lines + 1] = "title: XXTITLE"
         lines[#lines + 1] = "tags:  [  ]"
         lines[#lines + 1] = "---"
         lines[#lines + 1] = ""
-        lines[#lines + 1] = "# "
+        lines[#lines + 1] = "# XXTITLE"
     end
     
     lines[#lines + 1] = ""
 
-    vim.api.nvim_buf_set_lines(buf, 0, 0, false, lines)
+    vim.api.nvim_buf_set_lines(buf, 0, 0, false, trim_lines(lines))
 end
 
 
