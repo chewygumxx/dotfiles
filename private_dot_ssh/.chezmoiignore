@@ -1,4 +1,5 @@
-# vim: expandtab:shiftwidth=4
+# vim:set expandtab shiftwidth=4 filetype=gitignore:
+# SPDX-License-Identifier: GPL-3.0-only
 
 # 
 # 
@@ -6,6 +7,7 @@
 # ::: :/private_dot_ssh/.chezmoiignore
 # 
 # 
+
 
 # -------------------
 # Ignored Everywhere
