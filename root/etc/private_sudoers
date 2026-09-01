@@ -1,3 +1,13 @@
+# vim:set expandtab shiftwidth=4 filetype=sudoers:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/root/etc/private_sudoers
+#
+#
+
 ## sudoers file.
 ##
 ## This file MUST be edited with the 'visudo' command as root.
@@ -57,7 +67,7 @@ Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin"
 # Defaults env_keep += "LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET"
 ##
 ## Run X applications through sudo; HOME is used to find the
-## .Xauthority file.  Note that other programs use HOME to find   
+## .Xauthority file.  Note that other programs use HOME to find
 ## configuration files and this may lead to privilege escalation!
 # Defaults env_keep += "HOME"
 ##

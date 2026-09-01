@@ -1,0 +1,21 @@
+# vim:set expandtab shiftwidth=4 filetype=sudoers:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/root/etc/private_sudoers.d/private_20-adminks
+#
+#
+
+
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin"
+
+# Preserve editor environment variables
+Defaults!/usr/bin/visudo env_keep += "SUDO_EDITOR EDITOR VISUAL"
+
+User_Alias ADMIN   = chewygum, chewygumxx
+ADMIN   ALL=(ALL:ALL)   ALL
+
+Cmnd_Alias NETWORK = /usr/bin/iwctl, /usr/bin/impala
+ADMIN   ALL=(ALL:ALL)   NOPASSWD: NETWORK

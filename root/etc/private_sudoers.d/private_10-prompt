@@ -1,0 +1,61 @@
+# vim:set expandtab shiftwidth=4 filetype=sudoers:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/root/etc/private_sudoers.d/private_10-prompt
+#
+#
+
+
+# --------------
+# Prompt String
+# --------------
+
+# That character (shown by Neovim as '^[') is the literal character: ESC (0x1b)
+# To insert it with Neovim, either:
+# - (Insert Mode): Ctrl-V Escape
+# - (Insert Mode): Ctrl-V u 001b
+#
+Defaults passprompt="[32m[sUwUdo][0m [3msekrit pssstwurd [0m:3 "
+
+# Plain, no literal escape code
+#Defaults passprompt="[sUwUdo] sekrit pssstwurd :3 "
+
+
+# --------
+# Insults
+# --------
+
+# >:( meanie
+# https://wiki.archlinux.org/title/Sudo#Enable_insults
+# https://github.com/sudo-project/sudo/blob/main/plugins/sudoers/insults.h
+Defaults insults
+
+
+# --------------------------
+# Timeout: Nothing Received
+# --------------------------
+
+# If you've ever been running something via an unfocused terminal, forgot
+# about it, and whence you return it's fucking dead with no cache because you
+# didn't enter the password like a good boy, this is the cause.
+#
+# It serves (near) *zero* security purpose.
+#
+# https://wiki.archlinux.org/title/Sudo#Disable_password_prompt_timeout
+Defaults passwd_timeout=0
+
+
+# -----------------------------
+# Timeout: Last Authentication
+# -----------------------------
+
+# Units are minutes, if set to negative timeout is infinite until logout.
+# Refresh: `sudo -v`
+# Lockout: `sudo -K`
+# Default: 5
+#
+# https://wiki.archlinux.org/title/Sudo#Reduce_the_number_of_times_you_have_to_type_a_password
+Defaults timestamp_timeout=10
