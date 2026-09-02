@@ -14,3 +14,24 @@
 /.meteor.json       -sync-header-metadata
 /.chezmoiroot       -sync-header-metadata
 /.chezmoiversion    -sync-header-metadata
+
+symlink_*   -sync-header-metadata
+
+*.json      -sync-header-metadata
+
+*.jpeg      -sync-header-metadata
+*.jpg       -sync-header-metadata
+*.png       -sync-header-metadata
+*.bmp       -sync-header-metadata
+*.tiff      -sync-header-metadata
+*.gif       -sync-header-metadata
+
+*.webm      -sync-header-metadata
+*.mp4       -sync-header-metadata
+
+*.mp3       -sync-header-metadata
+*.ogg       -sync-header-metadata
+*.flac      -sync-header-metadata
+
+*.ttf      -sync-header-metadata
+*.otf      -sync-header-metadata

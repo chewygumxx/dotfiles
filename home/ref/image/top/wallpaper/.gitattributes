@@ -8,7 +8,7 @@
 #
 #
 
-*.gif   -diff
-*.png   -diff
-*.jpeg  -diff
-*.jpg   -diff
+*.gif   -diff -sync-header-metadata
+*.png   -diff -sync-header-metadata
+*.jpeg  -diff -sync-header-metadata
+*.jpg   -diff -sync-header-metadata
