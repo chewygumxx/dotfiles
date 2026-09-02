@@ -9,3 +9,8 @@
 #
 
 * text=auto eof=lf
+
+/LICENSE            -sync-header-metadata
+/.meteor.json       -sync-header-metadata
+/.chezmoiroot       -sync-header-metadata
+/.chezmoiversion    -sync-header-metadata
