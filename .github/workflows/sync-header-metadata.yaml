@@ -37,8 +37,8 @@ jobs:
               uses: chewygumxx/sync-header-metadata@v2
               with:
                   mode:        update
-                  verbose:    'true'
-                  annotation: 'true'
+                  verbose:    'false'
+                  annotation: 'false'
 
             - name: Commit changes
               uses: stefanzweifel/git-auto-commit-action@v7
