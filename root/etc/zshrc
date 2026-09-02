@@ -1,17 +1,20 @@
-#!/data/data/com.termux/files/usr/bin/zsh
-# vim: expandtab:shiftwidth=4:textwidth=72
+#!/usr/bin/env zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
 
 #
 #
-# termux:~PREFIX/etc/zshrc
+# ~chewygumxx/dotfiles.git
+# ::: :/root/etc/zshrc
 #
 #
+
 
 # Handles nonexistent commands.
 #if [[ -x "${PREFIX}/libexec/termux/command-not-found" ]]; then
 #	command_not_found_handler() {
 #		"${PREFIX}/libexec/termux/command-not-found" "$1"
-#    
+#
 #       # I'm giving up
 #       #
 #       # I've been here for two hours on an LSD trip.

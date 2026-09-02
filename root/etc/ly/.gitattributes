@@ -8,4 +8,4 @@
 #
 #
 
-*.dur -diff
+*.dur -diff -sync-header-metadata

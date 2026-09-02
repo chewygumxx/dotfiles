@@ -1,4 +1,14 @@
 #!/bin/sh
+# vim:set expandtab shiftwidth=4 filetype=sh:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/root/etc/ly/executable_startup.sh
+#
+#
+
 # This file is executed when starting Ly (before the TTY is taken control of)
 # Custom startup code can be placed in this file or the start_cmd var can be pointed to a different file
 
