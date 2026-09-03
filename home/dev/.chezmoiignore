@@ -19,6 +19,8 @@
 
 {{- if eq .chezmoi.hostname "chewytop" }}
 
+!_herdr-worktree/
+
 {{- end }}
 
 

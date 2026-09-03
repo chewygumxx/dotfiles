@@ -1,0 +1,66 @@
+# vim:set expandtab shiftwidth=4 filetype=gitignore:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/.chezmoiignore
+#
+#
+
+#
+# The documentation regarding '.chezmoiignore' hueristics demands improvement.
+# Involves trial and error. Footer has documentation. Good luck.
+#
+
+
+# -------------------
+# Ignored Everywhere
+# -------------------
+
+.plugins.lock
+#config.toml  # The one file I actually want to track. `**\n!config.toml` is icky
+herdr-client.log
+herdr-client.sock
+herdr-server.log
+herdr.log
+herdr.sock
+session.json
+
+
+# ------------------
+# Chewytop Ignored
+# ------------------
+
+{{- if eq .chezmoi.hostname "chewytop" }}
+
+
+{{- end }}
+
+
+# -------------------
+# Chewytele Ignored
+# -------------------
+
+{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+
+
+{{- end }}
+
+
+
+# -------
+# Footer
+# -------
+#
+# Reference:
+# https://www.chezmoi.io/reference/special-files/chezmoiignore/
+#
+# Ignore files or a directory on different machines:
+# https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/#ignore-files-or-a-directory-on-different-machines
+#
+# Handle different file locations on different systems with the same contentsL
+# https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/#handle-different-file-locations-on-different-systems-with-the-same-contents
+#
+
+
