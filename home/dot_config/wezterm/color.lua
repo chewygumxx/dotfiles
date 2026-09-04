@@ -1,47 +1,43 @@
 #!/bin/false
 -- vim: expandtab:shiftwidth=4:filetype=lua:
 
--- 
--- 
+--
+--
 -- ~chewygumxx/dotfiles.git
 -- ::: :/home/dot_config/wezterm/color.lua
--- 
--- 
-
--- 
--- 
--- 
+--
+--
 
 local M = {}
 
-M.setup = function(cfg)
+---@param  cfg Config
+---@return Config cfg
+local terminal_base = function(cfg)
     cfg.background = { {
         height   = '100%',
         width    = '100%',
         source   = { Color = "#000000" },
         opacity  = 0.8,
     } }
-    
     cfg.colors = {           -- fg/bg: base, cursor, selection
         foreground = '#9493de',
         --foreground = '#a0a0d9',
         --foreground = '#b1a3e5',
         --background = '#03030b',   -- Defunct (See: cfg.background)
-   
         cursor_fg = 'black',        -- Block cursor text
         cursor_bg = '#cad6ff',      -- Block cursor background
         cursor_border = '#a0a0d9',  -- Block cursor border
-        
         selection_fg = 'none',      -- Preserve foreground
         selection_bg = 'rgba(116, 8, 196, 0.1)',
     }
 
-    -----------
-    -- ** ANSI
-    -----------
+    return cfg
+end
 
+---@param  cfg Config
+---@return Config cfg
+local ansi = function(cfg)
     cfg.bold_brightens_ansi_colors = "No"
-    
     cfg.colors.ansi = {     -- ANSI 0-7
         "#000000",        -- 0 Black    (dynamic background (ie. progress bars))
         "#dc143c",        -- 1 Red
@@ -52,7 +48,6 @@ M.setup = function(cfg)
         "#7fc5df",        -- 6 Cyan
         "#cad6ff",        -- 7 White
     }
-    
     cfg.colors.brights = {  -- ANSI 8-15
       --"#555555",        -- 08 Bright Black (Gray)
       --"#2d2857",        -- 08 Bright Black (Gray)
@@ -66,10 +61,18 @@ M.setup = function(cfg)
         "#8be9fd",        -- 14 Bright Cyan
         "#e8e0ff",        -- 15 Bright White
     }
-    
     cfg.colors.indexed = {  -- ANSI 16-255
         --[136] = '#af8700'
     }
+
+    return cfg
+end
+
+---@param  cfg Config
+---@return Config cfg
+M.setup = function(cfg)
+    cfg = terminal_base(cfg)
+    cfg = ansi(cfg)
 
     return cfg
 end

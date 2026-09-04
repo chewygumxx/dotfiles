@@ -1,19 +1,21 @@
 #!/bin/false
 -- vim:set expandtab shiftwidth=4 filetype=lua:
 
--- 
--- 
+--
+--
 -- ~chewygumxx/dotfiles.git
 -- ::: :/home/dot_config/wezterm/terminfo.lua
--- 
--- 
+--
+--
 
-local wezterm = require("wezterm")
+local wezterm = require("wezterm") ---@type Wezterm
 
 local M = {}
 
 local TERMINFO = wezterm.home_dir .. "/.local/share/terminfo"
 
+---@param  cfg Config
+---@return Config cfg
 M.setup = function(cfg)
     cfg.term = "wezterm"
 

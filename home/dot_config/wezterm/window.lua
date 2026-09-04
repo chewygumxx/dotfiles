@@ -14,6 +14,8 @@
 
 local M = {}
 
+---@param  cfg Config
+---@return Config cfg
 M.setup = function(cfg)
     -- Vulkan GPU Acceleration, *Essential*
     cfg.front_end = 'WebGpu'   

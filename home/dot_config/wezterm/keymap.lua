@@ -1,23 +1,25 @@
 #!/bin/false
 -- vim: expandtab:shiftwidth=4:filetype=lua:
 
--- 
--- 
+--
+--
 -- ~chewygumxx/dotfiles.git
 -- ::: :/home/dot_config/wezterm/keymap.lua
--- 
--- 
+--
+--
 
--- 
--- 
--- 
+--
+--
+--
 
-local wezterm = require("wezterm")
+local wezterm = require("wezterm") ---@type Wezterm
 local act     = wezterm.action
 
 local M = {}
 
 
+---@param  cfg Config
+---@return Config cfg
 local wezterm_intrinsic = function(cfg)
     --cfg.enable_kitty_keyboard = true -- No idea what this does
 
@@ -27,8 +29,10 @@ local wezterm_intrinsic = function(cfg)
     return cfg
 end
 
+---@param  cfg Config
+---@return Config cfg
 local command_palette = function(cfg)
-    cfg.command_palette_rows = 15 
+    cfg.command_palette_rows = 15
     cfg.command_palette_font = cfg.font
     cfg.command_palette_font_size = 13
     cfg.command_palette_bg_color = "#03030b"
@@ -38,11 +42,13 @@ local command_palette = function(cfg)
     return cfg
 end
 
+---@param  cfg Config
+---@return Config cfg
 local essential = function(cfg)
     local copy_if_select  = wezterm.action_callback(function(window, pane)
         if window:get_selection_text_for_pane(pane) ~= '' then
             window:perform_action(act.CopyTo('Clipboard'), pane)
-            window:perform_action(act.ClearSelection, pane) 
+            window:perform_action(act.ClearSelection, pane)
         else
             window:perform_action(act.SendKey { mods = "CTRL", key = 'c', }, pane)
         end
@@ -61,6 +67,8 @@ local essential = function(cfg)
     return cfg
 end
 
+---@param  cfg Config
+---@return Config cfg
 local modes_copy_and_search = function(cfg)
     local activate_search = act.Search({ CaseInSensitiveString = "" })
     table.insert(cfg.keys, { mods = "CTRL|SHIFT", key = "F",  action = activate_search  })
@@ -69,13 +77,9 @@ local modes_copy_and_search = function(cfg)
     return cfg
 end
 
-local pane_intrinsic = function(cfg)
-    cfg.pane_select_font = cfg.font
-    cfg.unzoom_on_switch_pane = true
 
-    return cfg
-end
-
+---@param  cfg Config
+---@return Config cfg
 local pane_input = function(cfg)
     local split   = { domain = "CurrentPaneDomain" } -- SplitVert/Horiz
     table.insert(cfg.keys, { mods = "CTRL|SHIFT", key = ':', action = act.SplitVertical(split)   })
@@ -117,66 +121,9 @@ local pane_input = function(cfg)
     return cfg
 end
 
-local tab_intrinsic = function(cfg)
-    cfg.tab_and_split_indices_are_zero_based = false
-
-    return cfg
-end
-
-local tab_bar = function(cfg)
-    cfg.enable_tab_bar    = true
-    cfg.use_fancy_tab_bar = false
-    cfg.tab_bar_at_bottom = true
-    cfg.tab_max_width     = 30
-
-    cfg.hide_tab_bar_if_only_one_tab   = true
-    cfg.show_new_tab_button_in_tab_bar = false
-
-    cfg.colors.tab_bar = {
-        background = '#03030b',
-        --background = '#000000',
-        active_tab = {
-            bg_color = '#2d2857',
-            fg_color = '#7fb5ff',
-            --intensity = 'Normal', -- "Half", "Normal" or "Bold"
-            --underline = 'None',   -- "None", "Single" or "Souble"
-            --italic = false,
-            --strikethrough = false,
-        },
-        inactive_tab = {
-            bg_color = '#090a24',
-            fg_color = '#7408ff',
-            --intensity = 'Normal', -- "Half", "Normal" or "Bold"
-            --underline = 'None',   -- "None", "Single" or "Souble"
-            --italic = false,
-            --strikethrough = false,
-        },
-        inactive_tab_hover = {
-            bg_color = '#141337',
-            fg_color = '#7408ff',
-            --intensity = 'Normal', -- "Half", "Normal" or "Bold"
-            --underline = 'None',   -- "None", "Single" or "Souble"
-            italic = true,
-            --strikethrough = false,
-        },
-        new_tab = {
-            bg_color = '#040512',
-            fg_color = '#4e4581',
-        },
-        new_tab_hover = {
-            bg_color = '#806fc0',
-            fg_color = '#060616',
-            --intensity = 'Normal', -- "Half", "Normal" or "Bold"
-            --underline = 'None',   -- "None", "Single" or "Souble"
-            --italic = false,
-            --strikethrough = false,
-        },
-    }
-
-    return cfg
-end
-
-local input = function(cfg)
+---@param  cfg Config
+---@return Config cfg
+local tab_input = function(cfg)
     local rename_tab = act.PromptInputLine({
         description = 'Rename Tab',
         action = wezterm.action_callback(function(window, pane, line)
@@ -206,7 +153,7 @@ local input = function(cfg)
     table.insert(cfg.keys, { mods = "CTRL|SHIFT",     key = "(", action = act.ActivateTab(8) })
     table.insert(cfg.keys, { mods = "CTRL|SHIFT",     key = ")", action = act.ActivateTab(9) })
 
-    --for i=1,10,1 do 
+    --for i=1,10,1 do
     --    local key = tostring(i % 10) -- Tabs one-indexed. key = 0 -> tab 10
     --    table.insert(cfg.keys, { mods = "CTRL|SHIFT", key = key, action = act.ActivateTab(i) })
     --end
@@ -214,6 +161,8 @@ local input = function(cfg)
     return cfg
 end
 
+---@param  cfg Config
+---@return Config cfg
 M.setup = function(cfg)
     cfg.disable_default_key_bindings = true
     cfg.keys = {}
@@ -222,11 +171,8 @@ M.setup = function(cfg)
     cfg = command_palette(cfg)
     cfg = essential(cfg)
     cfg = modes_copy_and_search(cfg)
-    cfg = pane_intrinsic(cfg)
     cfg = pane_input(cfg)
-    cfg = tab_intrinsic(cfg)
-    cfg = tab_bar(cfg)
-    cfg = input(cfg)
+    cfg = tab_input(cfg)
 
     return cfg
 end

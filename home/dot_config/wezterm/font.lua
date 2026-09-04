@@ -1,21 +1,19 @@
 #!/bin/false
 -- vim: expandtab:shiftwidth=4:filetype=lua:
 
--- 
--- 
+--
+--
 -- ~chewygumxx/dotfiles.git
 -- ::: :/home/dot_config/wezterm/font.lua
--- 
--- 
+--
+--
 
--- 
--- 
--- 
-
-local wezterm = require("wezterm")
+local wezterm = require("wezterm") ---@type Wezterm
 
 local M = {}
 
+---@param  cfg Config
+---@return Config cfg
 M.setup = function(cfg)
     cfg.font   = wezterm.font_with_fallback({
         "AnonymicePro Nerd Font Propo",
@@ -25,7 +23,7 @@ M.setup = function(cfg)
     cfg.font_size    = 11 -- pt
     cfg.line_height  = 1.1
     cfg.font_dirs    = { os.getenv("HOME") .. '/ref/font' }
-    cfg.font_locator = 'ConfigDirsOnly' -- Optimisation Attempt, may break intolerably 
+    cfg.font_locator = 'ConfigDirsOnly' -- Optimisation Attempt, may break intolerably
 
     cfg.anti_alias_custom_block_glyphs = true
 
