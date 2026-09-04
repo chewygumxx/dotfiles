@@ -1,0 +1,25 @@
+#!/bin/sh
+# vim:set expandtab shiftwidth=4 filetype=sh:
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_chezmoi-environment
+#
+#
+
+set -eu
+
+command -v chezmoi >/dev/null 2>&1 || exit 0
+
+source_dir="$(chezmoi source-path)"
+working_tree="$(git -C "$source_dir" rev-parse --show-toplevel)"
+
+systemctl --user set-environment \
+    CHEZMOI_SOURCE_DIR="$source_dir" \
+    CHEZMOI_WORKING_TREE="$working_tree"
+
+if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
+    hyprctl setenv CHEZMOI_SOURCE_DIR "$source_dir" >/dev/null
+    hyprctl setenv CHEZMOI_WORKING_TREE "$working_tree" >/dev/null
+fi

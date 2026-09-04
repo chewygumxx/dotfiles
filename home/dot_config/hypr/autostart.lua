@@ -11,6 +11,7 @@ local M = {}
 
 M.setup = function()
     hl.on("hyprland.start", function()
+        hl.dispatch(hl.dsp.exec_cmd("systemctl --user start --wait chezmoi-environment.service"))
         hl.dispatch(hl.dsp.exec_cmd("systemctl --user start hyprland-post.target"))
 
         hl.dispatch(hl.dsp.exec_cmd(chewy.terminal.cmd.tiled, { workspace = 1 }))

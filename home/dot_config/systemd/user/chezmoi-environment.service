@@ -1,0 +1,16 @@
+# vim: expandtab:shiftwidth=4:filetype=systemd:
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/systemd/user/chezmoi-environment.service
+#
+#
+
+[Unit]
+Description=Export chezmoi source/working-tree paths into the session environment
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=%h/.local/bin/chezmoi-environment
