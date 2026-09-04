@@ -9,7 +9,8 @@
 #
 
 #
-# Intended for insertion within chezmoi-managed herdr config.toml.tmpl masterdoc
+# Fragment intended for insertion within chezmoi-populated herdr
+# config.toml.tmpl masterdoc
 #
 
 

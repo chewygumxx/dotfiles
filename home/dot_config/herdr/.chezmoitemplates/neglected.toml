@@ -8,6 +8,11 @@
 #
 #
 
+#
+# Fragment intended for insertion within chezmoi-populated herdr
+# config.toml.tmpl masterdoc
+#
+
 [advanced]
 # Maximum scrollback buffer size in bytes retained per pane terminal.
 # scrollback_limit_bytes = 10000000

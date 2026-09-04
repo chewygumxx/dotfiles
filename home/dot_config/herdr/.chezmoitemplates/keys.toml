@@ -8,6 +8,11 @@
 #
 #
 
+#
+# Fragment intended for insertion within chezmoi-populated herdr
+# config.toml.tmpl masterdoc
+#
+
 [keys]
 # Prefix key to enter prefix mode (default: "ctrl+b")
 # Examples: "ctrl+b", "f12", "esc", "-"

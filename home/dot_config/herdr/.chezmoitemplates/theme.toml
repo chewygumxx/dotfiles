@@ -1,3 +1,18 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/.chezmoitemplates/theme.toml
+#
+#
+
+#
+# Fragment intended for insertion within chezmoi-populated herdr
+# config.toml.tmpl masterdoc
+#
+
 [theme]
 # Built-in themes: catppuccin, terminal, tokyo-night, dracula, nord,
 #                  gruvbox, one-dark, solarized, kanagawa, rose-pine,
