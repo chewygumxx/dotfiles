@@ -19,7 +19,7 @@
 # -------------------
 
 .plugins.lock
-#config.toml  # The one file I actually want to track. `**\n!config.toml` is icky
+#config.toml.tmpl  # The one file I actually want to track. `**\n!config.toml.tmpl` is icky
 herdr-client.log
 herdr-client.sock
 herdr-server.log

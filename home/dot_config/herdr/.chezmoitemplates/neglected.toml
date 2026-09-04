@@ -1,0 +1,37 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/.chezmoitemplates/neglected.toml
+#
+#
+
+[advanced]
+# Maximum scrollback buffer size in bytes retained per pane terminal.
+# scrollback_limit_bytes = 10000000
+
+[worktrees]
+directory = "~/dev/_herdr-worktree" # A corresponding directory exists within ~chewygumxx/dotfiles.git
+
+[remote]
+manage_ssh_config = false
+
+[experimental]
+# They put a herdr _inside_ a herdr `xzibit.jpeg`
+allow_nested   = false
+# Computationally expensive
+kitty_graphics = false
+# Save recent pane screen history across full server restarts.
+pane_history   = true
+# cjk_ime_agents = []
+# cjk_ime_cursor_shape = "steady_block"
+# reveal_hidden_cursor_for_cjk_ime = false
+
+[update]
+channel        = "stable"
+version_check  = false
+manifest_check = false
+
+

@@ -1,0 +1,94 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/.chezmoitemplates/keys.toml
+#
+#
+
+[keys]
+# Prefix key to enter prefix mode (default: "ctrl+b")
+# Examples: "ctrl+b", "f12", "esc", "-"
+# Action bindings use explicit syntax: "prefix+n" requires the prefix;
+# "ctrl+alt+n" is a direct terminal-mode shortcut.
+# Accepted key syntax: plain keys, ctrl/shift/alt/cmd/super modifiers, and special keys like enter/tab/esc/left/right/up/down.
+# Named punctuation such as minus, comma, ampersand, plus, and backtick is also accepted.
+# Most reliable direct bindings are ctrl+letter, function keys, and explicit modified chords.
+# alt+..., cmd/super, and punctuation-with-modifiers may depend on your terminal/tmux setup.
+prefix = "ctrl+s"
+
+# Prefix-mode actions
+help             = "prefix+?"
+settings         = "prefix+f12"
+detach           = "prefix+q"
+reload_config    = "prefix+shift+r"
+goto             = "prefix+g"
+edit_scrollback  = "prefix+e"
+zoom             = "prefix+z"
+toggle_sidebar   = "prefix+b"
+
+new_tab           = "prefix+c"
+rename_tab        = "prefix+shift+t"
+close_tab         = "prefix+shift+x"
+switch_tab        = "prefix+1..9"
+previous_tab      = "ctrl+shift+["
+next_tab          = "ctrl+shift+]"
+move_tab_previous = "prefix+shift+["
+move_tab_next     = "prefix+shift+]"
+
+split_vertical      = "prefix+shift+\\"  # prefix+|
+split_horizontal    = "prefix+shift+;"   # prefix+:
+last_pane           = "ctrl+tab"         # Quick alternate
+rename_pane         = "prefix+shift+p"
+close_pane          = "prefix+shift+backspace"
+focus_pane_left     = "ctrl+shift+h"
+focus_pane_down     = "ctrl+shift+j"
+focus_pane_up       = "ctrl+shift+k"
+focus_pane_right    = "ctrl+shift+l"
+resize_mode         = "prefix+r"
+resize_pane_left    = "prefix+shift+h"
+resize_pane_down    = "prefix+shift+j"
+resize_pane_up      = "prefix+shift+k"
+resize_pane_right   = "prefix+shift+l"
+cycle_pane_next     = "prefix+tab"
+cycle_pane_previous = "prefix+shift+tab"
+
+# Navigate-mode movement. These local shortcuts win while navigate mode is open.
+# They are independent from focus_pane_*. Do not include prefix+, esc, enter, tab, or 1..9 here.
+navigate_pane_left      = "h"      # left arrow always focuses the pane to the left
+navigate_pane_down      = "j"
+navigate_pane_up        = "k"
+navigate_pane_right     = "l"     # right arrow always focuses the pane to the right
+navigate_workspace_up   = "shift+h"
+navigate_workspace_down = "shift+j"
+
+new_workspace      = "prefix+shift+n"
+workspace_picker   = "prefix+w"
+previous_workspace = ""
+next_workspace     = ""
+switch_workspace   = ""
+rename_workspace   = "prefix+shift+w"
+close_workspace    = "prefix+shift+d"
+
+new_worktree       = "prefix+shift+g"
+open_worktree      = ""
+remove_worktree    = ""
+
+previous_agent     = ""
+next_agent         = ""
+focus_agent        = ""
+open_notification_target = "prefix+o"
+
+# Custom commands use the same binding syntax.
+# type = "shell"  - Runs detached in the background.
+# type = "pane"   - Opens a temporary pane and closes it upon command exit.
+# type = "popup"  - Opens a session-modal terminal without changing the tab layout.
+# Popup width and height accept terminal cells or percentages such as "80%".
+# [[keys.command]]
+# key     = "prefix+alt+g"
+# command = "lazygit"
+# type    = "popup"
+# width   = "80%"
+# height  = "80%"
