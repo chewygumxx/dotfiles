@@ -1,0 +1,39 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/.chezmoitemplates/keys_cmd.toml
+#
+#
+
+#
+# Fragment intended for insertion within chezmoi-populated herdr
+# config.toml.tmpl masterdoc
+#
+
+# Custom commands use the same binding syntax.
+# type = "shell"  - Runs detached in the background.
+# type = "pane"   - Opens a temporary pane and closes it upon command exit.
+# type = "popup"  - Opens a session-modal terminal without changing the tab layout.
+# Popup width and height accept terminal cells or percentages such as "80%".
+
+# [[keys.command]]
+# key     = "prefix+alt+g"
+# command = "lazygit"
+# type    = "popup"
+# width   = "80%"
+# height  = "80%"
+
+[[keys.command]]
+key         = "prefix+e"
+description = "Toggle Neovim sidebar"
+type        = "plugin_action"
+command     = "herdr-nvim.toggle"
+
+[[keys.command]]
+key         = "prefix+f"
+description = "Open file from agent output"
+type        = "plugin_action"
+command     = "herdr-nvim.pick-file"

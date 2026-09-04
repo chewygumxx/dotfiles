@@ -30,7 +30,7 @@ settings         = "prefix+f12"
 detach           = "prefix+q"
 reload_config    = "prefix+shift+r"
 goto             = "prefix+g"
-edit_scrollback  = "prefix+e"
+edit_scrollback  = "prefix+shift+e"
 zoom             = "prefix+z"
 toggle_sidebar   = "prefix+b"
 
@@ -85,15 +85,3 @@ previous_agent     = ""
 next_agent         = ""
 focus_agent        = ""
 open_notification_target = "prefix+o"
-
-# Custom commands use the same binding syntax.
-# type = "shell"  - Runs detached in the background.
-# type = "pane"   - Opens a temporary pane and closes it upon command exit.
-# type = "popup"  - Opens a session-modal terminal without changing the tab layout.
-# Popup width and height accept terminal cells or percentages such as "80%".
-# [[keys.command]]
-# key     = "prefix+alt+g"
-# command = "lazygit"
-# type    = "popup"
-# width   = "80%"
-# height  = "80%"
