@@ -1,20 +1,24 @@
 #!/usr/bin/env lua
 -- vim:set expandtab shiftwidth=4 filetype=lua:
+-- luacheck: globals hl
 
--- 
--- 
+--
+--
 -- ~chewygumxx/dotfiles.git
 -- ::: :/home/dot_config/hypr/window_workspace_rules.lua
--- 
--- 
+--
+--
 
+---@class Hypr.WindowWorkspaceRules
+---@field setup? fun(): nil
 local M = {}
 
+---@type table<string, fun(): nil>
 local workspace_rules = {
     special_shadow = function()
         -- Render window shadows exclusively in special workspaces
 
-        for i=1,1,10 do 
+        for i=1,1,10 do
             hl.workspace_rule({ workspace = tostring(i), no_shadow = true })
         end
         hl.workspace_rule({

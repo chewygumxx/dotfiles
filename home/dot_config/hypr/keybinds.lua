@@ -1,12 +1,18 @@
--- vim: expandtab:shiftwidth=4
+-- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
+-- luacheck: globals hl
 
 --
 --
--- ~/.config/hypr/keybinds.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/home/dot_config/hypr/keybinds.lua
 --
 --
 
 local chewy = require("chewy")
+
+---@class Hypr.Keybinds
+---@field setup? fun(): nil
 local M = {}
 
 local mod = "SUPER + "
@@ -27,7 +33,7 @@ local general = function()
     -- Screenshot
     hl.bind("Print",        hl.dsp.exec_cmd(chewy.screenshot.cmd.all))
     hl.bind(mod .. "Print", hl.dsp.exec_cmd(chewy.screenshot.cmd.select))
-end 
+end
 
 local window = function()
     -- Termination
@@ -37,15 +43,16 @@ local window = function()
     -- State
     hl.bind(mod .. "S", hl.dsp.window.float({ action = "toggle" }))
     hl.bind(mod .. "F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
-    
+
     -- Mouse
     hl.bind(mod .. "mouse:272", hl.dsp.window.drag(),   { mouse = true })
     hl.bind(mod .. "mouse:273", hl.dsp.window.resize(), { mouse = true })
 
     -- Cardinal Direction
+    ---@type { [1]: string, [2]: string, [3]: integer, [4]: integer }[]
     local cardinals = {
         { "left",  "H", -60,   0 },
-        { "down",  "J",   0,  60 }, 
+        { "down",  "J",   0,  60 },
         { "up",    "K",   0, -60 },
         { "right", "L",  60,   0 },
     }
@@ -57,7 +64,7 @@ local window = function()
 
         -- Swap/Move
         hl.bind(mod .. "SHIFT + " .. key, function()
-            if hl.get_active_window().floating then  
+            if hl.get_active_window().floating then
                 hl.dispatch(hl.dsp.window.move({ x = x, y = y, relative = true })) -- Float
             else
                 hl.dispatch(hl.dsp.window.swap({ direction = direction })) -- Tiled
@@ -78,7 +85,7 @@ local workspace = function()
 
     -- Focus and send window to workspace [0-9]
     for i=1,10,1 do
-        key = i % 10 -- Map key 0 to workspace 10
+        local key = i % 10 -- Map key 0 to workspace 10
         hl.bind(mod .. key,               hl.dsp.focus({ workspace = i }))
         hl.bind(mod .. "SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
     end

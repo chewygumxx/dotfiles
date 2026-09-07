@@ -1,17 +1,21 @@
--- vim: expandtab:shiftwidth=4
+-- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
+-- luacheck: globals hl
 
 --
 --
--- ~/.config/hypr/variables.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/home/dot_config/hypr/variables.lua
 --
 --
 
 --
--- Hyprland Variables
---     
---     Listed in the order outlined in https://wiki.hypr.land/Configuring/Basics/Variables/
+-- https://wiki.hypr.land/Configuring/Basics/Variables/
 --
 
+---@class Hypr.Variables
+---@field cfg HL.ConfigOpt
+---@field setup? fun(): nil
 local M = { cfg = {} }
 
 M.cfg.general = {
@@ -52,10 +56,10 @@ M.cfg.decoration = {
 
     blur   = { enabled = false, },
     shadow = {
-        -- Disabled everywhere except special workspaces via workspace rules 
+        -- Disabled everywhere except special workspaces via workspace rules
         enabled = true,
-        color   = M.cfg.general.col.active_border.colors[2], 
-        color_inactive = M.cfg.general.col.inactive_border.colors[2], 
+        color   = M.cfg.general.col.active_border.colors[2],
+        color_inactive = M.cfg.general.col.inactive_border.colors[2],
     },
     glow   = { enabled = false, },
 }
@@ -106,7 +110,7 @@ M.cfg.input = {
     --scroll_button = 274,   -- Checked with `wev`, Wayland Event Viewer
 
     -- If Special contains only floating windows, allow focus to underlying workspace
-    special_fallthrough = true, 
+    special_fallthrough = true,
 }
 M.cfg.input.touchpad = {
     disable_while_typing = true,  -- When typing, true. When gaming, false.
@@ -133,15 +137,15 @@ M.cfg.misc = {
 
     close_special_on_empty = true, -- Close special workspace on last window close.
 
-    -- Windows open on invoked workspace 
+    -- Windows open on invoked workspace
     -- 0 - Disabled
     -- 1 - Single-shot
     -- 2 - Persistent, all children too
-    initial_workspace_tracking = 2, 
+    initial_workspace_tracking = 2,
 
     middle_click_paste = true, -- Paste primary selection on middle click
 
-    enable_anr_dialog = false, -- App Not Responding dialog 
+    enable_anr_dialog = false, -- App Not Responding dialog
 }
 
 M.cfg.ecosystem = { no_donation_nag = true, }

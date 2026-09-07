@@ -1,8 +1,11 @@
--- vim: expandtab:shiftwidth=4
+-- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
+-- luacheck: globals hl
 
 --
 --
--- ~/.config/hypr/animations.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/home/dot_config/hypr/animations.lua
 --
 --
 
@@ -10,6 +13,11 @@
 -- https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
 --
 
+---@class Hypr.Animations
+---@field cfg? HL.ConfigOpt.Animations
+---@field setup? fun(): nil
+
+---@type Hypr.Animations
 local M = {}
 
 -- Referenced by variables.lua:63
@@ -22,10 +30,10 @@ M.setup = function()
     hl.curve("linear",         { type = "bezier", points = { {0, 0},       {1, 1}       } })
     hl.curve("almostLinear",   { type = "bezier", points = { {0.5, 0.5},   {0.75, 1}    } })
     hl.curve("quick",          { type = "bezier", points = { {0.15, 0},    {0.1, 1}     } })
-    
+
     -- Default springs
     hl.curve("easy",           { type = "spring", mass = 1, stiffness = 71.2633, dampening = 15.8273644 })
-    
+
     hl.animation({ leaf = "global",        enabled = true,  speed = 10,   bezier = "default" })
     hl.animation({ leaf = "border",        enabled = true,  speed = 5.39, bezier = "easeOutQuint" })
     hl.animation({ leaf = "windows",       enabled = true,  speed = 4.79, spring = "easy" })

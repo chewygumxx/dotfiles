@@ -1,8 +1,12 @@
--- vim: expandtab:shiftwidth=4
+#!/usr/bin/env lua
+-- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
+-- luacheck: globals hl
 
 --
 --
--- ~/.config/hypr/hyprland.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/home/dot_config/hypr/hyprland.lua
 --
 --
 

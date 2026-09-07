@@ -1,13 +1,40 @@
-#!/bin/false
 -- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
 
--- 
--- 
+--
+--
 -- ~chewygumxx/dotfiles.git
 -- ::: :/home/dot_config/hypr/chewy.lua
--- 
--- 
+--
+--
 
+---@class Chewy.Browser
+---@field cmd string
+
+---@class Chewy.Terminal.Cmd
+---@field base string
+---@field float? string
+---@field tiled? string
+
+---@class Chewy.Terminal
+---@field cmd Chewy.Terminal.Cmd
+
+---@class Chewy.Clipman
+---@field cmd string
+
+---@class Chewy.Screenshot.Cmd
+---@field all? string
+---@field select? string
+
+---@class Chewy.Screenshot
+---@field destination string
+---@field cmd Chewy.Screenshot.Cmd
+
+---@class Chewy
+---@field browser? Chewy.Browser
+---@field terminal? Chewy.Terminal
+---@field clipman? Chewy.Clipman
+---@field screenshot? Chewy.Screenshot
 local M = {}
 
 M.browser = {

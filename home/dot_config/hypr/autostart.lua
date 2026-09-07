@@ -1,12 +1,18 @@
--- vim: expandtab:shiftwidth=4
+-- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
+-- luacheck: globals hl
 
 --
 --
--- ~/.config/hypr/autostart.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/home/dot_config/hypr/autostart.lua
 --
 --
 
 local chewy = require("chewy")
+
+---@class Hypr.Autostart
+---@field setup? fun(): nil
 local M = {}
 
 M.setup = function()
