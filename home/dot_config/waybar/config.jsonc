@@ -270,6 +270,7 @@
         "interval": 1,
         "tooltip": true,
         "timezones": [
+            "Australia/Melbourne",
             "Europe/Helsinki",
             "Europe/London",
             "UTC",
@@ -284,6 +285,7 @@
         "interval": 1,
         "tooltip": true,
         "timezones": [
+            "Australia/Melbourne",
             "Europe/Helsinki",
             "Europe/London",
             "UTC",
@@ -298,6 +300,7 @@
         "interval": 1,
         "tooltip": true,
         "timezones": [
+            "Australia/Melbourne",
             "Europe/Helsinki",
             "Europe/London",
             "UTC",
