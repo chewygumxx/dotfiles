@@ -1,17 +1,20 @@
 # vim: filetype=gitignore
 
-# 
-# 
+#
+#
 # ~chewygumxx/dotfiles.git
 # ::: :/home/dot_local/state/.chezmoiignore
-# 
-# 
+#
+#
 
 # -------------------
 # Ignored Everywhere
 # -------------------
 
 *
+!python/
+!sqlite/
+!zsh/
 
 # ------------------
 # Chewytop Exclusive
