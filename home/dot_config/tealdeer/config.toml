@@ -1,8 +1,10 @@
-# vim: expandtab:shiftwidth=4
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
 
 #
 #
-# ~/.config/tealdeer/config.toml
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/tealdeer/config.toml
 #
 #
 
@@ -55,9 +57,9 @@ auto_update_interval_hours = 168
 download_languages = [ "en" ]
 
 [directories]
-# Does not perform variable expansion. 
+# Does not perform variable expansion.
 # If not /absolute/path/to/dir, path relative to $XDG_CONFIG_HOME/tealdeer
 # Solution: Symlink $XDG_CONFIG_HOME/tealdeer/pages to
 #           ../../alternative/specified/directory
 # or just:
-custom_pages_dir = "./doc"
+custom_pages_dir = "./docs"

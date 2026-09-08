@@ -1,10 +1,19 @@
+<!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
+<!-- SPDX-License-Identifier: GPL-3.0-only -->
+
+<!--
+   -
+   - ~chewygumxx/dotfiles.git
+   - ::: :/home/dot_config/tealdeer/docs/tldr.page.md
+   -
+   -->
+
 # tldr
 
 > I elected for the tldr client `tealdeer` for the ability to add custom pages and patches.
 >
 > I do wish that tealdeer offered better customisation of short/long options shown, directory paths,
 > maximum columns, and formatting in general.
->
 
 - List all pages in the cache:
 
