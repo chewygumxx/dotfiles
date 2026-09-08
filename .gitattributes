@@ -10,15 +10,25 @@
 
 * text=auto eof=lf
 
+# ----------------------------
+# Sync Header Metadata: Types
+# ----------------------------
+
 /LICENSE            -sync-header-metadata
 /.meteor.json       -sync-header-metadata
 /.chezmoiroot       -sync-header-metadata
 /.chezmoiversion    -sync-header-metadata
 
-symlink_*   -sync-header-metadata
 
+# ----------------------------
+# Sync Header Metadata: Types
+# ----------------------------
+
+symlink_*   -sync-header-metadata
+.keep       -sync-header-metadata
 *.json      -sync-header-metadata
 
+# Image
 *.jpeg      -sync-header-metadata
 *.jpg       -sync-header-metadata
 *.png       -sync-header-metadata
@@ -26,12 +36,15 @@ symlink_*   -sync-header-metadata
 *.tiff      -sync-header-metadata
 *.gif       -sync-header-metadata
 
+# Video
 *.webm      -sync-header-metadata
 *.mp4       -sync-header-metadata
 
+# Audio
 *.mp3       -sync-header-metadata
 *.ogg       -sync-header-metadata
 *.flac      -sync-header-metadata
 
+# Font
 *.ttf       -sync-header-metadata
 *.otf       -sync-header-metadata
