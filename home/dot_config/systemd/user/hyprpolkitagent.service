@@ -1,9 +1,19 @@
+# vim:set expandtab shiftwidth=4 filetype=systemd:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/systemd/user/hyprpolkitagent.service
+#
+#
+
 [Unit]
 Description=Hyprland Polkit Authentication Agent
 PartOf=graphical-session.target
 After=graphical-session.target
 ConditionEnvironment=WAYLAND_DISPLAY
-	
+
 [Service]
 ExecStart=/usr/lib/hyprpolkitagent/hyprpolkitagent
 Slice=session.slice

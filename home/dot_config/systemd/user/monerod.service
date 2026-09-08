@@ -1,8 +1,10 @@
-# vim: nofoldenable
+# vim:set expandtab shiftwidth=4 filetype=systemd:
+# SPDX-License-Identifier: GPL-3.0-only
 
 #
 #
-# ~/.config/systemd/user/monerod.service
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/systemd/user/monerod.service
 #
 #
 
@@ -11,20 +13,11 @@ Description=Monero Blockchain Synchronisation
 
 [Service]
 Type=forking
-
-# Specifiers (user)
-# %E ~ $XDG_CONFIG_HOME			= ~/.config
-# %N ~ Unit name, type removed	= monerod
-# %t ~ $XDG_RUNTIME_DIR			= /run/user/1000
 ExecStart=/usr/bin/%N --detach --config-file %E/%N.conf --pidfile %t/%N/%N.pid
 PIDFile=%t/%N/%N.pid
-
 Restart=on-failure
 RestartSec=30
-
-# Implicitly preceded with $XDG_RUNTIME_DIR
 RuntimeDirectory=%N
-
 StandardOutput=journal
 StandardError=journal
 

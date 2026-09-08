@@ -1,10 +1,12 @@
-# vim: expandtab:shiftwidth=4
+# vim:set expandtab shiftwidth=4 filetype=systemd:
+# SPDX-License-Identifier: GPL-3.0-only
 
-# 
-# 
-# ~/.config/systemd/user/ssh-agent.service
-# 
-# 
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/systemd/user/ssh-agent.service
+#
+#
 
 #
 # Requires either

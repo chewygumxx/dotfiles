@@ -1,11 +1,12 @@
 # vim:set expandtab shiftwidth=4 filetype=systemd:
+# SPDX-License-Identifier: GPL-3.0-only
 
-# 
-# 
+#
+#
 # ~chewygumxx/dotfiles.git
 # ::: :/home/dot_config/systemd/user/firefox.service
-# 
-# 
+#
+#
 
 [Unit]
 Description=Mozilla Firefox
