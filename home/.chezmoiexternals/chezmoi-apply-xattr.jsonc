@@ -7,10 +7,11 @@
 // 
 // 
 
+{{ if ne .chezmoi.destDir "/data/data/com.termux/files/home" }}
 {
     ".local/bin/chezmoi-apply-xattr": {
         "type": "file",
         "executable": true,
         "url": {{ gitHubLatestReleaseAssetURL "chewygumxx/chezmoi-apply-xattr" "chezmoi-apply-xattr" | quote }}
     }
-}
+}{{ else }}{}{{ end }}

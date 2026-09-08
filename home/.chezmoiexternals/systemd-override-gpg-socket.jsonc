@@ -7,6 +7,7 @@
 // 
 // 
 
+{{ if ne .chezmoi.destDir "/data/data/com.termux/files/home" }}
 {
     ".config/systemd/user/systemd-override-gpg-socket.service": {
         "type": "file",
@@ -19,4 +20,4 @@
         "refreshPeriod": "168h",
         "url": "https://raw.githubusercontent.com/chewygumxx/systemd-override-gpg-socket/refs/heads/main/systemd-override-gpg-socket"
     }
-}
+}{{ else }}{}{{ end }}

@@ -9,6 +9,7 @@
 //
 
 
+{{ if ne .chezmoi.destDir "/data/data/com.termux/files/home" }}
 {
     ".local/bin/meteor": {
         "type": "archive-file",
@@ -16,4 +17,4 @@
         "executable": true,
         "path": "meteor"
     }
-}
+}{{ else }}{}{{ end }}

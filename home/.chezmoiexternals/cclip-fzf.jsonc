@@ -7,10 +7,11 @@
 // 
 // 
 
+{{ if ne .chezmoi.destDir "/data/data/com.termux/files/home" }}
 {
     ".local/bin/cclip-fzf": {
         "type": "file",
         "executable": true,
         "url": {{ gitHubLatestReleaseAssetURL "chewygumxx/cclip-fzf" "cclip-fzf" | quote }}
     }
-}
+}{{ else }}{}{{ end }}
