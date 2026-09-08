@@ -1,21 +1,22 @@
-/* vim: expandtab:shiftwidth=4:textwidth=80
-*/
+/* vim:set expandtab shiftwidth=4 filetype=css: */
+/* SPDX-License-Identifier: GPL-3.0-only */
 
 /*
  *
- *	~/.config/waybar/style.css
+ * ~chewygumxx/dotfiles.git
+ * ::: :/home/dot_config/waybar/style.css
  *
  */
 
 * { /* Font */
     font-size: 16px;
-    font-family:				
-		Anonymous Pro,			
+    font-family:
+		Anonymous Pro,
 		"Font Awesome 7 Free Solid",
 		"MesloLGS Nerd Font",
-		Roboto,					
-		Helvetica,				
-		Arial,					
+		Roboto,
+		Helvetica,
+		Arial,
 		sans-serif;
 }
 
@@ -54,7 +55,7 @@ button:hover {
 	padding:	6px;
 }
 
-*.key { 
+*.key {
     color:			#8874ed;
 	padding-right:	16px;
 }
@@ -100,7 +101,7 @@ button:hover {
 #pulseaudio.key.muted	{ color: #555555; }
 #pulseaudio.value.muted	{ color: #555555; }
 
-#custom-weather_icon { 
+#custom-weather_icon {
 	font-family: "MesloLGS Nerd Font";
 	font-size: 20px;
 	min-width: 20px;
@@ -123,7 +124,7 @@ button:hover {
 #custom-colon	{ color: #9233dc; }
 
 #clock.day	{ color: #8874ed; }
-#clock.date { 
+#clock.date {
 	padding-right: 14px;
 	padding-left: 10px;
 }
