@@ -1,12 +1,13 @@
-#!/bin/false
 # vim:set foldmethod=marker foldlevel=0 filetype=toml:
 # SPDX-License-Identifier: GPL-3.0-only
+
 #
 #
 # ~chewygumxx/dotfiles.git
 # ::: :/home/dot_config/yazi/yazi.toml
 #
 #
+
 [mgr]     # {{{
 ratio          = [2, 8, 7]
 sort_by        = "natural"
@@ -28,7 +29,7 @@ wrap            = "no"
 tab_size        = 4
 max_width       = 900 # < These are also used for preloading and caching
 max_height      = 600 # <
-cache_dir       = "~/.local/cache/yazi"  
+cache_dir       = "~/.local/cache/yazi"
 image_delay     = 0  # alleviate potential lag caused by scrolling file list quickly.
 image_filter    = "triangle"
 image_quality   = 75
@@ -142,10 +143,10 @@ previewers = [ # {{{
     { mime = "{image}/*",          run = "mediainfo --no-metadata" },
     { mime = "{audio,video}/*",    run = "mediainfo" },
     { mime = "application/subrip", run = "mediainfo" },
-  
+
     # kirasock/torrent-preview
     { mime = "application/bittorrent", run = "torrent-preview" },
-  
+
     # yazi-rs/plugin:piper
     { url = "*.md",     run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -- "$1"' },
     { url = "*.tar*",   run = 'piper --format=url -- tar tf "$1"' },

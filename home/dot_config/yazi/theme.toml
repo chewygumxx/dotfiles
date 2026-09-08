@@ -1,6 +1,6 @@
-#!/bin/false
 # vim:set fileencoding=utf-8 foldmethod=marker foldlevel=0 filetype=toml:
 # SPDX-License-Identifier: GPL-3.0-only
+
 #
 #
 # ~chewygumxx/dotfiles.git
@@ -226,7 +226,7 @@ dirs  = [ # {{{
 	{ name = "image", text = "", fg = "#00bcd4" },
 	{ name = "Public", text = "", fg = "#00bcd4" },
 ] # }}}
-    
+
 files = [ # {{{
 	{ name = ".babelrc", text = "", fg = "#cbcb41" },
 	{ name = ".bash_profile", text = "", fg = "#89e051" },

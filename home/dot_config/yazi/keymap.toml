@@ -1,12 +1,13 @@
-#!/bin/false
 # vim:set foldmethod=marker foldlevel=0 filetype=toml:
 # SPDX-License-Identifier: GPL-3.0-only
+
 #
 #
 # ~chewygumxx/dotfiles.git
 # ::: :/home/dot_config/yazi/keymap.toml
 #
 #
+
 [mgr]     # {{{
 keymap = [
     { on = "<Esc>", run = "escape",             desc = "Exit visual mode, clear selection, or cancel search" },
@@ -28,7 +29,7 @@ keymap = [
     { on = "h",                run = "leave",                             desc = "Enter parent directory" },
     { on = "H",                run = "back",                              desc = "Back to previous directory" },
     { on = "L",                run = "forward",                           desc = "Forward to next directory" },
-    { on = "l",                run = "plugin smart-enter",                desc = "Enter child directory, or open the file" }, 
+    { on = "l",                run = "plugin smart-enter",                desc = "Enter child directory, or open the file" },
 
     { on = "z",                run = "plugin fzf",                        desc = "Jump to a file/directory via fzf" },
     { on = "Z",                run = "plugin zoxide",                     desc = "Jump to a directory via zoxide" },
@@ -55,7 +56,7 @@ keymap = [
     { on = "<C-r>",   desc = "Select Inverse",               run = "toggle_all",                        },
     { on = "v",       desc = "Visual Select",                run = "visual_mode",                       },
     { on = "V",       desc = "Visual De-Select",             run = "visual_mode --unset",               },
-     
+
     { on = "y",       desc = "Yank (copy)",                  run = "yank",                              },
     { on = "x",       desc = "Yank (move)",                  run = "yank --cut",                        },
     { on = "p",       desc = "Paste yanked",                 run = "plugin smart-paste",                },
@@ -80,7 +81,7 @@ keymap = [
     { on = ";",
         desc = "Execute on selected",
         run = "shell ' %s' --block --interactive --cursor=0" },
-    { on = ":",       
+    { on = ":",
         desc = "Execute on hovered",
         run = "shell ' %h' --block --interactive --cursor=0"},
 

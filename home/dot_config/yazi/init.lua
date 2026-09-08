@@ -1,12 +1,13 @@
-#!/bin/false
 -- vim:set expandtab shiftwidth=4 filetype=lua:
 -- SPDX-License-Identifier: GPL-3.0-only
+
 --
 --
 -- ~chewygumxx/dotfiles.git
 -- ::: :/home/dot_config/yazi/init.lua
 --
 --
+
 require("smart-enter"):setup { open_multi = true, }
 
 -- No more status bar
@@ -70,7 +71,7 @@ local mux_setup = function()
     local setup_aliases = function()
         eza_tree()
         --eza_tree_size()
-    end 
+    end
     setup_aliases()
 
     require("mux"):setup(mux_opts)
@@ -85,7 +86,7 @@ local time_format = function(time)
 	else
 		time = os.date("%d/%m  %Y", time)
 	end
-    
+
     return time
 end
 function Linemode:size_and_mtime()
