@@ -1,0 +1,13 @@
+# vim:set expandtab shiftwidth=4 filetype=gitattributes:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/net/gallery-dl/.gitattributes
+#
+#
+
+/filename.scr.txt  -sync-header-metadata
+/options.scr.txt   -sync-header-metadata
+/gallery-dl.conf   -sync-header-metadata

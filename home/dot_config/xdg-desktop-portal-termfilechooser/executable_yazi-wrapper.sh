@@ -1,4 +1,13 @@
 #!/usr/bin/env sh
+# vim:set expandtab shiftwidth=4 filetype=sh:
+# SPDX-License-Identifier: GPL-3.0-only
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/xdg-desktop-portal-termfilechooser/executable_yazi-wrapper.sh
+#
+#
+
 # This wrapper script is invoked by xdg-desktop-portal-termfilechooser.
 #
 # For more information about input/output arguments read `xdg-desktop-portal-termfilechooser(5)`

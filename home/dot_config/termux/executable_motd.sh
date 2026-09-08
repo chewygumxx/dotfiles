@@ -1,8 +1,11 @@
-# vim: expandtab:shiftwidth=4:tabstop=4:ft=zsh:textwidth=72
+#!/usr/bin/env zsh
+# vim:set expandtab shiftwidth=4 tabstop=4 textwidth=72 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
 
 #
 #
-# termux:~/.config/termux/motd.sh
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/termux/executable_motd.sh
 #
 #
 

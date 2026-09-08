@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-# vim: expandtab:shiftwidth=4
-
+# vim:set expandtab shiftwidth=4 filetype=python:
+# SPDX-License-Identifier: GPL-3.0-only
 #
 #
-# ~/.config/python/pythonrc
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/python/pythonrc
 #
 #
-
 def is_vanilla() -> bool:
     import sys
     return not hasattr(__builtins__, '__IPYTHON__') and 'bpython' not in sys.argv[0]

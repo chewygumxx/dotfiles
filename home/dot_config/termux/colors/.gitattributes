@@ -1,0 +1,14 @@
+# vim:set expandtab shiftwidth=4 filetype=gitattributes:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/termux/colors/.gitattributes
+#
+#
+
+/base16_chalk_dark.colors.properties    -sync-header-metadata
+/base16_isotope_dark.colors.properties  -sync-header-metadata
+/tokyonight_dark.colors.properties      -sync-header-metadata
+/zenburn.colors.properties              -sync-header-metadata

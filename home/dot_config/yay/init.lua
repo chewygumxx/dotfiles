@@ -1,11 +1,11 @@
--- vim: expandtab:shiftwidth=4
-
+#!/bin/false
+-- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
 --
 --
--- ~/.config/yay/init.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/home/dot_config/yay/init.lua
 --
---
-
 --
 -- https://jguer.github.io/yay/lua.html
 -- https://jguer.github.io/yay/init-lua.html

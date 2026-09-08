@@ -1,4 +1,12 @@
-# vim:fileencoding=utf-8:foldmethod=marker:foldlevel=0
+#!/bin/false
+# vim:set fileencoding=utf-8 foldmethod=marker foldlevel=0 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/yazi/theme.toml
+#
+#
 
 [flavor]
 dark  = ""

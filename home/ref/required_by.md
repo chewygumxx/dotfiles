@@ -1,3 +1,21 @@
+---
+# vim:set expandtab shiftwidth=2 filetype=markdown:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/ref/required_by.md
+#
+#
+
+ctime: 2026-09-09
+title: Required By
+tags:  [ reference ]
+---
+
+# Required By
+
 Referenced by:
 
 image/

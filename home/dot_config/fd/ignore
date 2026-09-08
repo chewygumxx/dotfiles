@@ -1,3 +1,12 @@
+# vim:set expandtab shiftwidth=4 filetype=conf:
+# SPDX-License-Identifier: GPL-3.0-only
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/fd/ignore
+#
+#
+
 # Referenced by `eza` and `fd`
 
 # Compilation Artefacts

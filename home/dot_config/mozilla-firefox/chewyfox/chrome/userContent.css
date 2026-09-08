@@ -1,5 +1,12 @@
-/* vim:foldlevel=1
-*/
+/* vim:set foldlevel=1 filetype=css: */
+/* SPDX-License-Identifier: GPL-3.0-only */
+
+/*
+ *
+ * ~chewygumxx/dotfiles.git
+ * ::: :/home/dot_config/mozilla-firefox/chewyfox/chrome/userContent.css
+ *
+ */
 
 /* {{{ True Dark Mode of about:* pages */
 @-moz-document
@@ -23,7 +30,7 @@ url-prefix("about:settings") {
 		--base-4: #0b0c2d;
 		--base-5: #141337;
 		--base-6: #2d2857;
-		
+
 		--purp-dark:        #4e4581;
 		--purp-subtle:      #806fc0;
 		--purp-indigo-deep: #6161a3;
@@ -31,24 +38,24 @@ url-prefix("about:settings") {
 		--purp-neon:        #7408ff;
 		--purp-bright:      #b66ffd;
 		--purp-white:       #b399ff;
-		
+
 		--blue-cornflower:  #5f95fa;
 		--blue-cyan:        #43cfea;
 		--blue:             #87afff;
 		--blue-electric:    #66ccff;
-		
+
 		--cool-white-0: #cad6ff;
 		--cool-white-1: #e8e0ff;
 
 		--domain:              var(--purp-indigo);
 		--domain-subtitle:     var(--purp-indigo);
 		--domain-subtitle-ext: var(--purp-indigo-deep);
-		
+
 		--link: var(--blue-electric);
 		--link-visited: var(--purp-neon);
-		
+
 		--date: var(--purp-indigo-deep);
-		
+
 		--text-color: var(--cool-white-0)!important;
 		--in-content-page-color: var(--text-color) !important;
 		--in-content-text-color: var(--text-color) !important;
@@ -65,10 +72,10 @@ url-prefix("about:settings") {
 		--button-border-color-hover: var(--base-4) !important;
 		--button-background-color-hover: var(--base-2) !important;
 
-		scrollbar-color: rgb(45,40,87) rgb(3,3,11) !important;/* #2d2857 var(--in-content-page-background) */ 
+		scrollbar-color: rgb(45,40,87) rgb(3,3,11) !important;/* #2d2857 var(--in-content-page-background) */
 		/* color: var(--in-content-text-color) !important; */
 		/* background: var(--in-content-page-background) !important; */
-		
+
 	}
 
 	menulist > menupopup { background-color: var(--in-content-page-background) !important; }

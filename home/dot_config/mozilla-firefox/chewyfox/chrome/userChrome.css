@@ -1,8 +1,10 @@
-/* vim: set foldmethod=marker:expandtab:shiftwidth=4:tabstop=4:textwidth=100:*/
+/* vim:set foldmethod=marker expandtab shiftwidth=4 tabstop=4 textwidth=100 filetype=css: */
+/* SPDX-License-Identifier: GPL-3.0-only */
 
 /*
  *
- *    ~/.mozilla/firefox/<profile>/chrome/userChrome.css
+ * ~chewygumxx/dotfiles.git
+ * ::: :/home/dot_config/mozilla-firefox/chewyfox/chrome/userChrome.css
  *
  */
 
@@ -17,7 +19,7 @@
 menupopup :is(menu, menuitem,)[_moz-menuactive="true"]:not([disabled="true"]) {
     appearance: none !important;
      background-color: var(--menuitem-hover-background-color) !important;
-} 
+}
 
 
 /* }}} */
@@ -88,8 +90,8 @@ hbox.titlebar-buttonbox-container:nth-child(6) { display: none !important; }
 
 /* {{{ Hide back, forward, refresh and bookmark icon topbar */
 html#main-window
- body popupset#mainPopupSet 
- menupopup#contentAreaContextMenu 
+ body popupset#mainPopupSet
+ menupopup#contentAreaContextMenu
  menugroup#context-navigation { display: none !important; }
 menugroup#context-navigation { display: none !important; }
 #context-navigation { display: none !important; }

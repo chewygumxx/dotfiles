@@ -1,11 +1,12 @@
-# vim:foldmethod=marker:foldlevel=0
-
+#!/bin/false
+# vim:set foldmethod=marker foldlevel=0 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
 #
 #
-# ~/.config/yazi/yazi.toml
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/yazi/yazi.toml
 #
 #
-
 [mgr]     # {{{
 ratio          = [2, 8, 7]
 sort_by        = "natural"

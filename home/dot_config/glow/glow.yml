@@ -1,3 +1,12 @@
+# vim:set expandtab shiftwidth=4 filetype=yaml:
+# SPDX-License-Identifier: GPL-3.0-only
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/glow/glow.yml
+#
+#
+
 # style name or JSON path (default "auto")
 style: "dark"
 # mouse support (TUI-mode only)

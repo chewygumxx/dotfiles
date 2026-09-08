@@ -1,0 +1,16 @@
+# vim:set expandtab shiftwidth=4 filetype=gitattributes:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/mpv/.gitattributes
+#
+#
+
+/encoding.rst               -sync-header-metadata
+/tech-overview.txt          -sync-header-metadata
+/encoding-profiles.conf     -sync-header-metadata
+/mplayer-input.conf         -sync-header-metadata
+/restore-old-bindings.conf  -sync-header-metadata
+/restore-osc-bindings.conf  -sync-header-metadata

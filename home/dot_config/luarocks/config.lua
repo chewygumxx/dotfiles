@@ -1,11 +1,11 @@
--- vim: expandtab:shiftwidth=4
-
+#!/bin/false
+-- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
 --
 --
--- ~/.config/luarocks/config.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/home/dot_config/luarocks/config.lua
 --
---
-
 --
 -- Symlinked by multiple different version specific luarocks configs.
 --

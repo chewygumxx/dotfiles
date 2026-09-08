@@ -1,11 +1,12 @@
--- vim: expandtab:shiftwidth=4
-
+#!/bin/false
+-- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
 --
 --
--- ~/.config/yazi/init.lua
+-- ~chewygumxx/dotfiles.git
+-- ::: :/home/dot_config/yazi/init.lua
 --
 --
-
 require("smart-enter"):setup { open_multi = true, }
 
 -- No more status bar

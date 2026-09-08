@@ -1,11 +1,10 @@
-// vim:
-
+// vim:set expandtab shiftwidth=4 filetype=javascript:
+// SPDX-License-Identifier: GPL-3.0-only
 //
 //
-// ~/.config/mozilla/firefox/chewyfox/user.js
+// ~chewygumxx/dotfiles.git
+// ::: :/home/dot_config/mozilla-firefox/chewyfox/user.js
 //
-//
-
 //
 // https://searchfox.org/
 //

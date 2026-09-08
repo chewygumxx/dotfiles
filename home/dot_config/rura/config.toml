@@ -1,3 +1,12 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/rura/config.toml
+#
+#
+
 command_line_placement = "bottom"
 error_display_mode = "pane"
 highlight_duration_ms = 250
