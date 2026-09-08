@@ -217,17 +217,20 @@
     },
 
     "custom/weather_desc" :{
-        "interval": 60,
+        "interval": 900,
+        "signal": 8,
         "exec": "sed -n \"1p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
         "return-type": "json"
     },
     "custom/weather_icon" :{
-        "interval": 60,
+        "interval": 900,
+        "signal": 8,
         "exec": "sed -n \"2p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
         "return-type": "json"
     },
     "custom/weather_temp" :{
-        "interval": 60,
+        "interval": 900,
+        "signal": 8,
         "exec": "sed -n \"3p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
         "return-type": "json"
     },
