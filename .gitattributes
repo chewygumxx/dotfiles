@@ -10,6 +10,14 @@
 
 * text=auto eof=lf
 
+/.repo-metadata.jsonc -linguist-detectable
+
+*.jsonc     linguist-detectable
+*.json      linguist-detectable
+*.toml      linguist-detectable
+*.yaml      linguist-detectable
+*.yml       linguist-detectable
+
 /LICENSE            -sync-header-metadata
 /.meteor.json       -sync-header-metadata
 /.chezmoiroot       -sync-header-metadata
@@ -33,5 +41,5 @@ symlink_*   -sync-header-metadata
 *.ogg       -sync-header-metadata
 *.flac      -sync-header-metadata
 
-*.ttf      -sync-header-metadata
-*.otf      -sync-header-metadata
+*.ttf       -sync-header-metadata
+*.otf       -sync-header-metadata
