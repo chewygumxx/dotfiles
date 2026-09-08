@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- vim: expandtab:shiftwidth=4:
--->
+<!-- vim:set expandtab shiftwidth=4 filetype=xml: -->
+<!-- SPDX-License-Identifier: GPL-3.0-only -->
+
+<!--
+   -
+   - ~chewygumxx/dotfiles.git
+   - ::: :/home/dot_config/bat/themes/chewyansi.tmTheme
+   -
+   -->
+
 <plist version="1.0">
     <dict>
         <key>name</key>   <string>chewyansi</string>
