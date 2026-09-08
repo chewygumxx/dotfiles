@@ -3,7 +3,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dev/.chezmoiignore
+# ::: :/home/dev/_gist/.chezmoiignore
 #
 #
 
@@ -11,16 +11,13 @@
 # Ignored Everywhere
 # -------------------
 
-*
-!_gist/
+**
 
 # -----------------
 # Chewytop Ignored
 # -----------------
 
 {{- if eq .chezmoi.hostname "chewytop" }}
-
-!_herdr-worktree/
 
 {{- end }}
 
