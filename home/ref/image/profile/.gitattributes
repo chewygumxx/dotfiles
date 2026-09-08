@@ -12,3 +12,4 @@
 *.png   -diff  -sync-header-metadata
 *.jpeg  -diff  -sync-header-metadata
 *.jpg   -diff  -sync-header-metadata
+*.svg   -diff  -sync-header-metadata
