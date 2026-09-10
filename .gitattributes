@@ -10,9 +10,9 @@
 
 * text=auto eof=lf
 
-# ----------------------------
-# Sync Header Metadata: Types
-# ----------------------------
+# ---------------------
+# Sync Header Metadata
+# ---------------------
 
 /LICENSE            -sync-header-metadata
 /.meteor.json       -sync-header-metadata
