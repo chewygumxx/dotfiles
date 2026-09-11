@@ -13,6 +13,8 @@
 # Updates wezterm terminfo definition
 #
 
+command -v wezterm &>/dev/null || exit 0
+
 # ---------
 # Variable
 # ---------
@@ -25,16 +27,13 @@ url="${CHEZMOISCRIPT_WEZTERM_TERMINFO_URL:-https://raw.githubusercontent.com/wez
 
 dest="${CHEZMOISCRIPT_WEZTERM_TERMINFO_DEST:-${TERMINFO:-${TERMINFO_DIRS:+${TERMINFO_DIRS%%:*}}}}"
 if [[ -z "$dest" ]] || [[ -d "$dest" && ! -w "$dest" ]]; then
-    dest="${CHEZMOI_DEST_DIR:-$HOME}/.terminfo"
+    dest="${XDG_DATA_HOME:-${CHEZMOI_DEST_DIR:-$HOME}/.local/share}/terminfo"
 fi
 
-if command -v realpath >/dev/null 2>&1; then
-    __this_file="$(realpath "${BASH_SOURCE[0]}")"
-else
-    __this_file="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/$(basename -- "${BASH_SOURCE[0]}")"
-fi
+# Hardcoded: chezmoi execs a temp-staged copy of this script with a different filename each run
+script_name="wezterm-terminfo"
 
-last_success="${CHEZMOI_CACHE_DIR:-${XDG_CACHE_HOME:-${CHEZMOI_DEST_DIR:-$HOME}/.cache}/chezmoi}/${__this_file##*/}.last_success"
+last_success="${CHEZMOI_CACHE_DIR:-${XDG_CACHE_HOME:-${CHEZMOI_DEST_DIR:-$HOME}/.cache}/chezmoi}/${script_name}.last_success"
 dependencies=( curl tic sha256sum )
 
 
@@ -47,15 +46,15 @@ __log () {
     case "$1" in
         INFO|NOTICE|WARN|ERROR|FATAL) level="$1"; shift ;;
     esac
-    [[ $level == INFO ]] && (( verbose )) && return
+    [[ $level == INFO ]] && (( ! verbose )) && return
 
-    printf "%s: [%s] %s\n" "${__this_file##*/}" "$level" "$*" >&2
+    printf "%s: [%s] %s\n" "$script_name" "$level" "$*" >&2
 }
 
 cleanup=()
 trap 'rm -f -- "${cleanup[@]}"' EXIT
 
-if errfile="$(mktemp "${TMPDIR:-/tmp}/${__this_file##*/}_errfile.XXXXXXX" 2>&1)"; then :; else
+if errfile="$(mktemp "${TMPDIR:-/tmp}/${script_name}_errfile.XXXXXXX" 2>&1)"; then :; else
     exit_code=$?
     __log FATAL "mktemp exited with code $exit_code"
     __log FATAL "$errfile"
@@ -81,15 +80,21 @@ __validate_dependencies() {
         fi
     done
     (( dependency_fail )) && exit 127
-} 
+}
 
 # -----------
 # Generate
 # -----------
 
 __generate_terminfo() {
-    #shellcheck disable=SC2155
-    local tmp="$(__guard mktemp "${TMPDIR:-/tmp}/${__this_file##*/}_curl.XXXXXXX")"
+    local tmp
+    if tmp="$(mktemp "${TMPDIR:-/tmp}/${script_name}_curl.XXXXXXX" 2>"$errfile")"; then :; else
+        exit_code=$?
+        __log FATAL "mktemp exited with code $exit_code"
+        __log FATAL "Exec: mktemp ${TMPDIR:-/tmp}/${script_name}_curl.XXXXXXX"
+        __log FATAL "stderr: $(<"$errfile")"
+        exit "$exit_code"
+    fi
     cleanup+=("$tmp")
     __guard curl \
         --silent \
@@ -102,7 +107,7 @@ __generate_terminfo() {
         --max-time 15 \
         --output "$tmp" \
         -- "$url"
-    
+
     __log NOTICE "Regenerating to: $dest"
     __guard mkdir -p -- "$dest"
     __guard tic -x -o "$dest" -- "$tmp"
@@ -135,17 +140,19 @@ __generate_terminfo() {
 # Main
 # -----
 
-if ! command -v wezterm &>/dev/null; then
-    __log INFO "Execution superfluous, WezTerm not found."
-    exit 0
-fi
-
 __validate_dependencies
 
-generation_info="wezterm_version=$(__guard wezterm --version)"
+if wezterm_version="$(wezterm --version 2>"$errfile")"; then :; else
+    exit_code=$?
+    __log FATAL "wezterm exited with code $exit_code"
+    __log FATAL "Exec: wezterm --version"
+    __log FATAL "stderr: $(<"$errfile")"
+    exit "$exit_code"
+fi
+generation_info="wezterm_version=$wezterm_version"
 generation_info+=$'\n'"terminfo_url=$url"
 generation_info+=$'\n'"dest=$dest"
-generation_info+=$'\n'"script_hash=$(__guard sha256sum <"$__this_file")"
+generation_info+=$'\n'"script_hash=$(__guard sha256sum <"${BASH_SOURCE[0]}")"
 
 if [[ ! -f "$last_success" ]] || [[ "$generation_info" != "$(<"$last_success")" ]]; then
     __generate_terminfo
