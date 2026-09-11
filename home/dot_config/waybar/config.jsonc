@@ -1,12 +1,12 @@
 // vim:set expandtab shiftwidth=4 filetype=jsonc foldlevel=1:
 // SPDX-License-Identifier: GPL-3.0-only
 
-// 
-// 
+//
+//
 // ~chewygumxx/dotfiles.git
 // ::: :/home/dot_config/waybar/config.jsonc
-// 
-// 
+//
+//
 
 //
 // https://github.com/Alexays/Waybar/wiki
@@ -46,10 +46,8 @@
         "pulseaudio#value",
     ],
 //  "modules-center": [ "hyprland/workspaces" ],
-    "modules-right": [ 
-        "custom/weather_desc",
-        "custom/weather_icon",
-        "custom/weather_temp",
+    "modules-right": [
+        "custom/weather",
 
         "custom/sep",
 
@@ -105,13 +103,13 @@
         },
 
         "format-charging": "🗲",
-        "format-plugged":  "", 
-        "format-full":     "", 
+        "format-plugged":  "",
+        "format-full":     "",
         "format-max":      "",
-        "format-high":     "", 
-        "format-med":      "", 
-        "format-low":      "", 
-        "format-crit":     "", 
+        "format-high":     "",
+        "format-med":      "",
+        "format-low":      "",
+        "format-crit":     "",
         "max-length":       2
     },
     "battery#value": {
@@ -140,9 +138,9 @@
         "format":  "{usage}%"
     },
 
-    "memory#key": { 
+    "memory#key": {
         "interval": 2,
-        "format":  "" 
+        "format":  ""
     },
     "memory#value": {
         "interval": 2,
@@ -216,23 +214,11 @@
         "on-click": "pulsemixer --toggle-mute"
     },
 
-    "custom/weather_desc" :{
+    "custom/weather": {
+        "format": "{}",
         "interval": 900,
-        "signal": 8,
-        "exec": "sed -n \"1p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
-        "return-type": "json"
-    },
-    "custom/weather_icon" :{
-        "interval": 900,
-        "signal": 8,
-        "exec": "sed -n \"2p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
-        "return-type": "json"
-    },
-    "custom/weather_temp" :{
-        "interval": 900,
-        "signal": 8,
-        "exec": "sed -n \"3p\" $XDG_CONFIG_HOME/waybar/modules/weather/weather_out.json",
-        "return-type": "json"
+        "return-type": "json",
+        "exec": "LOCATION=Melbourne ICON_SIZE=120% \"${XDG_CONFIG_HOME:-$HOME/.config}/waybar/modules/waybar-weather\""
     },
 
     "clock#day": {

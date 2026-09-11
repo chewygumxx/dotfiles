@@ -11,7 +11,7 @@
 * { /* Font */
     font-size: 16px;
     font-family:
-		Anonymous Pro,
+		"AnonymicePro Nerd Font Propo",
 		"Font Awesome 7 Free Solid",
 		"MesloLGS Nerd Font",
 		Roboto,
@@ -100,24 +100,6 @@ button:hover {
 #pulseaudio.value { }
 #pulseaudio.key.muted	{ color: #555555; }
 #pulseaudio.value.muted	{ color: #555555; }
-
-#custom-weather_icon {
-	font-family: "MesloLGS Nerd Font";
-	font-size: 20px;
-	min-width: 20px;
-	padding-right: 12px;
-}
-#custom-weather_icon.thunder	{ color: #d3b987; }
-#custom-weather_icon.light_rain { color: #73cef4; }
-#custom-weather_icon.heavy_rain { color: #7171d3; }
-#custom-weather_icon.rain		{ color: #b3deef; }
-#custom-weather_icon.snow		{ color: #ffffff; }
-#custom-weather_icon.cloud		{ color: #aaaaaa; }
-#custom-weather_icon.fog		{ color: #aaaaaa; }
-#custom-weather_icon.tornado	{ color: #d3b987; }
-#custom-weather_icon.sun		{ color: #ffc24b; }
-#custom-weather_icon.moon		{ color: #cad6ff; }
-#custom-weather_icon.error		{ color: #f43753; }
 
 #custom-comma,
 #custom-hyphen,

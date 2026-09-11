@@ -1,0 +1,20 @@
+// vim:set expandtab shiftwidth=4 filetype=jsonc:
+// SPDX-License-Identifier: GPL-3.0-only
+
+//
+//
+// ~chewygumxx/dotfiles.git
+// ::: :/home/dot_config/waybar/modules/.chezmoiexternals/waybar-weather.jsonc
+//
+//
+
+
+{{ if ne .chezmoi.destDir "/data/data/com.termux/files/home" }}
+{
+    "waybar-weather": {
+        "type": "file",
+        "url": {{ gitHubLatestReleaseAssetURL "chewygumxx/waybar-weather" "waybar-weather" | quote }},
+        "executable": true,
+    }
+}
+{{ else }}{}{{ end }}
