@@ -8,8 +8,7 @@
 //
 //
 
-
-{{ if ne .chezmoi.destDir "/data/data/com.termux/files/home" }}
+{{ if lookPath "waybar" }}
 {
     "waybar-weather": {
         "type": "file",
