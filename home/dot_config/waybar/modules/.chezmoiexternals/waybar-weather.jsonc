@@ -8,7 +8,6 @@
 //
 //
 
-{{ if lookPath "waybar" }}
 {
     "waybar-weather": {
         "type": "file",
@@ -16,4 +15,3 @@
         "executable": true,
     }
 }
-{{ else }}{}{{ end }}
