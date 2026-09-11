@@ -44,5 +44,7 @@ downloads/
 
 {{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
 
+.chezmoiscripts/wezterm-terminfo   # WezTerm doesn't run on Termux; also sidesteps a known
+                                    # chezmoi/Termux fork/exec quirk when staging run_ scripts.
 
 {{- end }}
