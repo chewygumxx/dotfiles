@@ -1,8 +1,8 @@
 #!/bin/sh
 # vim:set expandtab shiftwidth=4 filetype=sh:
 
-# 
-# 
+#
+#
 # ~chewygumxx/dotfiles.git
 # ::: :/home/dot_local/bin/executable_xdg-open
 #
@@ -12,7 +12,20 @@
 # Shadow file redirection
 #
 
-command -v handlr &>/dev/null && exec command handlr open "$@"
 
-exec command xdg-open "$@"
+resolve_file_handler() {
+    local cmd success=
+    if   command -v handlr   &>/dev/null; then
+        cmd="handlr open"
+    elif command -v xdg-open &>/dev/null; then
+        cmd="xdg-open"
+    else
+        printf '[FATAL] %s: %s\n' "${0}" \
+            "Unable to resolve file opener. Not found: handlr, xdg-open"
+        exit 127
+    fi
 
+    printf '%s\n' "$cmd"
+}
+
+exec $(resolve_file_handler) "$@"
