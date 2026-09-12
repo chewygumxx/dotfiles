@@ -1,0 +1,19 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/.chezmoiexternals/print-quote.toml
+#
+#
+
+{{- if and (eq .chezmoi.os "linux") (eq .chezmoi.arch "amd64") }}
+
+[".local/bin/print-quote"]
+    type = "archive-file"
+    path = "print-quote"
+    refreshPeriod = "168h"
+    url = {{ gitHubLatestReleaseAssetURL "chewygumxx/print-quote" "print-quote-*-x86_64-unknown-linux-gnu.tar.gz" | quote }}
+
+{{- end }}

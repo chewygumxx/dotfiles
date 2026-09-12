@@ -1,0 +1,26 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/.chezmoiexternals/systemd-override-gpg-socket.toml
+#
+#
+
+{{- if and (lookPath "gpg") (lookPath "systemctl") }}
+
+[".config/systemd/user/systemd-override-gpg-socket.service"]
+    type = "archive-file"
+    path = "systemd-override-gpg-socket.service"
+    refreshPeriod = "168h"
+    url = {{ gitHubLatestReleaseAssetURL "chewygumxx/systemd-override-gpg-socket" "systemd-override-gpg-socket-*.tar.gz" | quote }}
+
+[".local/bin/systemd-override-gpg-socket"]
+    type = "archive-file"
+    path = "systemd-override-gpg-socket"
+    executable = true
+    refreshPeriod = "168h"
+    url = {{ gitHubLatestReleaseAssetURL "chewygumxx/systemd-override-gpg-socket" "systemd-override-gpg-socket-*.tar.gz" | quote }}
+
+{{- end }}

@@ -1,0 +1,19 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/.chezmoiexternals/cclip-fzf.toml
+#
+#
+
+{{- if and (lookPath "cclip") (lookPath "fzf") }}
+
+[".local/bin/cclip-fzf"]
+    type = "file"
+    executable = true
+    refreshPeriod = "168h"
+    url = {{ gitHubLatestReleaseAssetURL "chewygumxx/cclip-fzf" "cclip-fzf" | quote }}
+
+{{- end }}
