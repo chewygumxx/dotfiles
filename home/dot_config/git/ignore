@@ -1,0 +1,12 @@
+# vim:set expandtab shiftwidth=4 filetype=gitignore:
+
+# 
+# 
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/git/ignore
+# 
+# 
+
+.claude/
+CLAUDE.md
+node_modules/

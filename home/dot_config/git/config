@@ -9,19 +9,28 @@
 
 [init]
 	defaultBranch = main
+
 [user]
+	name  = chewygumxx
 	email = cgumxx@pm.me
-	name = chewygumxx
+
 [safe]
 	directory = /storage/emulated/0/_chewygumxx/doc/synaptic-nexus
+
 [core]
 	pager = delta
+
 [interactive]
 	diffFilter = delta --color-only
+
 [delta]
-	navigate = true
-	dark = true
+	dark         = true
+	navigate     = true
 	side-by-side = true
-	line-number = true
+	line-number  = true
+
 [merge]
 	conflictStyle = zdiff3
+
+[pull]
+	rebase = false
