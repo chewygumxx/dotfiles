@@ -1,11 +1,11 @@
 # vim: filetype=gitignore
 
-# 
-# 
+#
+#
 # ~chewygumxx/dotfiles.git
 # ::: :/home/dot_config/.chezmoiignore
-# 
-# 
+#
+#
 
 
 # --------
@@ -13,7 +13,6 @@
 # --------
 
 # Secret
-@_sysroot_etc/src/wireguard/**  # (Secret) VPN Private Keys
 kdeconnect/                     # (Secret) Keys, clipboard, remote commands
 cloudflare-ddns/                # (Secret) API Tokens
 gh/hosts.yml                    # (Secret) Authetication Tokens
