@@ -18,6 +18,8 @@
 # Ignored Everywhere
 # -------------------
 
+.claude/
+.claude.json
 sec/
 
 
