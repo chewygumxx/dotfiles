@@ -1,0 +1,32 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/.chezmoi.toml.tmpl
+#
+#
+
+encryption = "gpg"
+sourceDir  = {{ joinPath .chezmoi.homeDir "dev/dotfiles" | quote }}
+
+{{ if lookPath "delta" }}
+[diff]
+pager = "delta"
+{{- end }}
+
+[edit]
+apply    = true
+watch    = true
+hardlink = false
+
+
+{{- if (eq .chezmoi.os "android") }}
+# --------------------
+# Chewytele Exclusive
+# --------------------
+
+# Ignore Termux file permissions when adding to source state.
+umask = 0o22
+{{- end }}
