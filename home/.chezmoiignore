@@ -1,12 +1,12 @@
 # vim:set expandtab shiftwidth=4 filetype=gitignore:
 # SPDX-License-Identifier: GPL-3.0-only
 
-# 
-# 
+#
+#
 # ~chewygumxx/dotfiles.git
 # ::: :/home/.chezmoiignore
-# 
-# 
+#
+#
 
 #
 # The hueristics of .chezmoiignore are so poorly documented that implementation
@@ -30,7 +30,7 @@ sec/
 .termux       # Symlink ~/.termux ->    .config/termux/
 .shortcuts    # Symlink ~/.shortcuts -> .termux/shortcuts/
 
-_chewygumxx   # Symlink to Symlink   ./.local/sym/_chewygumxx 
+_chewygumxx   # Symlink to Symlink   ./.local/sym/_chewygumxx
               # (which then symlinks directory /share/emulated/0/_chewygumxx/)
 
 downloads/
@@ -45,6 +45,6 @@ downloads/
 {{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
 
 .chezmoiscripts/wezterm-terminfo   # WezTerm doesn't run on Termux; also sidesteps a known
-                                    # chezmoi/Termux fork/exec quirk when staging run_ scripts.
+                                   # chezmoi/Termux fork/exec quirk when staging run_ scripts.
 
 {{- end }}
