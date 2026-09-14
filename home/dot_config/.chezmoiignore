@@ -9,97 +9,208 @@
 
 
 # --------
-# Ignored
+# Always Ignored
 # --------
 
-# Secret
-kdeconnect/                     # (Secret) Keys, clipboard, remote commands
-cloudflare-ddns/                # (Secret) API Tokens
-gh/hosts.yml                    # (Secret) Authetication Tokens
-waybar/modules/weather/open_weather_map.apikey
 
 
-#@_sysroot_etc
+
+
+# -----------------
+# PATH Conditional
+# -----------------
+
+# Audacity
+{{ if not (lookPath "audacity") }}
 audacity/
-#bat/
-bluetuith/
-#btop/
-chezmoi/
-chromium/
-dconf/
-#environment.d/
-#gh/
-GIMP/
-#git/
-#glow/
-go/
-#handlr/
-#hypr/
-inkscape/
-lazysql/
-#luarocks/
-#mozilla -> ../.local/share/mozilla/
-#mozilla-firefox/
-#mpv/
-#npm/
-#nushell/
-#nvim/
-#nvm/
-#print-quote/
-#pulse  -> ../.local/share/pulse/
-#python/
-#rura/
-#systemd/
-#tealdeer/
-#waybar/
-waybar/modules/weather/weather_out.json
-#wezterm/
-#xdg-desktop-portal/
-#xdg-desktop-portal-termfilechooser/
-#yay/
-#yazi/
-#zsh/
-kactivitymanagerdrc
-#mimeapps.list
-pavucontrol.ini
-#user-dirs.dirs
-#user-dirs.locale
+{{ end }}
 
-# ------------------
-# Chewytop Ignored
-# ------------------
+# Bat
+{{ if not (lookPath "bat") }}
+bat/
+{{ end }}
 
-{{- if eq .chezmoi.hostname "chewytop" }}
-
-termux/
-
-{{- end }}
-
-
-# --------------------
-# Chewytele Ignored
-# --------------------
-
-{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
-
-
+# Btop
+{{ if not (lookPath "btop") }}
 btop/
-environment.d/
-handlr/
-hypr/
-luarocks/
-mozilla
-mozilla-firefox/
-mpv/
-pulse
-print-quote/
-python/
-systemd/
-waybar/
-wezterm/
-xdg-desktop-portal/
-xdg-desktop-portal-termfilechooser/
-yay/
+{{ end }}
 
-{{- end }}
+# Chromium
+{{ if not (lookPath "chromium") }}
+chromium/
+{{ end }}
+
+# Claude Code
+{{ if not (lookPath "claude") }}
+anthropic/
+claude/
+{{ end }}
+
+# Cloudflare DDNS
+{{ if not (lookPath "cloudflare-ddns") }}
+cloudflare-ddns/
+{{ end }}
+
+# FontForge
+{{ if not (lookPath "fontforge") }}
+fontforge/
+{{ end }}
+
+# GIMP
+{{ if not (lookPath "gimp") }}
+GIMP/
+{{ end }}
+
+# GitHub CLI
+{{ if not (lookPath "gh") }}
+gh/
+{{ end }}
+
+# Git
+{{ if not (lookPath "git") }}
+git/
+{{ end }}
+
+# Glow
+{{ if not (lookPath "glow") }}
+glow/
+{{ end }}
+
+# Go
+{{ if not (lookPath "go") }}
+go/
+{{ end }}
+
+# Handlr
+{{ if not (lookPath "handlr") }}
+handlr/
+{{ end }}
+
+# Herdr
+{{ if not (lookPath "herdr") }}
+herdr/
+{{ end }}
+
+# Hyprland
+{{ if not (lookPath "start-hyprland") }}
+hypr/
+{{ end }}
+
+# Inkscape
+{{ if not (lookPath "inkscape") }}
+inkscape/
+{{ end }}
+
+# KDEConnect
+{{ if not (lookPath "kdeconnect-cli") }}
+kdeconnect/
+{{ end }}
+
+# LazySQL
+{{ if not (lookPath "lazysql") }}
+lazysql/
+{{ end }}
+
+# Luarocks
+{{ if not (lookPath "luarocks") }}
+luarocks/
+{{ end }}
+
+# Mozilla Firefox
+{{ if not (lookPath "firefox") }}
+mozilla  # Symlink
+mozilla-firefox/
+{{ end }}
+
+# MPV
+{{ if not (lookPath "mpv") }}
+mpv/
+{{ end }}
+
+# Node Package Manager
+{{ if not (lookPath "npm") }}
+npm/
+nvm/
+{{ end }}
+
+# Nushell
+{{ if not (lookPath "nu") }}
+nu/
+{{ end }}
+
+# Neovim
+{{ if not (lookPath "nvim") }}
+nvim/
+{{ end }}
+
+# Print Quote
+{{ if not (lookPath "print-quote") }}
+print-quote/
+{{ end }}
+
+# Python
+{{ if not (lookPath "python") }}
+python/
+{{ end }}
+
+# Rura
+{{ if not (lookpath "rura") }}
+rura/
+{{ end }}
+
+# Systemd
+{{ if not (lookPath "systemctl") }}
+environment.d/
+systemd/
+{{ end }}
+
+# Tealdeer
+{{ if not (lookpath "tldr") }}
+tealdeer/
+tldr/
+{{ end }}
+
+# Termux
+{{ if not (eq .chezmoi.os "android") }}
+termux/
+{{ end }}
+
+# Waybar
+{{ if not (lookPath "waybar") }}
+waybar/
+{{ end }}
+
+# WezTerm
+{{ if not (lookPath "wezterm") }}
+wezterm/
+{{ end }}
+
+# Wrangler
+{{ if not (lookPath "wrangler") }}
+.wrangler/
+{{ end }}
+
+# XDG
+{{ if not (eq .chezmoi.os "linux") }}
+xdg-desktop-portal-termfilechooser/
+xdg-desktop-portal/
+mimeapps.list
+user-dirs.dirs
+user-dirs.locale
+{{ end }}
+
+# Yay
+{{ if not (lookPath "yay") }}
+yay/
+{{ end }}
+
+# Yazi
+{{ if not (lookPath "yazi") }}
+yazi/
+{{ end }}
+
+# Z Shell
+{{ if not (lookPath "zsh") }}
+zsh/
+{{ end }}
 
