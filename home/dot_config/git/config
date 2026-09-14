@@ -62,10 +62,10 @@
     sdiff = diff --staged
     srest = restore --staged --
 
-    last   = log --date=format-local:'%a %d %b %H:%M' -1
-    logg   = log --date=format-local:'%a %d %b %H:%M'
-    loggg  = log --date=format-local:'%a %d %b %H:%M' --pretty=logline -10
-    logggg = log --date=format-local:'%a %d %b %H:%M' --pretty=logline
+    l    = log --date=format-local:'%a %d %b %H:%M' -1
+    ll   = log --date=format-local:'%a %d %b %H:%M'
+    lll  = log --date=format-local:'%a %d %b %H:%M' --pretty=logline -10
+    llll = log --date=format-local:'%a %d %b %H:%M' --pretty=logline
 
     fpush = push --force
 
