@@ -154,7 +154,7 @@ python/
 {{ end }}
 
 # Rura
-{{ if not (lookpath "rura") }}
+{{ if not (lookPath "rura") }}
 rura/
 {{ end }}
 
@@ -165,7 +165,7 @@ systemd/
 {{ end }}
 
 # Tealdeer
-{{ if not (lookpath "tldr") }}
+{{ if not (lookPath "tldr") }}
 tealdeer/
 tldr/
 {{ end }}
