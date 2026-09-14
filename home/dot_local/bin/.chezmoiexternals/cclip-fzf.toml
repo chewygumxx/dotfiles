@@ -4,13 +4,13 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/.chezmoiexternals/cclip-fzf.toml
+# ::: :/home/dot_local/bin/.chezmoiexternals/cclip-fzf.toml
 #
 #
 
 {{- if and (lookPath "cclip") (lookPath "fzf") }}
 
-[".local/bin/cclip-fzf"]
+["cclip-fzf"]
     type = "file"
     executable = true
     refreshPeriod = "168h"
