@@ -14,8 +14,7 @@
 	name  = chewygumxx
 	email = cgumxx@pm.me
 
-[safe]
-	directory = /storage/emulated/0/_chewygumxx/doc/synaptic-nexus
+
 
 [core]
 	pager = delta
@@ -29,8 +28,52 @@
 	side-by-side = true
 	line-number  = true
 
-[merge]
-	conflictStyle = zdiff3
+
+# -------
+# Remote
+# -------
+
+[remote]
+    # No more `git push --set-upstream=origin`
+    pushDefault = origin
+
+[push]
+    # Push the current branch to the corresponding on remote
+    default = simple
 
 [pull]
 	rebase = false
+
+[merge]
+	conflictStyle = zdiff3
+
+
+
+# --------
+# Aliases
+# --------
+
+[alias]
+    root  = rev-parse --show-toplevel
+    cdr   = '!cd "$(git rev-parse --show-toplevel)"'
+
+    s     = status
+    cm    = commit -m
+    sdiff = diff --staged
+    srest = restore --staged --
+
+    last   = log --date=format-local:'%a %d %b %H:%M' -1
+    logg   = log --date=format-local:'%a %d %b %H:%M'
+    loggg  = log --date=format-local:'%a %d %b %H:%M' --pretty=logline -10
+    logggg = log --date=format-local:'%a %d %b %H:%M' --pretty=logline
+
+    fpush = push --force
+
+
+# ---------------
+# User Interface
+# ---------------
+
+[pretty]
+    logline = %C(blue)[%C(magenta)%cd%C(blue)] %C(green)%h %C(reset)%s %C(blue)%d
+
