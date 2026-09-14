@@ -1,11 +1,15 @@
-# vim:set expandtab shiftwidth=4 filetype=systemd:
+# vim:set expandtab shiftwidth=4 filetype=dosini:
 # SPDX-License-Identifier: GPL-3.0-only
 
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/systemd/user/ssh-agent.socket
+# ::: :/home/dot_config/systemd/user/ssh-agent-openssh.socket
 #
+#
+
+#
+# Currently disabled during Proton Pass SSH agent trial
 #
 
 [Unit]
@@ -14,7 +18,7 @@ Documentation=man:ssh-agent(1)
 ConditionEnvironment=!SSH_AGENT_PID
 
 [Socket]
-ListenStream=%t/ssh-agent.socket
+ListenStream=%t/ssh-agent-openssh.socket
 RemoveOnStop=yes
 
 [Install]

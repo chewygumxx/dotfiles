@@ -1,0 +1,33 @@
+# vim:set expandtab shiftwidth=4 filetype=dosini:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/systemd/user/ssh-agent-protonpass.service
+#
+#
+
+#
+# Requires either:
+# - Environment Variable:
+#       SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent-protonpass.socket"
+# - ~/.ssh/config
+#       IdentityAgent "${XDG_RUNTIME_DIR}/ssh-agent-protonpass.socket"
+#
+# The aforementioned is defined within "$XDG_CONFIG_HOME/environment.d/ssh.conf"
+#
+
+[Unit]
+Description=Proton Pass SSH key agent
+ConditionEnvironment=!SSH_AGENT_PID
+ConditionEnvironment=SSH_AUTH_SOCK
+Requires=ssh-agent-protonpass.socket
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/pass-cli ssh-agent daemon start --socket-path '%t/ssh-agent-protonpass.socket' --pid-file '%t/ssh-agent-protonpass.pid' --vault-name pass-cli --log-file /dev/stdout
+Restart=on-failure
+
+[Install]
+Also=ssh-agent-protonpass.socket

@@ -1,0 +1,38 @@
+# vim:set expandtab shiftwidth=4 filetype=dosini:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/systemd/user/ssh-agent-openssh.service
+#
+#
+
+#
+# Currently disabled during Proton Pass SSH agent trial
+#
+
+#
+# Requires either
+# - Environment Variable:
+#       SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent-openssh.socket"
+# - ~/.ssh/config
+#       IdentityAgent "${XDG_RUNTIME_DIR}/ssh-agent-openssh.socket"
+#
+# The aforementioned is defined within "$XDG_CONFIG_HOME/environment.d/ssh.conf"
+#
+
+[Unit]
+Description=OpenSSH key agent
+Documentation=man:ssh-agent(1) man:ssh-add(1) man:ssh(1)
+ConditionEnvironment=!SSH_AGENT_PID
+ConditionEnvironment=SSH_AUTH_SOCK
+Requires=ssh-agent-openssh.socket
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ssh-agent -D
+SuccessExitStatus=2
+
+[Install]
+Also=ssh-agent-openssh.socket

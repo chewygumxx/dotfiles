@@ -12,15 +12,17 @@
 # Templated with chezmoi
 #
 
+{{ if eq .chezmoi.os "linux" }}
+IdentityAgent "${XDG_RUNTIME_DIR}/ssh-agent-protonpass.socket"
+{{- else if eq .chezmoi.os "android" }}
+IdentityAgent "${XDG_RUNTIME_DIR}/ssh-agent.socket"
 AddKeysToAgent yes
-IdentityAgent  "${XDG_RUNTIME_DIR}/ssh-agent.socket"
+{{- end }}
 
 Host *.github.com github.com
     User           git
+{{- if eq .chezmoi.os "android" }}
     IdentitiesOnly yes
-{{- if eq .chezmoi.os "linux" }}
-    IdentityFile   ~/.ssh/id/chewytop-github
-{{- else if eq .chezmoi.os "android" }}
     IdentityFile   ~/.ssh/id/chewytele-github
 {{- end }}
 
@@ -28,8 +30,6 @@ Host *.github.com github.com
 Host chewytele
     Hostname       192.168.4.22
     Port           8022
-    IdentityFile   ~/.ssh/id/chewytop-tele
-    IdentitiesOnly yes
 {{ else if eq .chezmoi.os "android" }}
 Host chewytop
     Hostname       192.168.4.21

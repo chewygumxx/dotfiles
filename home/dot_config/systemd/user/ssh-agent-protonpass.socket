@@ -1,0 +1,21 @@
+# vim:set expandtab shiftwidth=4 filetype=dosini:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/systemd/user/ssh-agent-protonpass.socket
+#
+#
+
+[Unit]
+Description=Socket for the Proton Pass SSH key agent
+ConditionEnvironment=!SSH_AGENT_PID
+ConditionEnvironment=SSH_AUTH_SOCK
+
+[Socket]
+ListenStream=%t/ssh-agent-protonpass.socket
+RemoveOnStop=yes
+
+[Install]
+WantedBy=sockets.target

@@ -1,0 +1,59 @@
+# vim:set expandtab shiftwidth=4 filetype=gotmpl:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/.chezmoiexternals/protonpass-cli.toml
+#
+#
+
+{{- $filename    := "pass-cli" }}
+{{- $filepath    := joinPath .chezmoi.destDir ".local" "bin" $filename }}
+{{- $versionsURL := "https://proton.me/download/pass-cli/versions.json" }}
+
+{{- $arch := .chezmoi.arch }}
+{{- if eq .chezmoi.arch "amd64" }}
+    {{- $arch = "x86_64" }}
+{{- else if eq .chezmoi.arch "arm64" }}
+    {{- $arch = "aarch64" }}
+{{- end }}
+
+{{- $os := .chezmoi.os }}
+{{- if eq .chezmoi.os "darwin" }}
+    {{- $os = "macos" }}
+{{- end }}
+
+{{- $versionInstalled := "null" }}
+{{- if (isExecutable $filepath) }}
+    {{- $versionOutput := output $filepath "--version" }}
+    {{- $versionInstalled = index (splitList " " $versionOutput) 3 }}
+{{- end }}
+
+{{- $versionsData := output "curl"
+    "--silent"
+    "--retry" "3"
+    "--retry-delay" "2"
+    "--retry-all-errors"
+    $versionsURL
+| fromJson }}
+{{- $versionLatest := index $versionsData "passCliVersions" "version" }}
+
+{{- $versionDownload := "" }}
+{{- if not (eq $versionInstalled $versionLatest) }}
+    {{- $versionDownload = index $versionsData "passCliVersions" "urls" }}
+    {{if false}} # $versionDownload empty if invalid OS {{end}}
+    {{- $versionDownload = index $versionDownload $os }}
+    {{- if $versionDownload }}
+        {{if false}} # $versionDownload empty if invalid Arch {{end}}
+        {{- $versionDownload = index $versionDownload $arch }}
+    {{- end }}
+{{- end }}
+
+{{ if $versionDownload -}}
+[{{ $filename | quote }}]
+    type = "file"
+    executable = true
+    url = {{ index $versionDownload "url" | quote }}
+    checksum.sha256 = {{ index $versionDownload "hash" | quote }}
+{{- end }}
