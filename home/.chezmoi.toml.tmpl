@@ -8,18 +8,24 @@
 #
 #
 
+#
+# Chezmoi tracked self-configuration
+# This file updates the local chezmoi config file upon `chezmoi init` or when
+# `--init` is provided as a valid `chezmoi` option ie. `chezmoi update --init`.
+#
+
 encryption = "gpg"
 sourceDir  = {{ joinPath .chezmoi.homeDir "dev/dotfiles" | quote }}
-
-{{ if lookPath "delta" }}
-[diff]
-pager = "delta"
-{{- end }}
 
 [edit]
 apply    = true
 watch    = true
 hardlink = false
+
+{{ if lookPath "delta" }}
+[diff]
+pager = "delta"
+{{- end }}
 
 
 {{- if (eq .chezmoi.os "android") }}
