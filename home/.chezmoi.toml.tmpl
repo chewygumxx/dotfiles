@@ -17,26 +17,24 @@
 
 progress        = true  # Display progress bars
 encryption      = "gpg"
-
-cacheDir        = {{- joinPath
-    (or env.XDG_CACHE_HOME (joinPath .chezmoi.home ".local" "cache"))
-    "chezmoi"
--}}
-sourceDir       = {{- joinPath
+sourceDir       = {{ joinPath
     .chezmoi.homeDir
     "dev"
     "dotfiles"
-| quote -}}
-persistentState = {{- joinPath
-    (or env.XDG_STATE_HOME (joinPath .chezmoi.home ".local" "state"))
+| quote }}
+cacheDir        = {{ joinPath
+    (or (env "XDG_CACHE_HOME") (joinPath .chezmoi.home ".local" "cache"))
+    "chezmoi"
+| quote }}
+persistentState = {{ joinPath
+    (or (env "XDG_STATE_HOME") (joinPath .chezmoi.home ".local" "state"))
     "chezmoi"
     "chezmoi.boltdb"
 | quote }}
 
 {{- if (eq .chezmoi.os "android") }}
 umask = 0o22
-{{- end }}
-
+{{ end }}
 
 [edit]
 apply    = true
@@ -44,7 +42,7 @@ watch    = true
 hardlink = false
 
 [diff]
-pager = {{- or
+pager = {{ or
     (lookPath "delta")
     (lookPath "diffnav")
     (lookPath "less")
