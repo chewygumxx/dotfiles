@@ -29,7 +29,7 @@ cacheDir        = {{ joinPath
 persistentState = {{ joinPath
     (or (env "XDG_STATE_HOME") (joinPath .chezmoi.home ".local" "state"))
     "chezmoi"
-    "chezmoi.boltdb"
+    "chezmoistate.boltdb"
 | quote }}
 
 {{- if (eq .chezmoi.os "android") }}
