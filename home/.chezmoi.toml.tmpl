@@ -14,25 +14,39 @@
 # `--init` is provided as a valid `chezmoi` option ie. `chezmoi update --init`.
 #
 
-encryption = "gpg"
-sourceDir  = {{ joinPath .chezmoi.homeDir "dev/dotfiles" | quote }}
+
+progress        = true  # Display progress bars
+encryption      = "gpg"
+
+cacheDir        = {{- joinPath
+    (or env.XDG_CACHE_HOME (joinPath .chezmoi.home ".local" "cache"))
+    "chezmoi"
+-}}
+sourceDir       = {{- joinPath
+    .chezmoi.homeDir
+    "dev"
+    "dotfiles"
+| quote -}}
+persistentState = {{- joinPath
+    (or env.XDG_STATE_HOME (joinPath .chezmoi.home ".local" "state"))
+    "chezmoi"
+    "chezmoi.boltdb"
+| quote }}
+
+{{- if (eq .chezmoi.os "android") }}
+umask = 0o22
+{{- end }}
+
 
 [edit]
 apply    = true
 watch    = true
 hardlink = false
 
-{{ if lookPath "delta" }}
 [diff]
-pager = "delta"
-{{- end }}
+pager = {{- or
+    (lookPath "delta")
+    (lookPath "diffnav")
+    (lookPath "less")
+| quote }}
 
-
-{{- if (eq .chezmoi.os "android") }}
-# --------------------
-# Chewytele Exclusive
-# --------------------
-
-# Ignore Termux file permissions when adding to source state.
-umask = 0o22
-{{- end }}
