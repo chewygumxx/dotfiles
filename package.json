@@ -1,0 +1,24 @@
+{
+    "private": true,
+    "devDependencies": {
+        "@commitlint/cli": "^21.2.2",
+        "@commitlint/config-conventional": "^21.2.2",
+        "@commitlint/cz-commitlint": "^21.2.2",
+        "commitizen": "^4.3.2",
+        "husky": "^9.1.7",
+        "typescript": "^7.0.2"
+    },
+    "scripts": {
+        "commit": "cz",
+        "prepare": "test -d node_modules/husky && husky || true",
+        "typecheck": "tsc"
+    },
+    "config": {
+        "commitizen": {
+            "path": "@commitlint/cz-commitlint"
+        }
+    },
+    "patchedDependencies": {
+        "@commitlint/cz-commitlint@21.2.2": "patches/@commitlint/cz-commitlint@21.2.2.patch"
+    }
+}
