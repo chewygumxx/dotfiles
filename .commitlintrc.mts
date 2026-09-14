@@ -21,9 +21,7 @@ const types: { enum: Enumerable[] } = {
     enum: [
         { name: "feat",     fullName: "Feature",  description: "Implementing new functionality/tool" },
         { name: "fix",      fullName: "Fix",      description: "Correct misconfiguration" },
-
         { name: "tweak",    fullName: "Tweak",    description: "Minor preference adjustment" },
-        { name: "refactor", fullName: "Refactor", description: "Purely structural rework (eg. change data format or fragment into multiple templates)" },
 
         { name: "chore",    fullName: "Chore",    description: "Repository maintenance, organisation and management" },
         { name: "style",    fullName: "Style",    description: "Formatting, whitespace, indentation" },
@@ -41,6 +39,7 @@ const scopes: { delimiters: string[]; enum: Enumerable[] } = {
     enum: [
         { name: "btop",     fullName: "Btop",            description: "System Resource Monitor" },
         { name: "claude",   fullName: "Claude Code",     description: "Agentic Coding Tool" },
+        { name: "chezmoi",  fullName: "Chezmoi",         description: "Dotfiles Manager" },
         { name: "firefox",  fullName: "Mozilla Firefox", description: "Web Browser" },
         { name: "gh",       fullName: "GitHub CLI",      description: "GitHub's Command Line Tool" },
         { name: "git",      fullName: "Git",             description: "Version Control System" },
