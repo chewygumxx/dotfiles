@@ -18,14 +18,14 @@
 # Ignored Everywhere
 # -------------------
 
-
+**
 
 
 # ------------------
 # Chewytop Ignored
 # ------------------
 
-{{- if eq .chezmoi.hostname "chewytop" }}
+{{- if eq .chezmoi.os "linux" }}
 
 
 {{- end }}
@@ -35,11 +35,10 @@
 # Chewytele Ignored
 # -------------------
 
-{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
+{{- if eq .chezmoi.os "android" }}
 
 
 {{- end }}
-
 
 
 # -------
