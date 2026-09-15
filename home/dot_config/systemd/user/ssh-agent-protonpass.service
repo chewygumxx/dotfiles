@@ -26,7 +26,7 @@ Requires=ssh-agent-protonpass.socket
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/pass-cli ssh-agent daemon start --socket-path '%t/ssh-agent-protonpass.socket' --pid-file '%t/ssh-agent-protonpass.pid' --vault-name pass-cli --log-file /dev/stdout
+ExecStart=/usr/bin/pass-cli ssh-agent start --socket-path '%t/ssh-agent-protonpass.socket' --vault-name pass-cli
 Restart=on-failure
 
 [Install]
