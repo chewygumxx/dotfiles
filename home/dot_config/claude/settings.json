@@ -1,0 +1,121 @@
+{
+    "$schema": "https://www.schemastore.org/claude-code-settings.json",
+
+    "theme": "dark",
+    "editorMode": "vim",
+    "statusLine": { "type": "command", "command": "~/.claude/claude-status-line" },
+
+    "modelSettings": {
+        "claude-sonnet-5": {
+            "effortLevel": "high"
+        }
+    },
+
+    "enabledPlugins": {
+        "rust-analyzer-lsp@claude-plugins-official": true,
+        "lua-lsp@claude-plugins-official": true
+    },
+
+    "permissions": {
+        "defaultMode": "plan"
+        "deny": [
+            "Read(~/doc/**)",
+            "Read(~/sec/**)",
+            "Read(~/.netrc)",
+            "Read(~/.ssh/**)",
+            "Read(~/.gnupug/**)",
+            "Read(~/.local/share/gnupg/**)",
+            "Read(~/.config/cloudflare-ddns/**)",
+            "Read(~/.config/gh/hosts.yml)",
+            "Read(~/.config/wireguard/**)",
+            "Read(~/.config/waybar/modules/weather/**)",
+            "Read(/etc/wireguard/**)",
+            "Cd(~/.ssh/**)",
+            "Cd(~/doc/**)",
+            "Cd(~/sec/**)",
+            "Bash(rm -rf /)",
+            "Bash(rm -rf ~)",
+            "Bash(rm -rf ~*)",
+            "Bash(rm -rf .)",
+            "Bash(git push --force*)",
+            "Bash(chmod -R 777*)"
+        ],
+    },
+
+    "sandbox": {
+        "enabled": true,
+        "failIfUnavailable": false,
+        "autoAllowBashIfSandboxed": true,
+        "allowUnsandboxedCommands": true,
+        "network": {
+            "strictAllowlist": true,
+            "allowLocalBinding": false,
+            "allowedDomains": [
+                "github.com",
+                "codeberg.org",
+                "gitlab.com",
+                "registry.npmjs.org",
+                "w3.org",
+                "nodejs.org",
+                "mozilla.org",
+                "pypi.org",
+                "lib.rs",
+                "crates.io",
+                "go.dev",
+                "zsh.sourceforge.io",
+                "reddit.com",
+                "claude.com",
+                "stackoverflow.com",
+                "news.ycombinator.com",
+                "wikipedia.org",
+                "dictionary.com",
+                "thesaurus.com",
+                "oed.com",
+                "cambridge.org",
+                "archive.org",
+                "dev.to",
+                "chezmoi.io",
+                "nushell.sh"
+            ],
+            "deniedDomains": []
+        },
+        "filesystem": {
+            "denyRead": [
+                "~/.config/.wrangler/**",
+                "~/.config/cloudflare-ddns/**",
+                "~/.config/gh/hosts.yml",
+                "~/.gnupg/**",
+                "~/.local/share/gnupg/**",
+                "~/.ssh/**",
+                "~/doc/**",
+                "~/sec/**"
+            ],
+            "denyWrite": [
+                "~/.config/.wrangler/**",
+                "~/.config/cloudflare-ddns/**",
+                "~/.config/gh/hosts.yml",
+                "~/.gnupg/**",
+                "~/.local/share/gnupg/**",
+                "~/.ssh/**",
+                "~/doc/**",
+                "~/sec/**"
+            ]
+        },
+        "credentials": {
+            "files": [
+                { "mode": "deny", "path": "~/.config/.wrangler/**" },
+                { "mode": "deny", "path": "~/.config/cloudflare-ddns/**" },
+                { "mode": "deny", "path": "~/.config/gh/hosts.yml" },
+                { "mode": "deny", "path": "~/.local/share/gnupg/**" },
+                { "mode": "deny", "path": "~/.gnupg/**" },
+                { "mode": "mask", "path": "~/.netrc" },
+                { "mode": "deny", "path": "~/.ssh/id/**" }
+            ],
+            "envVars": [
+                { "mode": "mask", "name": "ANTHROPIC_API_KEY" },
+                { "mode": "mask", "name": "AWS_SECRET_ACCESS_KEY" },
+                { "mode": "mask", "name": "GITHUB_TOKEN" }
+            ]
+        }
+    }
+}
