@@ -10,7 +10,7 @@
 
 #
 # The documentation regarding '.chezmoiignore' hueristics demands improvement.
-# Involves trial and error. Footer has documentation. Good luck.
+# Involves trial and error. Good luck.
 #
 
 
@@ -27,27 +27,6 @@ herdr.log
 herdr.sock
 plugins/
 session.json
-
-
-# ------------------
-# Chewytop Ignored
-# ------------------
-
-{{- if eq .chezmoi.hostname "chewytop" }}
-
-
-{{- end }}
-
-
-# -------------------
-# Chewytele Ignored
-# -------------------
-
-{{- if eq .chezmoi.destDir "/data/data/com.termux/files/home" }}
-
-
-{{- end }}
-
 
 
 # -------
