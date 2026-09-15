@@ -3,7 +3,7 @@
 
     "theme": "dark",
     "editorMode": "vim",
-    "statusLine": { "type": "command", "command": "~/.claude/claude-status-line" },
+    "statusLine": { "type": "command", "command": "~/.config/claude/claude-status-line" },
 
     "modelSettings": {
         "claude-sonnet-5": {
@@ -17,7 +17,7 @@
     },
 
     "permissions": {
-        "defaultMode": "plan"
+        "defaultMode": "plan",
         "deny": [
             "Read(~/doc/**)",
             "Read(~/sec/**)",
@@ -39,7 +39,7 @@
             "Bash(rm -rf .)",
             "Bash(git push --force*)",
             "Bash(chmod -R 777*)"
-        ],
+        ]
     },
 
     "sandbox": {
