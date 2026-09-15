@@ -71,7 +71,6 @@
 
     "timeFormat": "%a %d %b - %H:%M:%S",
     "spinnerTipsEnabled": false,
-    "spinnerTipsOverride": {},
     "autoCompactEnabled": false,
     "awaySummaryEnabled": false,
     "cleanupPeriodDays": 180,
@@ -84,14 +83,10 @@
     "feedbackDrafts": "off",
     "feedbackSurveyRate": 0,
     "prefersReducedMotion": false,
-    "skillOverrides": {},
     "skipAutoPermissionPrompt": true,
     "terminalTitleFromRename": false,
     "useAutoModeDuringPlan": true,
-    "vimInsertModeRemaps": {},
 
-    "hooks" : {},
-    "env": {},
     "permissions": { "defaultMode": "plan",
         "deny": [
             "Read(/etc/wireguard/**)",
