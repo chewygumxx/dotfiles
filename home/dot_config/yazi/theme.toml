@@ -1,4 +1,4 @@
-# vim:set fileencoding=utf-8 foldmethod=marker foldlevel=0 filetype=toml:
+# vim:set expandtab shiftwidth=4 filetype=toml:
 # SPDX-License-Identifier: GPL-3.0-only
 
 #
@@ -15,90 +15,57 @@ light = ""
 [app]
 overall = {}
 
-[mgr]       # {{{
+[mgr]
 cwd = { fg = "cyan" }
-
-# Find
 find_keyword  = { fg = "yellow", bold = true, italic = true, underline = true }
 find_position = { fg = "magenta", bg = "reset", bold = true, italic = true }
-
-# Symlink
 symlink_target = { italic = true }
-
-# Marker
 marker_copied   = { fg = "lightwhite",  bg = "green", bold = true }
 marker_cut      = { fg = "lightwhite",  bg = "red",   bold = true }
 marker_marked   = { fg = "white",  bg = "cyan" }
 marker_selected = { fg = "white", bg = "#4e4581", bold = true }
 marker_symbol   = ">"
-
-# Count
 count_copied   = { fg = "lightwhite", bg = "green" }
 count_cut      = { fg = "lightwhite", bg = "red" }
 count_selected = { fg = "white", bg = "#4e4581" }
-
-# Border
 border_symbol = "│"
-#border_style  = { fg = "#6e6591" }
 border_style  = { fg = "#2d2857" }
-
-# Highlighting
 syntect_theme = "~/.config/bat/themes/chewyansi.tmTheme"
-# }}}
 
-[tabs]      # {{{
+[tabs]
 active   = { fg = "lightwhite", bg = "#7408cf", bold = true }
-inactive = { fg = "#7408cf" }
+inactive    = { fg = "#7408cf" }
+sep_inner   = { open = "", close = "" }
+sep_outer   = { open = "", close = "" }
 
-# Separator
-sep_inner = { open = "", close = "" }
-sep_outer = { open = "", close = "" }
-# }}}
-
-[mode]      # {{{
+[mode]
 normal_main = { bg = "blue", bold = true }
 normal_alt  = { fg = "blue", bg = "gray" }
-
-# Select mode
 select_main = { bg = "red", bold = true }
 select_alt  = { fg = "red", bg = "gray" }
+unset_main  = { bg = "red", bold = true }
+unset_alt   = { fg = "red", bg = "gray" }
 
-# Unset mode
-unset_main = { bg = "red", bold = true }
-unset_alt  = { fg = "red", bg = "gray" }
-# }}}
-
-[indicator] # {{{
-#parent  = { reversed = true, }
+[indicator]
 current = { reversed = true, bold = true }
 parent  = { fg = "#cad6ff", bg = "#4004a0" }
-#current = { fg = "#e8e0ff", bg = "#7408cf", bold = true }
 preview = { underline = true }
-#padding = { open = "", close = "" }
 padding = { open = "▐", close = "▌" }
-#padding = { open = "▐", close = "󰍟" }
-#padding = { open = "▐", close = "▶" }
-# }}}
 
-[status]    # {{{
+[status]
 overall   = {}
 sep_left  = { open = "", close = "" }
 sep_right = { open = "", close = "" }
-
-# Permissions
 perm_sep   = { fg = "darkgray" }
 perm_type  = { fg = "green" }
 perm_read  = { fg = "yellow" }
 perm_write = { fg = "red" }
 perm_exec  = { fg = "cyan" }
-
-# Progress
 progress_label  = { bold = true }
 progress_normal = { fg = "green", bg = "black" }
 progress_error  = { fg = "yellow", bg = "red" }
-# }}}
 
-[which]     # {{{
+[which]
 cols            = 3
 mask            = { bg = "black" }
 cand            = { fg = "lightcyan" }
@@ -106,9 +73,8 @@ rest            = { fg = "darkgray" }
 desc            = { fg = "lightmagenta" }
 separator       = "  "
 separator_style = { fg = "darkgray" }
-# }}}
 
-[confirm]   # {{{
+[confirm]
 border     = { fg = "blue" }
 title      = { fg = "lightblue" }
 body       = {}
@@ -116,102 +82,72 @@ list       = {}
 btn_yes    = { fg = "white" }
 btn_no     = { fg = "white" }
 btn_labels = [ "  [Y]es  ", "  (N)o  " ]
-# }}}
 
-[spot]      # {{{
+[spot]
 border = { fg = "blue" }
 title  = { fg = "blue" }
-
-# Table
 tbl_col  = { fg = "blue" }
 tbl_cell = { fg = "yellow", reversed = true }
-# }}}
 
-[notify]    # {{{
+[notify]
 title_info  = { fg = "green" }
 title_warn  = { fg = "yellow" }
 title_error = { fg = "red" }
-
-# Icons
 icon_info  = ""
 icon_warn  = ""
 icon_error = ""
-# }}}
 
-[pick]      # {{{
+[pick]
 border   = { fg = "blue" }
 active   = { fg = "magenta", bold = true }
 inactive = {}
-# }}}
 
-[input]     # {{{
+[input]
 border   = { fg = "blue" }
 title    = {}
 value    = {}
 selected = { reversed = true }
-# }}}
 
-[cmp]       # {{{
+[cmp]
 border   = { fg = "blue" }
 active   = { reversed = true }
 inactive = {}
-
-# Icons
 icon_file    = ""
 icon_folder  = ""
 icon_command = ""
-# }}}
 
-[tasks]     # {{{
+[tasks]
 border  = { fg = "blue" }
 title   = {}
 hovered = { fg = "magenta", bold = true }
-# }}}
 
-[help]      # {{{
+[help]
 on      = { fg = "cyan" }
 run     = { fg = "lightmagenta" }
 desc    = { fg = "white" }
 hovered = { bg = "#0b0c2d", bold = true }
 footer  = { fg = "lightwhite", bg = "#4e4581" }
-# }}}
 
-[filetype]  # {{{
+[filetype]
 rules = [
-	# Image
 	{ mime = "image/*", fg = "yellow" },
-
-	# Media
 	{ mime = "{audio,video}/*", fg = "magenta" },
-
-	# Archive
 	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "red" },
-
-	# Document
 	{ mime = "application/{pdf,doc,rtf}", fg = "cyan" },
-
-	# Virtual file system
 	{ mime = "vfs/{absent,stale}", fg = "gray" },
-
-	# Special file
     { url = "*", is = "orphan", fg = "red",  italic = true, blink = true },
     { url = "*", is = "link",   fg = "cyan", italic = true },
     { url = "*", is = "exec",   fg = "green" },
 	{ url = "*", is = "fifo",   fg = "yellow" },
 	{ url = "*", is = "sock",   fg = "red",  bold   = true },
-
-	# Dummy file
 	{ url = "*",  is = "dummy", bg = "red" },
 	{ url = "*/", is = "dummy", bg = "red" },
-
-	# Fallback
 	{ url = "*/", fg = "blue" }
 ]
-# }}}
 
-[icon]      # {{{
+[icon]
 globs = []
-dirs  = [ # {{{
+dirs  = [
 	{ name = ".config", text = "", fg = "#ff9800" },
 	{ name = ".git",    text = "", fg = "#00bcd4" },
 	{ name = ".github", text = "", fg = "#03a9f4" },
@@ -225,9 +161,9 @@ dirs  = [ # {{{
 	{ name = "audio", text = "", fg = "#00bcd4" },
 	{ name = "image", text = "", fg = "#00bcd4" },
 	{ name = "Public", text = "", fg = "#00bcd4" },
-] # }}}
+]
 
-files = [ # {{{
+files = [
 	{ name = ".babelrc", text = "", fg = "#cbcb41" },
 	{ name = ".bash_profile", text = "", fg = "#89e051" },
 	{ name = ".bashrc", text = "", fg = "#89e051" },
@@ -930,10 +866,8 @@ exts = [  # {{{
 	{ name = "zsh", text = "", fg = "#89e051" },
 	{ name = "zst", text = "", fg = "#eca517" },
 	{ name = "🔥", text = "", fg = "#ff4c1f" },
-] # }}}
-
-conds = [ # {{{
-	# Special files
+]
+conds = [
 	{ if = "orphan", text = "", fg = "#ffffff" },
 	{ if = "link", text = "", fg = "#9e9e9e" },
 	{ if = "block", text = "", fg = "#cddc39" },
@@ -942,11 +876,9 @@ conds = [ # {{{
 	{ if = "sock", text = "", fg = "#cddc39" },
 	{ if = "sticky", text = "", fg = "#cddc39" },
 	{ if = "dummy", text = "", fg = "#f44336" },
-
-	# Fallback
 	{ if = "dir & hovered", text = "", fg = "#03a9f4" },
 	{ if = "dir",  text = "", fg = "#03a9f4" },
 	{ if = "exec", text = "", fg = "#8bc34a" },
 	{ if = "!dir", text = "", fg = "#ffffff" },
-] # }}}
-# }}}
+]
+
