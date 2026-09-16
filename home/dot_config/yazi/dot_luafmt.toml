@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/nvim/dot_luafmt.toml
+# ::: :/home/dot_config/yazi/dot_luafmt.toml
 #
 #
 
@@ -13,7 +13,7 @@
 #
 
 [syntax]
-level = "Lua51"
+level = "Lua55"
 
 [layout]
 max_line_width                       = 80

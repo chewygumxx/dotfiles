@@ -1,0 +1,15 @@
+-- vim: expandtab:shiftwidth=4:filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
+
+--
+--
+-- ~chewygumxx/dotfiles.git
+-- ::: :/home/dot_config/yazi/dot_luacheckrc
+--
+--
+
+-- yazi embeds Lua 5.5; luacheck has no "lua55" std yet, so "lua54" is the
+-- closest available match.
+std = "lua54"
+
+globals = { "ya", "cx", "rt", "th", "ui", "Status", "Header", "Linemode" }
