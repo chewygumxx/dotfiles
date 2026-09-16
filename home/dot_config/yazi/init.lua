@@ -43,8 +43,10 @@ local mux_setup = function ()
             }
         }
     end
+
+    return mux_opts
 end
-mux_setup()
+require("mux"):setup(mux_setup())
 
 local time_format = function (time)
     if time == 0 then
