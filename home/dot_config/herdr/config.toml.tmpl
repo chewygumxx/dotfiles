@@ -18,10 +18,10 @@
 
 onboarding = false # Introduction
 
-{{ template "essential.toml" . }}
+{{ template "essential.toml.tmpl" . }}
 
-{{ template "theme.toml" . }}
-{{ template "ui.toml" . }}
-{{ template "keys.toml" . }}
+{{ template "theme.toml.tmpl" . }}
+{{ template "ui.toml.tmpl" . }}
+{{ template "keys.toml.tmpl" . }}
 
-{{ template "neglected.toml" . }}
+{{ template "neglected.toml.tmpl" . }}
