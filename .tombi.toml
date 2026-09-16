@@ -12,6 +12,9 @@
 
 toml-version = "v1.1.0"
 
+[files]
+exclude = [ "**/yazi/package.toml" ]
+
 [format]
 [format.rules]
 array-bracket-space-width       = 1
