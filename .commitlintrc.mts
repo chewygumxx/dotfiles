@@ -19,18 +19,20 @@ interface Enumerable {
 
 const types: { enum: Enumerable[] } = {
     enum: [
-        { name: "feat",     fullName: "Feature",  description: "Implementing new functionality/tool" },
-        { name: "fix",      fullName: "Fix",      description: "Correct misconfiguration" },
-        { name: "tweak",    fullName: "Tweak",    description: "Minor preference adjustment" },
+        { name: "feat",     fullName: "Feature",     description: "Implementing new functionality/tool" },
+        { name: "fix",      fullName: "Fix",         description: "Correct misconfiguration" },
+        { name: "tweak",    fullName: "Tweak",       description: "Minor preference adjustment" },
 
-        { name: "chore",    fullName: "Chore",    description: "Repository maintenance, organisation and management" },
-        { name: "style",    fullName: "Style",    description: "Formatting, whitespace, indentation" },
-        { name: "docs",     fullName: "Docs",     description: "Documentation and comments" },
-        { name: "ci",       fullName: "CI",       description: "Continuous integration/deployment" },
+        { name: "chore",    fullName: "Chore",       description: "Repository maintenance, organisation and management" },
+        { name: "style",    fullName: "Style",       description: "Formatting, whitespace, indentation" },
+        { name: "docs",     fullName: "Docs",        description: "Documentation and comments" },
+        { name: "ci",       fullName: "CI",          description: "Continuous integration/deployment" },
 
-        { name: "build",    fullName: "Build",    description: "Compilation, tools and dependency (eg. chezmoi script, template, external, execution)" },
-        { name: "test",     fullName: "Test",     description: "Test utilities eg. JSONschema validation"},
-        { name: "revert",   fullName: "Revert",   description: "It's rewind time, rollback" },
+        { name: "refactor", fullName: "Refactor",    description: "Purely structural" },
+        { name: "perf",     fullName: "Performance", description: "Performance improvement" },
+        { name: "build",    fullName: "Build",       description: "Compilation, tools and dependency (eg. chezmoi script, template, external, execution)" },
+        { name: "test",     fullName: "Test",        description: "Test utilities eg. JSONschema validation"},
+        { name: "revert",   fullName: "Revert",      description: "It's rewind time, rollback" },
     ],
 };
 
