@@ -4,8 +4,6 @@
         "version": "Lua 5.4"
     },
     "workspace": {
-        "library": [
-            "/usr/share/hypr/stubs"
-        ]
+        "library": ["/usr/share/hypr/stubs"]
     }
 }

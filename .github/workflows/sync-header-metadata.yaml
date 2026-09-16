@@ -36,9 +36,9 @@ jobs:
             - name: Update tracked files
               uses: chewygumxx/sync-header-metadata@v2
               with:
-                  mode:        update
-                  verbose:    'false'
-                  annotation: 'false'
+                  mode: update
+                  verbose: "false"
+                  annotation: "false"
 
             - name: Commit changes
               uses: stefanzweifel/git-auto-commit-action@v7

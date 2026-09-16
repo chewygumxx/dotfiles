@@ -3,8 +3,14 @@
 
     "theme": "dark",
     "editorMode": "vim",
-    "statusLine": { "type": "command", "command": "~/.config/claude/claude-status-line" },
-    "subagentStatusLine": { "type": "command", "command": "~/.config/claude/claude-status-line" },
+    "statusLine": {
+        "type": "command",
+        "command": "~/.config/claude/claude-status-line"
+    },
+    "subagentStatusLine": {
+        "type": "command",
+        "command": "~/.config/claude/claude-status-line"
+    },
 
     "model": "claude-sonnet-5",
     "effortLevel": "high",
@@ -79,7 +85,7 @@
     "disableClaudeAiConnectors": false,
     "disableRemoteControl": true,
     "emojiCompletionEnabled": false,
-    "externalEditorContext" : true,
+    "externalEditorContext": true,
     "feedbackDrafts": "off",
     "feedbackSurveyRate": 0,
     "prefersReducedMotion": false,
@@ -87,7 +93,8 @@
     "terminalTitleFromRename": false,
     "useAutoModeDuringPlan": true,
 
-    "permissions": { "defaultMode": "plan",
+    "permissions": {
+        "defaultMode": "plan",
         "deny": [
             "Read(/etc/wireguard/**)",
             "Read(~/.config/cloudflare-ddns/**)",
@@ -114,7 +121,9 @@
         ]
     },
     "attribution": {
-        "commit": "", "pr": "", "sessionUrl": false
+        "commit": "",
+        "pr": "",
+        "sessionUrl": false
     },
     "sandbox": {
         "enabled": false,
@@ -192,5 +201,18 @@
             ]
         }
     },
-    "hooks": {"SessionStart":[{"matcher":"*","hooks":[{"type":"command","command":"bash '/home/chewygum/.config/claude/hooks/herdr-agent-state.sh' session","timeout":10}]}]}
+    "hooks": {
+        "SessionStart": [
+            {
+                "matcher": "*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "bash '/home/chewygum/.config/claude/hooks/herdr-agent-state.sh' session",
+                        "timeout": 10
+                    }
+                ]
+            }
+        ]
+    }
 }

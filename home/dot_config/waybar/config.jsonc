@@ -13,12 +13,12 @@
 //
 
 {
-    "position":    "top",
-    "height":       36,
-    "width":        1881,
-    "spacing":      0,
-    "margin-top":   15,
-    "layer":       "bottom", // Don't cover context menus
+    "position": "top",
+    "height": 36,
+    "width": 1881,
+    "spacing": 0,
+    "margin-top": 15,
+    "layer": "bottom", // Don't cover context menus
     "fixed-center": true,
 
     "modules-left": [
@@ -45,7 +45,7 @@
         "pulseaudio#key",
         "pulseaudio#value",
     ],
-//  "modules-center": [ "hyprland/workspaces" ],
+    //  "modules-center": [ "hyprland/workspaces" ],
     "modules-right": [
         "custom/weather",
 
@@ -62,103 +62,101 @@
         "custom/colon",
         "clock#minutes",
         "custom/colon",
-        "clock#seconds"
+        "clock#seconds",
     ],
 
-    "custom/sep":    { "format": "|" },
-    "custom/comma":  { "format": "," },
+    "custom/sep": { "format": "|" },
+    "custom/comma": { "format": "," },
     "custom/hyphen": { "format": "-" },
-    "custom/colon":  { "format": ":" },
+    "custom/colon": { "format": ":" },
 
     "hyprland/workspaces": {
         "disable-scroll": true,
-        "all-outputs":    true,
+        "all-outputs": true,
         "warp-on-scroll": false,
-        "sort-by":        "number",
+        "sort-by": "number",
 
         "format": "{icon} {name}",
-        "format-window-separator" : "  ",
+        "format-window-separator": "  ",
         "format-icons": {
-            "terminal":   " ",
-            "firefox":    "",
-            "code":       "",
-            "sqlite":     "\uf1c0",
+            "terminal": " ",
+            "firefox": "",
+            "code": "",
+            "sqlite": "\uf1c0",
             "kdeconnect": "📞",
-            "obsidian":   "☑",
-            "default":    ""
-        }
+            "obsidian": "☑",
+            "default": "",
+        },
     },
 
     "battery#key": {
         "interval": 5,
-        "bat":     "BAT0",
+        "bat": "BAT0",
         "adapter": "AC",
-        "full-at":  90,
+        "full-at": 90,
         "states": {
-            "max":  100,
+            "max": 100,
             "high": 90,
-            "med":  60,
-            "low":  30,
-            "crit": 10
+            "med": 60,
+            "low": 30,
+            "crit": 10,
         },
 
         "format-charging": "🗲",
-        "format-plugged":  "",
-        "format-full":     "",
-        "format-max":      "",
-        "format-high":     "",
-        "format-med":      "",
-        "format-low":      "",
-        "format-crit":     "",
-        "max-length":       2
+        "format-plugged": "",
+        "format-full": "",
+        "format-max": "",
+        "format-high": "",
+        "format-med": "",
+        "format-low": "",
+        "format-crit": "",
+        "max-length": 2,
     },
     "battery#value": {
         "interval": 5,
-        "bat":     "BAT0",
+        "bat": "BAT0",
         "adapter": "AC",
-        "full-at":  90,
+        "full-at": 90,
         "states": {
-            "max":  90,
+            "max": 90,
             "high": 75,
-            "med":  50,
+            "med": 50,
             "warn": 20,
-            "crit": 10
+            "crit": 10,
         },
 
-        "format":     "{capacity}%",
+        "format": "{capacity}%",
         "format-alt": "{timeTo}",
     },
 
     "cpu#key": {
         "interval": 2,
-        "format":  ""
+        "format": "",
     },
     "cpu#value": {
         "interval": 2,
-        "format":  "{usage}%"
+        "format": "{usage}%",
     },
 
     "memory#key": {
         "interval": 2,
-        "format":  ""
+        "format": "",
     },
     "memory#value": {
         "interval": 2,
-        "format":  "{}%"
+        "format": "{}%",
     },
 
     "temperature#key": {
         "interval": 2,
         "critical-threshold": 80,
-        "format":  "{icon}",
-        "format-icons": [
-            ""
-        ]
+        "format": "{icon}",
+        "format-icons": [""],
     },
     "temperature#value": {
         "interval": 2,
         "critical-threshold": 80,
-        "format": "{temperatureC}°C"
+        "format": "{temperatureC}°C",
     },
 
     "network#key": {
@@ -168,12 +166,12 @@
             "wifi": "",
             "ethernet": " ",
             "linked": " ",
-            "disconnected": ""
+            "disconnected": "",
         },
         "tooltip-format": "{ipaddr}/{cidr}",
         "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
         "tooltip-format-ethernet": "{ipaddr}/{cidr}",
-        "tooltip-format-disconnected": "bruh"
+        "tooltip-format-disconnected": "bruh",
     },
     "network#up": {
         "interval": 2,
@@ -181,14 +179,14 @@
         "format-disconnected": ">tfw no connect",
         "tooltip-format": "{ipaddr}/{cidr}",
         "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
-        "tooltip-format-disconnected": "bruh"
+        "tooltip-format-disconnected": "bruh",
     },
     "network#down": {
         "interval": 2,
         "format": "&#x202b;{bandwidthDownBytes}&#x202c;",
         "tooltip-format": "{ipaddr}/{cidr}",
         "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
-        "tooltip-format-disconnected": "bruh"
+        "tooltip-format-disconnected": "bruh",
     },
 
     "pulseaudio#key": {
@@ -197,28 +195,28 @@
         "format-bluetooth-muted": "{icon}",
         "format-muted": "\uf6a9",
         "format-icons": {
-            "headphone":  " ",
+            "headphone": " ",
             "hands-free": "",
-            "headset":    "",
-            "phone":      "",
-            "portable":   "",
-            "car":        "",
-            "default": ["", "", ""]
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""],
         },
-        "on-click": "pulsemixer --toggle-mute"
+        "on-click": "pulsemixer --toggle-mute",
     },
     "pulseaudio#value": {
         "format": "{volume}%",
         "format-muted": "mute",
         "format-bluetooth-muted": "mute",
-        "on-click": "pulsemixer --toggle-mute"
+        "on-click": "pulsemixer --toggle-mute",
     },
 
     "custom/weather": {
         "format": "{}",
         "interval": 900,
         "return-type": "json",
-        "exec": "LOCATION=Melbourne ICON_SIZE=120% \"${XDG_CONFIG_HOME:-$HOME/.config}/waybar/modules/waybar-weather\""
+        "exec": "LOCATION=Melbourne ICON_SIZE=120% \"${XDG_CONFIG_HOME:-$HOME/.config}/waybar/modules/waybar-weather\"",
     },
 
     "clock#day": {
@@ -229,31 +227,31 @@
         "calendar": {
             "mode": "year",
             "mode-mon-col": 3,
-            "first-day-of-week": 0,   // Sunday = 0, Saturday =6
+            "first-day-of-week": 0, // Sunday = 0, Saturday =6
             "format": {
-                "months":   "<span color='#8874ed'>{}</span>",
+                "months": "<span color='#8874ed'>{}</span>",
                 "weekdays": "<span color='#7408ff'>{}</span>",
-                "days":     "<span color='#4e4189'>{}</span>",
-                "today":    "<span color='#7fb5ff'><b>{}</b></span>"
-            }
-        }
+                "days": "<span color='#4e4189'>{}</span>",
+                "today": "<span color='#7fb5ff'><b>{}</b></span>",
+            },
+        },
     },
     "clock#date": {
         "interval": 60,
-        "format":         "{:%d %B %Y}",
-        "format-alt":     "{:%Y-%m-%d}",
+        "format": "{:%d %B %Y}",
+        "format-alt": "{:%Y-%m-%d}",
         "tooltip-format": "<tt>{calendar}</tt>",
         "calendar": {
-            "mode":             "year",
-            "mode-mon-col":      3,
-            "first-day-of-week": 0,   // Sunday = 0, Saturday =6
+            "mode": "year",
+            "mode-mon-col": 3,
+            "first-day-of-week": 0, // Sunday = 0, Saturday =6
             "format": {
-                "months":   "<span color='#8874ed'>{}</span>",
+                "months": "<span color='#8874ed'>{}</span>",
                 "weekdays": "<span color='#7408ff'>{}</span>",
-                "days":     "<span color='#4e4189'>{}</span>",
-                "today":    "<span color='#7fb5ff'><b>{}</b></span>"
-            }
-        }
+                "days": "<span color='#4e4189'>{}</span>",
+                "today": "<span color='#7fb5ff'><b>{}</b></span>",
+            },
+        },
     },
     "clock#hours": {
         "interval": 1,
@@ -264,11 +262,11 @@
             "Europe/London",
             "UTC",
             "US/Pacific",
-            "US/Eastern"
+            "US/Eastern",
         ],
         "format": "{:%H}",
         "tooltip-format": "{tz_list}",
-        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}"
+        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}",
     },
     "clock#minutes": {
         "interval": 1,
@@ -279,11 +277,11 @@
             "Europe/London",
             "UTC",
             "US/Pacific",
-            "US/Eastern"
+            "US/Eastern",
         ],
         "format": "{:%M}",
         "tooltip-format": "{tz_list}",
-        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}"
+        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}",
     },
     "clock#seconds": {
         "interval": 1,
@@ -294,11 +292,11 @@
             "Europe/London",
             "UTC",
             "US/Pacific",
-            "US/Eastern"
+            "US/Eastern",
         ],
         "format": "{:%S}",
         "tooltip-format": "{tz_list}",
-        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}"
+        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}",
     },
-    "tray": { "spacing": 10 }
+    "tray": { "spacing": 10 },
 }

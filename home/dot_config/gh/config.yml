@@ -19,44 +19,40 @@
 #                        or `gh environment --help`
 #
 
-
 # Schema Version
 version: 1
 
 # Environment Variables take precedence ( DO_NOT_TRACK=true & GH_TELEMETRY=false )
 telemetry: disabled
 
-
 # --------
 # Aliases
 # --------
 
 aliases:
-    co:  pr checkout
+    co: pr checkout
     pub: gist create --public
     sec: gist create
-
 
 # -----------
 # Essentials
 # -----------
 
-editor:                     # Fallback to EDITOR/VISUAL
-pager:                      # Fallback to PAGER ('cat' to disable)
-browser: firefox --new-tab  # Fallback to BROWSER.
-git_protocol: ssh           # http/ssh
+editor: # Fallback to EDITOR/VISUAL
+pager: # Fallback to PAGER ('cat' to disable)
+browser: firefox --new-tab # Fallback to BROWSER.
+git_protocol: ssh # http/ssh
 http_unix_socket:
 api_host:
-
 
 # ----------
 # Interface
 # ----------
 
-spinner:               enabled  # Animated Loading Indicator
-prompt:                enabled  # Interactive Prompt
-color_labels:          enabled  # Truecolor
+spinner: enabled # Animated Loading Indicator
+prompt: enabled # Interactive Prompt
+color_labels: enabled # Truecolor
 
-accessible_colors:    disabled  # 4-bit
-accessible_prompter:  disabled  # Accessibility
-prefer_editor_prompt: disabled  # Editor-based Interactive Prompting
+accessible_colors: disabled # 4-bit
+accessible_prompter: disabled # Accessibility
+prefer_editor_prompt: disabled # Editor-based Interactive Prompting

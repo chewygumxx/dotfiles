@@ -10,17 +10,17 @@
 
 {
     "$schema": "https://raw.githubusercontent.com/chewygumxx/apply-repo-metadata-jsonc/refs/tags/v2/schema.json",
-    "name":  "dotfiles",
+    "name": "dotfiles",
     "owner": "chewygumxx",
-    "slug":  "chewygumxx/dotfiles",
+    "slug": "chewygumxx/dotfiles",
     "default_branch": "main",
     "description": "My chezmoi-managed dotfiles",
     "category": "dotfiles",
-    "topics": [ "dotfiles", "config", "nvim-config", "zsh-config", "chezmoi" ],
+    "topics": ["dotfiles", "config", "nvim-config", "zsh-config", "chezmoi"],
     "license": {
-        "filepath":  "./LICENSE",
-        "spdx_id":   "GPL-3.0-only",
+        "filepath": "./LICENSE",
+        "spdx_id": "GPL-3.0-only",
         "full_name": "GNU General Public License v3.0 only",
-        "url":       "https://spdx.org/licenses/GPL-3.0-only"
-    }
+        "url": "https://spdx.org/licenses/GPL-3.0-only",
+    },
 }
