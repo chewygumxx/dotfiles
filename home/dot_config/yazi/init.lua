@@ -8,18 +8,18 @@
 --
 --
 
-require("smart-enter"):setup { open_multi = true }
+require("smart-enter"):setup({ open_multi = true })
 
 -- No more status bar
 require("no-status"):setup()
 
 require("zoxide"):setup({ update_db = true })
 
-local mux_setup = function ()
+local mux_setup = function()
     local mux_opts = {
         notify_on_switch = false,           -- Show notification when switching previews
         remember_per_file_extension = true, -- Show same previewer per extension
-        aliases = {}
+        aliases = {},
     }
 
     -- Directory
@@ -28,7 +28,8 @@ local mux_setup = function ()
             previewer = "piper",
             args = {
                 table.concat({
-                    "printf \"\\e[0;35mRecursion Depth: \\e[0;32m" .. i .. "\\n\" &&",
+                    "printf \"\\e[0;35mRecursion Depth: \\e[0;32m" .. i
+                        .. "\\n\" &&",
                     "eza",
                     "--all",
                     "--tree",
@@ -38,9 +39,9 @@ local mux_setup = function ()
                     "--color=always",
                     "--icons=always",
                     "--no-quotes",
-                    '"$1"'
-                }, " ")
-            }
+                    '"$1"',
+                }, " "),
+            },
         }
     end
 
@@ -48,7 +49,7 @@ local mux_setup = function ()
 end
 require("mux"):setup(mux_setup())
 
-local time_format = function (time)
+local time_format = function(time)
     if time == 0 then
         time = ""
     elseif os.date("%Y", time) == os.date("%Y") then
@@ -62,7 +63,7 @@ end
 
 function Linemode:size_and_mtime()
     local time = math.floor(self._file.cha.mtime or 0)
-    time = time_format(time)
+    time       = time_format(time)
 
     local size = self._file:size()
     return string.format("%s %s", size and ya.readable_size(size) or "-", time)

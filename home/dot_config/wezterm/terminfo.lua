@@ -14,14 +14,16 @@ local M = {}
 
 local TERMINFO = wezterm.home_dir .. "/.local/share/terminfo"
 
----@param  cfg Config
+---@param cfg Config
 ---@return Config cfg
 M.setup = function(cfg)
     cfg.term = "wezterm"
 
-    cfg.set_environment_variables = cfg.set_environment_variables or {}
-    cfg.set_environment_variables.TERMINFO = TERMINFO
-    cfg.set_environment_variables.TERMINFO_DIRS = TERMINFO .. ":/usr/share/terminfo"
+    cfg.set_environment_variables               = cfg.set_environment_variables
+        or {}
+    cfg.set_environment_variables.TERMINFO      = TERMINFO
+    cfg.set_environment_variables.TERMINFO_DIRS = TERMINFO
+        .. ":/usr/share/terminfo"
 
     return cfg
 end

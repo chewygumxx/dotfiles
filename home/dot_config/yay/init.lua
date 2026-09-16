@@ -34,31 +34,31 @@ yay.opt = {
     sudo_bin = "sudo",
     sudo_flags = "",
     rebuild = "no",
-    
+
     -- Integers
-    request_split_n = 150, -- Max packages per AUR RPC request
-    completion_refresh_time = 7, -- Completion cache refresh days
+    request_split_n = 150,        -- Max packages per AUR RPC request
+    completion_refresh_time = 7,  -- Completion cache refresh days
     max_concurrent_downloads = 0, -- Parallel PKGBUILD source downloads; 0 uses CPU count.
-    
+
     -- Booleans
-    bottom_up = true, -- Show AUR packages before repo packages in mixed results.
-    sudo_loop = true, -- Keep sudo session alive in the background during long builds.
-    devel = false, -- Check development/VCS packages on sysupgrade.
-    clean_after = true, -- Remove untracked files after install.
-    keep_src = false, -- Keep pkg/ and src/ after successful builds.
-    provides = true, -- Resolve matching providers when dependencies are ambiguous.
-    pgp_fetch = true, -- Prompt to import unknown PGP keys from validpgpkeys.
+    bottom_up = true,             -- Show AUR packages before repo packages in mixed results.
+    sudo_loop = true,             -- Keep sudo session alive in the background during long builds.
+    devel = false,                -- Check development/VCS packages on sysupgrade.
+    clean_after = true,           -- Remove untracked files after install.
+    keep_src = false,             -- Keep pkg/ and src/ after successful builds.
+    provides = true,              -- Resolve matching providers when dependencies are ambiguous.
+    pgp_fetch = true,             -- Prompt to import unknown PGP keys from validpgpkeys.
     clean_menu = false,
     diff_menu = false,
     edit_menu = false,
-    combined_upgrade = true, -- Use combined repo+AUR upgrade flow on sysupgrade.
-    use_ask = false, -- Use pacman's --ask to auto-confirm known conflicts.
-    batch_install = false, -- Queue AUR package installs instead of installing each package immediately.
-    single_line_results = false, -- Use single-line search result format.
-    separate_sources = true, -- Separate query results by source (repo vs AUR).
-    debug = false, -- Enable debug logging and local init.lua lookup convenience.
-    rpc = true, -- Use AUR RPC for dependency/query operations.
-    double_confirm = true, -- Ask for confirmation before and after builds during upgrades.
+    combined_upgrade = true,      -- Use combined repo+AUR upgrade flow on sysupgrade.
+    use_ask = false,              -- Use pacman's --ask to auto-confirm known conflicts.
+    batch_install = false,        -- Queue AUR package installs instead of installing each package immediately.
+    single_line_results = false,  -- Use single-line search result format.
+    separate_sources = true,      -- Separate query results by source (repo vs AUR).
+    debug = false,                -- Enable debug logging and local init.lua lookup convenience.
+    rpc = true,                   -- Use AUR RPC for dependency/query operations.
+    double_confirm = true,        -- Ask for confirmation before and after builds during upgrades.
 }
 
 -- Hooks

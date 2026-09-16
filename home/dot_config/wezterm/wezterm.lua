@@ -7,10 +7,10 @@
 --
 --
 
-local wezterm = require('wezterm')       ---@type Wezterm
+local wezterm = require("wezterm")       ---@type Wezterm
 local config  = wezterm.config_builder() ---@type Config
 
----@param  modpath string Module relative filepath
+---@param modpath string Module relative filepath
 ---@return { setup: fun(cfg: Config): Config } | nil
 local require_guard = function(modpath)
     local ok, module = pcall(require, modpath)
@@ -21,18 +21,18 @@ local require_guard = function(modpath)
     return module
 end
 
----@param  cfg Config
+---@param cfg Config
 ---@return Config cfg
 local wezterm_intrinsic = function(cfg)
-    cfg.enable_wayland = true
-    cfg.check_for_updates = false
-    cfg.debug_key_events = false
+    cfg.enable_wayland              = true
+    cfg.check_for_updates           = false
+    cfg.debug_key_events            = false
     cfg.automatically_reload_config = false
 
     return cfg
 end
 
----@param  cfg Config
+---@param cfg Config
 ---@return Config cfg
 local setup = function(cfg)
     cfg = cfg or {}
@@ -72,4 +72,3 @@ local setup = function(cfg)
 end
 
 return setup(config)
-
