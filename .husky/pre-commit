@@ -64,4 +64,27 @@ else
     echo "pre-commit: tombi not on PATH, skipping TOML checks" >&2
 fi
 
+# --------
+# JSON/YAML
+# --------
+
+if command -v npx >/dev/null 2>&1; then
+    # chezmoi's symlink_*.{json,yaml} "source" files hold a plain target
+    # path, not real content, so exclude them. Also exclude actual symlinks
+    # (e.g. .luarc.json -> dot_luarc.json): Prettier refuses to check a
+    # symlink passed explicitly, and the target is already covered by this
+    # same glob.
+    json_yaml_files=$(
+        git diff --cached --name-only --diff-filter=ACMR \
+            -- '*.json' '*.jsonc' '*.yaml' '*.yml' ':!**/symlink_*' |
+            while IFS= read -r f; do [ -L "$f" ] || printf '%s\n' "$f"; done
+    )
+    if [ -n "$json_yaml_files" ]; then
+        echo "$json_yaml_files" | xargs npx --no -- prettier --write
+        echo "$json_yaml_files" | xargs git add --
+    fi
+else
+    echo "pre-commit: npx not on PATH, skipping JSON/YAML checks" >&2
+fi
+
 exit $status
