@@ -1,0 +1,80 @@
+# vim:set expandtab shiftwidth=4 filetype=yaml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/.github/workflows/lint-config.yaml
+#
+#
+
+name: Lint Config
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+    workflow_dispatch: {}
+
+permissions:
+    contents: read
+
+jobs:
+    lua:
+        name: Lua
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v7
+
+            - name: Install luacheck
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y lua5.4 liblua5.4-dev luarocks
+                  sudo luarocks install luacheck
+
+            - name: Install luafmt
+              run: cargo install emmylua_formatter
+
+            - name: Check formatting
+              run: git ls-files -- '*.lua' | xargs luafmt --check --verify
+
+            - name: Lint
+              # luacheck resolves .luacheckrc relative to --config's directory
+              # rather than walking up from each checked file, so find the
+              # nearest ancestor .luacheckrc per file instead of assuming one
+              # shared config. Mirrors .husky/pre-commit's resolution logic.
+              run: |
+                  status=0
+                  for f in $(git ls-files -- '*.lua'); do
+                      dir=$(dirname "$f")
+                      while [ "$dir" != "." ] && [ ! -f "$dir/.luacheckrc" ]; do
+                          dir=$(dirname "$dir")
+                      done
+                      if [ -f "$dir/.luacheckrc" ]; then
+                          luacheck --config "$dir/.luacheckrc" "$f" || status=1
+                      else
+                          luacheck "$f" || status=1
+                      fi
+                  done
+                  exit $status
+
+    toml:
+        name: TOML
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v7
+
+            - name: Install tombi
+              run: |
+                  version=$(curl -s https://api.github.com/repos/tombi-toml/tombi/releases/latest | grep -oP '"tag_name":\s*"\K[^"]+')
+                  curl -sL "https://github.com/tombi-toml/tombi/releases/download/${version}/tombi-cli-${version#v}-x86_64-unknown-linux-musl.tar.gz" | tar xzf - --strip-components=1
+                  sudo install -m 755 tombi /usr/local/bin/tombi
+
+            - name: Check formatting
+              run: git ls-files -- '*.toml' | xargs tombi format --check --offline
+
+            - name: Lint
+              run: git ls-files -- '*.toml' | xargs tombi lint --error-on-warnings --offline
