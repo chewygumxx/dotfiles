@@ -9,16 +9,16 @@
 
 [application]
 DefaultPageSize = 300
-DisableSidebar = false
+DisableSidebar  = false
 
 [[database]]
-Name = 'inventory'
-URL = 'file:inventory.sqlite?loc=auto'
-Provider = 'sqlite3'
-Username = ''
-Password = ''
-Hostname = ''
-Port = ''
-DBName = ''
-URLParams = ''
-Commands = []
+Name      = "inventory"
+URL       = "file:inventory.sqlite?loc=auto"
+Provider  = "sqlite3"
+Username  = ""
+Password  = ""
+Hostname  = ""
+Port      = ""
+DBName    = ""
+URLParams = ""
+Commands  = []

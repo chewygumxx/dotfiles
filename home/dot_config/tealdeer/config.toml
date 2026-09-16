@@ -18,7 +18,7 @@ compact    = false
 use_pager  = false
 
 [style.description]
-foreground = { ansi = 11 } # Light Yellow
+foreground = { ansi = 11 }  # Light Yellow
 underline  = false
 bold       = false
 italic     = false
@@ -42,7 +42,7 @@ bold       = false
 italic     = false
 
 [style.example_variable]
-foreground = { ansi = 13 } # Light Magenta
+foreground = { ansi = 13 }  # Light Magenta
 underline  = false
 bold       = false
 italic     = false
@@ -52,9 +52,9 @@ languages = [ "en" ]
 platform  = [ "current", "common", "all" ]
 
 [updates]
-auto_update = true
+auto_update                = true
 auto_update_interval_hours = 168
-download_languages = [ "en" ]
+download_languages         = [ "en" ]
 
 [directories]
 # Does not perform variable expansion.
