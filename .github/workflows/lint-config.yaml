@@ -26,7 +26,8 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v7
+            - name: Checkout
+              uses: actions/checkout@v7
 
             - name: Install luacheck
               run: |
@@ -67,7 +68,8 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v7
+            - name: Checkout
+              uses: actions/checkout@v7
 
             - name: Install tombi
               run: |
@@ -77,8 +79,30 @@ jobs:
                   chmod +x "$RUNNER_TEMP/tombi/tombi"
                   echo "$RUNNER_TEMP/tombi" >> "$GITHUB_PATH"
 
-            - name: Check formatting
+            - name: Check Formatting
               run: git ls-files -- '*.toml' ':!**/symlink_*' | xargs tombi format --check --offline
 
             - name: Lint
               run: git ls-files -- '*.toml' ':!**/symlink_*' | xargs tombi lint --error-on-warnings --offline
+
+    json-yaml:
+        name: JSON & YAML
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+
+            - name: NPM Clean Install
+              run: npm ci
+
+            - name: Check Formatting
+              run: |
+                  git ls-files -- '*.json' '*.jsonc' '*.yaml' '*.yml' ':!**/symlink_*' |
+                      while IFS= read -r f; do [ -L "$f" ] || printf '%s\n' "$f"; done |
+                      xargs npx --no -- prettier --check
