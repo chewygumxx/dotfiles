@@ -9,3 +9,4 @@
 #
 
 /package.toml  -sync-header-metadata
+/.luarc.json   -sync-header-metadata
