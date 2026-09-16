@@ -11,32 +11,55 @@
 
 set -e
 
-if ! command -v luafmt >/dev/null 2>&1 || ! command -v luacheck >/dev/null 2>&1; then
+status=0
+
+# --------
+# Lua
+# --------
+
+if command -v luafmt >/dev/null 2>&1 && command -v luacheck >/dev/null 2>&1; then
+    lua_files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.lua')
+    if [ -n "$lua_files" ]; then
+        # Format in place, then re-stage whatever changed.
+        echo "$lua_files" | xargs luafmt --write
+        echo "$lua_files" | xargs git add --
+
+        # luacheck resolves .luacheckrc relative to --config's directory
+        # rather than walking up from each checked file, so find the
+        # nearest ancestor .luacheckrc per file instead of assuming one
+        # shared config.
+        for f in $lua_files; do
+            dir=$(dirname "$f")
+            while [ "$dir" != "." ] && [ ! -f "$dir/.luacheckrc" ]; do
+                dir=$(dirname "$dir")
+            done
+            if [ -f "$dir/.luacheckrc" ]; then
+                luacheck --config "$dir/.luacheckrc" "$f" || status=1
+            else
+                luacheck "$f" || status=1
+            fi
+        done
+    fi
+else
     echo "pre-commit: luafmt/luacheck not on PATH, skipping Lua checks" >&2
-    exit 0
 fi
 
-lua_files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.lua')
-[ -z "$lua_files" ] && exit 0
+# --------
+# TOML
+# --------
 
-# Format in place, then re-stage whatever changed.
-echo "$lua_files" | xargs luafmt --write
-echo "$lua_files" | xargs git add --
-
-# luacheck resolves .luacheckrc relative to --config's directory rather
-# than walking up from each checked file, so find the nearest ancestor
-# .luacheckrc per file instead of assuming one shared config.
-status=0
-for f in $lua_files; do
-    dir=$(dirname "$f")
-    while [ "$dir" != "." ] && [ ! -f "$dir/.luacheckrc" ]; do
-        dir=$(dirname "$dir")
-    done
-    if [ -f "$dir/.luacheckrc" ]; then
-        luacheck --config "$dir/.luacheckrc" "$f" || status=1
-    else
-        luacheck "$f" || status=1
+if command -v tombi >/dev/null 2>&1; then
+    toml_files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.toml')
+    if [ -n "$toml_files" ]; then
+        # tombi honours .tombi.toml's [files].exclude even for files passed
+        # explicitly, and only one root config exists, so no per-directory
+        # resolution is needed here unlike the Lua tools above.
+        echo "$toml_files" | xargs tombi format --offline
+        echo "$toml_files" | xargs git add --
+        echo "$toml_files" | xargs tombi lint --error-on-warnings --offline || status=1
     fi
-done
+else
+    echo "pre-commit: tombi not on PATH, skipping TOML checks" >&2
+fi
 
 exit $status
