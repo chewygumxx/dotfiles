@@ -17,7 +17,8 @@ local M = {}
 
 local mod = "SUPER + "
 
--- hl.bind(mod .. "I", function() hl.dsp.exec_cmd(chewy.terminal.cmd.base .. "sh -c echo \"" .. hl.get_active_window() .. "\"; read -r _") end)
+-- hl.bind(mod .. "I", function() hl.dsp.exec_cmd(chewy.terminal.cmd.base ..
+--     "sh -c echo \"" .. hl.get_active_window() .. "\"; read -r _") end)
 
 local general = function()
     -- Exit Hyprland

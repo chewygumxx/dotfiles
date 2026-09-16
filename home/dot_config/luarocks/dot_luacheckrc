@@ -1,0 +1,23 @@
+-- vim: expandtab:shiftwidth=4:filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
+
+--
+--
+-- ~chewygumxx/dotfiles.git
+-- ::: :/home/dot_config/luarocks/dot_luacheckrc
+--
+--
+
+std = "lua51"
+
+-- luarocks loads this file as a chunk and reads back whichever of these
+-- globals it set, rather than requiring a returned table.
+globals = {
+    "os_getenv",
+    "home",
+    "home_tree",
+    "homeconfdir",
+    "local_cache",
+    "local_by_default",
+    "rocks_trees",
+}

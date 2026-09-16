@@ -35,10 +35,15 @@ jobs:
                   sudo luarocks install luacheck
 
             - name: Install luafmt
-              run: cargo install emmylua_formatter
+              run: |
+                  version=$(curl -s https://api.github.com/repos/EmmyLuaLs/emmylua-analyzer-rust/releases/latest | grep -oP '"tag_name":\s*"\K[^"]+')
+                  curl -sL "https://github.com/EmmyLuaLs/emmylua-analyzer-rust/releases/download/${version}/luafmt-linux-x64.tar.gz" | tar xzf -
+                  sudo install -m 755 luafmt /usr/local/bin/luafmt
 
             - name: Check formatting
-              run: git ls-files -- '*.lua' | xargs luafmt --check --verify
+              # chezmoi's symlink_*.lua "source" files hold a plain target
+              # path, not Lua, despite the extension, so exclude them.
+              run: git ls-files -- '*.lua' ':!**/symlink_*' | xargs luafmt --check --verify
 
             - name: Lint
               # luacheck resolves .luacheckrc relative to --config's directory
@@ -47,7 +52,7 @@ jobs:
               # shared config. Mirrors .husky/pre-commit's resolution logic.
               run: |
                   status=0
-                  for f in $(git ls-files -- '*.lua'); do
+                  for f in $(git ls-files -- '*.lua' ':!**/symlink_*'); do
                       dir=$(dirname "$f")
                       while [ "$dir" != "." ] && [ ! -f "$dir/.luacheckrc" ]; do
                           dir=$(dirname "$dir")
@@ -74,7 +79,7 @@ jobs:
                   sudo install -m 755 tombi /usr/local/bin/tombi
 
             - name: Check formatting
-              run: git ls-files -- '*.toml' | xargs tombi format --check --offline
+              run: git ls-files -- '*.toml' ':!**/symlink_*' | xargs tombi format --check --offline
 
             - name: Lint
-              run: git ls-files -- '*.toml' | xargs tombi lint --error-on-warnings --offline
+              run: git ls-files -- '*.toml' ':!**/symlink_*' | xargs tombi lint --error-on-warnings --offline

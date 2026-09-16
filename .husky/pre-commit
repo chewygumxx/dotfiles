@@ -18,7 +18,9 @@ status=0
 # --------
 
 if command -v luafmt >/dev/null 2>&1 && command -v luacheck >/dev/null 2>&1; then
-    lua_files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.lua')
+    # chezmoi's symlink_*.lua "source" files hold a plain target path, not
+    # Lua, despite the extension, so exclude them.
+    lua_files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.lua' ':!**/symlink_*')
     if [ -n "$lua_files" ]; then
         # Format in place, then re-stage whatever changed.
         echo "$lua_files" | xargs luafmt --write
@@ -49,7 +51,7 @@ fi
 # --------
 
 if command -v tombi >/dev/null 2>&1; then
-    toml_files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.toml')
+    toml_files=$(git diff --cached --name-only --diff-filter=ACMR -- '*.toml' ':!**/symlink_*')
     if [ -n "$toml_files" ]; then
         # tombi honours .tombi.toml's [files].exclude even for files passed
         # explicitly, and only one root config exists, so no per-directory

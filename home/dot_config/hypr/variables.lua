@@ -80,7 +80,7 @@ M.cfg.master = {
     mfact      = 0.5,
 }
 
-M.cfg.input             = {
+M.cfg.input          = {
     kb_model   = "thinkpad",
     kb_layout  = "us",
     kb_variant = "",
@@ -120,7 +120,7 @@ M.cfg.input             = {
     -- If Special contains only floating windows, allow focus to underlying workspace
     special_fallthrough = true,
 }
-M.cfg.input.touchpad    = {
+M.cfg.input.touchpad = {
     disable_while_typing = true, -- When typing, true. When gaming, false.
 
     natural_scroll = false, -- Invert scroll
@@ -128,7 +128,8 @@ M.cfg.input.touchpad    = {
 
     clickfinger_behavior = true, -- 1, 2, 3 finger tap = LMB, RMB, MMB
 }
-M.cfg.input.touchdevice = { enabled = false }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             -- Touchscreen
+-- Touchscreen
+M.cfg.input.touchdevice = { enabled = false }
 
 M.cfg.misc = {
     force_default_wallpaper  = -1,
