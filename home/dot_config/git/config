@@ -77,3 +77,8 @@
 [pretty]
     logline = %C(blue)[%C(magenta)%cd%C(blue)] %C(green)%h %C(reset)%s %C(blue)%d
 
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
