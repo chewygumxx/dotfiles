@@ -43,7 +43,7 @@
         "custom/sep",
 
         "pulseaudio#key",
-        "pulseaudio#value",
+        "pulseaudio#value"
     ],
     //  "modules-center": [ "hyprland/workspaces" ],
     "modules-right": [
@@ -62,7 +62,7 @@
         "custom/colon",
         "clock#minutes",
         "custom/colon",
-        "clock#seconds",
+        "clock#seconds"
     ],
 
     "custom/sep": { "format": "|" },
@@ -85,8 +85,8 @@
             "sqlite": "\uf1c0",
             "kdeconnect": "📞",
             "obsidian": "☑",
-            "default": "",
-        },
+            "default": ""
+        }
     },
 
     "battery#key": {
@@ -99,7 +99,7 @@
             "high": 90,
             "med": 60,
             "low": 30,
-            "crit": 10,
+            "crit": 10
         },
 
         "format-charging": "🗲",
@@ -110,7 +110,7 @@
         "format-med": "",
         "format-low": "",
         "format-crit": "",
-        "max-length": 2,
+        "max-length": 2
     },
     "battery#value": {
         "interval": 5,
@@ -122,41 +122,41 @@
             "high": 75,
             "med": 50,
             "warn": 20,
-            "crit": 10,
+            "crit": 10
         },
 
         "format": "{capacity}%",
-        "format-alt": "{timeTo}",
+        "format-alt": "{timeTo}"
     },
 
     "cpu#key": {
         "interval": 2,
-        "format": "",
+        "format": ""
     },
     "cpu#value": {
         "interval": 2,
-        "format": "{usage}%",
+        "format": "{usage}%"
     },
 
     "memory#key": {
         "interval": 2,
-        "format": "",
+        "format": ""
     },
     "memory#value": {
         "interval": 2,
-        "format": "{}%",
+        "format": "{}%"
     },
 
     "temperature#key": {
         "interval": 2,
         "critical-threshold": 80,
         "format": "{icon}",
-        "format-icons": [""],
+        "format-icons": [""]
     },
     "temperature#value": {
         "interval": 2,
         "critical-threshold": 80,
-        "format": "{temperatureC}°C",
+        "format": "{temperatureC}°C"
     },
 
     "network#key": {
@@ -166,12 +166,12 @@
             "wifi": "",
             "ethernet": " ",
             "linked": " ",
-            "disconnected": "",
+            "disconnected": ""
         },
         "tooltip-format": "{ipaddr}/{cidr}",
         "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
         "tooltip-format-ethernet": "{ipaddr}/{cidr}",
-        "tooltip-format-disconnected": "bruh",
+        "tooltip-format-disconnected": "bruh"
     },
     "network#up": {
         "interval": 2,
@@ -179,14 +179,14 @@
         "format-disconnected": ">tfw no connect",
         "tooltip-format": "{ipaddr}/{cidr}",
         "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
-        "tooltip-format-disconnected": "bruh",
+        "tooltip-format-disconnected": "bruh"
     },
     "network#down": {
         "interval": 2,
         "format": "&#x202b;{bandwidthDownBytes}&#x202c;",
         "tooltip-format": "{ipaddr}/{cidr}",
         "tooltip-format-wifi": "{essid} ({signalStrength}%) {ipaddr}/{cidr}",
-        "tooltip-format-disconnected": "bruh",
+        "tooltip-format-disconnected": "bruh"
     },
 
     "pulseaudio#key": {
@@ -201,22 +201,22 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", ""],
+            "default": ["", "", ""]
         },
-        "on-click": "pulsemixer --toggle-mute",
+        "on-click": "pulsemixer --toggle-mute"
     },
     "pulseaudio#value": {
         "format": "{volume}%",
         "format-muted": "mute",
         "format-bluetooth-muted": "mute",
-        "on-click": "pulsemixer --toggle-mute",
+        "on-click": "pulsemixer --toggle-mute"
     },
 
     "custom/weather": {
         "format": "{}",
         "interval": 900,
         "return-type": "json",
-        "exec": "LOCATION=Melbourne ICON_SIZE=120% \"${XDG_CONFIG_HOME:-$HOME/.config}/waybar/modules/waybar-weather\"",
+        "exec": "LOCATION=Melbourne ICON_SIZE=120% \"${XDG_CONFIG_HOME:-$HOME/.config}/waybar/modules/waybar-weather\""
     },
 
     "clock#day": {
@@ -232,9 +232,9 @@
                 "months": "<span color='#8874ed'>{}</span>",
                 "weekdays": "<span color='#7408ff'>{}</span>",
                 "days": "<span color='#4e4189'>{}</span>",
-                "today": "<span color='#7fb5ff'><b>{}</b></span>",
-            },
-        },
+                "today": "<span color='#7fb5ff'><b>{}</b></span>"
+            }
+        }
     },
     "clock#date": {
         "interval": 60,
@@ -249,9 +249,9 @@
                 "months": "<span color='#8874ed'>{}</span>",
                 "weekdays": "<span color='#7408ff'>{}</span>",
                 "days": "<span color='#4e4189'>{}</span>",
-                "today": "<span color='#7fb5ff'><b>{}</b></span>",
-            },
-        },
+                "today": "<span color='#7fb5ff'><b>{}</b></span>"
+            }
+        }
     },
     "clock#hours": {
         "interval": 1,
@@ -262,11 +262,11 @@
             "Europe/London",
             "UTC",
             "US/Pacific",
-            "US/Eastern",
+            "US/Eastern"
         ],
         "format": "{:%H}",
         "tooltip-format": "{tz_list}",
-        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}",
+        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}"
     },
     "clock#minutes": {
         "interval": 1,
@@ -277,11 +277,11 @@
             "Europe/London",
             "UTC",
             "US/Pacific",
-            "US/Eastern",
+            "US/Eastern"
         ],
         "format": "{:%M}",
         "tooltip-format": "{tz_list}",
-        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}",
+        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}"
     },
     "clock#seconds": {
         "interval": 1,
@@ -292,11 +292,11 @@
             "Europe/London",
             "UTC",
             "US/Pacific",
-            "US/Eastern",
+            "US/Eastern"
         ],
         "format": "{:%S}",
         "tooltip-format": "{tz_list}",
-        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}",
+        "timezone-tooltip-format": "{:%a %d %b %Y - %H:%M:%S %Z}"
     },
-    "tray": { "spacing": 10 },
+    "tray": { "spacing": 10 }
 }
