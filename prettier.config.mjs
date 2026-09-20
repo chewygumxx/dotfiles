@@ -12,10 +12,12 @@
 export default {
     overrides: [
         {
-            // *.jsonc files carry comments/trailing commas that the plain
-            // "json" parser rejects.
+            // *.jsonc files carry comments that the plain "json" parser
+            // rejects. trailingComma is forced to "none" because
+            // chewygumxx/sync-repo-metadata parses with jsonc-parser, which
+            // rejects trailing commas despite the "jsonc" name.
             files: "**/*.jsonc",
-            options: { parser: "jsonc" },
+            options: { parser: "jsonc", trailingComma: "none" },
         },
     ],
 };
