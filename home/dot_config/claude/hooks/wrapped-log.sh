@@ -38,5 +38,5 @@ wrapped=$(prettier --stdin-filepath reply.md --log-level warn \
 
 dir="${XDG_STATE_HOME:-$HOME/.local/state}/claude-wrapped"
 mkdir -p "$dir" || fail $? "cannot create $dir"
-printf '%s\n\n' "$wrapped" >> "$dir/$session.md"
+printf '%s\n\n' "$wrapped" >> "$dir/$session.md" \
     || fail $? "cannot write $dir/$session.md"
