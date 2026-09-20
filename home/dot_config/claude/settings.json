@@ -5,11 +5,26 @@
     "editorMode": "vim",
     "statusLine": {
         "type": "command",
-        "command": "~/.config/claude/claude-status-line"
+        "command": "sh -c '\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/claude-status-line\"'"
     },
     "subagentStatusLine": {
         "type": "command",
-        "command": "~/.config/claude/claude-status-line"
+        "command": "sh -c '\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/claude-status-line\"'"
+    },
+
+    "hooks": {
+        "SessionStart": [
+            {
+                "matcher": "*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "sh -c 'bash \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/hooks/herdr-agent-state.sh\" session'",
+                        "timeout": 10
+                    }
+                ]
+            }
+        ]
     },
 
     "model": "claude-sonnet-5",
@@ -200,19 +215,5 @@
                 { "mode": "mask", "name": "GITHUB_TOKEN" }
             ]
         }
-    },
-    "hooks": {
-        "SessionStart": [
-            {
-                "matcher": "*",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "bash '/home/chewygum/.config/claude/hooks/herdr-agent-state.sh' session",
-                        "timeout": 10
-                    }
-                ]
-            }
-        ]
     }
 }
