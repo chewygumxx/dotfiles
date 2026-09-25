@@ -1,8 +1,8 @@
 #!/bin/sh
 # vim:set expandtab shiftwidth=4 filetype=sh:
 
-# 
-# 
+#
+#
 # ~chewygumxx/dotfiles.git
 # ::: :/home/dot_local/bin/executable_wget
 #
@@ -12,7 +12,32 @@
 # Shadow file as configuration
 #
 
-cache="${XDG_CACHE_HOME:-$HOME/.cache}/wget"
-mkdir -p "$cache" || exit 1
+set -e
 
-exec command wget --hsts-file="$cache/wget-hsts" "$@"
+cache="${XDG_CACHE_HOME:-$HOME/.cache}/wget"
+[ -d "$cache" ] || mkdir -p "$cache"
+
+# Resolve the real `wget` from PATH, skipping this script's own directory,
+# so this works regardless of where the real binary lives on a given host
+# (e.g. /usr/bin on Linux vs $PREFIX/bin on Termux) without recursing into
+# itself.
+self_dir=${0%/*}
+[ "$self_dir" = "$0" ] && self_dir=.
+self_dir="$(CDPATH= cd -- "$self_dir" && pwd)" || self_dir=
+wget_bin=
+IFS=:
+for dir in $PATH; do
+	[ "$dir" = "$self_dir" ] && continue
+	if [ -x "$dir/wget" ]; then
+		wget_bin="$dir/wget"
+		break
+	fi
+done
+unset IFS
+
+if [ -z "$wget_bin" ]; then
+	printf '%s: wget not found in PATH (outside %s)\n' "$0" "$self_dir" >&2
+	exit 127
+fi
+
+exec "$wget_bin" --hsts-file="$cache/wget-hsts" "$@"
