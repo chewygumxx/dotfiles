@@ -1,0 +1,30 @@
+# vim:set expandtab shiftwidth=4 filetype=dosini:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/systemd/user/cloudflared.service
+#
+#
+
+[Unit]
+Description=[Cloudflare Tunnel] cft_webterm
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+Restart=on-failure
+RestartSec=5
+TimeoutStartSec=0
+NoNewPrivileges=true
+PrivateTmp=true
+Environment=TUNNEL_LOG_OUTPUT=json
+Environment=TUNNEL_LOGDIRECTORY=%h/.local/cache/cloudflared
+Environment=TUNNEL_ORIGIN_CERT=%h/.config/cloudflared/cert.pem
+LoadCredentialEncrypted=cft-webterm.cred:%h/.config/cloudflared/creds-webterm.cred
+ExecStart=/usr/bin/cloudflared --config '%h/.config/cloudflared/config.yml' --credentials-file '%d/cft-webterm.cred' tunnel run cft_webterm
+
+[Install]
+WantedBy=default.target
