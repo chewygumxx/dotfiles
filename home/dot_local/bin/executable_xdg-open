@@ -14,18 +14,37 @@
 
 
 resolve_file_handler() {
-    local cmd success=
-    if   command -v handlr   &>/dev/null; then
-        cmd="handlr open"
-    elif command -v xdg-open &>/dev/null; then
-        cmd="xdg-open"
-    else
-        printf '[FATAL] %s: %s\n' "${0}" \
-            "Unable to resolve file opener. Not found: handlr, xdg-open"
-        exit 127
+    if command -v handlr >/dev/null 2>&1; then
+        printf '%s\n' "handlr open"
+        return
     fi
 
-    printf '%s\n' "$cmd"
+    # Resolve the real `xdg-open` from PATH, skipping this script's own
+    # directory, so this doesn't just re-exec itself when ~/.local/bin
+    # comes before the real xdg-open's directory in PATH.
+    self_dir=${0%/*}
+    [ "$self_dir" = "$0" ] && self_dir=.
+    self_dir="$(CDPATH= cd -- "$self_dir" && pwd)" || self_dir=
+    IFS=:
+    for dir in $PATH; do
+        [ "$dir" = "$self_dir" ] && continue
+        if [ -x "$dir/xdg-open" ]; then
+            printf '%s\n' "$dir/xdg-open"
+            return
+        fi
+    done
+    unset IFS
+
+    return 1
 }
 
-exec $(resolve_file_handler) "$@"
+# `exit` inside resolve_file_handler can't reach here: command substitution
+# always runs it in a subshell. Check its exit status here instead, in the
+# actual script process.
+handler="$(resolve_file_handler)" || {
+    printf '[FATAL] %s: %s\n' "${0}" \
+        "Unable to resolve file opener. Not found: handlr, xdg-open" >&2
+    exit 127
+}
+
+exec $handler "$@"
