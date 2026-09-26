@@ -13,7 +13,7 @@
 
 
 node_modules/
-
+*.local.*
 
 # ----------------------
 # The Scourge of Claude
@@ -22,4 +22,4 @@ node_modules/
 CLAUDE.md
 .claude/
 .claude.json
-.claude.local.json
+.remember/
