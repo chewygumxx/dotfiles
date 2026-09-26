@@ -1,17 +1,39 @@
 {
     "$schema": "https://www.schemastore.org/claude-code-settings.json",
-
-    "theme": "dark",
-    "editorMode": "vim",
-    "statusLine": {
-        "type": "command",
-        "command": "sh -c '\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/claude-status-line\"'"
+    "cleanupPeriodDays": 180,
+    "skillListingMaxDescChars": 2048,
+    "attribution": {
+        "commit": "",
+        "pr": "",
+        "sessionUrl": false
     },
-    "subagentStatusLine": {
-        "type": "command",
-        "command": "sh -c '\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/claude-status-line\"'"
+    "permissions": {
+        "deny": [
+            "Read(/etc/wireguard/**)",
+            "Read(~/.config/cloudflare-ddns/**)",
+            "Read(~/.config/gh/hosts.yml)",
+            "Read(~/.config/wireguard/**)",
+            "Read(~/.gnupug/**)",
+            "Read(~/.local/share/gnupg/**)",
+            "Read(~/.netrc)",
+            "Read(~/.ssh/**)",
+            "Read(~/doc/**)",
+            "Read(~/sec/**)",
+            "Bash(chmod -R 777*)",
+            "Bash(git fpush)",
+            "Bash(git push --force*)",
+            "Bash(gtrash force *)",
+            "Bash(gtrash rm *)",
+            "Bash(rm -rf /)",
+            "Bash(rm -rf ~)",
+            "Bash(rm -rf ~*)",
+            "Bash(rm -rf .)"
+        ],
+        "defaultMode": "plan"
     },
-
+    "model": "opus",
+    "disableClaudeAiConnectors": false,
+    "disableBundledSkills": false,
     "hooks": {
         "SessionStart": [
             {
@@ -49,15 +71,146 @@
             }
         ]
     },
-
-    "model": "claude-sonnet-5",
-    "effortLevel": "high",
-    "outputStyle": "Explanatory",
-    "modelSettings": {
-        "claude-sonnet-5": { "effortLevel": "high" }
-    },
+    "disableRemoteControl": true,
     "workflowSizeGuideline": "medium",
-
+    "statusLine": {
+        "type": "command",
+        "command": "sh -c '\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/claude-status-line\"'"
+    },
+    "subagentStatusLine": {
+        "type": "command",
+        "command": "sh -c '\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/claude-status-line\"'"
+    },
+    "enabledPlugins": {
+        "rust-analyzer-lsp@claude-plugins-official": true,
+        "lua-lsp@claude-plugins-official": true,
+        "claude-md-management@claude-plugins-official": true,
+        "github@claude-plugins-official": true,
+        "code-simplifier@claude-plugins-official": true,
+        "code-review@claude-plugins-official": true,
+        "superpowers@claude-plugins-official": true,
+        "claude-code-setup@claude-plugins-official": true,
+        "remember@claude-plugins-official": true,
+        "hookify@claude-plugins-official": true,
+        "learning-output-style@claude-plugins-official": true,
+        "session-report@claude-plugins-official": true,
+        "cloudflare@claude-plugins-official": true,
+        "mcp-server-dev@claude-plugins-official": true,
+        "explanatory-output-style@claude-plugins-official": true,
+        "agent-sdk-dev@claude-plugins-official": true,
+        "plugin-dev@claude-plugins-official": true,
+        "typescript-lsp@claude-plugins-official": true
+    },
+    "outputStyle": "Explanatory",
+    "sandbox": {
+        "enabled": false,
+        "failIfUnavailable": false,
+        "autoAllowBashIfSandboxed": true,
+        "allowUnsandboxedCommands": true,
+        "network": {
+            "allowedDomains": [
+                "github.com",
+                "codeberg.org",
+                "gitlab.com",
+                "registry.npmjs.org",
+                "w3.org",
+                "nodejs.org",
+                "mozilla.org",
+                "pypi.org",
+                "lib.rs",
+                "crates.io",
+                "go.dev",
+                "zsh.sourceforge.io",
+                "reddit.com",
+                "claude.com",
+                "stackoverflow.com",
+                "news.ycombinator.com",
+                "wikipedia.org",
+                "dictionary.com",
+                "thesaurus.com",
+                "oed.com",
+                "cambridge.org",
+                "archive.org",
+                "dev.to",
+                "chezmoi.io",
+                "nushell.sh"
+            ],
+            "deniedDomains": [],
+            "strictAllowlist": false,
+            "allowLocalBinding": false
+        },
+        "filesystem": {
+            "denyWrite": [
+                "~/.config/.wrangler/**",
+                "~/.config/cloudflare-ddns/**",
+                "~/.config/gh/hosts.yml",
+                "~/.gnupg/**",
+                "~/.local/share/gnupg/**",
+                "~/.ssh/**",
+                "~/doc/**",
+                "~/sec/**"
+            ],
+            "denyRead": [
+                "~/.config/.wrangler/**",
+                "~/.config/cloudflare-ddns/**",
+                "~/.config/gh/hosts.yml",
+                "~/.gnupg/**",
+                "~/.local/share/gnupg/**",
+                "~/.ssh/**",
+                "~/doc/**",
+                "~/sec/**"
+            ]
+        },
+        "credentials": {
+            "files": [
+                {
+                    "path": "~/.config/.wrangler/**",
+                    "mode": "deny"
+                },
+                {
+                    "path": "~/.config/cloudflare-ddns/**",
+                    "mode": "deny"
+                },
+                {
+                    "path": "~/.config/gh/hosts.yml",
+                    "mode": "deny"
+                },
+                {
+                    "path": "~/.local/share/gnupg/**",
+                    "mode": "deny"
+                },
+                {
+                    "path": "~/.gnupg/**",
+                    "mode": "deny"
+                },
+                {
+                    "path": "~/.netrc",
+                    "mode": "mask"
+                },
+                {
+                    "path": "~/.ssh/id/**",
+                    "mode": "deny"
+                }
+            ],
+            "envVars": [
+                {
+                    "name": "ANTHROPIC_API_KEY",
+                    "mode": "mask"
+                },
+                {
+                    "name": "AWS_SECRET_ACCESS_KEY",
+                    "mode": "mask"
+                },
+                {
+                    "name": "GITHUB_TOKEN",
+                    "mode": "mask"
+                }
+            ]
+        }
+    },
+    "feedbackSurveyRate": 0,
+    "feedbackDrafts": "off",
+    "spinnerTipsEnabled": false,
     "spinnerVerbs": {
         "mode": "replace",
         "verbs": [
@@ -105,135 +258,23 @@
             "Recognising I'm that guy"
         ]
     },
-
-    "showThinkingSummaries": true,
-    "skillListingMaxDescChars": 2048,
-    "enabledPlugins": {
-        "rust-analyzer-lsp@claude-plugins-official": true,
-        "lua-lsp@claude-plugins-official": true
-    },
-
-    "timeFormat": "%a %d %b - %H:%M:%S",
-    "spinnerTipsEnabled": false,
-    "autoCompactEnabled": false,
-    "awaySummaryEnabled": false,
-    "cleanupPeriodDays": 180,
-    "crossSessionInbound": "accept",
-    "disableBundledSkills": false,
-    "disableClaudeAiConnectors": false,
-    "disableRemoteControl": true,
-    "emojiCompletionEnabled": false,
-    "externalEditorContext": true,
-    "feedbackDrafts": "off",
-    "feedbackSurveyRate": 0,
-    "prefersReducedMotion": false,
-    "skipAutoPermissionPrompt": true,
     "terminalTitleFromRename": false,
-    "useAutoModeDuringPlan": true,
-
-    "permissions": {
-        "defaultMode": "plan",
-        "deny": [
-            "Read(/etc/wireguard/**)",
-            "Read(~/.config/cloudflare-ddns/**)",
-            "Read(~/.config/gh/hosts.yml)",
-            "Read(~/.config/wireguard/**)",
-            "Read(~/.gnupug/**)",
-            "Read(~/.local/share/gnupg/**)",
-            "Read(~/.netrc)",
-            "Read(~/.ssh/**)",
-            "Read(~/doc/**)",
-            "Read(~/sec/**)",
-            "Bash(chmod -R 777*)",
-            "Bash(git fpush)",
-            "Bash(git push --force*)",
-            "Bash(gtrash force *)",
-            "Bash(gtrash rm *)",
-            "Bash(rm -rf /)",
-            "Bash(rm -rf ~)",
-            "Bash(rm -rf ~*)",
-            "Bash(rm -rf .)"
-        ]
-    },
-    "attribution": {
-        "commit": "",
-        "pr": "",
-        "sessionUrl": false
-    },
-    "sandbox": {
-        "enabled": false,
-        "failIfUnavailable": false,
-        "autoAllowBashIfSandboxed": true,
-        "allowUnsandboxedCommands": true,
-        "network": {
-            "strictAllowlist": false,
-            "allowLocalBinding": false,
-            "allowedDomains": [
-                "github.com",
-                "codeberg.org",
-                "gitlab.com",
-                "registry.npmjs.org",
-                "w3.org",
-                "nodejs.org",
-                "mozilla.org",
-                "pypi.org",
-                "lib.rs",
-                "crates.io",
-                "go.dev",
-                "zsh.sourceforge.io",
-                "reddit.com",
-                "claude.com",
-                "stackoverflow.com",
-                "news.ycombinator.com",
-                "wikipedia.org",
-                "dictionary.com",
-                "thesaurus.com",
-                "oed.com",
-                "cambridge.org",
-                "archive.org",
-                "dev.to",
-                "chezmoi.io",
-                "nushell.sh"
-            ],
-            "deniedDomains": []
-        },
-        "filesystem": {
-            "denyRead": [
-                "~/.config/.wrangler/**",
-                "~/.config/cloudflare-ddns/**",
-                "~/.config/gh/hosts.yml",
-                "~/.gnupg/**",
-                "~/.local/share/gnupg/**",
-                "~/.ssh/**",
-                "~/doc/**",
-                "~/sec/**"
-            ],
-            "denyWrite": [
-                "~/.config/.wrangler/**",
-                "~/.config/cloudflare-ddns/**",
-                "~/.config/gh/hosts.yml",
-                "~/.gnupg/**",
-                "~/.local/share/gnupg/**",
-                "~/.ssh/**",
-                "~/doc/**",
-                "~/sec/**"
-            ]
-        },
-        "credentials": {
-            "files": [
-                { "mode": "deny", "path": "~/.config/.wrangler/**" },
-                { "mode": "deny", "path": "~/.config/cloudflare-ddns/**" },
-                { "mode": "deny", "path": "~/.config/gh/hosts.yml" },
-                { "mode": "deny", "path": "~/.local/share/gnupg/**" },
-                { "mode": "deny", "path": "~/.gnupg/**" },
-                { "mode": "mask", "path": "~/.netrc" },
-                { "mode": "deny", "path": "~/.ssh/id/**" }
-            ],
-            "envVars": [
-                { "mode": "mask", "name": "ANTHROPIC_API_KEY" },
-                { "mode": "mask", "name": "AWS_SECRET_ACCESS_KEY" },
-                { "mode": "mask", "name": "GITHUB_TOKEN" }
-            ]
+    "effortLevel": "high",
+    "modelSettings": {
+        "claude-sonnet-5": {
+            "effortLevel": "high"
         }
-    }
+    },
+    "emojiCompletionEnabled": false,
+    "awaySummaryEnabled": false,
+    "prefersReducedMotion": false,
+    "timeFormat": "%a %d %b - %H:%M:%S",
+    "showThinkingSummaries": true,
+    "theme": "dark",
+    "editorMode": "vim",
+    "autoCompactEnabled": false,
+    "crossSessionInbound": "accept",
+    "skipAutoPermissionPrompt": true,
+    "useAutoModeDuringPlan": true,
+    "externalEditorContext": true
 }
