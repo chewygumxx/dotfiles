@@ -1,0 +1,74 @@
+#!/bin/sh
+# vim:set expandtab shiftwidth=4 filetype=sh:
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_lua-language-server
+#
+#
+
+#
+# Shadow file as configuration
+#
+
+set -e
+
+# Claude Code's `lua-lsp` plugin spawns this server itself, from a process
+# with no $VIMRUNTIME. A Neovim configuration's `.luarc.json` names
+# "$VIMRUNTIME/lua" in `workspace.library`; LuaLS expands that to nothing,
+# loads no Neovim runtime meta, and then reports every `vim.*` symbol as
+# undefined. In ~chewygumxx/nvim-config.git that is 3179 Warnings across 107
+# files, none of them real. The editor's own server never shows it, being a
+# child of `nvim` and so inheriting the variable, which is exactly what makes
+# the two disagree and the editor look correct.
+#
+# Probed from `nvim` rather than pinned, so a Neovim upgrade needs no edit
+# here, and derived the same way `.husky/pre-commit` and the `LuaCATS` CI job
+# in ~chewygumxx/nvim-config.git derive it.
+if [ -z "${VIMRUNTIME:-}" ]; then
+    VIMRUNTIME=$(nvim --headless --clean \
+        -c 'lua io.stdout:write(vim.env.VIMRUNTIME or "")' \
+        -c 'qa!' \
+        2>/dev/null) || VIMRUNTIME=
+
+    # Refuse to start rather than answer every question wrongly. Serving no
+    # diagnostics at all is a visible failure somebody will chase; serving
+    # thousands of false ones reads as a broken repository rather than a
+    # broken probe, which is the whole reason this file exists. 78 is
+    # sysexits' EX_CONFIG, kept distinct from the 127 below so a client's log
+    # tells a failed probe apart from a missing server.
+    if [ -z "$VIMRUNTIME" ]; then
+        printf '%s: nvim did not answer with $VIMRUNTIME, refusing to start\n' \
+            "$0" >&2
+        exit 78
+    fi
+
+    export VIMRUNTIME
+fi
+
+# Resolve the real `lua-language-server` from PATH, skipping this script's own
+# directory, so this works regardless of where the real binary lives on a
+# given host (e.g. /usr/bin on Linux vs $PREFIX/bin on Termux) without
+# recursing into itself.
+self_dir=${0%/*}
+[ "$self_dir" = "$0" ] && self_dir=.
+self_dir="$(CDPATH= cd -- "$self_dir" && pwd)" || self_dir=
+server_bin=
+IFS=:
+for dir in $PATH; do
+    [ "$dir" = "$self_dir" ] && continue
+    if [ -x "$dir/lua-language-server" ]; then
+        server_bin="$dir/lua-language-server"
+        break
+    fi
+done
+unset IFS
+
+if [ -z "$server_bin" ]; then
+    printf '%s: lua-language-server not found in PATH (outside %s)\n' \
+        "$0" "$self_dir" >&2
+    exit 127
+fi
+
+exec "$server_bin" "$@"
