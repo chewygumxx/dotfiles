@@ -51,7 +51,7 @@
                 "hooks": [
                     {
                         "type": "command",
-                        "command": "bash '/home/chewygum/.config/claude/hooks/herdr-agent-state.sh' session",
+                        "command": "sh -c 'bash \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/hooks/herdr-agent-state.sh\" session'",
                         "timeout": 10
                     }
                 ]
@@ -92,24 +92,13 @@
         "command": "sh -c '\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/claude-status-line\"'"
     },
     "enabledPlugins": {
-        "rust-analyzer-lsp@claude-plugins-official": false,
-        "lua-lsp@claude-plugins-official": true,
-        "claude-md-management@claude-plugins-official": true,
-        "github@claude-plugins-official": true,
-        "code-simplifier@claude-plugins-official": true,
-        "code-review@claude-plugins-official": true,
-        "superpowers@claude-plugins-official": true,
         "claude-code-setup@claude-plugins-official": true,
-        "remember@claude-plugins-official": true,
-        "hookify@claude-plugins-official": false,
-        "learning-output-style@claude-plugins-official": true,
-        "session-report@claude-plugins-official": true,
-        "cloudflare@claude-plugins-official": false,
-        "mcp-server-dev@claude-plugins-official": false,
+        "claude-md-management@claude-plugins-official": true,
+        "code-review@claude-plugins-official": true,
+        "code-simplifier@claude-plugins-official": true,
         "explanatory-output-style@claude-plugins-official": true,
-        "agent-sdk-dev@claude-plugins-official": true,
-        "plugin-dev@claude-plugins-official": false,
-        "typescript-lsp@claude-plugins-official": false
+        "remember@claude-plugins-official": true,
+        "superpowers@claude-plugins-official": true
     },
     "outputStyle": "Explanatory",
     "sandbox": {
@@ -228,7 +217,7 @@
             "Dabbing on the hoes",
             "Yeetin on em",
             "Sequestering the pack",
-            "Bapping on the haters",
+            "Bopping on the haters",
             "Three-sixty no-scoping",
             "Wombo Combo-ing",
             "Giving huggie-wuggies",
