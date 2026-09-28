@@ -19,6 +19,4 @@ node_modules/
 # The Scourge of Claude
 # ----------------------
 
-CLAUDE.md
-.claude/
 .claude.json
