@@ -13,28 +13,63 @@
 # config.toml.tmpl masterdoc
 #
 
+# First-time user introductory tutorial
+onboarding = false
 
 # Size of the virtual terminal used when no client is attached.
 # Attached clients always use their own terminal size.
 [server]
-headless_cols = 76  # Set smaller if ever a interface from Termux
+# Set smaller for potential Termux interfacing
+# Default: 120
+headless_cols = 76
+# Default: 40
 headless_rows = 40
 
 [terminal]
 # Executable used for new interactive panes.
 # Empty means $SHELL, then /bin/sh.
+# Default: ""
 # default_shell = ""
 
 # Startup mode for new interactive pane shells: "auto", "login", or "non_login".
 # "auto" uses login shells on macOS and keeps the current behavior elsewhere.
+# Default: "auto"
 # shell_mode = "auto"
 
 # CWD policy for new panes, tabs, and workspaces when no explicit --cwd is provided.
 # Use "follow" to inherit the source pane/workspace, "home" for $HOME,
 # "current" for Herdr's process directory, or a fixed path such as "~/Projects".
+# Default: "follow"
 # new_cwd = "follow"
 
 [session]
 # Resume supported AI-agent panes into their native conversation sessions after
 # a Herdr server restart. Requires official integrations that report session refs.
-# resume_agents_on_restore = true
+# Default: true
+resume_agents_on_restore = true
+
+[advanced]
+# Maximum scrollback buffer size in bytes retained per pane terminal.
+# scrollback_limit_bytes = 10000000
+
+[worktrees]
+directory = "~/dev/_herdr-worktree"  # A corresponding directory exists within ~chewygumxx/dotfiles.git
+
+[remote]
+manage_ssh_config = false
+
+[experimental]
+# They put a herdr _inside_ a herdr `xzibit.jpeg`
+allow_nested   = false
+# Computationally expensive
+kitty_graphics = false
+# Save recent pane screen history across full server restarts.
+pane_history   = true
+# cjk_ime_agents = []
+# cjk_ime_cursor_shape = "steady_block"
+# reveal_hidden_cursor_for_cjk_ime = false
+
+[update]
+channel        = "stable"
+version_check  = false
+manifest_check = false

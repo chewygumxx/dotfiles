@@ -13,21 +13,23 @@
 # Involves trial and error. Good luck.
 #
 
+# The files that I would like managed:
+# - config.toml
 
-# -------------------
-# Ignored Everywhere
-# -------------------
-
+# Unfortunately, the following include absolute filepaths. Plugins may demand
+# iterative management rather than declarative specification.
+plugins/
+plugins.json
 .plugins.lock
-#config.toml.tmpl  # The one file I actually want to track. `**\n!config.toml.tmpl` is icky
+
+# These are not configuration
 herdr-client.log
 herdr-client.sock
 herdr-server.log
 herdr.log
 herdr.sock
-plugins/
 session.json
-
+session-history.json
 
 # -------
 # Footer
