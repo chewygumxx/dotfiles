@@ -29,7 +29,7 @@
             "installDate" : 1741479699184,
             "updateDate" : 1741479699184,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{7c9b0deb-b62d-44df-b970-cd11deb60741}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{7c9b0deb-b62d-44df-b970-cd11deb60741}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4010008/cyberpunk_lo_fi-1.0.xpi",
             "releaseNotesURI" : null,
@@ -69,7 +69,7 @@
                 "method" : "amWebAPI"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B7c9b0deb-b62d-44df-b970-cd11deb60741%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B7c9b0deb-b62d-44df-b970-cd11deb60741%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -100,7 +100,7 @@
             "installDate" : 1741533866874,
             "updateDate" : 1741533866874,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{65252973-2e9e-427a-824f-6960f7806997}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{65252973-2e9e-427a-824f-6960f7806997}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4016075/cyberpunk_night-1.0.xpi",
             "releaseNotesURI" : null,
@@ -138,7 +138,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B65252973-2e9e-427a-824f-6960f7806997%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B65252973-2e9e-427a-824f-6960f7806997%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -168,7 +168,7 @@
             "installDate" : 1741533869601,
             "updateDate" : 1741533869601,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{167a972e-27b8-4b08-8a02-5f3fcd2df920}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{167a972e-27b8-4b08-8a02-5f3fcd2df920}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3673003/cyber_theme-1.0.xpi",
             "releaseNotesURI" : null,
@@ -206,7 +206,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B167a972e-27b8-4b08-8a02-5f3fcd2df920%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B167a972e-27b8-4b08-8a02-5f3fcd2df920%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -236,7 +236,7 @@
             "installDate" : 1741533870973,
             "updateDate" : 1741533870973,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{b0c031ea-1653-4749-b7c1-bd5c4c58c07d}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{b0c031ea-1653-4749-b7c1-bd5c4c58c07d}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3497885/pixel_cyberpunk-1.0.xpi",
             "releaseNotesURI" : null,
@@ -274,7 +274,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Bb0c031ea-1653-4749-b7c1-bd5c4c58c07d%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Bb0c031ea-1653-4749-b7c1-bd5c4c58c07d%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -305,7 +305,7 @@
             "installDate" : 1741533871601,
             "updateDate" : 1741533871601,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{c420dcff-ab17-4d67-8c6a-76eb0c4b62db}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{c420dcff-ab17-4d67-8c6a-76eb0c4b62db}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4146683/dark_night_star_animated_theme-1.0.xpi",
             "releaseNotesURI" : null,
@@ -343,7 +343,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Bc420dcff-ab17-4d67-8c6a-76eb0c4b62db%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Bc420dcff-ab17-4d67-8c6a-76eb0c4b62db%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -373,7 +373,7 @@
             "installDate" : 1741533875201,
             "updateDate" : 1741533875201,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{7ce97a67-d6cc-4bb8-932f-f6a9d2d44e21}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{7ce97a67-d6cc-4bb8-932f-f6a9d2d44e21}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3382550/cyberpunk_prototype-1.0.xpi",
             "releaseNotesURI" : null,
@@ -411,7 +411,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B7ce97a67-d6cc-4bb8-932f-f6a9d2d44e21%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B7ce97a67-d6cc-4bb8-932f-f6a9d2d44e21%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -441,7 +441,7 @@
             "installDate" : 1741533876271,
             "updateDate" : 1741533876271,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{33a8322b-0a28-42de-9471-71e27b3ec5c0}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{33a8322b-0a28-42de-9471-71e27b3ec5c0}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3650427/cyberpunk_theme-1.0.xpi",
             "releaseNotesURI" : null,
@@ -479,7 +479,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B33a8322b-0a28-42de-9471-71e27b3ec5c0%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B33a8322b-0a28-42de-9471-71e27b3ec5c0%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -510,7 +510,7 @@
             "installDate" : 1741533876790,
             "updateDate" : 1741533876790,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{3c235662-a854-48d3-814a-f23b5ea8fe17}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{3c235662-a854-48d3-814a-f23b5ea8fe17}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4179626/cyber_blue-1.0.xpi",
             "releaseNotesURI" : null,
@@ -548,7 +548,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B3c235662-a854-48d3-814a-f23b5ea8fe17%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B3c235662-a854-48d3-814a-f23b5ea8fe17%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -580,7 +580,7 @@
             "installDate" : 1741533879203,
             "updateDate" : 1741533879203,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{22b0eca1-8c02-4c0d-a5d7-6604ddd9836e}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{22b0eca1-8c02-4c0d-a5d7-6604ddd9836e}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4226329/nicothin_space-1.1.2.xpi",
             "releaseNotesURI" : null,
@@ -630,7 +630,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B22b0eca1-8c02-4c0d-a5d7-6604ddd9836e%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B22b0eca1-8c02-4c0d-a5d7-6604ddd9836e%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -660,7 +660,7 @@
             "installDate" : 1741533883076,
             "updateDate" : 1741533883076,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{3020439a-3827-411b-9e6b-f9a069f99563}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{3020439a-3827-411b-9e6b-f9a069f99563}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3814093/cyberpunk_dark_neon-1.0.xpi",
             "releaseNotesURI" : null,
@@ -698,7 +698,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B3020439a-3827-411b-9e6b-f9a069f99563%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B3020439a-3827-411b-9e6b-f9a069f99563%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -728,7 +728,7 @@
             "installDate" : 1741533884201,
             "updateDate" : 1741533884201,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{0b2eb769-7b48-4ca5-8eb0-938749372c91}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{0b2eb769-7b48-4ca5-8eb0-938749372c91}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3861137/refined_cyberpunk_theme-1.1.xpi",
             "releaseNotesURI" : null,
@@ -766,7 +766,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B0b2eb769-7b48-4ca5-8eb0-938749372c91%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B0b2eb769-7b48-4ca5-8eb0-938749372c91%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -797,7 +797,7 @@
             "installDate" : 1741533886066,
             "updateDate" : 1741533886066,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{10353e89-8c0f-4934-8ad2-87f64a777186}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{10353e89-8c0f-4934-8ad2-87f64a777186}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4240074/cyberpunk_neon_v2-2.0.xpi",
             "releaseNotesURI" : null,
@@ -835,7 +835,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B10353e89-8c0f-4934-8ad2-87f64a777186%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B10353e89-8c0f-4934-8ad2-87f64a777186%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -866,7 +866,7 @@
             "installDate" : 1741533888090,
             "updateDate" : 1741533888090,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{f51df5c4-6de0-43f3-8b52-5d792c1cb2bb}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{f51df5c4-6de0-43f3-8b52-5d792c1cb2bb}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3955478/cyberpunk_neon_blind-2.0.xpi",
             "releaseNotesURI" : null,
@@ -904,7 +904,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Bf51df5c4-6de0-43f3-8b52-5d792c1cb2bb%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Bf51df5c4-6de0-43f3-8b52-5d792c1cb2bb%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -934,7 +934,7 @@
             "installDate" : 1741533889664,
             "updateDate" : 1741533889664,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{81c119f4-c6c6-4fe7-a985-a14b10b7f3e3}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{81c119f4-c6c6-4fe7-a985-a14b10b7f3e3}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3534029/cyber_punk-1.0.xpi",
             "releaseNotesURI" : null,
@@ -972,7 +972,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B81c119f4-c6c6-4fe7-a985-a14b10b7f3e3%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B81c119f4-c6c6-4fe7-a985-a14b10b7f3e3%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -1002,7 +1002,7 @@
             "installDate" : 1741533891047,
             "updateDate" : 1741533891047,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{0d3d9708-a9af-4a3a-bba4-d05df61379b6}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{0d3d9708-a9af-4a3a-bba4-d05df61379b6}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3834978/cyberpunk_pixels_animated-0.1.xpi",
             "releaseNotesURI" : null,
@@ -1040,7 +1040,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B0d3d9708-a9af-4a3a-bba4-d05df61379b6%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B0d3d9708-a9af-4a3a-bba4-d05df61379b6%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -1070,7 +1070,7 @@
             "installDate" : 1741533891576,
             "updateDate" : 1741533891576,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{f5abdb8f-6bbe-4ab4-a64d-95b877ae43ce}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{f5abdb8f-6bbe-4ab4-a64d-95b877ae43ce}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3619368/simple_purple_cyberpunk_2077-1.1.xpi",
             "releaseNotesURI" : null,
@@ -1108,7 +1108,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Bf5abdb8f-6bbe-4ab4-a64d-95b877ae43ce%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Bf5abdb8f-6bbe-4ab4-a64d-95b877ae43ce%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -1139,7 +1139,7 @@
             "installDate" : 1741533892075,
             "updateDate" : 1741533892075,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{262228e0-056e-4bf2-95da-5d1e1db01e6c}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{262228e0-056e-4bf2-95da-5d1e1db01e6c}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4317496/cyberpunkblue-1.0.xpi",
             "releaseNotesURI" : null,
@@ -1177,7 +1177,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B262228e0-056e-4bf2-95da-5d1e1db01e6c%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B262228e0-056e-4bf2-95da-5d1e1db01e6c%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -1209,7 +1209,7 @@
             "installDate" : 1741533892616,
             "updateDate" : 1741533892616,
             "applyBackgroundUpdates" : "2",
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{287dcf75-bec6-4eec-b4f6-71948a2eea29}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{287dcf75-bec6-4eec-b4f6-71948a2eea29}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4309509/view_image-5.2.0.xpi",
             "releaseNotesURI" : null,
@@ -1928,7 +1928,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B287dcf75-bec6-4eec-b4f6-71948a2eea29%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B287dcf75-bec6-4eec-b4f6-71948a2eea29%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -1958,7 +1958,7 @@
             "installDate" : 1741533893167,
             "updateDate" : 1741533893167,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{38d9be67-5d4c-417a-940b-f534259f3f6e}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{38d9be67-5d4c-417a-940b-f534259f3f6e}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3685372/cybernetic-1.0.xpi",
             "releaseNotesURI" : null,
@@ -1996,7 +1996,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B38d9be67-5d4c-417a-940b-f534259f3f6e%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B38d9be67-5d4c-417a-940b-f534259f3f6e%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2026,7 +2026,7 @@
             "installDate" : 1741533893688,
             "updateDate" : 1741533893688,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{07320f82-47a9-486f-b381-84605d34e4dd}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{07320f82-47a9-486f-b381-84605d34e4dd}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/2413086/cyberpunkish-2.0.xpi",
             "releaseNotesURI" : null,
@@ -2064,7 +2064,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B07320f82-47a9-486f-b381-84605d34e4dd%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B07320f82-47a9-486f-b381-84605d34e4dd%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2095,7 +2095,7 @@
             "installDate" : 1741533895903,
             "updateDate" : 1741533895903,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{0fe02ae5-ac52-4a5d-a50c-4ea163e38db8}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{0fe02ae5-ac52-4a5d-a50c-4ea163e38db8}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4112495/cyber_teal-2.0.xpi",
             "releaseNotesURI" : null,
@@ -2133,7 +2133,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B0fe02ae5-ac52-4a5d-a50c-4ea163e38db8%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B0fe02ae5-ac52-4a5d-a50c-4ea163e38db8%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2164,7 +2164,7 @@
             "installDate" : 1741533896434,
             "updateDate" : 1741533896434,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{78065abd-d025-477e-9472-9b2c2521432f}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{78065abd-d025-477e-9472-9b2c2521432f}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4142374/blue_yellow_cyberpunk-1.0.xpi",
             "releaseNotesURI" : null,
@@ -2202,7 +2202,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B78065abd-d025-477e-9472-9b2c2521432f%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B78065abd-d025-477e-9472-9b2c2521432f%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2233,7 +2233,7 @@
             "installDate" : 1741533896996,
             "updateDate" : 1741533896996,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{d8c44ec8-e3c4-4329-a060-7c958ba9c3c0}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{d8c44ec8-e3c4-4329-a060-7c958ba9c3c0}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3934013/cyberpunk_2077_3-1.0.xpi",
             "releaseNotesURI" : null,
@@ -2271,7 +2271,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Bd8c44ec8-e3c4-4329-a060-7c958ba9c3c0%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Bd8c44ec8-e3c4-4329-a060-7c958ba9c3c0%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2301,7 +2301,7 @@
             "installDate" : 1741533897502,
             "updateDate" : 1741533897502,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{eca905af-7a90-47b8-9037-06a397afa05d}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{eca905af-7a90-47b8-9037-06a397afa05d}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3903370/cyberpnk-1.0.xpi",
             "releaseNotesURI" : null,
@@ -2339,7 +2339,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Beca905af-7a90-47b8-9037-06a397afa05d%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Beca905af-7a90-47b8-9037-06a397afa05d%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2369,7 +2369,7 @@
             "installDate" : 1741533904559,
             "updateDate" : 1741533904559,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{7a92e0d1-2ea7-4124-87e5-016277703208}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{7a92e0d1-2ea7-4124-87e5-016277703208}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3390016/blue_cyberpunk-1.0.xpi",
             "releaseNotesURI" : null,
@@ -2407,7 +2407,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B7a92e0d1-2ea7-4124-87e5-016277703208%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B7a92e0d1-2ea7-4124-87e5-016277703208%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2437,7 +2437,7 @@
             "installDate" : 1741533905099,
             "updateDate" : 1741533905099,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{96899997-b49a-44a9-99ac-f8de3678f392}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{96899997-b49a-44a9-99ac-f8de3678f392}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3797660/cyber_waves-1.1.xpi",
             "releaseNotesURI" : null,
@@ -2475,7 +2475,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B96899997-b49a-44a9-99ac-f8de3678f392%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B96899997-b49a-44a9-99ac-f8de3678f392%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2506,7 +2506,7 @@
             "installDate" : 1741533905964,
             "updateDate" : 1741533905964,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{ec987ed3-b360-420b-93ee-dadf30f59601}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{ec987ed3-b360-420b-93ee-dadf30f59601}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4132595/itj_s_cyberpunk_dark_edit-1.xpi",
             "releaseNotesURI" : null,
@@ -2544,7 +2544,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Bec987ed3-b360-420b-93ee-dadf30f59601%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Bec987ed3-b360-420b-93ee-dadf30f59601%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2575,7 +2575,7 @@
             "installDate" : 1741533907123,
             "updateDate" : 1741533907123,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{767e7b23-1687-436b-9cc6-308aa880bfa2}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{767e7b23-1687-436b-9cc6-308aa880bfa2}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3923919/cyberpunk_night_cyan-1.0.xpi",
             "releaseNotesURI" : null,
@@ -2613,7 +2613,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B767e7b23-1687-436b-9cc6-308aa880bfa2%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B767e7b23-1687-436b-9cc6-308aa880bfa2%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2643,7 +2643,7 @@
             "installDate" : 1741533909683,
             "updateDate" : 1741533909683,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{07f4aa05-92b5-4abf-bd53-9365aa472031}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{07f4aa05-92b5-4abf-bd53-9365aa472031}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3545305/cyberpunk_purple_red-1.0.xpi",
             "releaseNotesURI" : null,
@@ -2681,7 +2681,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B07f4aa05-92b5-4abf-bd53-9365aa472031%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B07f4aa05-92b5-4abf-bd53-9365aa472031%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2714,7 +2714,7 @@
             "installDate" : 1742118460906,
             "updateDate" : 1745900912436,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/openmultipleurls@ustat.de.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/openmultipleurls@ustat.de.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4476814/open_multiple_urls-1.7.5.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/open-multiple-urls/versions/1.7.5/updateinfo/",
@@ -2773,7 +2773,7 @@
                 "method" : "amWebAPI"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/openmultipleurls@ustat.de.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/openmultipleurls@ustat.de.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2806,7 +2806,7 @@
             "installDate" : 1741533885564,
             "updateDate" : 1750738939611,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/tab-image-saver@mcdamo.addons.mozilla.org.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/tab-image-saver@mcdamo.addons.mozilla.org.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4514462/tab_image_saver-4.6.2.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/tab-image-saver/versions/4.6.2/updateinfo/",
@@ -2915,7 +2915,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/tab-image-saver@mcdamo.addons.mozilla.org.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/tab-image-saver@mcdamo.addons.mozilla.org.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -2948,7 +2948,7 @@
             "installDate" : 1751549697853,
             "updateDate" : 1751549697853,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{c2c003ee-bd69-42a2-b0e9-6f34222cb046}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{c2c003ee-bd69-42a2-b0e9-6f34222cb046}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4045009/auto_tab_discard-0.6.7.xpi",
             "releaseNotesURI" : null,
@@ -3190,7 +3190,7 @@
                     "recommended"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Bc2c003ee-bd69-42a2-b0e9-6f34222cb046%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Bc2c003ee-bd69-42a2-b0e9-6f34222cb046%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -3223,7 +3223,7 @@
             "installDate" : 1753168479450,
             "updateDate" : 1753168479450,
             "applyBackgroundUpdates" : "2",
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{74145f27-f039-47ce-a470-a662b129930a}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{74145f27-f039-47ce-a470-a662b129930a}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4432106/clearurls-1.27.3.xpi",
             "releaseNotesURI" : null,
@@ -3767,7 +3767,7 @@
                     "recommended-android"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B74145f27-f039-47ce-a470-a662b129930a%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B74145f27-f039-47ce-a470-a662b129930a%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -3800,7 +3800,7 @@
             "installDate" : 1753948022735,
             "updateDate" : 1753948022735,
             "applyBackgroundUpdates" : "2",
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{6833a9cb-d329-4d96-a062-76b1b663cd2c}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{6833a9cb-d329-4d96-a062-76b1b663cd2c}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4170790/imagus_mod-0.10.15.xpi",
             "releaseNotesURI" : null,
@@ -4024,7 +4024,7 @@
                 "method" : "amWebAPI"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B6833a9cb-d329-4d96-a062-76b1b663cd2c%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B6833a9cb-d329-4d96-a062-76b1b663cd2c%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -4057,7 +4057,7 @@
             "installDate" : 1753969072863,
             "updateDate" : 1753969072863,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{f6ca2dfb-43a6-4334-9fad-8d5a71a1fe67}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{f6ca2dfb-43a6-4334-9fad-8d5a71a1fe67}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4319544/simple_modify_header-1.9.0.xpi",
             "releaseNotesURI" : null,
@@ -4119,7 +4119,7 @@
                 "method" : "amWebAPI"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Bf6ca2dfb-43a6-4334-9fad-8d5a71a1fe67%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Bf6ca2dfb-43a6-4334-9fad-8d5a71a1fe67%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -4151,7 +4151,7 @@
             "installDate" : 1753991371730,
             "updateDate" : 1753991371730,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{762f9885-5a13-4abd-9c77-433dcd38b8fd}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{762f9885-5a13-4abd-9c77-433dcd38b8fd}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4371820/return_youtube_dislikes-3.0.0.18.xpi",
             "releaseNotesURI" : null,
@@ -4407,7 +4407,7 @@
                     "recommended"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B762f9885-5a13-4abd-9c77-433dcd38b8fd%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B762f9885-5a13-4abd-9c77-433dcd38b8fd%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -4440,7 +4440,7 @@
             "installDate" : 1753167350474,
             "updateDate" : 1774202268474,
             "applyBackgroundUpdates" : "2",
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{7c7f6dea-3957-4bb9-9eec-2ef2b9e5bcec}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{7c7f6dea-3957-4bb9-9eec-2ef2b9e5bcec}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4735965/ultimadark-1.6.66.xpi",
             "releaseNotesURI" : null,
@@ -4506,7 +4506,7 @@
                 "method" : "amWebAPI"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B7c7f6dea-3957-4bb9-9eec-2ef2b9e5bcec%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B7c7f6dea-3957-4bb9-9eec-2ef2b9e5bcec%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -4537,7 +4537,7 @@
             "installDate" : 1727530823986,
             "updateDate" : 1776413663913,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/AussieDic@dictionaries.addons.mozilla.org.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/AussieDic@dictionaries.addons.mozilla.org.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4768733/australian_english_dictionary-3.0.1.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/australian-english-dictionary/versions/3.0.1/updateinfo/",
@@ -4576,7 +4576,7 @@
                 "method" : "amWebAPI"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/AussieDic@dictionaries.addons.mozilla.org.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/AussieDic@dictionaries.addons.mozilla.org.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -4609,7 +4609,7 @@
             "installDate" : 1741533878247,
             "updateDate" : 1777040089006,
             "applyBackgroundUpdates" : "2",
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/sponsorBlocker@ajay.app.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/sponsorBlocker@ajay.app.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4773757/sponsorblock-6.1.5.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/sponsorblock/versions/6.1.5/updateinfo/",
@@ -5250,7 +5250,7 @@
                     "recommended"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/sponsorBlocker@ajay.app.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/sponsorBlocker@ajay.app.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -5283,7 +5283,7 @@
             "installDate" : 1727504678857,
             "updateDate" : 1777084153286,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{3c078156-979c-498b-8990-85f7987dd929}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{3c078156-979c-498b-8990-85f7987dd929}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4766841/sidebery-5.5.2.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/sidebery/versions/5.5.2/updateinfo/",
@@ -5477,7 +5477,7 @@
                     "recommended"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B3c078156-979c-498b-8990-85f7987dd929%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B3c078156-979c-498b-8990-85f7987dd929%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -5508,7 +5508,7 @@
             "installDate" : 1777446575955,
             "updateDate" : 1777446575955,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{4223a94a-d3f9-40e9-95dd-99aca80ea04b}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{4223a94a-d3f9-40e9-95dd-99aca80ea04b}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4551961/profiles_blue-1.0.xpi",
             "releaseNotesURI" : null,
@@ -5547,7 +5547,7 @@
                 "source" : "about:editprofile"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B4223a94a-d3f9-40e9-95dd-99aca80ea04b%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B4223a94a-d3f9-40e9-95dd-99aca80ea04b%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -5578,7 +5578,7 @@
             "installDate" : 1737940797118,
             "updateDate" : 1777644885838,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/marcoagpinto@mail.telepac.pt.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/marcoagpinto@mail.telepac.pt.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4786955/british_english_dictionary_2-4.0.7.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/british-english-dictionary-2/versions/4.0.7/updateinfo/",
@@ -5615,7 +5615,7 @@
                 "source" : "about:preferences"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/marcoagpinto@mail.telepac.pt.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/marcoagpinto@mail.telepac.pt.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -5647,7 +5647,7 @@
             "installDate" : 1746995126502,
             "updateDate" : 1777904085302,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{88ebde3a-4581-4c6b-8019-2a05a9e3e938}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{88ebde3a-4581-4c6b-8019-2a05a9e3e938}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4779333/hide_youtube_shorts-1.11.0.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/hide-youtube-shorts/versions/1.11.0/updateinfo/",
@@ -5764,7 +5764,7 @@
                 "method" : "amWebAPI"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B88ebde3a-4581-4c6b-8019-2a05a9e3e938%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B88ebde3a-4581-4c6b-8019-2a05a9e3e938%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -5796,7 +5796,7 @@
             "installDate" : 1778655200130,
             "updateDate" : 1778655200130,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{4a313247-8330-4a81-948e-b79936516f78}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{4a313247-8330-4a81-948e-b79936516f78}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/3059971/image_search_options-3.0.12.xpi",
             "releaseNotesURI" : null,
@@ -5866,7 +5866,7 @@
                     "recommended"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B4a313247-8330-4a81-948e-b79936516f78%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B4a313247-8330-4a81-948e-b79936516f78%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -5899,7 +5899,7 @@
             "installDate" : 1778655472128,
             "updateDate" : 1778655472128,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{5dd73bb9-e728-4d1e-990b-c77d8e03670f}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{5dd73bb9-e728-4d1e-990b-c77d8e03670f}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4672937/contextsearch_web_ext-1.48.4.13.xpi",
             "releaseNotesURI" : null,
@@ -6059,7 +6059,7 @@
                 "method" : "link"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B5dd73bb9-e728-4d1e-990b-c77d8e03670f%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B5dd73bb9-e728-4d1e-990b-c77d8e03670f%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -6091,7 +6091,7 @@
             "installDate" : 1779174033773,
             "updateDate" : 1779174033773,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{4c421bb7-c1de-4dc6-80c7-ce8625e34d24}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{4c421bb7-c1de-4dc6-80c7-ce8625e34d24}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4769138/load_reddit_images_directly-1.9.xpi",
             "releaseNotesURI" : null,
@@ -6156,7 +6156,7 @@
                 "method" : "link"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B4c421bb7-c1de-4dc6-80c7-ce8625e34d24%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B4c421bb7-c1de-4dc6-80c7-ce8625e34d24%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -6188,7 +6188,7 @@
             "installDate" : 1779267342130,
             "updateDate" : 1779267342130,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{c3c10168-4186-445c-9c5b-63f12b8e2c87}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{c3c10168-4186-445c-9c5b-63f12b8e2c87}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4241002/cookie_editor-1.13.0.xpi",
             "releaseNotesURI" : null,
@@ -6256,7 +6256,7 @@
                 "method" : "link"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Bc3c10168-4186-445c-9c5b-63f12b8e2c87%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Bc3c10168-4186-445c-9c5b-63f12b8e2c87%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -6289,7 +6289,7 @@
             "installDate" : 1779251383807,
             "updateDate" : 1779718487027,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{7653b5cb-d76d-442f-a98f-f3c83a118cf4}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{7653b5cb-d76d-442f-a98f-f3c83a118cf4}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4820530/imagus_reborn-2026.5.24.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/imagus-reborn/versions/2026.5.24/updateinfo/",
@@ -6514,7 +6514,7 @@
                 "method" : "link"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B7653b5cb-d76d-442f-a98f-f3c83a118cf4%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B7653b5cb-d76d-442f-a98f-f3c83a118cf4%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -6546,7 +6546,7 @@
             "installDate" : 1741479753487,
             "updateDate" : 1779914792818,
             "applyBackgroundUpdates" : "2",
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/uBlock0@raymondhill.net.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/uBlock0@raymondhill.net.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4814095/ublock_origin-1.71.0.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/ublock-origin/versions/1.71.0/updateinfo/",
@@ -7469,7 +7469,7 @@
                     "recommended-android"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/uBlock0@raymondhill.net.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/uBlock0@raymondhill.net.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -7501,7 +7501,7 @@
             "installDate" : 1780028960136,
             "updateDate" : 1780028960136,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/headings@niquelheadings.net.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/headings@niquelheadings.net.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4757530/headingsmap-4.10.7.xpi",
             "releaseNotesURI" : null,
@@ -7619,7 +7619,7 @@
                 "method" : "link"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/headings@niquelheadings.net.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/headings@niquelheadings.net.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -7651,7 +7651,7 @@
             "installDate" : 1741258012412,
             "updateDate" : 1780064088010,
             "applyBackgroundUpdates" : "2",
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/78272b6fa58f4a1abaac99321d503a20@proton.me.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/78272b6fa58f4a1abaac99321d503a20@proton.me.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4824869/proton_pass-1.37.2.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/proton-pass/versions/1.37.2/updateinfo/",
@@ -7734,7 +7734,7 @@
                 "method" : "amWebAPI"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/78272b6fa58f4a1abaac99321d503a20@proton.me.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/78272b6fa58f4a1abaac99321d503a20@proton.me.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -7767,7 +7767,7 @@
             "installDate" : 1756162350738,
             "updateDate" : 1780582486084,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{7a7a4a92-a2a0-41d1-9fd7-1e92480d612d}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4827922/styl_us-2.3.30.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/styl-us/versions/2.3.30/updateinfo/",
@@ -8253,7 +8253,7 @@
                     "recommended"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B7a7a4a92-a2a0-41d1-9fd7-1e92480d612d%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B7a7a4a92-a2a0-41d1-9fd7-1e92480d612d%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -8286,7 +8286,7 @@
             "installDate" : 1780831617774,
             "updateDate" : 1780831617774,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{32af1358-428a-446d-873e-5f8eb5f2a72e}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{32af1358-428a-446d-873e-5f8eb5f2a72e}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4694656/save_all_images_webextension-0.8.5.xpi",
             "releaseNotesURI" : null,
@@ -8375,7 +8375,7 @@
                     "recommended"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B32af1358-428a-446d-873e-5f8eb5f2a72e%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B32af1358-428a-446d-873e-5f8eb5f2a72e%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -8408,7 +8408,7 @@
             "installDate" : 1780856002819,
             "updateDate" : 1780856002819,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/clipper@obsidian.md.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/clipper@obsidian.md.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4774852/web_clipper_obsidian-1.6.1.xpi",
             "releaseNotesURI" : null,
@@ -8914,7 +8914,7 @@
                 "method" : "link"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/clipper@obsidian.md.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/clipper@obsidian.md.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -8946,7 +8946,7 @@
             "installDate" : 1780409686371,
             "updateDate" : 1781014488789,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/langpack-en-GB@firefox.mozilla.org.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/langpack-en-GB@firefox.mozilla.org.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4842295/english_gb_language_pack-151.0.20260608.154138.xpi",
             "releaseNotesURI" : null,
@@ -9092,7 +9092,7 @@
                 "method" : "sideload"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/langpack-en-GB@firefox.mozilla.org.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/langpack-en-GB@firefox.mozilla.org.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -9124,7 +9124,7 @@
             "installDate" : 1753166320005,
             "updateDate" : 1781273689013,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/vpn@proton.ch.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/vpn@proton.ch.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4841998/proton_vpn_firefox_extension-1.3.4.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/proton-vpn-firefox-extension/versions/1.3.4/updateinfo/",
@@ -9218,7 +9218,7 @@
                 "method" : "amWebAPI"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/vpn@proton.ch.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/vpn@proton.ch.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -9251,7 +9251,7 @@
             "installDate" : 1741533874690,
             "updateDate" : 1781360086656,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/deArrow@ajay.app.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/deArrow@ajay.app.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4844316/dearrow-2.3.9.xpi",
             "releaseNotesURI" : "https://addons.mozilla.org/en-GB/firefox/addon/dearrow/versions/2.3.9/updateinfo/",
@@ -9889,7 +9889,7 @@
                 "source" : "sync"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/deArrow@ajay.app.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/deArrow@ajay.app.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -9921,7 +9921,7 @@
             "installDate" : 1781408220048,
             "updateDate" : 1781408220048,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{8e515334-52b5-4cc5-b4e8-675d50af677d}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{8e515334-52b5-4cc5-b4e8-675d50af677d}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4812268/scriptcat-0.16.15.xpi",
             "releaseNotesURI" : null,
@@ -10055,7 +10055,7 @@
                 "method" : "link"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B8e515334-52b5-4cc5-b4e8-675d50af677d%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B8e515334-52b5-4cc5-b4e8-675d50af677d%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -11184,7 +11184,7 @@
             "installDate" : 1781455376073,
             "updateDate" : 1781455376073,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{aecec67f-0d10-4fa7-b7c7-609a2db280cf}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{aecec67f-0d10-4fa7-b7c7-609a2db280cf}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4830363/violentmonkey-2.41.0.xpi",
             "releaseNotesURI" : null,
@@ -11638,7 +11638,7 @@
                 "method" : "link"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7Baecec67f-0d10-4fa7-b7c7-609a2db280cf%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7Baecec67f-0d10-4fa7-b7c7-609a2db280cf%7D.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -11670,7 +11670,7 @@
             "installDate" : 1780372004812,
             "updateDate" : 1781517657000,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/newtab@mozilla.org.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/newtab@mozilla.org.xpi",
             "skinnable" : false,
             "sourceURI" : "https://archive.mozilla.org/pub/system-addons/newtab/newtab-153.4.0-build1/newtab.xpi",
             "releaseNotesURI" : null,
@@ -11721,7 +11721,7 @@
                 "source" : "nimbus-newtabTrainhopAddon"
             },
             "recommendationState" : null,
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/newtab@mozilla.org.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/newtab@mozilla.org.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -11753,7 +11753,7 @@
             "installDate" : 1781542818567,
             "updateDate" : 1781542818567,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/addon@darkreader.org.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/addon@darkreader.org.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4837294/darkreader-4.9.127.xpi",
             "releaseNotesURI" : null,
@@ -12288,7 +12288,7 @@
                     "recommended"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/addon@darkreader.org.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/addon@darkreader.org.xpi!/",
             "location" : "app-profile"
         },
         {
@@ -12321,7 +12321,7 @@
             "installDate" : 1781564752924,
             "updateDate" : 1781564752924,
             "applyBackgroundUpdates" : 1,
-            "path" : "/home/chewygum/.config/mozilla/firefox/chewyfox/extensions/{036a55b4-5e72-4d05-a06c-cba2dfcc134a}.xpi",
+            "path" : "/home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/{036a55b4-5e72-4d05-a06c-cba2dfcc134a}.xpi",
             "skinnable" : false,
             "sourceURI" : "https://addons.mozilla.org/firefox/downloads/file/4455681/traduzir_paginas_web-10.1.1.1.xpi",
             "releaseNotesURI" : null,
@@ -12912,7 +12912,7 @@
                     "recommended"
                 ]
             },
-            "rootURI" : "jar:file:///home/chewygum/.config/mozilla/firefox/chewyfox/extensions/%7B036a55b4-5e72-4d05-a06c-cba2dfcc134a%7D.xpi!/",
+            "rootURI" : "jar:file:///home/chewygumxx/.config/mozilla/firefox/chewyfox/extensions/%7B036a55b4-5e72-4d05-a06c-cba2dfcc134a%7D.xpi!/",
             "location" : "app-profile"
         }
     ]
