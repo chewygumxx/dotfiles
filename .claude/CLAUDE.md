@@ -108,7 +108,8 @@ wired up by the `prepare` npm script). `.commitlintrc.mts` defines:
   (e.g. `build: ...`) always passes this rule.
   - Interactive commit authoring is available via `npm run commit`
   (`commitizen` configured via `package.json`'s `config.commitizen.path` to use
-  the `@commitlint/cz-commitlint` adapter). Choices offered are always exactly
+  the `@chewygumxx/cz-commitlint` adapter, a wrapper around
+  `@commitlint/cz-commitlint`). Choices offered are always exactly
   the `type-enum`/`scope-enum` rule arrays above (never the extended
   `@commitlint/config-conventional` defaults, even though those get merged into
   the resolved config's `prompt.questions.*.enum` objects); each choice is
@@ -116,10 +117,12 @@ wired up by the `prepare` npm script). `.commitlintrc.mts` defines:
   `.commitlintrc.mts`'s own `prompt.questions` block.
   - The interactive list itself (`type`/`scope` selection) shows each choice's
   `fullName` (e.g. `Feature`) rather than the raw enum key (`feat`) as its
-  label, via an `npm patch` patch (see below); the commit header still gets the
-  raw enum key regardless of what's shown in the list, since
-  `@commitlint/cz-commitlint` writes the selected choice's `value` (always the
-  enum key) into the header, never its display label.
+  label: `@commitlint/cz-commitlint` hardcodes the enum key into the label, so
+  the `@chewygumxx/cz-commitlint` wrapper relabels each choice with its
+  `title` before the list is shown, without patching the installed package.
+  The commit header still gets the raw enum key regardless of what's shown in
+  the list, since the selected choice's `value` (always the enum key) is what
+  goes into the header, never its display label.
   - Enforced in CI on push to `main` and on PRs via
   `.github/workflows/commitlint.yaml`, which is passed `configFile:
   ./.commitlintrc.mts` explicitly; the action's own default
@@ -148,29 +151,3 @@ source-attribute naming is correct, and file headers/commit messages follow the
 conventions above. When in doubt about whether a config change works, check the
 relevant tool's own docs/behavior (Zsh, chezmoi, Neovim, Hyprland, etc.) rather
 than looking for a repo-local test command, since none exists otherwise.
-
-## Patching third-party packages (`npm patch`)
-
-`patches/@commitlint/cz-commitlint@21.2.2.patch` modifies the installed copy of
-`@commitlint/cz-commitlint` (specifically
-`lib/services/getRuleQuestionConfig.js`) so the interactive `npm run commit`
-type/scope list displays each choice's `fullName` instead of its raw enum key;
-this isn't configurable through `.commitlintrc.mts` because
-`@commitlint/cz-commitlint` hardcodes the enum key into the list label with no
-per-choice override hook. This uses npm's own native `npm patch` (not the
-third-party `patch-package`): the patch is declared in `package.json`'s
-`patchedDependencies` field (`"@commitlint/cz-commitlint@21.2.2":
-"patches/@commitlint/cz-commitlint@21.2.2.patch"`), its content hash is
-recorded in `package-lock.json` (which `npm patch` bumped to `lockfileVersion`
-4), and it's reapplied automatically as part of `npm install`/`npm ci` itself,
-with no devDependency or `postinstall` script needed (and unlike a
-`postinstall`-based approach, not disabled by `--ignore-scripts`).
-
-If `@commitlint/cz-commitlint` is ever upgraded, the patch needs regenerating:
-`npm patch add @commitlint/cz-commitlint` extracts a clean copy to a temp
-directory and prints its path; edit `lib/services/getRuleQuestionConfig.js`
-there the same way, then `npm patch commit <the printed path>`, which rewrites
-`patchedDependencies` to the new version and updates the lockfile hash. `npm
-patch rm @commitlint/cz-commitlint` removes it cleanly if ever needed. Verify
-with `npm run typecheck` and by actually running `npm run commit`, or the node
-one-liner in the commit-messages convention above.
