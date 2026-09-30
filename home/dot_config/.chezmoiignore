@@ -116,6 +116,11 @@ lazysql/
 luarocks/
 {{ end }}
 
+# Mise
+{{ if not (lookPath "mise") }}
+mise/
+{{ end }}
+
 # Mozilla Firefox
 {{ if not (lookPath "firefox") }}
 mozilla  # Symlink
