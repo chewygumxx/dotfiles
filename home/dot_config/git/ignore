@@ -9,14 +9,16 @@
 #
 
 
-
-
-
-node_modules/
+.env*
 *.local.*
 
-# ----------------------
-# The Scourge of Claude
-# ----------------------
+node_modules/
 
-.claude.json
+target/
+
+.herdr/
+
+*claude.json
+*mcp.json
+worktrees/
+.remember/
