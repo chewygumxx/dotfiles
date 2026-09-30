@@ -12,31 +12,17 @@
 .env*
 *.local.*
 
-# Editors
-*.sw?
-*~
-.netrwhist
-
-# Linux desktop
-.directory
-.Trash-*
-
 # JS/TSX
 node_modules/
-*.tgz
-*.tsbuildinfo
-coverage/
-npm-debug.log*
 
 # Rust
 target/
 
-# Herdr
+#Herdr
 .herdr/
 
 # Claude
 *claude.json
-*mcp.json
 .claude/worktrees/
 .remember/
 .superpowers/
