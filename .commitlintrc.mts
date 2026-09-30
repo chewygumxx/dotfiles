@@ -126,6 +126,11 @@ const scopes: { delimiters: string[]; enum: Enumerable[] } = {
             description: "Wayland Compositor",
         },
         {
+            name: "mise",
+            fullName: "Mise",
+            description: "Project development environment management",
+        },
+        {
             name: "nushell",
             fullName: "Nushell",
             description: "Data-aware shell",

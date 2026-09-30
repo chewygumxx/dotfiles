@@ -1,0 +1,18 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:schema https://mise.jdx.dev/schema/mise.json
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/mise/config.toml
+#
+#
+
+#
+# Project development environment management
+# https://mise.jdx.dev/configuration.html
+#
+
+[tools]
+node = "24"
