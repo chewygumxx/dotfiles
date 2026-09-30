@@ -8,17 +8,22 @@
 #
 #
 
-
+# General
 .env*
 *.local.*
 
+# JS/TSX
 node_modules/
 
+# Rust
 target/
 
+#Herdr
 .herdr/
 
+# Claude
 *claude.json
 *mcp.json
-worktrees/
+.claude/worktrees/
 .remember/
+.superpowers/
