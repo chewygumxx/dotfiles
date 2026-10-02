@@ -28,6 +28,11 @@
 	side-by-side = true
 	line-number  = true
 
+# Diff JSON by content rather than formatting: sorted keys, uniform indent
+# (selected per file via ./attributes; `--no-textconv` shows raw bytes)
+[diff "json"]
+	textconv = json-normalize
+
 
 # -------
 # Remote

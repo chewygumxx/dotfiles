@@ -1,0 +1,26 @@
+#!/bin/sh
+# vim:set expandtab shiftwidth=4 filetype=sh:
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_json-normalize
+#
+#
+
+#
+# Canonical JSON rendering for diffs (git textconv driver)
+# Pretty-prints with sorted keys so that indentation, whitespace, and key
+# order changes vanish from diffs, leaving only semantic changes. Anything jq
+# cannot parse (JSONC, broken JSON, jq missing) is passed through untouched.
+#
+
+
+# Buffered so a parse failure partway through never emits partial output;
+# empty input also falls through so it isn't rendered as a lone blank line
+if normalized="$(jq --sort-keys . "$1" 2>/dev/null)" && [ -n "$normalized" ]
+then
+    printf '%s\n' "$normalized"
+else
+    exec cat -- "$1"
+fi

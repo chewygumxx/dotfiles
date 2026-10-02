@@ -1,0 +1,154 @@
+#!/bin/sh
+# vim:set expandtab shiftwidth=4 filetype=sh:
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_chezmoi-git-diff
+#
+#
+
+#
+# External `chezmoi diff` command backed by `git diff`
+# Lets git attribute diff drivers (eg. the json-normalize textconv) apply to
+# `chezmoi diff`, while keeping output indistinguishable from chezmoi's
+# builtin diff:
+#   - file headers are relabelled from the absolute live path and chezmoi's
+#     staged copy to the destination-relative path
+#   - hunk headers carry the line preceding the hunk verbatim (omitted when
+#     empty) rather than git's function-name heuristic
+#   - entries chezmoi does not stage as a file (symlinks, removals) are handed
+#     back to the builtin diff, as only one side of them is ever passed here
+#   - a difference exits 0 rather than git's 1
+#
+# Usage (via chezmoi's diff.command/diff.args): chezmoi-git-diff OLD NEW
+# where OLD and NEW are {{ .Destination }} and {{ .Target }}, which chezmoi
+# swaps under `--reverse`
+#
+
+
+old_file="$1"
+new_file="$2"
+
+# `git diff --no-index` exits 1 for a missing path, same as for a difference,
+# so missing paths are caught here instead (dangling symlinks are fine)
+for file in "$old_file" "$new_file"; do
+    if [ ! -e "$file" ] && [ ! -L "$file" ]; then
+        printf '%s: %s: No such file or directory\n' "${0##*/}" "$file" >&2
+        exit 2
+    fi
+done
+
+# Each side is the live file, chezmoi's copy staged at
+# <tmpdir>/chezmoi-diff<n>/<path>, or /dev/null
+live=
+staged=
+for file in "$old_file" "$new_file"; do
+    case "$file" in
+        /dev/null)              ;;
+        */chezmoi-diff[0-9]*/*) staged="$file" ;;
+        *)                      live="$file" ;;
+    esac
+done
+
+scratch="$(mktemp -d)" || exit
+trap 'rm -rf -- "$scratch"' EXIT
+
+# Nothing staged means chezmoi passed only the live side, so let the builtin
+# diff render it. Its stderr is replayed only on failure, as any config
+# warnings in it were already printed by the outer chezmoi.
+if [ -z "$staged" ]; then
+    set -- diff --use-builtin-diff --no-pager
+    [ "$old_file" = /dev/null ] && set -- "$@" --reverse
+    [ -n "$CHEZMOI_CONFIG_FILE" ] && set -- "$@" --config "$CHEZMOI_CONFIG_FILE"
+    [ -n "$CHEZMOI_SOURCE_DIR" ] && set -- "$@" --source "$CHEZMOI_SOURCE_DIR"
+    [ -n "$CHEZMOI_DEST_DIR" ] && set -- "$@" --destination "$CHEZMOI_DEST_DIR"
+
+    "${CHEZMOI_EXECUTABLE:-chezmoi}" "$@" -- "$live" 2>"$scratch/errors" \
+        && exit 0
+    status="$?"
+    cat -- "$scratch/errors" >&2
+    exit "$status"
+fi
+
+# Path relative to the destination directory, as the builtin diff labels it
+path="${staged#*/chezmoi-diff[0-9]*/}"
+
+# git drops the leading slash after its a/ and b/ prefixes; /dev/null is
+# printed bare and must be left alone
+from_old=
+from_new=
+[ "$old_file" != /dev/null ] && from_old="${old_file#/}"
+[ "$new_file" != /dev/null ] && from_new="${new_file#/}"
+
+# Pins every option user git config could otherwise override
+git_diff() {
+    git --no-pager -c core.quotePath=false \
+        diff --no-index --no-ext-diff --textconv --no-color \
+        --full-index --src-prefix=a/ --dst-prefix=b/ \
+        -- "$@"
+}
+
+# The old side exactly as git diffs it (ie. after any textconv), rendered as
+# one all-added hunk, to source hunk header context lines from
+context="$scratch/context"
+: > "$context"
+[ "$old_file" != /dev/null ] && git_diff /dev/null "$old_file" > "$context"
+
+export context path from_old from_new
+
+# File header lines (from `diff --git` up to the first hunk) are relabelled
+# with literal rather than regex matching, and only hunk header lines are
+# rebuilt, so file content that happens to contain a path is never touched
+# shellcheck disable=SC2016 # awk program, not shell expansions
+rewrite='
+function swap(line, from, to,    at, out) {
+    out = ""
+    while (from != "" && (at = index(line, from)) > 0) {
+        out = out substr(line, 1, at - 1) to
+        line = substr(line, at + length(from))
+    }
+    return out line
+}
+
+FILENAME == ENVIRON["context"] {
+    if (body && substr($0, 1, 1) == "+") old[++lines] = substr($0, 2)
+    if (/^@@ /) body = 1
+    next
+}
+
+/^diff --git / { header = 1 }
+/^@@ / {
+    header = 0
+    match($0, /^@@ -[0-9]+(,[0-9]+)? \+[0-9]+(,[0-9]+)? @@/)
+    ranges = substr($0, 1, RLENGTH)
+    start = substr(ranges, 5) + 0
+    $0 = ranges
+    if (start > 1 && old[start - 1] != "") $0 = $0 " " old[start - 1]
+}
+header {
+    $0 = swap($0, ENVIRON["from_old"], ENVIRON["path"])
+    $0 = swap($0, ENVIRON["from_new"], ENVIRON["path"])
+    # git pads whitespace-containing paths with a tab for GNU patch
+    if (/^(---|\+\+\+) /) sub(/\t$/, "")
+}
+{ print }
+'
+
+# Recover git's exit status from the left-hand side of the pipeline via fd 4
+exec 3>&1
+status="$(
+    {
+        {
+            git_diff "$old_file" "$new_file"
+            printf '%s' "$?" >&4
+        } | awk "$rewrite" "$context" - >&3
+    } 4>&1
+)"
+exec 3>&-
+
+# git exits 1 when the files differ; chezmoi's builtin diff exits 0
+case "$status" in
+    0|1) exit 0 ;;
+    *)   exit "${status:-1}" ;;
+esac

@@ -1,0 +1,16 @@
+# vim:set expandtab shiftwidth=4 filetype=gitattributes:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/git/attributes
+#
+#
+
+#
+# Global git attributes (default core.attributesFile location)
+#
+
+# Semantic JSON diffs, see [diff "json"] in ./config
+*.json  diff=json

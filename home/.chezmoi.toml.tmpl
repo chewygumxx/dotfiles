@@ -50,4 +50,11 @@ pager = {{ or
     (lookPath "diffnav")
     (lookPath "less")
 | quote }}
+{{- $gitDiff := joinPath .chezmoi.homeDir ".local" "bin" "chezmoi-git-diff" }}
+{{- if and (lookPath "git") (stat $gitDiff) }}
+# Route through git so git attribute diff drivers apply (eg. semantic JSON);
+# only once applied, so a fresh `chezmoi init` keeps the builtin diff
+command = {{ $gitDiff | quote }}
+args    = ["{{ "{{ .Destination }}" }}", "{{ "{{ .Target }}" }}"]
+{{- end }}
 
