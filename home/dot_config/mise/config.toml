@@ -15,4 +15,5 @@
 #
 
 [tools]
+bun  = "latest"
 node = "24"
