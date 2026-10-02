@@ -94,7 +94,7 @@ than inventing one; CI will fix minor drift.
 `*.md`. LF line endings, trailing whitespace trimmed, final newline inserted.
 - **Commit messages**: Conventional Commits, enforced by `commitlint`
 (`.commitlintrc.mts`) via a `husky` `commit-msg` git hook (`.husky/commit-msg`,
-wired up by the `prepare` npm script). `.commitlintrc.mts` defines:
+wired up by the `prepare` package script). `.commitlintrc.mts` defines:
   - Allowed types (error, blocking): `feat`, `fix`, `tweak`, `refactor`,
   `chore`, `style`, `docs`, `ci`, `build`, `test`, `revert`.
   - 50-char header limit (error), 72-char body line-wrap limit (error), subject
@@ -106,7 +106,7 @@ wired up by the `prepare` npm script). `.commitlintrc.mts` defines:
   `btop`; multiple scopes may be combined with a `/` delimiter (e.g.
   `feat(zsh/nvim): ...`). Scope is optional; a commit with no scope at all
   (e.g. `build: ...`) always passes this rule.
-  - Interactive commit authoring is available via `npm run commit`
+  - Interactive commit authoring is available via `bun run commit`
   (`commitizen` configured via `package.json`'s `config.commitizen.path` to use
   the `@chewygumxx/cz-commitlint` adapter, a wrapper around
   `@commitlint/cz-commitlint`). Choices offered are always exactly
@@ -136,15 +136,15 @@ on push.
 ## No build/test/lint tooling
 
 There is no build step or test suite for this repository.
-`package.json`/`package-lock.json` exist solely to pull in `husky`,
+`package.json`/`bun.lock` exist solely to pull in `husky`,
 `commitlint`, and `typescript` (see the commit-messages convention above) as
 devDependencies, not as an application dependency tree. `.commitlintrc.mts` is
 the one file with real typechecking: `tsconfig.json` scopes `tsc` to just that
 file (TS's default `**/*` include glob skips dotfiles, so it has to be listed
-explicitly), and `npm run typecheck` runs it; this only catches shape/typo
+explicitly), and `bun run typecheck` runs it; this only catches shape/typo
 errors at editor- or CI-time; the commit-msg hook itself loads
 `.commitlintrc.mts` via `jiti` (transpile-only, no type-checking) so a type
-error there would still pass silently at commit time if `npm run typecheck`
+error there would still pass silently at commit time if `bun run typecheck`
 isn't run separately. "Correctness" elsewhere in the repo means: the
 shell/config files are syntactically valid for their target tool, chezmoi
 source-attribute naming is correct, and file headers/commit messages follow the
