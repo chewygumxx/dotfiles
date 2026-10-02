@@ -1,0 +1,80 @@
+# vim:set expandtab shiftwidth=4 filetype=gitignore:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/claude/.chezmoiignore
+#
+#
+
+#
+# This directory will be extensively populated and configured. At some point.
+# Maybe. There may be better suited candidate directories and tooling for this.
+#
+# The documentation regarding '.chezmoiignore' hueristics demands improvement.
+# Involves trial and error. Footer has documentation. Good luck.
+#
+
+
+# Safe, and worthwhile to track
+!settings.json
+
+
+# -------------------
+# Ignored Everywhere
+# -------------------
+
+# Despite property names such as "oauthAccount", this seems relatively non-sensitive
+# **Relatively**, it contains a sizeable quantity of user data.
+.claude.json
+
+# These are the keys to the kingdom
+.credentials.json
+
+# Binary release asset of ~chewygumxx/claude-status-line.git
+claude-status-line
+
+# Seriously. Not cache, not state, absolutely config.
+.last-cleanup
+daemon.log
+history.jsonl
+mcp-needs-auth-cache.json
+stats-cache.json
+
+# *May* dedicate a .chezmoiignore to this directory.
+# *May* be worthy of human attention.
+# ***Highly Unlikely***.
+# It's probably a module directory populated with repository data by a package manager.
+plugins/
+
+# Most of these belong more in ~/.local/{share,cache,state} than ~/.config
+# They're not intended for end user edit
+backups/
+cache/
+daemon/
+file-history/
+jobs/
+paste-cache/
+plans/
+projects/
+session-env/
+sessions/
+shell-snapshots/
+
+
+# -------
+# Footer
+# -------
+#
+# Reference:
+# https://www.chezmoi.io/reference/special-files/chezmoiignore/
+#
+# Ignore files or a directory on different machines:
+# https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/#ignore-files-or-a-directory-on-different-machines
+#
+# Handle different file locations on different systems with the same contentsL
+# https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/#handle-different-file-locations-on-different-systems-with-the-same-contents
+#
+
+
