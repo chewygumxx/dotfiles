@@ -12,6 +12,9 @@
 .env*
 *.local.*
 
+# Shell
+.rumdl_cache/
+
 # JS/TSX
 node_modules/
 
