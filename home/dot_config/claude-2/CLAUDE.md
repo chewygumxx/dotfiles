@@ -6,7 +6,7 @@ __cgxx: |
   #
   #
   # ~chewygumxx/dotfiles.git
-  # ::: :/home/dot_config/claude/CLAUDE.md
+  # ::: :/home/dot_config/claude-2/CLAUDE.md
   #
   #
 
