@@ -1,14 +1,22 @@
 ---
-# vim:set expandtab shiftwidth=2 filetype=markdown:
-# SPDX-License-Identifier: GPL-3.0-only
-
-#
-#
-# ~chewygumxx/dotfiles.git
-# ::: :/.claude/CLAUDE.md
-#
-#
+ctime: 2026-09-29
+mtime: 2026-10-05
+spdx: GPL-3.0-only
+title: CLAUDE.md
+description: >-
+  Claude Code's guide to these chezmoi-managed dotfiles: prose rules, layout and
+  conventions.
+tags:
+  - llm
+  - claude
 ---
+
+<!--
+   -
+   - ~chewygumxx/dotfiles.git
+   - ::: :/.claude/CLAUDE.md
+   -
+   -->
 
 # CLAUDE.md
 
@@ -151,3 +159,5 @@ source-attribute naming is correct, and file headers/commit messages follow the
 conventions above. When in doubt about whether a config change works, check the
 relevant tool's own docs/behavior (Zsh, chezmoi, Neovim, Hyprland, etc.) rather
 than looking for a repo-local test command, since none exists otherwise.
+
+<!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->

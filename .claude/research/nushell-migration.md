@@ -1,14 +1,24 @@
 ---
-# vim:set expandtab shiftwidth=2 filetype=markdown:
-# SPDX-License-Identifier: GPL-3.0-only
-
-#
-#
-# ~chewygumxx/dotfiles.git
-# ::: :/.claude/research/nushell-migration.md
-#
-#
+ctime: 2026-09-29
+mtime: 2026-10-05
+spdx: GPL-3.0-only
+title: Zsh to Nushell migration research
+description: >-
+  Assessment of moving from zsh to Nushell, written against this repository's
+  zsh configuration.
+tags:
+  - research
+  - nushell
+  - zsh
+  - shell
 ---
+
+<!--
+   -
+   - ~chewygumxx/dotfiles.git
+   - ::: :/.claude/research/nushell-migration.md
+   -
+   -->
 
 # Zsh to Nushell migration research
 
@@ -246,3 +256,5 @@ one real gap (no custom cargo builds) is unlikely to matter for interactive dail
 - [I migrated to Nushell for all of my Terminal scripts - XDA](https://www.xda-developers.com/migrated-nushell-terminal-scripts/): positive migration account, also notes `nvm`-to-Volta swap.
 - [Foreign Shell Scripts | Nushell](https://www.nushell.sh/cookbook/foreign_shell_scripts.html) and [Source bash script · Issue #5505](https://github.com/nushell/nushell/issues/5505): confirms Nu cannot source POSIX shell scripts, can run them as opaque subprocesses only.
 - [Overlays and structured env vars · Issue #15920](https://github.com/nushell/nushell/issues/15920) and [Module Scenarios | Nushell](https://www.nushell.sh/cookbook/modules.html): `overlay use`/`export-env` scoping mechanics, Python venv pattern as the model for scoped environments.
+
+<!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
