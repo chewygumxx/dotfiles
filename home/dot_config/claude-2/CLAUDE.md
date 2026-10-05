@@ -1,17 +1,22 @@
 ---
-__cgxx: |
-  # vim:set expandtab shiftwidth=2 filetype=markdown:
-  # SPDX-License-Identifier: GPL-3.0-only
-
-  #
-  #
-  # ~chewygumxx/dotfiles.git
-  # ::: :/home/dot_config/claude/CLAUDE.md
-  #
-  #
-
 ctime: 2026-09-21
+mtime: 2026-10-05
+spdx: GPL-3.0-only
 title: CLAUDE.md
+description: >-
+  User-wide Claude Code instructions, for every project
+tags:
+  - llm
+  - claude
 ---
 
+<!--
+   -
+   - ~chewygumxx/dotfiles.git
+   - ::: :/home/dot_config/claude-2/CLAUDE.md
+   -
+   -->
+
 # CLAUDE.md
+
+<!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
