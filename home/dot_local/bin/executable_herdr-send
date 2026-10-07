@@ -1,0 +1,89 @@
+#!/usr/bin/env zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
+#
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_herdr-send
+#
+#
+#
+# @file herdr-send
+# @brief
+#     Sends a message to an agent in a herdr pane
+# @description
+#     Reads text stdin, textwraps with markdown awareness at width of
+#     80 characters, and submits it to a herdr pane hosting an agent as a
+#     prompt (the text followed by the key 'enter').
+#
+# @option -d<date> | --date=<date>
+#     `systemd-run --user --unit=herdr-send-<agent>-<stamp>
+#     --on-calendar=<date>`, where <stamp> is the scheduling time in
+#     nanoseconds since the epoch, so any number of sends may be pending for
+#     the same agent
+#
+# @arg $1
+#     Herdr hosted agent
+# @stdin
+#     Message
+
+emulate -L zsh
+
+# @internal
+# @description
+#     Prints message (if provided) and exits with code provided by option or 1
+#
+# @option -<number>
+#     Exit code
+# @arg $*
+#     Message
+fatal() {
+    if [[ "$1" == -<-> ]]; then
+        local exit="${1#-}"
+        shift
+    fi
+
+    (( $# )) && print -u2 -f $'\e[1mherdr-send\e[0m: %s\n' -- \
+        "$(print -r -- "$*" | fmt --width 80)"
+    exit "${exit:-1}"
+}
+
+local -a opt_date
+zparseopts -D -E -F -- d:=opt_date -date:=opt_date || exit 2
+[[ "$1" == -- ]] && shift
+(( $# == 1 )) || fatal -2 "expected exactly 1 agent, got $#"
+local agent="$1"
+# The last occurrence wins; `--date=<date>` leaves its `=` on the argument
+local date="${opt_date[-1]#=}"
+
+local message
+message="$(prettier --no-config --no-editorconfig --parser markdown \
+    --prose-wrap always --print-width 80)" \
+    || fatal 'failed to wrap message'
+[[ "$message" == *[^[:space:]]* ]] || fatal 'empty message on stdin'
+
+# Deferred sends re-run this script from a transient timer, handing it the
+# already wrapped message back on stdin via StandardInputData=
+if [[ -n "$date" ]]; then
+    local -a setenv=(--setenv=PATH)
+    [[ -n "$HERDR_SOCKET_PATH" ]] && setenv+=(--setenv=HERDR_SOCKET_PATH)
+
+    # Characters a unit name can't hold become `_`, rather than systemd-escape
+    # mangling the common `-` into `\x2d`. The stamp keeps each pending send
+    # its own unit.
+    zmodload -F zsh/datetime p:EPOCHREALTIME
+    exec systemd-run --user --collect \
+        --unit="herdr-send-${agent//[^[:alnum:]:_.-]/_}-${EPOCHREALTIME/./}" \
+        --on-calendar="$date" \
+        "${setenv[@]}" \
+        --property=StandardInputData="$(print -rn -- "$message" | base64 -w0)" \
+        -- "${0:A}" "$agent"
+fi
+
+# `agent prompt` honours the pane's bracketed paste mode and writes the text
+# and enter as one ordered submission. Its success JSON goes to stdout and its
+# error JSON to stderr.
+local error
+error="$(herdr agent prompt "$agent" "$message" 2>&1 >/dev/null)" || fatal \
+    "${$(jq -r '.error.message // empty' 2>/dev/null <<< "$error"):-$error}"
