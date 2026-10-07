@@ -14,8 +14,8 @@
 #     Sends a message to an agent in a herdr pane
 # @description
 #     Reads text stdin, textwraps with markdown awareness at width of
-#     80 characters, and submits it to a herdr pane hosting an agent as a
-#     prompt (the text followed by the key 'enter').
+#     80 characters, sends it as text to a herdr pane hosting an agent, and
+#     successively sends the key 'enter'.
 #
 # @option -d<date> | --date=<date>
 #     `systemd-run --user --unit=herdr-send-<agent>-<stamp>
@@ -49,6 +49,20 @@ fatal() {
     exit "${exit:-1}"
 }
 
+# @internal
+# @description
+#     Runs a herdr API command, printing its result JSON, or dies with the
+#     message of its error JSON
+#
+# @arg $@
+#     herdr arguments
+api() {
+    local reply
+    reply="$(herdr "$@" 2>&1)" && { print -r -- "$reply"; return }
+    fatal \
+        "${$(jq -r '.error.message // empty' 2>/dev/null <<< "$reply"):-$reply}"
+}
+
 local -a opt_date
 zparseopts -D -E -F -- d:=opt_date -date:=opt_date || exit 2
 [[ "$1" == -- ]] && shift
@@ -71,19 +85,35 @@ if [[ -n "$date" ]]; then
 
     # Characters a unit name can't hold become `_`, rather than systemd-escape
     # mangling the common `-` into `\x2d`. The stamp keeps each pending send
-    # its own unit.
+    # its own unit. Timers otherwise coalesce to fire up to a minute late.
     zmodload -F zsh/datetime p:EPOCHREALTIME
     exec systemd-run --user --collect \
         --unit="herdr-send-${agent//[^[:alnum:]:_.-]/_}-${EPOCHREALTIME/./}" \
         --on-calendar="$date" \
+        --timer-property=AccuracySec=1s \
         "${setenv[@]}" \
         --property=StandardInputData="$(print -rn -- "$message" | base64 -w0)" \
         -- "${0:A}" "$agent"
 fi
 
-# `agent prompt` honours the pane's bracketed paste mode and writes the text
-# and enter as one ordered submission. Its success JSON goes to stdout and its
-# error JSON to stderr.
-local error
-error="$(herdr agent prompt "$agent" "$message" 2>&1 >/dev/null)" || fatal \
-    "${$(jq -r '.error.message // empty' 2>/dev/null <<< "$error"):-$error}"
+# Not `agent prompt`, which writes the text and enter as one submission: an
+# agent such as Claude Code swallows an enter arriving with a bracketed paste,
+# leaving the message unsent in its input. Its refusal of blocked agents is
+# kept, as text typed into an approval dialog could answer it.
+local agent_json pane
+agent_json="$(api agent get "$agent")" || exit
+pane="$(jq -r .result.agent.pane_id <<< "$agent_json")"
+[[ "$(jq -r .result.agent.agent_status <<< "$agent_json")" != blocked ]] \
+    || fatal "agent $agent is blocked on a dialog"
+
+# Sends to the same pane at once (eg. deferred to the same time) could
+# otherwise interleave, merging into one message with a later bare enter
+zmodload -F zsh/system b:zsystem
+local lock="${XDG_RUNTIME_DIR:-/tmp}/herdr-send-${pane//[^[:alnum:]]/_}.lock"
+local lock_fd
+# zsystem flock won't create its file
+{ : >> "$lock" && zsystem flock -f lock_fd "$lock" } \
+    || fatal "failed to lock pane $pane"
+
+api pane send-text "$pane" "$message" > /dev/null || exit
+api pane send-keys "$pane" enter > /dev/null || exit
