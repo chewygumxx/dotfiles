@@ -39,14 +39,16 @@ hbox.titlebar-buttonbox-container:nth-child(6) { display: none !important; }
 /* }}} */
 
 /* {{{ Shrink Sidebar Header */
-#sidebar-header {
+window#webextpanels-window sidebar-panel-header#sidebar-panel-header {
+    display: none !important;
+    background-color: #03030b !important;
     font-size: 1.2em !important;
     padding: 2px 6px 2px 3px !important;
 }
-#sidebar-header #sidebar-close {
+window#webextpanels-window sidebar-panel-header#sidebar-panel-header sidebar-close {
     padding: 3px !important;
 }
-#sidebar-header #sidebar-close .toolbarbutton-icon {
+window#webextpanels-window sidebar-panel-header#sidebar-panel-header sidebar-close .toolbarbutton-icon {
     width:  14px !important;
     height: 14px !important;
     opacity: 0.6 !important;
