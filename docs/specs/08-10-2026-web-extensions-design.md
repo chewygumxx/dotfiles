@@ -103,7 +103,8 @@ Each of these was tested on this machine on 2026-10-08. Evidence is in the
       extensions/<add-on-id>.xpi                   (externals, type "file")
   chromium/
     chewy-ungoogled/                               (--user-data-dir, unmanaged)
-    extensions/<name>/                             (externals, type "archive")
+    extensions/mv3/<name>/                         (externals, type "archive")
+    extensions/mv2/<name>/                         (externals, type "archive")
 ```
 
 Removed: the source tree `home/dot_config/mozilla-firefox/` (including the
@@ -167,8 +168,8 @@ Initial list (2026-10-08):
 | SingleFile | yes | Web Store |
 | SponsorBlock | yes | Web Store |
 | Stylus | yes | Web Store |
-| TWP - Translate Web Pages | yes | none (MV2 only) |
-| uBlock Origin | yes | Web Store (uBlock Origin Lite) |
+| TWP - Translate Web Pages | yes | MV2 only: GitHub release CRX (`chromiumMv2`) |
+| uBlock Origin | yes | Web Store (uBlock Origin Lite), overridden by the MV2 GitHub release CRX (`chromiumMv2`) |
 | Violentmonkey | yes | Web Store |
 
 Firefox-only additions, covering every other installed AMO add-on:
@@ -189,7 +190,7 @@ Firefox-only additions, covering every other installed AMO add-on:
 | Tab Image Saver | extension |
 | UltimaDark | extension |
 | View Image | extension |
-| Blue Cyberpunk, Pixel Cyberpunk, Cyberpunk 2077 3, Cyberpunk Lo-Fi, Cyberpunk Pixels - Animated, ITJ's Cyberpunk Dark Edit | theme |
+| Cyberpunk Lo-Fi, Cyberpunk Pixels - Animated | theme |
 
 Deliberately excluded:
 
@@ -209,7 +210,8 @@ automatically either. Add them to the list.
 
 `home/dot_local/share/private_mozilla/private_firefox/chewyfox/.chezmoiexternals/web-extensions.toml.tmpl`
 emits one `type = "file"` entry per extension with a `firefox` key, at
-`extensions/<id>.xpi`, from the AMO latest URL, `refreshPeriod = "168h"`.
+`extensions/<id>.xpi`, from the AMO latest URL, with the shared
+`refreshPeriod` (see Revisions).
 The profile's `.chezmoiignore` gains `!extensions/` so these targets are not
 ignored.
 
@@ -228,7 +230,8 @@ ignored.
 
 `home/dot_local/share/chromium/.chezmoiexternals/web-extensions.toml.tmpl`
 emits one `type = "archive"` entry per extension with a `chromium` key, at
-`extensions/<name>`, with `refreshPeriod = "168h"` and `exact = true`.
+`extensions/mv3/<name>` (`chromium`) or `extensions/mv2/<name>`
+(`chromiumMv2`), with the shared `refreshPeriod` and `exact = true`.
 `exact` removes files left over from the previous version when an extension
 updates.
 
@@ -327,6 +330,25 @@ verification report:
 5. `chezmoi diff` against the real home shows only the intended changes.
    The real `chezmoi apply` is left to the user, run with both browsers
    closed.
+
+## Revisions
+
+Made on 2026-10-08 after the first implementation pass, at the user's
+request:
+
+- **Three extension directories.** ungoogled-chromium 153 still runs
+  Manifest V2, so Chromium extensions are split into `extensions/mv3/` (data
+  key `chromium`) and `extensions/mv2/` (data key `chromiumMv2`), beside
+  Firefox's profile `extensions/`. The wrapper loads one build per name,
+  preferring MV2, and `CHROMIUM_MV2=0` falls back to MV3 only. A GitHub
+  asset ending in `.crx` goes through `crx-unpack`. uBlock Origin (full) and
+  TWP get MV2 builds.
+- **Themes.** Only Cyberpunk Lo-Fi and Cyberpunk Pixels (Animated) stay in
+  the list; the user uninstalled the rest by hand.
+- **Refresh period.** `home/.chezmoidata/externals.toml` defines
+  `refreshPeriod = "24h"` for every external in the repo that previously
+  hardcoded `168h`, and `home/.chezmoi.toml.tmpl` includes the same file for
+  `gitHub.refreshPeriod`.
 
 ## Future: system policies
 

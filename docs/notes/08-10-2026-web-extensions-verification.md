@@ -219,6 +219,69 @@ for header lines and the two new prefs, and `~/.config/mozilla-firefox` holds
 nothing else besides the stale `extensions.json`. The real apply loses no
 data.
 
+## Revisions: MV2 directory, themes, refresh period
+
+Checks for the [spec's Revisions](../specs/08-10-2026-web-extensions-design.md#revisions).
+
+### Template and wrapper
+
+| Check | Observed |
+| --- | --- |
+| Real data renders `extensions/mv3/<name>` entries | 17, none left at the flat `extensions/<name>` |
+| Real data renders `extensions/mv2/<name>` entries | `twp-translate-web-pages`, `ublock-origin` |
+| Synthetic `chromiumMv2` with a `.crx` asset | `format = "zip"` and the `crx-unpack` filter |
+| Synthetic `chromiumMv2` with a `.zip` asset | GitHub URL, no filter |
+| Wrapper with `mv3/{a,b}`, `mv2/{b,c}` | `--load-extension=.../mv3/a,.../mv2/b,.../mv2/c` |
+| Same with `CHROMIUM_MV2=0` | `--load-extension=.../mv3/a,.../mv3/b` |
+
+### `crx-unpack` and MS-DOS zip entries
+
+The first temp apply with uBlock Origin's GitHub CRX failed:
+`lstat .../mv2/ublock-origin/_locales/ar: permission denied`. Its entries
+have `create_system = 0` (MS-DOS), and zip readers, Go's included, only take
+the Unix mode from `external_attr` when `create_system` is 3, so directories
+came out without the execute bit. Before the fix all 781 converted entries
+were non-Unix; after setting `create_system = 3`, none were, and the
+crx-unpack checks above still passed.
+
+### Chromium runs the MV2 builds
+
+Temp apply of `.local/share/chromium` and the wrapper, then headless
+`chromium` through the wrapper:
+
+| Check | Observed |
+| --- | --- |
+| `manifest_version` and derived ID | TWP: 2, `bolggfoncklhniejomgplkjcllmnonbh`. uBlock Origin: 2, `fkgkibajhfbepljeaefdnfnegdcjomkh` |
+| Extensions registered (`location` 8) | 18 (17 mv3, minus uBlock Origin Lite, plus 2 mv2) |
+| Running targets | 18 unique; Claude has both a service worker and a page |
+| TWP and uBlock Origin | `background_page` running for each |
+| uBlock Origin Lite `ddkjiahejlhfcafbddmgiahcphecmpfh` | not loaded, overridden by the MV2 build |
+
+### Themes
+
+The data keeps `theme-cyberpunk-lo-fi` and `theme-cyberpunk-pixels-animated`;
+the Firefox externals template now renders 34 entries (was 38), and
+`chezmoi managed --include externals` lists 53 extension targets (34
+Firefox, 17 mv3, 2 mv2).
+
+### Shared refresh period
+
+| Check | Observed |
+| --- | --- |
+| `refreshPeriod = "168h"` left under `home/` | none |
+| Every templated external that sets `refreshPeriod` | renders `"24h"` |
+| Plain `.toml` externals setting `refreshPeriod` | none (`zsh-config`, `nvim-config` became `.tmpl`) |
+| `chezmoi execute-template --init < home/.chezmoi.toml.tmpl`, `[gitHub]` | `refreshPeriod = "24h"` |
+| `.chezmoidata` visible to the config template | no (`map has no entry for key`); `include ... \| fromToml` works |
+
+### `~/.config/mozilla-firefox` removal
+
+A temp destination holding `.config/mozilla-firefox/chewyfox/extensions.json`
+(a copy of the live stale file) and an otherwise empty tree: one
+`chezmoi apply` of that target, without `--force` and with no TTY, left
+nothing under `.config`. The stale file and its directories go with the
+`.chezmoiremove` entry, without a prompt.
+
 ## Not verified here
 
 - The real `chezmoi apply`, left to the user with both browsers closed.
