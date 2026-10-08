@@ -1,0 +1,17 @@
+# vim:set expandtab shiftwidth=4 filetype=conf:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/.shellcheckrc
+#
+#
+
+# `CDPATH= cd -- "$dir"` is the deliberate POSIX idiom for resolving a
+# directory without CDPATH interference, not a mistyped assignment.
+disable=SC1007
+
+# Sourced files (/etc/profile, ~/.profile, runtime paths) are machine-specific
+# and are not in this repository for shellcheck to follow.
+disable=SC1090,SC1091
