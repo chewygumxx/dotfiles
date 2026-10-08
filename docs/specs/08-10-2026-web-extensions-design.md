@@ -35,8 +35,9 @@ Background discussion: [conversation](../notes/08-10-2026-claude-conversation-we
    extension. No root access is required.
 3. All browser data lives under `~/.local/share`, one tree per vendor, with
    no symlink round trips through `~/.config`.
-4. Both browsers launch through shadow wrappers in `~/.local/bin`, including
-   from their systemd user units.
+4. ungoogled-chromium launches through a shadow wrapper in `~/.local/bin`,
+   including from its systemd user unit. Firefox needs no flags, so it has
+   no wrapper and its unit runs `/usr/bin/firefox`.
 
 ## Non-goals
 
@@ -167,9 +168,39 @@ Initial list (2026-10-08):
 | uBlock Origin | yes | Web Store (uBlock Origin Lite) |
 | Violentmonkey | yes | Web Store |
 
-Installed Firefox add-ons not on this list (themes, dictionaries, Imagus
-mod, ClearURLs, and others) stay installed and unmanaged. Under
-`autoUpdateDefault = false` they stop updating automatically too.
+Firefox-only additions, covering every other installed AMO add-on:
+
+| Add-on | Type |
+| --- | --- |
+| Australian English Dictionary | dictionary |
+| British English Dictionary (Marco Pinto) | dictionary |
+| ClearURLs | extension |
+| ContextSearch web-ext | extension |
+| Cookie-Editor | extension |
+| Download All Images | extension |
+| Image Search Options | extension |
+| Imagus mod | extension |
+| Load Reddit Images Directly | extension |
+| Open Multiple URLs | extension |
+| ScriptCat (脚本猫) | extension |
+| Tab Image Saver | extension |
+| UltimaDark | extension |
+| View Image | extension |
+| Blue Cyberpunk, Pixel Cyberpunk, Cyberpunk 2077 3, Cyberpunk Lo-Fi, Cyberpunk Pixels - Animated, ITJ's Cyberpunk Dark Edit | theme |
+
+Deliberately excluded:
+
+- `newtab@mozilla.org`: built into Firefox, not hosted on AMO.
+- `langpack-en-GB@firefox.mozilla.org`: language packs must match the
+  Firefox version exactly, and AMO's latest already targets the next
+  release. Under `autoUpdateDefault = false` a chezmoi-managed langpack
+  would break on every Firefox upgrade. Install the Arch package
+  `firefox-i18n-en-gb` instead, which pacman upgrades in lockstep with
+  `firefox`.
+
+Add-ons installed later through `about:addons` and not added to this list
+stay unmanaged, and under `autoUpdateDefault = false` they do not update
+automatically either. Add them to the list.
 
 ### Firefox externals
 
@@ -221,13 +252,13 @@ extension under the wrong ID.
 ### Host scoping
 
 Termux runs neither browser, so `home/.chezmoiignore` ignores
-`.local/share/chromium/`, `.local/share/mozilla/`, the two wrappers,
-`crx-unpack`, and the browser systemd units under the Termux condition.
+`.local/share/chromium/`, `.local/share/mozilla/`, the `chromium`
+wrapper, `crx-unpack`, and the browser systemd units under the Termux condition.
 That also keeps chezmoi from downloading roughly 40 extensions there.
 
-### Wrappers: `home/dot_local/bin/executable_{chromium,firefox}`
+### Wrapper: `home/dot_local/bin/executable_chromium`
 
-Self-contained zsh shadow wrappers that follow the sibling `wget` and
+A self-contained zsh shadow wrapper that follows the sibling `wget` and
 `xdg-open` wrappers: resolve the real binary from `PATH` while skipping the
 wrapper's own directory, then `exec` it with a flags array.
 
@@ -238,13 +269,14 @@ wrapper's own directory, then `exec` it with a flags array.
   `--load-extension=` joined from every `extensions/*/` that contains a
   `manifest.json`. The broken profile-creation block is dropped, since
   Chromium creates the directory itself.
-- `firefox` passes `-P "$PROFILE"` so the profile is chosen explicitly
-  rather than depending on `installs.ini` hash matching.
 
 ### systemd user units
 
-`firefox.service` and `ungoogled-chromium.service` launch
-`%h/.local/bin/{firefox,chromium}`.
+`ungoogled-chromium.service` launches `%h/.local/bin/chromium`.
+`firefox.service` keeps `/usr/bin/firefox`; the draft change pointing it at a
+nonexistent `%h/.local/bin/firefox` is reverted. zsh-config (`BROWSER`,
+`GH_BROWSER`, `ZVM_OPEN_URL_CMD`) only calls `firefox` by name, so it needs
+no change.
 
 ### Migration: `run_once_before_` script
 
