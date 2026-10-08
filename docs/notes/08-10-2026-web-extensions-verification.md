@@ -148,6 +148,11 @@ zsh env prepends `~/.local/bin` to `PATH` for every zsh script.
 | Old dir with `SingletonLock` symlink | `[WARN] Chromium is using ...`, exit 0, nothing moved |
 | Both dirs present | `[WARN] Both ... exist, leaving both untouched`, exit 0 |
 | Neither | silent, exit 0 |
+| Stale lock: this host, dead pid | `[NOTICE] Ignoring stale lock ...`, moved |
+| Live lock: this host, live pid | skipped, nothing moved |
+| Lock from another host | skipped, nothing moved |
+| Wrapper, old profile only | `Profile not migrated yet, ...`, `--user-data-dir` is the old path |
+| Wrapper, both profiles | new path, no warning |
 | `CHEZMOI_DEST_DIR` in scripts | a `run_` script in a temp source wrote `dest=<the --destination path>` |
 
 ### Chromium loads every extension under the right ID

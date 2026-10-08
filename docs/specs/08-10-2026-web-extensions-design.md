@@ -272,7 +272,9 @@ wrapper itself, then `exec` it with a flags array.
 - `chromium` passes `--user-data-dir=$XDG_DATA_HOME/chromium/$PROFILE` and
   `--load-extension=` joined from every `extensions/*/` that contains a
   `manifest.json`. The broken profile-creation block is dropped, since
-  Chromium creates the directory itself.
+  Chromium creates the directory itself. While the old profile exists and
+  the new one does not, the wrapper uses the old one and warns, so an early
+  launch cannot create an empty profile that blocks the migration.
 
 ### systemd user units
 
@@ -286,7 +288,8 @@ no change.
 
 `home/.chezmoiscripts/run_before_migrate-chromium-profile` moves
 `~/.local/share/chewy-ungoogled` to `~/.local/share/chromium/chewy-ungoogled`
-if the old path exists, the new one does not, and Chromium is not running.
+if the old path exists, the new one does not, and Chromium is not running
+(a `SingletonLock` naming a dead pid on this host is stale and ignored).
 Otherwise it prints why it skipped and exits 0, so `chezmoi apply` continues.
 It is `run_before_`, not `run_once_before_`, so a skipped move is retried on
 the next apply; once the old path is gone it does nothing.
@@ -296,7 +299,9 @@ stays untouched and is mentioned in the docs.
 ## Error handling
 
 - A failed download, GitHub API error, or `crx-unpack` failure makes chezmoi
-  abort before writing anything. Rerun after fixing; no partial state.
+  abort before writing anything; no partial state. chezmoi caches the raw
+  download, so after fixing (or a transient bad response) rerun with
+  `--refresh-externals`.
 - A Web Store extension that is delisted or goes MV2-only returns a non-CRX
   response, and `crx-unpack` rejects it with a message naming the problem.
 - `gitHubLatestReleaseAssetURL` calls the GitHub API at template time.

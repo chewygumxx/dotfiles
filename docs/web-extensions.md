@@ -236,7 +236,12 @@ with a warning on stderr, and the browser still launches.
    `~/.local/share/chromium/chewy-ungoogled`. If Chromium is still running,
    or both paths exist, it prints a warning, moves nothing, and lets the
    apply continue. It runs before every apply, so the move happens on the
-   next run once the reason is gone.
+   next run once the reason is gone. A stale `SingletonLock` left by a crash
+   (this host, dead pid) does not block it.
+
+   Until the move happens, the wrapper keeps launching the old profile and
+   warns `Profile not migrated yet`, so Chromium never starts on an empty
+   profile at the new path.
 4. `~/.config/chromium` is left alone. It was created by a launch that
    bypassed the wrapper; delete it if nothing there is wanted.
 5. `sudo pacman -S firefox-i18n-en-gb` for the British English language
@@ -248,6 +253,10 @@ with a warning on stderr, and the browser still launches.
 else, usually because the extension was delisted, is MV2-only, or needs a
 newer `prodversion`. The apply aborts before writing anything. Check the
 store page, then bump `webBrowsers.chromium.version` or remove the entry.
+chezmoi caches the download before the filter runs, so a bad response keeps
+failing every apply until the `refreshPeriod` runs out. After fixing the
+cause, or when the failure was transient, rerun with
+`chezmoi apply --refresh-externals`.
 
 **GitHub API rate limit.** `gitHubLatestReleaseAssetURL` calls the GitHub
 API every time the template renders. Unauthenticated calls are limited to
@@ -259,8 +268,10 @@ its files in a top-level directory. Add `stripComponents = 1` to that
 entry's `chromium` table.
 
 **`about:addons` lists updates.** Expected with `autoUpdateDefault = false`.
-Run `chezmoi apply --refresh-externals`, or update by hand and accept that
-`chezmoi diff` shows that XPI as changed until the next refresh.
+Run `chezmoi apply --refresh-externals`. Updating by hand is possible but
+fights chezmoi: until the next refresh, `chezmoi apply` reports the XPI as
+changed since it last wrote it, and overwriting (or `--force`) puts the
+older cached copy back.
 
 **`chezmoi: could not open a new TTY`.** `progress = true` in the chezmoi
 config draws download progress on `/dev/tty`. Run from a terminal, or pass
