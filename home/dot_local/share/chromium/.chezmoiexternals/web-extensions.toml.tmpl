@@ -12,23 +12,31 @@
 {{- if ne .chezmoi.destDir "/data/data/com.termux/files/home" }}
 {{-   $crxUnpack := joinPath .chezmoi.sourceDir "dot_local/bin/executable_crx-unpack" }}
 {{-   $prodversion := .webBrowsers.chromium.version }}
-{{-   range .webExtensions }}
-{{-     $source := get . "chromium" }}
-{{-     if $source }}
+{{- /* One directory per manifest version, each fed by its own data key */ -}}
+{{-   range $dir, $key := dict "mv3" "chromium" "mv2" "chromiumMv2" }}
+{{-     range $.webExtensions }}
+{{-       $source := get . $key }}
+{{-       if $source }}
 
-[{{ joinPath "extensions" .name | quote }}]
+[{{ joinPath "extensions" $dir .name | quote }}]
     type           = "archive"
     exact          = true
     refreshPeriod  = "168h"
-{{-       if kindIs "string" $source }}
+{{-         if kindIs "string" $source }}
     format         = "zip"
     url            = {{ printf "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=%s&acceptformat=crx3&x=id%%3D%s%%26uc" $prodversion $source | quote }}
     filter.command = "python3"
     filter.args    = ["-I", {{ $crxUnpack | quote }}]
-{{-       else }}
+{{-         else }}
     url            = {{ gitHubLatestReleaseAssetURL $source.repo $source.asset | quote }}
-{{-         with get $source "stripComponents" }}
+{{-           if hasSuffix ".crx" $source.asset }}
+    format         = "zip"
+    filter.command = "python3"
+    filter.args    = ["-I", {{ $crxUnpack | quote }}]
+{{-           end }}
+{{-           with get $source "stripComponents" }}
     stripComponents = {{ . }}
+{{-           end }}
 {{-         end }}
 {{-       end }}
 {{-     end }}
