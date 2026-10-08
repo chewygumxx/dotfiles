@@ -1,6 +1,6 @@
 ---
 ctime: 2026-09-29
-mtime: 2026-10-07
+mtime: 2026-10-09
 spdx: GPL-3.0-only
 title: CLAUDE.md
 description: >-
@@ -156,23 +156,37 @@ Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
   `.github/workflows/sync-repo-metadata.yaml` whenever that file changes
   on push.
 
-## No build/test/lint tooling
+## Checks
 
-There is no build step or test suite for this repository.
-`package.json`/`bun.lock` exist solely to pull in `husky`,
-`commitlint`, and `typescript` (see the commit-messages convention above) as
-devDependencies, not as an application dependency tree. `.commitlintrc.mts` is
-the one file with real typechecking: `tsconfig.json` scopes `tsc` to just that
-file (TS's default `**/*` include glob skips dotfiles, so it has to be listed
-explicitly), and `bun run typecheck` runs it; this only catches shape/typo
-errors at editor- or CI-time; the commit-msg hook itself loads
-`.commitlintrc.mts` via `jiti` (transpile-only, no type-checking) so a type
-error there would still pass silently at commit time if `bun run typecheck`
-isn't run separately. "Correctness" elsewhere in the repo means: the
-shell/config files are syntactically valid for their target tool, chezmoi
-source-attribute naming is correct, and file headers/commit messages follow the
-conventions above. When in doubt about whether a config change works, check the
-relevant tool's own docs/behavior (Zsh, chezmoi, Neovim, Hyprland, etc.) rather
-than looking for a repo-local test command, since none exists otherwise.
+There is no build step or test suite. `package.json`/`bun.lock` only pull in
+dev tooling (husky, commitlint, commitizen, prettier, remark, typescript).
+Linting runs in three places:
+
+- `.husky/pre-commit` (staged files): luafmt then luacheck (nearest
+  `.luacheckrc`), tombi format/lint, prettier on JSON/YAML; `symlink_*` files
+  skipped. `.github/workflows/lint-config.yaml` runs the same checks in CI.
+- `.claude/hooks/lint-on-edit.sh` (each file Claude writes): the above, plus
+  shellcheck (rules in `.shellcheckrc`), `zsh -n`, and
+  `chezmoi execute-template` for templates, skipping any that call a secret
+  or command function directly or through an include.
+- `bun run typecheck`: `tsconfig.json` scopes `tsc` to `.commitlintrc.mts`
+  alone (TS's default `**/*` glob skips dotfiles). The commit-msg hook loads
+  that file via `jiti` (transpile-only), so a type error there passes silently
+  at commit time unless this is run.
+
+Beyond that, "correct" means valid for the target tool, right chezmoi naming,
+and headers/commit messages per the conventions above. Check the tool's own
+docs (context7 MCP is configured for that) rather than looking for a repo-local
+test command.
+
+## Claude tooling
+
+- `.claude/hooks/guard-chezmoi-apply.sh` (PreToolUse Bash) blocks chezmoi
+  commands that write to the real home unless fully sandboxed or `--dry-run`.
+  Applying to the real home is the user's call; suggest the command instead.
+- Skills: `chezmoi-sandbox` (apply into a temp dir), `new-dotfile` (naming,
+  ignores, header and scope checklist for new files).
+- Agent: `chezmoi-reviewer`, a read-only review against these conventions; run
+  it before opening a PR.
 
 <!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
