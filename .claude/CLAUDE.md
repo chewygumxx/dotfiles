@@ -114,8 +114,8 @@ Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
   YAML frontmatter (`ctime`, `mtime`, `spdx`, `title`, `description`, `tags`),
   then an HTML-comment path box, with the modeline on the last line. These
   headers are auto-maintained by the `sync-header-metadata` GitHub Action on
-  every push/PR to `main` (see `.github/workflows/sync-header-metadata.yaml`), which commits
-  corrections back (`chore: Sync header metadata`). When adding a new file,
+  every push/PR to `main` (see `.github/workflows/sync-header-metadata.yaml`),
+  which commits corrections back (`chore: Sync header metadata`). When adding a new file,
   follow the existing header style from a sibling file of the same type rather
   than inventing one; CI will fix minor drift. The `header-metadata` plugin
   writes this header into each new file on Write.
@@ -136,26 +136,13 @@ Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
     `feat(zsh/hypr): ...`). Scope is optional; a commit with no scope at all
     (e.g. `build: ...`) always passes this rule. A new config area needs its
     scope added before its first scoped commit (see the `new-dotfile` skill).
-  - Interactive commit authoring is available via `bun run commit`
-    (`commitizen` configured via `package.json`'s `config.commitizen.path` to use
-    the `@chewygumxx/cz-commitlint` adapter, a wrapper around
-    `@commitlint/cz-commitlint`). Choices offered are always exactly
-    the `type-enum`/`scope-enum` rule arrays above (never the extended
-    `@commitlint/config-conventional` defaults, even though those get merged into
-    the resolved config's `prompt.questions.*.enum` objects); each choice is
-    decorated with the per-type/scope `description` (and `emoji`, if set) from
-    `.commitlintrc.mts`'s own `prompt.questions` block.
-  - The interactive list itself (`type`/`scope` selection) shows each choice's
-    `fullName` (e.g. `Feature`) rather than the raw enum key (`feat`) as its
-    label: `@commitlint/cz-commitlint` hardcodes the enum key into the label, so
-    the `@chewygumxx/cz-commitlint` wrapper relabels each choice with its
-    `title` before the list is shown, without patching the installed package.
-    The commit header still gets the raw enum key regardless of what's shown in
-    the list, since the selected choice's `value` (always the enum key) is what
-    goes into the header, never its display label.
+  - `bun run commit` is interactive commitizen authoring, for the user (it
+    needs a TTY). Via the `@chewygumxx/cz-commitlint` adapter it offers only
+    the `type-enum`/`scope-enum` values above, labelled by their `title`; the
+    header always gets the raw enum key.
   - Enforced in CI on push to `main` and on PRs via
-    `.github/workflows/commitlint.yaml`, which is passed `configFile:
-./.commitlintrc.mts` explicitly; the action's own default
+    `.github/workflows/commitlint.yaml`, which is passed
+    `configFile: ./.commitlintrc.mts` explicitly; the action's own default
     (`./commitlint.config.mjs`) doesn't exist in this repo and would otherwise
     silently fall back to bare `@commitlint/config-conventional` with no error.
 - **Repo metadata** (`.repo-metadata.jsonc`) is synced to the GitHub repo's own
