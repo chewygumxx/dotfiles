@@ -1,0 +1,66 @@
+#!/bin/sh
+# vim:set expandtab shiftwidth=4 filetype=sh:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_docker
+#
+#
+
+#
+# Shadow wrapper script as configuration
+#
+
+: "${DOCKER_CONFIG:="$XDG_CONFIG_HOME/docker"}"
+export DOCKER_CONFIG
+
+__this_name=${0##*/}
+
+log() {
+    printf '[shadow] %s: %s\n' "$__this_name" "$*" >&2
+}
+
+fatal() {
+    __code=$1
+    shift
+    log "$@"
+    exit "$__code"
+}
+
+# Locate the first executable of the same name on PATH that is not this file.
+# "-ef" compares device and inode, so symlinks, trailing slashes and
+# alternate spellings of this file's path are all handled correctly.
+__real=''
+set -f
+IFS=:
+for __dir in $PATH; do
+    [ -n "$__dir" ] || continue
+    __candidate="$__dir/$__this_name"
+    if [ -f "$__candidate" ] && [ -x "$__candidate" ] && ! [ "$__candidate" -ef "$0" ]; then
+        __real="$__candidate"
+        break
+    fi
+done
+unset IFS
+set +f
+
+[ -n "$__real" ] || fatal 127 'Shadowed executable not found'
+
+# Best-effort creation of the history file's parent directory. Node will not
+# create it and silently skips persistence if it is missing. Failure is
+# deliberately non-fatal so that non-interactive callers (LSP servers, build
+# tools, CI) are never blocked by a history path they do not use.
+case $DOCKER_CONFIG in
+*/*)
+    __parent_dir=${DOCKER_CONFIG%/*}
+    [ -n "$__parent_dir" ] || __parent_dir=/
+    ;;
+*)
+    __parent_dir=.
+    ;;
+esac
+[ -d "$__parent_dir" ] || mkdir -p -m 0700 -- "$__parent_dir" 2>/dev/null || :
+
+exec "$__real" "$@"
