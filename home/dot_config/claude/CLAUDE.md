@@ -1,6 +1,6 @@
 ---
 ctime: 2026-09-21
-mtime: 2026-10-05
+mtime: 2026-10-09
 spdx: GPL-3.0-only
 title: CLAUDE.md
 description: >-
@@ -13,7 +13,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/home/dot_config/claude/CLAUDE.md
+   - ::: :/dot_config/claude/CLAUDE.md
    -
    -->
 

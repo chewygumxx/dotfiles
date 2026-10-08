@@ -80,9 +80,10 @@ any, stays on line 1. CI's `sync-header-metadata` fixes path drift later.
 
 ## 5. Commit scope
 
-Commits for a new config area need a scope or `scope-enum` blocks them. If
-`<tool>` is not already in `scopes.enum` in `.commitlintrc.mts`, add an entry
-in alphabetical position, matching neighbours:
+A scope is optional, but `scope-enum` blocks any scope not listed, so
+`feat(<tool>): ...` fails until `<tool>` is in `scopes.enum` in
+`.commitlintrc.mts`. If it is missing, add an entry in alphabetical position,
+matching neighbours:
 
 ```ts
 {
