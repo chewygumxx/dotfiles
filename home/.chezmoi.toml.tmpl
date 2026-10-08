@@ -23,11 +23,11 @@ sourceDir       = {{ joinPath
     "dotfiles"
 | quote }}
 cacheDir        = {{ joinPath
-    (or (env "XDG_CACHE_HOME") (joinPath .chezmoi.home ".local" "cache"))
+    (or (env "XDG_CACHE_HOME") (joinPath .chezmoi.homeDir ".local" "cache"))
     "chezmoi"
 | quote }}
 persistentState = {{ joinPath
-    (or (env "XDG_STATE_HOME") (joinPath .chezmoi.home ".local" "state"))
+    (or (env "XDG_STATE_HOME") (joinPath .chezmoi.homeDir ".local" "state"))
     "chezmoi"
     "chezmoistate.boltdb"
 | quote }}
