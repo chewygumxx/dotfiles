@@ -3,7 +3,7 @@
 //
 //
 // ~chewygumxx/dotfiles.git
-// ::: :/home/dot_config/mozilla-firefox/chewyfox/user.js
+// ::: :/home/dot_local/share/private_mozilla/private_firefox/chewyfox/user.js
 //
 //
 // https://searchfox.org/

@@ -12,6 +12,7 @@
 # -------------------
 
 .bash_history
+.config/mozilla-firefox   # Firefox files now live in .local/share/mozilla/firefox
 
 # ------------------
 # Chewytop Removed
