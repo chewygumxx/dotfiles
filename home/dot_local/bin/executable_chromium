@@ -1,0 +1,139 @@
+#!/usr/bin/env zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_chromium
+#
+#
+
+#
+# Shadow wrapper as configuration
+#
+# Loads every unpacked extension chezmoi places in
+# $XDG_DATA_HOME/chromium/extensions/, see docs/web-extensions.md.
+#
+
+local self="${${(%):-%N}:A}"
+local data="${XDG_DATA_HOME:-$HOME/.local/share}/chromium"
+
+# --------------
+# Configuration
+# --------------
+
+# Profile directory under $data, passed as --user-data-dir
+local PROFILE="chewy-ungoogled"
+
+# https://github.com/ungoogled-software/ungoogled-chromium/blob/master/docs/flags.md
+local -a flags=(
+    # Disable 'Create QR code for this page'
+    --enable-features=DisableQRGenerator
+
+    # Custom themes in incognito mode
+    --enable-incognito-themes
+
+    # Nightbitch
+    --force-dark-mode
+
+    # Animation
+    #--force-prefers-reduced-motion
+    --force-prefers-no-reduced-motion
+
+    # Default Browser
+    --no-default-browser-check
+
+    # Custom new tab page
+    --custom-ntp="about:blank"
+
+    # Bookmark bar on new tab page. Only accepts `never`
+    --bookmark-bar-ntp=never
+
+    # Disable top sites in new tab page
+    --disable-top-sites
+
+    # Hides 'Press F11 to exit' and mouse hover top 'X' when in fullscreen
+    --hide-fullscreen-exit-ui
+
+    # Hides persistent 'x' button to close tab
+    --hide-tab-close-buttons
+
+    # Remove empty space in tabstrip for click-drag-move window
+    --remove-grab-handle
+
+    # Scroll tabs switches tabs
+    --scroll-tabs-never
+
+    # Show avatar/account button in toolbar
+    --show-avatar-button=never
+
+    # Disable 90 day browser history auto-wipe
+    --keep-old-history
+
+    # Disable "Restore Pages? Chromium didn't shut down correctly."
+    --hide-crashed-bubble
+
+    # Filetype handling for extensions (CRX) and userscripts
+    # - `download-as-regular-file`
+    # - `always-prompt-for-install`
+    --extension-mime-request-handling=download-as-regular-file
+
+    # Application data directory
+    # - Default: ~/.config/chromium
+    --user-data-dir="$data/$PROFILE"
+)
+
+# --------
+# Helpers
+# --------
+
+log() {
+    print -u2 -r -- "${self:t}: $*"
+}
+
+fatal() {
+    local code=1
+    if [[ "$1" == -<-> ]]; then
+        code="${1#-}"
+        shift
+    fi
+    log "$@"
+    exit "$code"
+}
+
+# -----------
+# Resolution
+# -----------
+
+# First `chromium` in PATH that is not this file, compared by resolved
+# path so a differently spelled PATH entry for this directory is skipped
+# too. PATH itself is left untouched for the browser.
+local candidate real
+for candidate in ${(f)"$(whence -ap -- "${self:t}")"}; do
+    [[ "${candidate:A}" == "$self" ]] && continue
+    real="$candidate"
+    break
+done
+[[ -n "$real" ]] || fatal -127 "Shadowed command not found: ${self:t}"
+
+# -----------
+# Extensions
+# -----------
+
+local -a extensions
+local dir
+for dir in "$data"/extensions/*(N/); do
+    if [[ -f "$dir/manifest.json" ]]; then
+        extensions+=("$dir")
+    else
+        log "Skipping extension without manifest.json: ${(D)dir}"
+    fi
+done
+(( $#extensions )) && flags+=(--load-extension="${(j:,:)extensions}")
+
+# ----------
+# Execution
+# ----------
+
+exec "$real" "${flags[@]}" "$@"
