@@ -117,6 +117,19 @@ for candidate in ${(f)"$(whence -ap -- "${self:t}")"}; do
 done
 [[ -n "$real" ]] || fatal -127 "Shadowed command not found: ${self:t}"
 
+# --------
+# Profile
+# --------
+
+# Until run_before_migrate-chromium-profile has moved the old profile, keep
+# using it rather than let Chromium create an empty one at the new path,
+# which would leave the migration stuck on "both exist"
+local legacy="${data:h}/$PROFILE"
+if [[ -d "$legacy" && ! -e "$data/$PROFILE" ]]; then
+    log "Profile not migrated yet, using ${(D)legacy}; close Chromium and run chezmoi apply"
+    flags[(r)--user-data-dir=*]="--user-data-dir=$legacy"
+fi
+
 # -----------
 # Extensions
 # -----------
