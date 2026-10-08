@@ -77,8 +77,7 @@ disabled on the second, so mirror any other change in both.
 
 `docs/` is not applied either. It holds user guides at the top level (e.g.
 `docs/web-extensions.md`) and dated working documents in `notes/`, `plans/`
-and `specs/` (`DD-MM-YYYY-<topic>.md`, YAML frontmatter, HTML-comment path
-header).
+and `specs/` (`DD-MM-YYYY-<topic>.md`).
 
 Browser extensions for Firefox and ungoogled-chromium are declared once in
 `home/.chezmoidata/web-extensions.toml` and installed by the
@@ -111,9 +110,11 @@ Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
 - **File headers**: nearly every tracked file starts with an editor modeline,
   an `SPDX-License-Identifier` line, and a boxed comment giving the repo slug and
   the file's repo-relative path (e.g. `::: :/home/dot_config/wezterm/wezterm.lua`),
-  using the line-comment syntax for that file's language. These headers are
-  auto-maintained by the `sync-header-metadata` GitHub Action on every push/PR to
-  `main` (see `.github/workflows/sync-header-metadata.yaml`), which commits
+  using the line-comment syntax for that file's language. Markdown differs:
+  YAML frontmatter (`ctime`, `mtime`, `spdx`, `title`, `description`, `tags`),
+  then an HTML-comment path box, with the modeline on the last line. These
+  headers are auto-maintained by the `sync-header-metadata` GitHub Action on
+  every push/PR to `main` (see `.github/workflows/sync-header-metadata.yaml`), which commits
   corrections back (`chore: Sync header metadata`). When adding a new file,
   follow the existing header style from a sibling file of the same type rather
   than inventing one; CI will fix minor drift. The `header-metadata` plugin
