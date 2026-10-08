@@ -148,28 +148,12 @@ name    = "tab-image-saver"
 firefox = "tab-image-saver@mcdamo.addons.mozilla.org"
 
 [[webExtensions]]
-name    = "theme-blue-cyberpunk"
-firefox = "{7a92e0d1-2ea7-4124-87e5-016277703208}"
-
-[[webExtensions]]
-name    = "theme-cyberpunk-2077-3"
-firefox = "{d8c44ec8-e3c4-4329-a060-7c958ba9c3c0}"
-
-[[webExtensions]]
 name    = "theme-cyberpunk-lo-fi"
 firefox = "{7c9b0deb-b62d-44df-b970-cd11deb60741}"
 
 [[webExtensions]]
 name    = "theme-cyberpunk-pixels-animated"
 firefox = "{0d3d9708-a9af-4a3a-bba4-d05df61379b6}"
-
-[[webExtensions]]
-name    = "theme-itj-cyberpunk-dark-edit"
-firefox = "{ec987ed3-b360-420b-93ee-dadf30f59601}"
-
-[[webExtensions]]
-name    = "theme-pixel-cyberpunk"
-firefox = "{b0c031ea-1653-4749-b7c1-bd5c4c58c07d}"
 
 [[webExtensions]]
 name    = "twp-translate-web-pages"
