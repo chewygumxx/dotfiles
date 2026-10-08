@@ -87,21 +87,10 @@ Externals take their `refreshPeriod` from `home/.chezmoidata/externals.toml`
 which `gitHub.refreshPeriod` in `home/.chezmoi.toml.tmpl` also includes;
 never hardcode one.
 
-Within `home/`, the Zsh config (`home/dot_config/zsh/`) is itself modular and
-worth understanding before editing it:
-
-- `env/*.env.zsh`: environment variables, sourced first via `zsh_dirs`.
-- `rc/*.rc.zsh`: core interactive setup (aliases, completion, prompt, history,
-  etc.). `dot_zshrc` loads these in a deliberate order: `ls_colors` and
-  `completion` first, then `function`, then everything else, then `util/*.rc.zsh`
-  last. Preserve that ordering rationale (documented inline in `dot_zshrc`) if
-  adding new `rc` files.
-- `util/*.rc.zsh`: per-tool integration snippets (fzf, zoxide, nvm, chezmoi,
-  etc.), loaded after core `rc/`.
-- `func/*`: autoloadable Zsh functions, one file per function.
-- `wrap/*`: thin command wrappers/shims (e.g. `claude`, `chezmoi`, `nvim`,
-  `rm`, `gh`).
-- `spec/*.rc.zsh`: third-party plugin specs.
+Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
+`nvim-config.toml.tmpl` in `home/.chezmoiexternals/` clone
+`chewygumxx/zsh-config` and `chewygumxx/nvim-config` into `~/.config/zsh` and
+`~/.config/nvim` as git-repo externals. Change them in those repos.
 
 ## Conventions
 
