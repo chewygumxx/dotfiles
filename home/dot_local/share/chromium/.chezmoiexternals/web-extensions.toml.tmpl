@@ -21,7 +21,7 @@
 [{{ joinPath "extensions" $dir .name | quote }}]
     type           = "archive"
     exact          = true
-    refreshPeriod  = "168h"
+    refreshPeriod  = {{ $.externals.refreshPeriod | quote }}
 {{-         if kindIs "string" $source }}
     format         = "zip"
     url            = {{ printf "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=%s&acceptformat=crx3&x=id%%3D%s%%26uc" $prodversion $source | quote }}

@@ -16,7 +16,7 @@
 [{{ printf "extensions/%s.xpi" . | quote }}]
     type          = "file"
     url           = {{ printf "https://addons.mozilla.org/firefox/downloads/latest/%s/latest.xpi" (urlquery .) | quote }}
-    refreshPeriod = "168h"
+    refreshPeriod = {{ $.externals.refreshPeriod | quote }}
 {{-     end }}
 {{-   end }}
 {{- end }}

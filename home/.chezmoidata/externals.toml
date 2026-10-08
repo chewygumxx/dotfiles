@@ -1,0 +1,19 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/.chezmoidata/externals.toml
+#
+#
+
+#
+# Defaults shared by every .chezmoiexternals file, which reads them as
+# {{ .externals.<key> }}. home/.chezmoi.toml.tmpl also reads refreshPeriod
+# for gitHub.refreshPeriod, so GitHub release lookups and downloads expire
+# together; run `chezmoi init` after changing it.
+#
+
+[externals]
+refreshPeriod = "24h"  # How long a download is reused before it is fetched again

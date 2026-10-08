@@ -13,7 +13,7 @@
 ["claude-status-line.sh"]
     type = "file"
     executable = true
-    refreshPeriod = "168h"
+    refreshPeriod = {{ .externals.refreshPeriod | quote }}
     url = {{ gitHubLatestReleaseAssetURL "chewygumxx/claude-status-line" "claude-status-line.sh" | quote }}
 
 {{- end }}
