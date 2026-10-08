@@ -70,6 +70,11 @@ never sees it; it is tooling for working in this repo. (The `.claude/` entry in
 `home/.chezmoiignore` is unrelated: it keeps chezmoi off the `~/.claude`
 target.)
 
+User-level Claude Code config lives in `home/dot_config/claude/` (applied to
+`~/.config/claude`, the `CLAUDE_CONFIG_DIR`) and `home/dot_config/claude-2/` (a
+second account). Their `settings.json` files differ only in `code-review` being
+disabled on the second, so mirror any other change in both.
+
 `docs/` is not applied either. It holds user guides at the top level (e.g.
 `docs/web-extensions.md`) and dated working documents in `notes/`, `plans/`
 and `specs/` (`DD-MM-YYYY-<topic>.md`, YAML frontmatter, HTML-comment path
