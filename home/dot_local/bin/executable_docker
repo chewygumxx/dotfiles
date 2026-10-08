@@ -13,7 +13,8 @@
 # Shadow wrapper script as configuration
 #
 
-: "${DOCKER_CONFIG:="$XDG_CONFIG_HOME/docker"}"
+: "${XDG_CONFIG_HOME:=$HOME/.config}"
+: "${DOCKER_CONFIG:=$XDG_CONFIG_HOME/docker}"
 export DOCKER_CONFIG
 
 __this_name=${0##*/}
