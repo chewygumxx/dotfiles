@@ -65,9 +65,10 @@ is actually wired up:
 (`.chezmoiignore` only), kept as a starting point for scaffolding a new one
 later.
 
-`.claude/` is chezmoi-ignored everywhere (see `home/.chezmoiignore`); it is
-tooling for working in this repo, not something chezmoi ever applies to a
-machine.
+`.claude/` at the repo root sits outside the `home/` source root, so chezmoi
+never sees it; it is tooling for working in this repo. (The `.claude/` entry in
+`home/.chezmoiignore` is unrelated: it keeps chezmoi off the `~/.claude`
+target.)
 
 `docs/` is not applied either. It holds user guides at the top level (e.g.
 `docs/web-extensions.md`) and dated working documents in `notes/`, `plans/`
