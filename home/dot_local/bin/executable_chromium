@@ -27,9 +27,10 @@ local data="${XDG_DATA_HOME:-$HOME/.local/share}/chromium"
 local PROFILE="chewy-ungoogled"
 
 # Load Manifest V2 builds, which take precedence over an MV3 build of the
-# same name. Set CHROMIUM_MV2=0 once Chromium stops running MV2, and every
-# extension falls back to its MV3 build.
-local -i MV2="${CHROMIUM_MV2:-1}"
+# same name. Set CHROMIUM_MV2=0 (or false, no, off) once Chromium stops
+# running MV2, and every extension falls back to its MV3 build.
+local MV2=1
+[[ "${(L)CHROMIUM_MV2:-1}" == (0|false|no|off) ]] && MV2=0
 
 # https://github.com/ungoogled-software/ungoogled-chromium/blob/master/docs/flags.md
 local -a flags=(
@@ -139,7 +140,8 @@ fi
 # Extensions
 # -----------
 
-# Name to directory, an mv2 build overriding the mv3 build of that name
+# Name to directory, a usable mv2 build overriding the mv3 build of that
+# name; a broken mv2 build is reported and its mv3 build used instead
 local -A builds
 local dir name
 for dir in "$data"/extensions/mv3/*(N/); do
@@ -147,7 +149,11 @@ for dir in "$data"/extensions/mv3/*(N/); do
 done
 if (( MV2 )); then
     for dir in "$data"/extensions/mv2/*(N/); do
-        builds[${dir:t}]="$dir"
+        if [[ -f "$dir/manifest.json" ]]; then
+            builds[${dir:t}]="$dir"
+        else
+            log "Skipping extension without manifest.json: ${(D)dir}"
+        fi
     done
 fi
 
