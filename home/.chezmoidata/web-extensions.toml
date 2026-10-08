@@ -12,10 +12,13 @@
 # Browser extensions installed and updated by chezmoi externals.
 # See docs/web-extensions.md.
 #
-#   name      Stable identifier, also the Chromium extension directory
-#   firefox   AMO add-on ID (about:support, Add-ons section)
-#   chromium  Chrome Web Store ID, or { repo, asset[, stripComponents] }
-#             naming a GitHub release asset that is an unpacked MV3 zip
+#   name         Stable identifier, also the Chromium extension directory
+#   firefox      AMO add-on ID (about:support, Add-ons section)
+#   chromium     Manifest V3 build: a Chrome Web Store ID, or
+#                { repo, asset[, stripComponents] } naming a GitHub release
+#                asset (an unpacked zip, or a .crx run through crx-unpack)
+#   chromiumMv2  Manifest V2 build, same forms. Overrides chromium while
+#                ungoogled-chromium still runs MV2, see CHROMIUM_MV2
 #
 
 [webBrowsers.chromium]
@@ -156,13 +159,15 @@ name    = "theme-cyberpunk-pixels-animated"
 firefox = "{0d3d9708-a9af-4a3a-bba4-d05df61379b6}"
 
 [[webExtensions]]
-name    = "twp-translate-web-pages"
-firefox = "{036a55b4-5e72-4d05-a06c-cba2dfcc134a}"
+name        = "twp-translate-web-pages"
+firefox     = "{036a55b4-5e72-4d05-a06c-cba2dfcc134a}"
+chromiumMv2 = { repo = "FilipePS/Traduzir-paginas-web", asset = "TWP_*_Chromium_MV2_deprecated.crx" }
 
 [[webExtensions]]
-name     = "ublock-origin"
-firefox  = "uBlock0@raymondhill.net"
-chromium = "ddkjiahejlhfcafbddmgiahcphecmpfh"
+name        = "ublock-origin"
+firefox     = "uBlock0@raymondhill.net"
+chromium    = "ddkjiahejlhfcafbddmgiahcphecmpfh"                             # uBlock Origin Lite
+chromiumMv2 = { repo = "gorhill/uBlock", asset = "uBlock0_*.chromium.crx" }
 
 [[webExtensions]]
 name    = "ultimadark"
