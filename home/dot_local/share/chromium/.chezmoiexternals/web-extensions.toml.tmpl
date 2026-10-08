@@ -28,7 +28,11 @@
     filter.command = "python3"
     filter.args    = ["-I", {{ $crxUnpack | quote }}]
 {{-         else }}
-    url            = {{ gitHubLatestReleaseAssetURL $source.repo $source.asset | quote }}
+{{-           $url := gitHubLatestReleaseAssetURL $source.repo $source.asset }}
+{{-           if not $url }}
+{{-             fail (printf "web-extensions: %s: no %s release asset matches %s" .name $source.repo $source.asset) }}
+{{-           end }}
+    url            = {{ $url | quote }}
 {{-           if hasSuffix ".crx" $source.asset }}
     format         = "zip"
     filter.command = "python3"
