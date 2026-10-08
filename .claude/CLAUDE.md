@@ -79,8 +79,10 @@ Browser extensions for Firefox and ungoogled-chromium are declared once in
 `.chezmoiexternals` templates inside the Firefox profile and
 `dot_local/share/chromium/`; read `docs/web-extensions.md` before changing
 any of it. Never `chezmoi apply` those targets against the real home to test
-them: use `--destination`, `--cache` and `--persistent-state` under a temp
-dir.
+them: use `.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh`, which
+adds `--destination`, `--persistent-state`, `--cache` and `--exclude=scripts`
+under a temp dir (scripts would otherwise write to the real home even from a
+sandbox).
 
 Externals take their `refreshPeriod` from `home/.chezmoidata/externals.toml`
 (`{{ .externals.refreshPeriod }}`, or `$.externals` inside `range`/`with`),
