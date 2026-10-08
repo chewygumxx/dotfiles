@@ -1,0 +1,36 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/share/chromium/.chezmoiexternals/web-extensions.toml.tmpl
+#
+#
+
+{{- /* Termux runs neither browser; skip all network work there */ -}}
+{{- if ne .chezmoi.destDir "/data/data/com.termux/files/home" }}
+{{-   $crxUnpack := joinPath .chezmoi.sourceDir "dot_local/bin/executable_crx-unpack" }}
+{{-   $prodversion := .webBrowsers.chromium.version }}
+{{-   range .webExtensions }}
+{{-     $source := get . "chromium" }}
+{{-     if $source }}
+
+[{{ joinPath "extensions" .name | quote }}]
+    type           = "archive"
+    exact          = true
+    refreshPeriod  = "168h"
+{{-       if kindIs "string" $source }}
+    format         = "zip"
+    url            = {{ printf "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=%s&acceptformat=crx3&x=id%%3D%s%%26uc" $prodversion $source | quote }}
+    filter.command = "python3"
+    filter.args    = ["-I", {{ $crxUnpack | quote }}]
+{{-       else }}
+    url            = {{ gitHubLatestReleaseAssetURL $source.repo $source.asset | quote }}
+{{-         with get $source "stripComponents" }}
+    stripComponents = {{ . }}
+{{-         end }}
+{{-       end }}
+{{-     end }}
+{{-   end }}
+{{- end }}
