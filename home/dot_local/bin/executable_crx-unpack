@@ -111,6 +111,8 @@ def main():
                 manifest = json.loads(blob.decode("utf-8-sig"))
                 manifest["key"] = base64.b64encode(key).decode("ascii")
                 blob = json.dumps(manifest, ensure_ascii=False, indent=2).encode()
+            # Readers only take Unix modes from entries marked as made on Unix
+            info.create_system = 3
             info.external_attr = (0o40755 if info.is_dir() else 0o100644) << 16
             dst.writestr(info, blob)
     sys.stdout.buffer.write(out.getvalue())
