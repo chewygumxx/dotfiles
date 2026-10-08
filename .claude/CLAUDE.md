@@ -82,6 +82,11 @@ any of it. Never `chezmoi apply` those targets against the real home to test
 them: use `--destination`, `--cache` and `--persistent-state` under a temp
 dir.
 
+Externals take their `refreshPeriod` from `home/.chezmoidata/externals.toml`
+(`{{ .externals.refreshPeriod }}`, or `$.externals` inside `range`/`with`),
+which `gitHub.refreshPeriod` in `home/.chezmoi.toml.tmpl` also includes;
+never hardcode one.
+
 Within `home/`, the Zsh config (`home/dot_config/zsh/`) is itself modular and
 worth understanding before editing it:
 
