@@ -61,19 +61,9 @@ set +f
 
 [ -n "$__real" ] || fatal 127 'Shadowed executable not found'
 
-# Best-effort creation of the history file's parent directory. Node will not
-# create it and silently skips persistence if it is missing. Failure is
-# deliberately non-fatal so that non-interactive callers (LSP servers, build
-# tools, CI) are never blocked by a history path they do not use.
-case $DOCKER_CONFIG in
-*/*)
-    __parent_dir=${DOCKER_CONFIG%/*}
-    [ -n "$__parent_dir" ] || __parent_dir=/
-    ;;
-*)
-    __parent_dir=.
-    ;;
-esac
-[ -d "$__parent_dir" ] || mkdir -p -m 0700 -- "$__parent_dir" 2>/dev/null || :
+# Best-effort creation of the configuration directory itself, private since it
+# may hold registry credentials. The CLI would create it on first save anyway,
+# so failure is deliberately non-fatal.
+[ -d "$DOCKER_CONFIG" ] || mkdir -p -m 0700 -- "$DOCKER_CONFIG" 2>/dev/null || :
 
 exec "$__real" "$@"
