@@ -104,13 +104,14 @@ Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
   commit/PR.
 - **File headers**: nearly every tracked file starts with an editor modeline,
   an `SPDX-License-Identifier` line, and a boxed comment giving the repo slug and
-  the file's repo-relative path (e.g. `::: :/home/dot_config/zsh/dot_zshrc`),
+  the file's repo-relative path (e.g. `::: :/home/dot_config/wezterm/wezterm.lua`),
   using the line-comment syntax for that file's language. These headers are
   auto-maintained by the `sync-header-metadata` GitHub Action on every push/PR to
   `main` (see `.github/workflows/sync-header-metadata.yaml`), which commits
   corrections back (`chore: Sync header metadata`). When adding a new file,
   follow the existing header style from a sibling file of the same type rather
-  than inventing one; CI will fix minor drift.
+  than inventing one; CI will fix minor drift. The `header-metadata` plugin
+  writes this header into each new file on Write.
 - **Indentation**: per `.editorconfig`, 4 spaces by default, 2 spaces for
   `*.md`. LF line endings, trailing whitespace trimmed, final newline inserted.
 - **Commit messages**: Conventional Commits, enforced by `commitlint`
@@ -122,11 +123,12 @@ Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
     must be start-case or sentence-case (warn), subject must not be empty
     (error).
   - A curated scope list (error, blocking) matching top-level config areas,
-    e.g. `nvim`, `zsh`, `yazi`, `hypr`, `systemd`, `wezterm`, `herdr`, `claude`,
+    e.g. `zsh`, `yazi`, `hypr`, `systemd`, `wezterm`, `herdr`, `claude`,
     `firefox`, `git`, `gh`, `gpg`, `ssh`, `nushell`, `termux`, `waybar`, `yay`,
     `btop`; multiple scopes may be combined with a `/` delimiter (e.g.
-    `feat(zsh/nvim): ...`). Scope is optional; a commit with no scope at all
-    (e.g. `build: ...`) always passes this rule.
+    `feat(zsh/hypr): ...`). Scope is optional; a commit with no scope at all
+    (e.g. `build: ...`) always passes this rule. A new config area needs its
+    scope added before its first scoped commit (see the `new-dotfile` skill).
   - Interactive commit authoring is available via `bun run commit`
     (`commitizen` configured via `package.json`'s `config.commitizen.path` to use
     the `@chewygumxx/cz-commitlint` adapter, a wrapper around
@@ -151,7 +153,7 @@ Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
     silently fall back to bare `@commitlint/config-conventional` with no error.
 - **Repo metadata** (`.repo-metadata.jsonc`) is synced to the GitHub repo's own
   settings (description, topics, license) by
-  `.github/workflows/apply-repo-metadata-jsonc.yaml` whenever that file changes
+  `.github/workflows/sync-repo-metadata.yaml` whenever that file changes
   on push.
 
 ## No build/test/lint tooling
