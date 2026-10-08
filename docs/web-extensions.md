@@ -46,12 +46,15 @@ home/.chezmoidata/web-extensions.toml          one [[webExtensions]] per extensi
   +-> home/dot_local/share/chromium/.chezmoiexternals/web-extensions.toml.tmpl
         type "archive", exact
           Web Store CRX | python3 -I crx-unpack   (key injected)
+          GitHub release .crx | crx-unpack        (key injected)
           GitHub release zip                      (as is)
-        -> ~/.local/share/chromium/extensions/<name>/
+        chromium    -> ~/.local/share/chromium/extensions/mv3/<name>/
+        chromiumMv2 -> ~/.local/share/chromium/extensions/mv2/<name>/
 
 ~/.local/bin/chromium (wrapper)
   exec chromium --user-data-dir=~/.local/share/chromium/chewy-ungoogled
-                --load-extension=<every extensions/*/ with a manifest.json>
+                --load-extension=<one dir per name with a manifest.json,
+                                  mv2 over mv3 unless CHROMIUM_MV2=0>
 ```
 
 Resulting layout:
@@ -66,8 +69,14 @@ Resulting layout:
       extensions/<add-on-id>.xpi                   (externals)
   chromium/
     chewy-ungoogled/                               (profile, unmanaged)
-    extensions/<name>/                             (externals)
+    extensions/mv3/<name>/                         (externals, Manifest V3)
+    extensions/mv2/<name>/                         (externals, Manifest V2)
 ```
+
+Three extension directories, one per kind of build: Firefox's profile
+`extensions/`, and Chromium's `mv3/` and `mv2/`. MV2 builds live apart so
+they can be switched off in one place the day ungoogled-chromium stops
+running them.
 
 ## Data file reference
 
@@ -84,19 +93,36 @@ chromium = "ghmbeldphafepmbegfdlkpapadhbakde"
 name     = "imagus-reborn"
 firefox  = "{7653b5cb-d76d-442f-a98f-f3c83a118cf4}"
 chromium = { repo = "hababr/Imagus-Reborn", asset = "ImagusReborn_Chrome_*.zip" }
+
+[[webExtensions]]
+name        = "ublock-origin"
+firefox     = "uBlock0@raymondhill.net"
+chromium    = "ddkjiahejlhfcafbddmgiahcphecmpfh"  # uBlock Origin Lite
+chromiumMv2 = { repo = "gorhill/uBlock", asset = "uBlock0_*.chromium.crx" }
 ```
 
 | Key | Required | Meaning |
 | --- | --- | --- |
 | `name` | yes | Stable identifier. Also the Chromium extension directory name. |
 | `firefox` | no | AMO add-on ID. Omit for Chromium-only extensions. |
-| `chromium` | no | A Chrome Web Store ID (string), or a table naming a GitHub release asset. Omit for Firefox-only add-ons. |
+| `chromium` | no | Manifest V3 build: a Chrome Web Store ID (string), or a table naming a GitHub release asset. Goes to `extensions/mv3/<name>`. |
+| `chromiumMv2` | no | Manifest V2 build, same two forms. Goes to `extensions/mv2/<name>`. |
 
-The `chromium` table form takes `repo` (`owner/name`), `asset` (a glob
-matched against the latest release's asset names) and an optional
-`stripComponents` for zips that wrap everything in one top-level directory.
-Use a Manifest V3 build. ungoogled-chromium 153 still runs MV2, but
-upstream Chromium has removed it, so MV2 builds have no future here.
+Omit both Chromium keys for Firefox-only add-ons, and `firefox` for
+Chromium-only extensions.
+
+The table form takes `repo` (`owner/name`), `asset` (a glob matched against
+the latest release's asset names) and an optional `stripComponents` for zips
+that wrap everything in one top-level directory. An asset ending in `.crx`
+goes through `crx-unpack` like a Web Store CRX, so it keeps its signing
+key's ID; a zip is used as is.
+
+ungoogled-chromium 153 still runs Manifest V2, but upstream Chromium has
+removed it. Give an extension `chromiumMv2` only for something MV3 can't do
+(full uBlock Origin) or that has no MV3 build (TWP). When an entry has both,
+the wrapper loads the MV2 build; once MV2 stops working, launch with
+`CHROMIUM_MV2=0` (or set it in `ungoogled-chromium.service`) and every
+extension falls back to its MV3 build, then delete the `chromiumMv2` keys.
 
 `webBrowsers.chromium.version` is sent to the Web Store as `prodversion`.
 Bump it when ungoogled-chromium moves to a new major version, or the store
@@ -130,13 +156,18 @@ the next time it is launched through the wrapper.
 
 **Remove.** Delete the table. chezmoi stops managing the target but does not
 delete it, so also remove it from disk: uninstall it from `about:addons`
-(Firefox deletes the XPI), or `rm -r ~/.local/share/chromium/extensions/<name>`
-(the wrapper stops loading it).
+(Firefox deletes the XPI), or
+`rm -r ~/.local/share/chromium/extensions/mv{2,3}/<name>` (the wrapper stops
+loading it).
 
 ## Updating
 
-Each external has `refreshPeriod = "168h"`, so a normal `chezmoi apply`
-downloads a new copy at most once a week. To update now:
+Every external in the repo that refreshes reads its `refreshPeriod` from
+`home/.chezmoidata/externals.toml` (`refreshPeriod = "24h"`), so a normal
+`chezmoi apply` downloads a new copy at most once a day. The chezmoi config's
+`gitHub.refreshPeriod` includes the same file, so GitHub "latest release"
+lookups expire together with the downloads. After changing the value, run
+`chezmoi init` once to regenerate the config. To update now:
 
 ```zsh
 chezmoi apply --refresh-externals
@@ -166,8 +197,8 @@ scope**, `<profile>/extensions/<id>.xpi`. The user scope
 Firefox tracks enabled or disabled state by add-on ID in the profile's
 `extensions.json`, not in the XPI. An add-on you disable in `about:addons`
 stays disabled when chezmoi replaces its file. The same goes for the
-selected theme: all six listed themes are installed, and whichever one you
-picked stays active.
+selected theme: both listed themes (Cyberpunk Lo-Fi and Cyberpunk Pixels,
+Animated) are installed, and whichever one you picked stays active.
 
 The two dictionaries are listed too. The `en-GB` language pack is not,
 because AMO's "latest" build targets the next Firefox version; install the
@@ -182,8 +213,10 @@ library only) reads it on stdin and writes a plain zip on stdout:
 1. It finds the publisher key in the header. That is the key whose SHA-256
    prefix matches the header's `crx_id`.
 2. It writes that key into `manifest.json` as base64 `key`.
-3. It sets every entry to mode `0644` (directories `0755`), because CRX
-   entries can carry modes that make a directory unreadable.
+3. It sets every entry to mode `0644` (directories `0755`) and marks it as
+   made on Unix (`create_system = 3`). CRX entries can carry modes that make
+   a directory unreadable, and zip readers ignore Unix modes on entries
+   marked as MS-DOS, which is how uBlock Origin's CRX is built.
 4. It drops `_metadata/`, the store's integrity data, which unpacked loads
    do not use.
 
@@ -202,8 +235,11 @@ crx-unpack < extension.crx > extension.zip
 ```
 
 GitHub zips have no key, so Imagus Reborn gets a path-derived ID. That ID
-is stable as long as `~/.local/share/chromium/extensions/imagus-reborn`
-does not move.
+is stable as long as `~/.local/share/chromium/extensions/mv3/imagus-reborn`
+does not move. GitHub `.crx` assets keep their publisher's ID: the MV2
+uBlock Origin is `fkgkibajhfbepljeaefdnfnegdcjomkh` (gorhill's own signing
+key, not the delisted Web Store ID), so its settings do not carry over from
+uBlock Origin Lite.
 
 **`exact`.** Each extension directory is `exact = true`, so files left over
 from an older version are deleted on update.
@@ -212,25 +248,29 @@ from an older version are deleted on update.
 next `chromium` on `PATH` whose resolved path is not the wrapper itself, so a
 symlinked or trailing-slash spelling of `~/.local/bin` cannot make it exec
 itself. `PATH` is left unchanged for the browser. It passes the ungoogled
-flags, `--user-data-dir`, and one `--load-extension` with every extension
-directory that has a `manifest.json`. A directory without one is skipped
-with a warning on stderr, and the browser still launches.
+flags, `--user-data-dir`, and one `--load-extension` with one directory per
+extension name: the `mv2/` build when there is one and `CHROMIUM_MV2` is not
+`0`, otherwise the `mv3/` build. A directory without a `manifest.json` is
+skipped with a warning on stderr, and the browser still launches.
 `ungoogled-chromium.service` starts the wrapper.
 
 ## First apply on this machine
 
 1. Close Firefox and Chromium.
-2. Review, then apply:
+2. Regenerate the chezmoi config (it now reads `gitHub.refreshPeriod` from
+   `externals.toml`), review, then apply:
 
    ```zsh
+   chezmoi init
    chezmoi diff --exclude externals
    chezmoi apply
    ```
 
    The first apply downloads about 55 files. The Firefox profile's
    `chrome`, `user.js`, `profiles.ini` and `installs.ini` stop being
-   symlinks, and `~/.config/mozilla-firefox` is removed. Their content is
-   unchanged apart from the two new prefs.
+   symlinks, and `~/.config/mozilla-firefox` is removed as a whole, stale
+   `extensions.json` and emptied directories included, without a prompt.
+   Their content is unchanged apart from the two new prefs.
 3. `run_before_migrate-chromium-profile` moves
    `~/.local/share/chewy-ungoogled` to
    `~/.local/share/chromium/chewy-ungoogled`. If Chromium is still running,
