@@ -115,10 +115,10 @@ Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
   then an HTML-comment path box, with the modeline on the last line. These
   headers are auto-maintained by the `sync-header-metadata` GitHub Action on
   every push/PR to `main` (see `.github/workflows/sync-header-metadata.yaml`),
-  which commits corrections back (`chore: Sync header metadata`). When adding a new file,
-  follow the existing header style from a sibling file of the same type rather
-  than inventing one; CI will fix minor drift. The `header-metadata` plugin
-  writes this header into each new file on Write.
+  which commits corrections back (`chore: Sync header metadata`). When adding
+  a new file, follow the existing header style from a sibling file of the same
+  type rather than inventing one; CI will fix minor drift. The
+  `header-metadata` plugin writes this header into each new file on Write.
 - **Indentation**: per `.editorconfig`, 4 spaces by default, 2 spaces for
   `*.md`. LF line endings, trailing whitespace trimmed, final newline inserted.
 - **Commit messages**: Conventional Commits, enforced by `commitlint`
