@@ -13,7 +13,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/dot_config/claude/CLAUDE.md
+   - ::: :/home/dot_config/claude/CLAUDE.md
    -
    -->
 
