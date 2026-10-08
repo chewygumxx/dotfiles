@@ -68,8 +68,24 @@ Each of these was tested on this machine on 2026-10-08. Evidence is in the
 - **ungoogled-chromium 153 still honours `--load-extension`** for unpacked
   MV3 extensions.
 - **Chromium 153 rejects Manifest V2.** `uBlock0_*.chromium.zip` and
-  `darkreader-chrome.zip` are MV2. Use `uBOLite_*.chromium.zip` from
-  `uBlockOrigin/uBOL-home` and `darkreader-chrome-mv3.zip` instead.
+  `darkreader-chrome.zip` are MV2, as is TWP's only Chromium build.
+- **Web Store CRXs can be fetched without a browser** from
+  `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=<major>&acceptformat=crx3&x=id%3D<id>%26uc`.
+  ungoogled-chromium substitutes Google domains at runtime, but chezmoi
+  fetches the file itself, so that substitution never applies.
+- **An unpacked extension keeps its Web Store ID only if `manifest.json` has
+  `key`.** Without it the ID is a hash of the directory path. Claude and
+  Proton VPN ship `key`, but Proton Pass (whose `externally_connectable`
+  sign-in flow targets its store ID), SingleFile, HeadingsMap and Auto Tab
+  Discard do not.
+- **The CRX3 header carries the publisher key.** It is the
+  `sha256_with_rsa` or `sha256_with_ecdsa` proof whose SHA-256 prefix equals
+  `signed_header_data.crx_id`. Writing it into `manifest.json` as base64
+  `key` gives every unpacked extension its store ID, which was confirmed
+  for Claude, Proton Pass and SingleFile in ungoogled-chromium 153.
+- **CRX zip entries carry unusable permission bits** (one directory came out
+  unreadable). The conversion must normalise modes and drop `_metadata/`
+  (store integrity data that unpacked loads do not use).
 
 ## Target layout
 
@@ -101,19 +117,59 @@ entry names one extension and says how each browser gets it. Either browser
 key may be omitted.
 
 ```toml
+[webBrowsers.chromium]
+version = "153"
+
 [[webExtensions]]
 name     = "ublock-origin"
 firefox  = "uBlock0@raymondhill.net"
-chromium = { repo = "uBlockOrigin/uBOL-home", asset = "uBOLite_*.chromium.zip" }
+chromium = "ddkjiahejlhfcafbddmgiahcphecmpfh"
+
+[[webExtensions]]
+name     = "imagus-reborn"
+firefox  = "{7653b5cb-d76d-442f-a98f-f3c83a118cf4}"
+chromium = { repo = "hababr/Imagus-Reborn", asset = "ImagusReborn_Chrome_*.zip" }
 ```
 
 - `name`: stable identifier, and the Chromium extension directory name.
-  Renaming it changes the unpacked extension ID and loses its Chromium
-  settings.
+  For GitHub-sourced extensions without `key`, renaming it changes the
+  unpacked extension ID and loses its Chromium settings.
 - `firefox`: the AMO add-on ID (shown in `about:support`).
-- `chromium.repo`, `chromium.asset`: GitHub repository and release asset
-  glob for an unpacked MV3 zip. Optional `chromium.stripComponents` for zips
-  that nest everything in one folder.
+- `chromium` as a string: a Chrome Web Store ID (the last path segment of
+  its store URL). This is the default source.
+- `chromium` as a table: `repo` and `asset` name a GitHub release asset glob
+  for an unpacked MV3 zip, for extensions not on the Web Store. Optional
+  `stripComponents` for zips that nest everything in one folder.
+- `webBrowsers.chromium.version`: the major version sent as `prodversion`,
+  so the Web Store serves builds compatible with the installed browser.
+
+Initial list (2026-10-08):
+
+| Extension | Firefox | Chromium |
+| --- | --- | --- |
+| Auto Tab Discard | yes | Web Store |
+| Claude | none (Chromium only) | Web Store |
+| Dark Reader | yes | Web Store |
+| DeArrow | yes | Web Store |
+| HeadingsMap | yes | Web Store |
+| Hide shorts for YouTube | yes | Web Store |
+| Imagus Reborn | yes | GitHub |
+| Obsidian Web Clipper | yes | Web Store |
+| Proton Pass | yes | Web Store |
+| Proton VPN | yes | Web Store |
+| Return YouTube Dislike | yes | Web Store |
+| Sidebery | yes | none (Firefox only) |
+| simple-modify-headers | yes | Web Store |
+| SingleFile | yes | Web Store |
+| SponsorBlock | yes | Web Store |
+| Stylus | yes | Web Store |
+| TWP - Translate Web Pages | yes | none (MV2 only) |
+| uBlock Origin | yes | Web Store (uBlock Origin Lite) |
+| Violentmonkey | yes | Web Store |
+
+Installed Firefox add-ons not on this list (themes, dictionaries, Imagus
+mod, ClearURLs, and others) stay installed and unmanaged. Under
+`autoUpdateDefault = false` they stop updating automatically too.
 
 ### Firefox externals
 
@@ -138,9 +194,36 @@ ignored.
 
 `home/dot_local/share/chromium/.chezmoiexternals/web-extensions.toml.tmpl`
 emits one `type = "archive"` entry per extension with a `chromium` key, at
-`extensions/<name>`, using `gitHubLatestReleaseAssetURL`,
-`refreshPeriod = "168h"` and `exact = true`. `exact` removes files left over
-from the previous version when an extension updates.
+`extensions/<name>`, with `refreshPeriod = "168h"` and `exact = true`.
+`exact` removes files left over from the previous version when an extension
+updates.
+
+- **Web Store ID:** `url` is the CRX endpoint above, `format = "zip"`, and
+  `filter.command = "python3"` with `filter.args = ["-I", <crx-unpack>]`.
+  The filter reads the CRX on stdin and writes a zip on stdout with `key`
+  injected, modes normalised and `_metadata/` dropped.
+- **GitHub table:** `url` is `gitHubLatestReleaseAssetURL repo asset`, with
+  no filter.
+
+### CRX converter: `home/dot_local/bin/executable_crx-unpack`
+
+A dependency-free Python 3 script, the only non-shell code in this design.
+Python's `zipfile` reads the zip past the CRX header, and a 20-line protobuf
+walker reads the header. The externals template invokes it by its source
+path (`joinPath .chezmoi.sourceDir ...`) through `python3 -I`, so it works
+on the very first `chezmoi apply`, before `~/.local/bin` exists, and
+regardless of the repo's disabled in-repo executability. It is also
+deployed to `~/.local/bin/crx-unpack` for manual use
+(`crx-unpack < x.crx > x.zip`). It exits non-zero on a non-CRX3 input or a
+missing publisher key, which aborts the apply instead of installing an
+extension under the wrong ID.
+
+### Host scoping
+
+Termux runs neither browser, so `home/.chezmoiignore` ignores
+`.local/share/chromium/`, `.local/share/mozilla/`, the two wrappers,
+`crx-unpack`, and the browser systemd units under the Termux condition.
+That also keeps chezmoi from downloading roughly 40 extensions there.
 
 ### Wrappers: `home/dot_local/bin/executable_{chromium,firefox}`
 
@@ -174,8 +257,10 @@ stays untouched and is mentioned in the docs.
 
 ## Error handling
 
-- A failed download or GitHub API error makes chezmoi abort before writing
-  anything. Rerun after fixing; no partial state.
+- A failed download, GitHub API error, or `crx-unpack` failure makes chezmoi
+  abort before writing anything. Rerun after fixing; no partial state.
+- A Web Store extension that is delisted or goes MV2-only returns a non-CRX
+  response, and `crx-unpack` rejects it with a message naming the problem.
 - `gitHubLatestReleaseAssetURL` calls the GitHub API at template time.
   Unauthenticated limits are 60 requests per hour, and setting
   `GITHUB_TOKEN` raises that.
@@ -194,7 +279,8 @@ verification report:
 3. Headless Firefox on the applied temp profile reports every listed add-on
    as `app-profile`, active and signed.
 4. Headless Chromium through the wrapper, with `XDG_DATA_HOME` pointed at
-   the temp tree, starts one service worker per listed extension.
+   the temp tree, registers every listed extension, with Web Store entries
+   under their store IDs.
 5. `chezmoi diff` against the real home shows only the intended changes.
    The real `chezmoi apply` is left to the user, run with both browsers
    closed.
