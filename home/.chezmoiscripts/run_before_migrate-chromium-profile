@@ -31,10 +31,15 @@ if [[ -e "$new" ]]; then
     exit 0
 fi
 
-# Chromium holds this symlink in its user data dir while running
-if [[ -L "$old/SingletonLock" ]]; then
-    __log WARN "Chromium is using $old, close it and rerun chezmoi apply"
-    exit 0
+# Chromium holds this <host>-<pid> symlink in its user data dir while
+# running, and leaves it behind after a crash. Only a live process on this
+# host, or a lock from another host that can't be checked, blocks the move.
+if lock="$(readlink -- "$old/SingletonLock" 2>/dev/null)"; then
+    if [[ "${lock%-*}" != "$(uname -n)" ]] || ps -p "${lock##*-}" &>/dev/null; then
+        __log WARN "Chromium is using $old, close it and rerun chezmoi apply"
+        exit 0
+    fi
+    __log NOTICE "Ignoring stale lock $old/SingletonLock"
 fi
 
 mkdir -p -- "${new%/*}" && mv -- "$old" "$new" || {
