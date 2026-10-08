@@ -68,8 +68,11 @@ Each of these was tested on this machine on 2026-10-08. Evidence is in the
   latest targets the next Firefox version).
 - **ungoogled-chromium 153 still honours `--load-extension`** for unpacked
   MV3 extensions.
-- **Chromium 153 rejects Manifest V2.** `uBlock0_*.chromium.zip` and
+- **Manifest V2 has no future on Chromium.** `uBlock0_*.chromium.zip` and
   `darkreader-chrome.zip` are MV2, as is TWP's only Chromium build.
+  Upstream Chromium has removed MV2. ungoogled-chromium 153 still runs it
+  (corrected during implementation, see the verification report), but the
+  design sticks to MV3 builds so nothing breaks when that ends.
 - **Web Store CRXs can be fetched without a browser** from
   `https://clients2.google.com/service/update2/crx?response=redirect&prodversion=<major>&acceptformat=crx3&x=id%3D<id>%26uc`.
   ungoogled-chromium substitutes Google domains at runtime, but chezmoi
@@ -260,10 +263,11 @@ That also keeps chezmoi from downloading roughly 40 extensions there.
 
 A self-contained zsh shadow wrapper that follows the sibling `wget` and
 `xdg-open` wrappers: resolve the real binary from `PATH` while skipping the
-wrapper's own directory, then `exec` it with a flags array.
+wrapper itself, then `exec` it with a flags array.
 
-- Resolution uses a private copy of `path`, so the browser inherits the
-  user's unmodified `PATH`. The current draft strips `~/.local/bin` from the
+- Resolution skips any `PATH` candidate whose resolved path is the wrapper,
+  so a symlinked or trailing-slash spelling of `~/.local/bin` cannot make it
+  exec itself, and the browser inherits the user's unmodified `PATH`. The current draft strips `~/.local/bin` from the
   browser's own environment.
 - `chromium` passes `--user-data-dir=$XDG_DATA_HOME/chromium/$PROFILE` and
   `--load-extension=` joined from every `extensions/*/` that contains a
@@ -278,12 +282,14 @@ nonexistent `%h/.local/bin/firefox` is reverted. zsh-config (`BROWSER`,
 `GH_BROWSER`, `ZVM_OPEN_URL_CMD`) only calls `firefox` by name, so it needs
 no change.
 
-### Migration: `run_once_before_` script
+### Migration: `run_before_` script
 
-`home/.chezmoiscripts/run_once_before_migrate-chromium-profile` moves
+`home/.chezmoiscripts/run_before_migrate-chromium-profile` moves
 `~/.local/share/chewy-ungoogled` to `~/.local/share/chromium/chewy-ungoogled`
 if the old path exists, the new one does not, and Chromium is not running.
 Otherwise it prints why it skipped and exits 0, so `chezmoi apply` continues.
+It is `run_before_`, not `run_once_before_`, so a skipped move is retried on
+the next apply; once the old path is gone it does nothing.
 The leftover `~/.config/chromium` (from a launch that bypassed the wrapper)
 stays untouched and is mentioned in the docs.
 
