@@ -105,8 +105,8 @@ Sandbox it under a temp dir instead (or add --dry-run):
         --persistent-state "$tmp/state.boltdb" --cache "$tmp/cache" \
         --exclude=scripts [targets...]
 
-Or use the /chezmoi-sandbox skill. Applying to the real home is for the
-user to run themselves.
+Or use .claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh. Applying to
+the real home is for the user to run themselves.
 EOF
     return 1
 }
