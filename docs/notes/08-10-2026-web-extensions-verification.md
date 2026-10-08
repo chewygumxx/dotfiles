@@ -270,7 +270,7 @@ Firefox, 17 mv3, 2 mv2).
 | --- | --- |
 | `refreshPeriod = "168h"` left under `home/` | none |
 | Every templated external that sets `refreshPeriod` | renders `"24h"` |
-| Plain `.toml` externals setting `refreshPeriod` | none (`zsh-config`, `nvim-config` became `.tmpl`) |
+| Plain `.toml` externals setting `refreshPeriod` | none. `zsh-config` and `nvim-config` were renamed to `.tmpl` for consistency; files under `.chezmoiexternals/` are rendered as templates either way, so behaviour is unchanged |
 | `chezmoi execute-template --init < home/.chezmoi.toml.tmpl`, `[gitHub]` | `refreshPeriod = "24h"` |
 | `.chezmoidata` visible to the config template | no (`map has no entry for key`); `include ... \| fromToml` works |
 
@@ -281,6 +281,18 @@ A temp destination holding `.config/mozilla-firefox/chewyfox/extensions.json`
 `chezmoi apply` of that target, without `--force` and with no TTY, left
 nothing under `.config`. The stale file and its directories go with the
 `.chezmoiremove` entry, without a prompt.
+
+## Second review fixes
+
+| Check | Observed |
+| --- | --- |
+| Temp apply over a stale `mv2/retired` and a flat `extensions/flat-old` | both pruned by the new `exact_extensions/exact_mv{2,3}`; all 19 declared builds and the profile kept; no `.keep` deployed |
+| Broken `mv2/c` (no `manifest.json`) beside `mv3/c` | warning for `mv2/c`, `mv3/c` loaded |
+| `CHROMIUM_MV2=1`, `true`, `yes`, `on`, `TRUE` | MV2 builds loaded (before the fix, `CHROMIUM_MV2=true` turned MV2 off) |
+| `CHROMIUM_MV2=0`, `false`, `no`, `off`, `FALSE` | MV3 only |
+| `CHROMIUM_MV2='1+'` | launches with MV2 on (before the fix: `bad math expression`, no launch) |
+| `mozilla-firefox/` in any `.chezmoiignore` | none |
+| GitHub asset glob matching nothing | `gitHubLatestReleaseAssetURL` returns an empty string (exit 0), and chezmoi would abort with only `x: no URL`; the template now fails with `web-extensions: gone: no gorhill/uBlock release asset matches nomatch_*.crx` |
 
 ## Not verified here
 

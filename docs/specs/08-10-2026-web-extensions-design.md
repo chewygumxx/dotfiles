@@ -273,8 +273,8 @@ wrapper itself, then `exec` it with a flags array.
   exec itself, and the browser inherits the user's unmodified `PATH`. The current draft strips `~/.local/bin` from the
   browser's own environment.
 - `chromium` passes `--user-data-dir=$XDG_DATA_HOME/chromium/$PROFILE` and
-  `--load-extension=` joined from every `extensions/*/` that contains a
-  `manifest.json`. The broken profile-creation block is dropped, since
+  `--load-extension=` joined from one build per name under
+  `extensions/{mv2,mv3}/` that contains a `manifest.json` (see Revisions). The broken profile-creation block is dropped, since
   Chromium creates the directory itself. While the old profile exists and
   the new one does not, the wrapper uses the old one and warns, so an early
   launch cannot create an empty profile that blocks the migration.
@@ -349,6 +349,10 @@ request:
   `refreshPeriod = "24h"` for every external in the repo that previously
   hardcoded `168h`, and `home/.chezmoi.toml.tmpl` includes the same file for
   `gitHub.refreshPeriod`.
+- **Second review fixes.** `extensions/`, `mv2/` and `mv3/` are exact, so a
+  removed build is pruned rather than left to shadow MV3. `CHROMIUM_MV2` is
+  off only for `0`, `false`, `no` or `off`. An mv2 build without
+  `manifest.json` falls back to the mv3 build of its name.
 
 ## Future: system policies
 

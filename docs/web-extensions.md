@@ -25,7 +25,7 @@ tags:
 
 One list in `home/.chezmoidata/web-extensions.toml` declares every browser
 extension. `chezmoi apply` downloads each one, places it where the browser
-picks it up, and refreshes it weekly. All browser data lives under
+picks it up, and refreshes it daily. All browser data lives under
 `~/.local/share`, one tree per vendor.
 
 Background: [design spec](specs/08-10-2026-web-extensions-design.md),
@@ -121,8 +121,11 @@ ungoogled-chromium 153 still runs Manifest V2, but upstream Chromium has
 removed it. Give an extension `chromiumMv2` only for something MV3 can't do
 (full uBlock Origin) or that has no MV3 build (TWP). When an entry has both,
 the wrapper loads the MV2 build; once MV2 stops working, launch with
-`CHROMIUM_MV2=0` (or set it in `ungoogled-chromium.service`) and every
-extension falls back to its MV3 build, then delete the `chromiumMv2` keys.
+`CHROMIUM_MV2=0` (also `false`, `no` or `off`; set it in
+`ungoogled-chromium.service` to make it stick) and every extension falls back
+to its MV3 build. Then delete the `chromiumMv2` keys: `extensions/`, `mv2/`
+and `mv3/` are exact, so the next `chezmoi apply` prunes the retired MV2
+builds instead of leaving them to shadow MV3 again.
 
 `webBrowsers.chromium.version` is sent to the Web Store as `prodversion`.
 Bump it when ungoogled-chromium moves to a new major version, or the store
@@ -154,11 +157,11 @@ chezmoi apply
 Firefox enables the new add-on the next time it starts. Chromium loads it
 the next time it is launched through the wrapper.
 
-**Remove.** Delete the table. chezmoi stops managing the target but does not
-delete it, so also remove it from disk: uninstall it from `about:addons`
-(Firefox deletes the XPI), or
-`rm -r ~/.local/share/chromium/extensions/mv{2,3}/<name>` (the wrapper stops
-loading it).
+**Remove.** Delete the table (or just its `chromium` or `chromiumMv2` key).
+On Chromium that is all: the extension directories are exact, so the next
+`chezmoi apply` prunes the build and the wrapper stops loading it. On
+Firefox, chezmoi stops managing the XPI but does not delete it, so also
+uninstall the add-on from `about:addons` (Firefox deletes the XPI).
 
 ## Updating
 
@@ -249,8 +252,9 @@ next `chromium` on `PATH` whose resolved path is not the wrapper itself, so a
 symlinked or trailing-slash spelling of `~/.local/bin` cannot make it exec
 itself. `PATH` is left unchanged for the browser. It passes the ungoogled
 flags, `--user-data-dir`, and one `--load-extension` with one directory per
-extension name: the `mv2/` build when there is one and `CHROMIUM_MV2` is not
-`0`, otherwise the `mv3/` build. A directory without a `manifest.json` is
+extension name: the `mv2/` build when there is a usable one and
+`CHROMIUM_MV2` is not `0`, `false`, `no` or `off`, otherwise the `mv3/`
+build. A directory without a `manifest.json` is
 skipped with a warning on stderr, and the browser still launches.
 `ungoogled-chromium.service` starts the wrapper.
 
@@ -266,7 +270,7 @@ skipped with a warning on stderr, and the browser still launches.
    chezmoi apply
    ```
 
-   The first apply downloads about 55 files. The Firefox profile's
+   The first apply downloads 53 extensions. The Firefox profile's
    `chrome`, `user.js`, `profiles.ini` and `installs.ini` stop being
    symlinks, and `~/.config/mozilla-firefox` is removed as a whole, stale
    `extensions.json` and emptied directories included, without a prompt.
@@ -299,13 +303,22 @@ cause, or when the failure was transient, rerun with
 `chezmoi apply --refresh-externals`.
 
 **GitHub API rate limit.** `gitHubLatestReleaseAssetURL` calls the GitHub
-API every time the template renders. Unauthenticated calls are limited to
-60 an hour; export `GITHUB_TOKEN` (for example `GITHUB_TOKEN=$(gh auth
-token) chezmoi apply`) to raise it.
+API when its cached answer is older than `gitHub.refreshPeriod` (24h).
+Unauthenticated calls are limited to 60 an hour; export `GITHUB_TOKEN` (for
+example `GITHUB_TOKEN=$(gh auth token) chezmoi apply`) to raise it.
+
+**`web-extensions: <name>: no <repo> release asset matches <asset>`.** The
+repo's latest release no longer ships an asset matching `asset`.
+`gitHubLatestReleaseAssetURL` returns nothing in that case, and the Chromium
+externals template stops with this message, so every `chezmoi apply` and
+`chezmoi diff` aborts, not just Chromium. TWP is the likely case: its Chromium MV2 CRX is already named
+`..._deprecated`. Fix the glob, or delete that `chromium` or `chromiumMv2`
+key.
 
 **`chromium: Skipping extension without manifest.json: ...`.** The zip wraps
 its files in a top-level directory. Add `stripComponents = 1` to that
-entry's `chromium` table.
+entry's `chromium` or `chromiumMv2` table. A broken `mv2/` build is skipped
+and the `mv3/` build of the same name, if any, is loaded instead.
 
 **`about:addons` lists updates.** Expected with `autoUpdateDefault = false`.
 Run `chezmoi apply --refresh-externals`. Updating by hand is possible but
