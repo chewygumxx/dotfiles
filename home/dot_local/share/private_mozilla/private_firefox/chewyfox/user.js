@@ -45,6 +45,8 @@ user_pref("browser.download.viewableInternally.typeWasRegistered.webp", true);
 
 // Extensions
 user_pref("browser.discovery.enabled", false);
+user_pref("extensions.autoDisableScopes", 14);                         // Enable add-ons chezmoi places in the profile
+user_pref("extensions.update.autoUpdateDefault", false);               // chezmoi owns add-on updates
 user_pref("extensions.webextensions.restrictedDomains", "");           // Allow extensions on restricted sites
 user_pref("privacy.resistFingerprinting.block_mozAddonManager", true); // Allow extensions on restricted sites
 
