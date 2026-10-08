@@ -14,7 +14,7 @@
     type = "archive-file"
     path = "chezmoi-apply-xattr"
     executable = true
-    refreshPeriod = "168h"
+    refreshPeriod = {{ .externals.refreshPeriod | quote }}
     url = {{ gitHubLatestReleaseAssetURL "chewygumxx/chezmoi-apply-xattr" "chezmoi-apply-xattr-v*.tar.gz" | quote }}
 
 {{ end }}

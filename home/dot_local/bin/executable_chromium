@@ -1,0 +1,175 @@
+#!/usr/bin/env zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_chromium
+#
+#
+
+#
+# Shadow wrapper as configuration
+#
+# Loads the unpacked extensions chezmoi places in
+# $XDG_DATA_HOME/chromium/extensions/{mv2,mv3}/, see docs/web-extensions.md.
+#
+
+local self="${${(%):-%N}:A}"
+local data="${XDG_DATA_HOME:-$HOME/.local/share}/chromium"
+
+# --------------
+# Configuration
+# --------------
+
+# Profile directory under $data, passed as --user-data-dir
+local PROFILE="chewy-ungoogled"
+
+# Load Manifest V2 builds, which take precedence over an MV3 build of the
+# same name. Set CHROMIUM_MV2=0 (or false, no, off) once Chromium stops
+# running MV2, and every extension falls back to its MV3 build.
+local MV2=1
+[[ "${(L)CHROMIUM_MV2:-1}" == (0|false|no|off) ]] && MV2=0
+
+# https://github.com/ungoogled-software/ungoogled-chromium/blob/master/docs/flags.md
+local -a flags=(
+    # Disable 'Create QR code for this page'
+    --enable-features=DisableQRGenerator
+
+    # Custom themes in incognito mode
+    --enable-incognito-themes
+
+    # Nightbitch
+    --force-dark-mode
+
+    # Animation
+    #--force-prefers-reduced-motion
+    --force-prefers-no-reduced-motion
+
+    # Default Browser
+    --no-default-browser-check
+
+    # Custom new tab page
+    --custom-ntp="about:blank"
+
+    # Bookmark bar on new tab page. Only accepts `never`
+    --bookmark-bar-ntp=never
+
+    # Disable top sites in new tab page
+    --disable-top-sites
+
+    # Hides 'Press F11 to exit' and mouse hover top 'X' when in fullscreen
+    --hide-fullscreen-exit-ui
+
+    # Hides persistent 'x' button to close tab
+    --hide-tab-close-buttons
+
+    # Remove empty space in tabstrip for click-drag-move window
+    --remove-grab-handle
+
+    # Scroll tabs switches tabs
+    --scroll-tabs-never
+
+    # Show avatar/account button in toolbar
+    --show-avatar-button=never
+
+    # Disable 90 day browser history auto-wipe
+    --keep-old-history
+
+    # Disable "Restore Pages? Chromium didn't shut down correctly."
+    --hide-crashed-bubble
+
+    # Filetype handling for extensions (CRX) and userscripts
+    # - `download-as-regular-file`
+    # - `always-prompt-for-install`
+    --extension-mime-request-handling=download-as-regular-file
+
+    # Application data directory
+    # - Default: ~/.config/chromium
+    --user-data-dir="$data/$PROFILE"
+)
+
+# --------
+# Helpers
+# --------
+
+log() {
+    print -u2 -r -- "${self:t}: $*"
+}
+
+fatal() {
+    local code=1
+    if [[ "$1" == -<-> ]]; then
+        code="${1#-}"
+        shift
+    fi
+    log "$@"
+    exit "$code"
+}
+
+# -----------
+# Resolution
+# -----------
+
+# First `chromium` in PATH that is not this file, compared by resolved
+# path so a differently spelled PATH entry for this directory is skipped
+# too. PATH itself is left untouched for the browser.
+local candidate real
+for candidate in ${(f)"$(whence -ap -- "${self:t}")"}; do
+    [[ "${candidate:A}" == "$self" ]] && continue
+    real="$candidate"
+    break
+done
+[[ -n "$real" ]] || fatal -127 "Shadowed command not found: ${self:t}"
+
+# --------
+# Profile
+# --------
+
+# Until run_before_migrate-chromium-profile has moved the old profile, keep
+# using it rather than let Chromium create an empty one at the new path,
+# which would leave the migration stuck on "both exist"
+local legacy="${data:h}/$PROFILE"
+if [[ -d "$legacy" && ! -e "$data/$PROFILE" ]]; then
+    log "Profile not migrated yet, using ${(D)legacy}; close Chromium and run chezmoi apply"
+    flags[(r)--user-data-dir=*]="--user-data-dir=$legacy"
+fi
+
+# -----------
+# Extensions
+# -----------
+
+# Name to directory, a usable mv2 build overriding the mv3 build of that
+# name; a broken mv2 build is reported and its mv3 build used instead
+local -A builds
+local dir name
+for dir in "$data"/extensions/mv3/*(N/); do
+    builds[${dir:t}]="$dir"
+done
+if (( MV2 )); then
+    for dir in "$data"/extensions/mv2/*(N/); do
+        if [[ -f "$dir/manifest.json" ]]; then
+            builds[${dir:t}]="$dir"
+        else
+            log "Skipping extension without manifest.json: ${(D)dir}"
+        fi
+    done
+fi
+
+local -a extensions
+for name in ${(ko)builds}; do
+    dir="$builds[$name]"
+    if [[ -f "$dir/manifest.json" ]]; then
+        extensions+=("$dir")
+    else
+        log "Skipping extension without manifest.json: ${(D)dir}"
+    fi
+done
+(( $#extensions )) && flags+=(--load-extension="${(j:,:)extensions}")
+
+# ----------
+# Execution
+# ----------
+
+exec "$real" "${flags[@]}" "$@"

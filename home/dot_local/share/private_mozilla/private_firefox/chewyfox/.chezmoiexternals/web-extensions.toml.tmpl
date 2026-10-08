@@ -1,0 +1,22 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/share/private_mozilla/private_firefox/chewyfox/.chezmoiexternals/web-extensions.toml.tmpl
+#
+#
+
+{{- /* Termux runs neither browser; skip all network work there */ -}}
+{{- if ne .chezmoi.destDir "/data/data/com.termux/files/home" }}
+{{-   range .webExtensions }}
+{{-     with get . "firefox" }}
+
+[{{ printf "extensions/%s.xpi" . | quote }}]
+    type          = "file"
+    url           = {{ printf "https://addons.mozilla.org/firefox/downloads/latest/%s/latest.xpi" (urlquery .) | quote }}
+    refreshPeriod = {{ $.externals.refreshPeriod | quote }}
+{{-     end }}
+{{-   end }}
+{{- end }}

@@ -124,7 +124,6 @@ mise/
 # Mozilla Firefox
 {{ if not (lookPath "firefox") }}
 mozilla  # Symlink
-mozilla-firefox/
 {{ end }}
 
 # MPV

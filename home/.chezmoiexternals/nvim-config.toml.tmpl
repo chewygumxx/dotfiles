@@ -4,12 +4,12 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/.chezmoiexternals/nvim-config.toml
+# ::: :/home/.chezmoiexternals/nvim-config.toml.tmpl
 #
 #
 
 [".config/nvim"]
 type          = "git-repo"
 url           = "git@github.com:chewygumxx/nvim-config.git"
-refreshPeriod = "168h"
+refreshPeriod = {{ .externals.refreshPeriod | quote }}
 exact         = true

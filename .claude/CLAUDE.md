@@ -69,6 +69,24 @@ later.
 tooling for working in this repo, not something chezmoi ever applies to a
 machine.
 
+`docs/` is not applied either. It holds user guides at the top level (e.g.
+`docs/web-extensions.md`) and dated working documents in `notes/`, `plans/`
+and `specs/` (`DD-MM-YYYY-<topic>.md`, YAML frontmatter, HTML-comment path
+header).
+
+Browser extensions for Firefox and ungoogled-chromium are declared once in
+`home/.chezmoidata/web-extensions.toml` and installed by the
+`.chezmoiexternals` templates inside the Firefox profile and
+`dot_local/share/chromium/`; read `docs/web-extensions.md` before changing
+any of it. Never `chezmoi apply` those targets against the real home to test
+them: use `--destination`, `--cache` and `--persistent-state` under a temp
+dir.
+
+Externals take their `refreshPeriod` from `home/.chezmoidata/externals.toml`
+(`{{ .externals.refreshPeriod }}`, or `$.externals` inside `range`/`with`),
+which `gitHub.refreshPeriod` in `home/.chezmoi.toml.tmpl` also includes;
+never hardcode one.
+
 Within `home/`, the Zsh config (`home/dot_config/zsh/`) is itself modular and
 worth understanding before editing it:
 

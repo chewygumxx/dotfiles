@@ -42,7 +42,8 @@ watch    = true
 hardlink = false
 
 [gitHub]
-refreshPeriod = "168h"
+# Same period as externals, from the data file that defines their defaults
+refreshPeriod = {{ (include ".chezmoidata/externals.toml" | fromToml).externals.refreshPeriod | quote }}
 
 [diff]
 pager = {{ or

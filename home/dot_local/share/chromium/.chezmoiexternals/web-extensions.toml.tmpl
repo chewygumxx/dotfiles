@@ -1,0 +1,48 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/share/chromium/.chezmoiexternals/web-extensions.toml.tmpl
+#
+#
+
+{{- /* Termux runs neither browser; skip all network work there */ -}}
+{{- if ne .chezmoi.destDir "/data/data/com.termux/files/home" }}
+{{-   $crxUnpack := joinPath .chezmoi.sourceDir "dot_local/bin/executable_crx-unpack" }}
+{{-   $prodversion := .webBrowsers.chromium.version }}
+{{- /* One directory per manifest version, each fed by its own data key */ -}}
+{{-   range $dir, $key := dict "mv3" "chromium" "mv2" "chromiumMv2" }}
+{{-     range $.webExtensions }}
+{{-       $source := get . $key }}
+{{-       if $source }}
+
+[{{ joinPath "extensions" $dir .name | quote }}]
+    type           = "archive"
+    exact          = true
+    refreshPeriod  = {{ $.externals.refreshPeriod | quote }}
+{{-         if kindIs "string" $source }}
+    format         = "zip"
+    url            = {{ printf "https://clients2.google.com/service/update2/crx?response=redirect&prodversion=%s&acceptformat=crx3&x=id%%3D%s%%26uc" $prodversion $source | quote }}
+    filter.command = "python3"
+    filter.args    = ["-I", {{ $crxUnpack | quote }}]
+{{-         else }}
+{{-           $url := gitHubLatestReleaseAssetURL $source.repo $source.asset }}
+{{-           if not $url }}
+{{-             fail (printf "web-extensions: %s: no %s release asset matches %s" .name $source.repo $source.asset) }}
+{{-           end }}
+    url            = {{ $url | quote }}
+{{-           if hasSuffix ".crx" $source.asset }}
+    format         = "zip"
+    filter.command = "python3"
+    filter.args    = ["-I", {{ $crxUnpack | quote }}]
+{{-           end }}
+{{-           with get $source "stripComponents" }}
+    stripComponents = {{ . }}
+{{-           end }}
+{{-         end }}
+{{-       end }}
+{{-     end }}
+{{-   end }}
+{{- end }}

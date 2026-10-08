@@ -4,12 +4,12 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/.chezmoiexternals/zsh-config.toml
+# ::: :/home/.chezmoiexternals/zsh-config.toml.tmpl
 #
 #
 
 [".config/zsh"]
 type          = "git-repo"
 url           = "git@github.com:chewygumxx/zsh-config.git"
-refreshPeriod = "168h"
+refreshPeriod = {{ .externals.refreshPeriod | quote }}
 exact         = true

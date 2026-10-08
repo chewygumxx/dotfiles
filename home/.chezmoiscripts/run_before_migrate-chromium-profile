@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# vim:set expandtab shiftwidth=4 filetype=bash:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/.chezmoiscripts/run_before_migrate-chromium-profile
+#
+#
+
+#
+# Moves the ungoogled-chromium profile into the per-vendor data tree,
+# see docs/web-extensions.md. Runs before every apply and does nothing once
+# the old directory is gone, so a skipped run is retried next time.
+#
+
+script_name="migrate-chromium-profile"
+data="${CHEZMOI_DEST_DIR:-$HOME}/.local/share"
+old="$data/chewy-ungoogled"
+new="$data/chromium/chewy-ungoogled"
+
+__log() {
+    printf '%s: [%s] %s\n' "$script_name" "$1" "${*:2}" >&2
+}
+
+[[ -d "$old" ]] || exit 0
+
+if [[ -e "$new" ]]; then
+    __log WARN "Both $old and $new exist, leaving both untouched"
+    exit 0
+fi
+
+# Chromium holds this <host>-<pid> symlink in its user data dir while
+# running, and leaves it behind after a crash. Only a live process on this
+# host, or a lock from another host that can't be checked, blocks the move.
+if lock="$(readlink -- "$old/SingletonLock" 2>/dev/null)"; then
+    if [[ "${lock%-*}" != "$(uname -n)" ]] || ps -p "${lock##*-}" &>/dev/null; then
+        __log WARN "Chromium is using $old, close it and rerun chezmoi apply"
+        exit 0
+    fi
+    __log NOTICE "Ignoring stale lock $old/SingletonLock"
+fi
+
+mkdir -p -- "${new%/*}" && mv -- "$old" "$new" || {
+    __log ERROR "Failed to move $old to $new"
+    exit 1
+}
+__log NOTICE "Moved $old to $new"

@@ -49,4 +49,11 @@ downloads/
 .chezmoiscripts/wezterm-terminfo   # WezTerm doesn't run on Termux; also sidesteps a known
                                    # chezmoi/Termux fork/exec quirk when staging run_ scripts.
 
+.chezmoiscripts/migrate-chromium-profile         # Neither browser runs on Termux
+.config/systemd/user/ungoogled-chromium.service
+.local/bin/chromium
+.local/bin/crx-unpack
+.local/share/chromium/
+.local/share/mozilla/
+
 {{- end }}

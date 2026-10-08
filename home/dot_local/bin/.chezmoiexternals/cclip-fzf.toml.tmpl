@@ -13,7 +13,7 @@
 ["cclip-fzf"]
     type = "file"
     executable = true
-    refreshPeriod = "168h"
+    refreshPeriod = {{ .externals.refreshPeriod | quote }}
     url = {{ gitHubLatestReleaseAssetURL "chewygumxx/cclip-fzf" "cclip-fzf" | quote }}
 
 {{- end }}

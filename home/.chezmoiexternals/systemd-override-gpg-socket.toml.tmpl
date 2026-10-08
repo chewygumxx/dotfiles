@@ -13,14 +13,14 @@
 [".config/systemd/user/systemd-override-gpg-socket.service"]
     type = "archive-file"
     path = "systemd-override-gpg-socket.service"
-    refreshPeriod = "168h"
+    refreshPeriod = {{ .externals.refreshPeriod | quote }}
     url = {{ gitHubLatestReleaseAssetURL "chewygumxx/systemd-override-gpg-socket" "systemd-override-gpg-socket-*.tar.gz" | quote }}
 
 [".local/bin/systemd-override-gpg-socket"]
     type = "archive-file"
     path = "systemd-override-gpg-socket"
     executable = true
-    refreshPeriod = "168h"
+    refreshPeriod = {{ .externals.refreshPeriod | quote }}
     url = {{ gitHubLatestReleaseAssetURL "chewygumxx/systemd-override-gpg-socket" "systemd-override-gpg-socket-*.tar.gz" | quote }}
 
 {{- end }}
