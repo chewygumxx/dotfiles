@@ -33,22 +33,34 @@ fatal() {
     exit "$__code"
 }
 
-# Locate the first executable of the same name on PATH that is not this file.
+# Locate the next executable of the same name on PATH after this file. Never
+# look behind it: an earlier entry (e.g. a mise shim resolving "system") may
+# fall back to PATH-minus-itself, landing here again and looping forever.
+# Only when this file is not on PATH at all is the first match taken.
 # "-ef" compares device and inode, so symlinks, trailing slashes and
 # alternate spellings of this file's path are all handled correctly.
 __real=''
+__first=''
+__past_self=''
 set -f
 IFS=:
 for __dir in $PATH; do
     [ -n "$__dir" ] || continue
     __candidate="$__dir/$__this_name"
-    if [ -f "$__candidate" ] && [ -x "$__candidate" ] && ! [ "$__candidate" -ef "$0" ]; then
+    [ -f "$__candidate" ] && [ -x "$__candidate" ] || continue
+    if [ "$__candidate" -ef "$0" ]; then
+        __past_self=1
+        continue
+    fi
+    [ -n "$__first" ] || __first="$__candidate"
+    if [ -n "$__past_self" ]; then
         __real="$__candidate"
         break
     fi
 done
 unset IFS
 set +f
+[ -n "$__past_self" ] || __real="$__first"
 
 [ -n "$__real" ] || fatal 127 'Shadowed executable not found'
 
