@@ -32,9 +32,6 @@
 # These are the keys to the kingdom
 .credentials.json
 
-# Binary release asset of ~chewygumxx/claude-status-line.git
-claude-status-line
-
 # Seriously. Not cache, not state, absolutely config.
 .last-cleanup
 daemon.log
