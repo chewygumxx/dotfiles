@@ -62,11 +62,9 @@
     "workflowSizeGuideline": "medium",
     "statusLine": {
         "type": "command",
-        "command": "sh -c '\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/claude-status-line\"'"
-    },
-    "subagentStatusLine": {
-        "type": "command",
-        "command": "sh -c '\"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/claude-status-line\"'"
+        "command": "ccstatusline",
+        "padding": 0,
+        "refreshInterval": 10
     },
     "sandbox": {
         "enabled": false,
