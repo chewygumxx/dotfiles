@@ -94,6 +94,11 @@ const scopes: { delimiters: string[]; enum: Enumerable[] } = {
             description: "System Resource Monitor",
         },
         {
+            name: "ccstatusline",
+            fullName: "ccstatusline",
+            description: "Claude Code Status Line",
+        },
+        {
             name: "chromium",
             fullName: "Ungoogled Chromium",
             description: "Web Browser",
