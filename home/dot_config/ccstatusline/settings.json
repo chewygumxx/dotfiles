@@ -269,9 +269,5 @@
         "endCaps": [],
         "autoAlign": false,
         "continueThemeAcrossLines": false
-    },
-    "installation": {
-        "method": "pinned",
-        "installedVersion": "2.2.30"
     }
 }
