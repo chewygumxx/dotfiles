@@ -73,9 +73,11 @@ target.)
 User-level Claude Code config lives in `home/dot_config/claude/` (applied to
 `~/.config/claude`, the `CLAUDE_CONFIG_DIR`) and `home/dot_config/claude-2/` (a
 second account). The second's `settings.json` is a `symlink_` to
-`../claude/settings.json`, so edit only the first. Its SessionStart hook keeps
-the `${CLAUDE_CONFIG_DIR}` shell form for both accounts; herdr's own installer
-writes an absolute path it cannot match, so don't run it against this file.
+`../claude/settings.json`, so edit only the first. Its SessionStart hook uses
+the `${CLAUDE_CONFIG_DIR}` shell form so the one file serves both accounts.
+herdr's installer (`herdr integration install claude`) only recognises its own
+absolute-path command, so rerunning it appends a duplicate SessionStart group;
+don't run it against this file.
 
 `docs/` is not applied either. It holds user guides at the top level (e.g.
 `docs/web-extensions.md`) and dated working documents in `notes/`, `plans/`
@@ -160,7 +162,9 @@ Linting runs in three places:
 
 - `.husky/pre-commit` (staged files): luafmt then luacheck (nearest
   `.luacheckrc`), tombi format/lint, prettier on JSON/YAML; `symlink_*` files
-  skipped. `.github/workflows/lint-config.yaml` runs the same checks in CI.
+  skipped. The formatters rewrite in place and re-stage, so JSON written by a
+  tool at 2-space indent is committed at `.editorconfig`'s 4. There is no
+  biome. `.github/workflows/lint-config.yaml` runs the same checks in CI.
 - `.claude/hooks/lint-on-edit.sh` (each file Claude writes): the above, plus
   shellcheck (rules in `.shellcheckrc`), `zsh -n`, and
   `chezmoi execute-template` for templates, skipping any that call a secret
