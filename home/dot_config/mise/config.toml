@@ -15,5 +15,6 @@
 #
 
 [tools]
-bun  = "latest"
-node = "24"
+bun                = "latest"
+node               = "24"
+"npm:ccstatusline" = "latest"
