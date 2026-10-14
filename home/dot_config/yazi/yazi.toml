@@ -39,7 +39,7 @@ open     = [
     { run = "xdg-open %s1", desc = "Open", orphan = true },
 ]
 exif     = [
-    { run = "clear; exiftool %s1; echo 'Press enter to exit'; read _", desc = "Show EXIF" },
+    { run = "exiftool %s1; echo 'Press enter to exit'; read _", block = true, desc = "Show EXIF" },
 ]
 copy     = [
     { run = "wl-copy < %s1", desc = "Copy File to Clipboard" },
