@@ -77,7 +77,18 @@ second account). The second's `settings.json` is a `symlink_` to
 the `${CLAUDE_CONFIG_DIR}` shell form so the one file serves both accounts.
 herdr's installer (`herdr integration install claude`) only recognises its own
 absolute-path command, so rerunning it appends a duplicate SessionStart group;
-don't run it against this file.
+don't run it against this file. Plugin installers (`claude plugin install`,
+`wt config plugins claude install`) likewise write `enabledPlugins` into the
+deployed file only; copy such changes into the source by hand.
+
+Worktrunk (`wt`) owns worktree creation: the herdr-worktrunk plugin drives it
+from herdr's keys, and worktrunk's Claude plugin hooks `WorktreeCreate` for
+`claude -w` and subagents. The layout is set in two places that must agree:
+`worktree-path` in `home/dot_config/worktrunk/config.toml` and
+`[worktrees] directory` in `home/dot_config/herdr/config.toml.tmpl`.
+`.worktreeinclude` is honoured by worktrunk's `pre-start` copy. This repo's
+own `.config/wt.toml` runs `bun install` so husky hooks exist in new
+worktrees.
 
 `docs/` is not applied either. It holds user guides at the top level (e.g.
 `docs/web-extensions.md`) and dated working documents in `notes/`, `plans/`
