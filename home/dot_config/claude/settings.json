@@ -15,6 +15,7 @@
             "effortLevel": "high"
         }
     },
+    "outputStyle": "default",
     "hooks": {
         "SessionStart": [
             {
