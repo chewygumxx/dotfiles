@@ -93,8 +93,9 @@ matching neighbours:
 },
 ```
 
-Commit that first (`build: Add <tool> commit scope`), then run
-`bun run typecheck`. Then the config itself, e.g.
+Add it to the scope list in `.config/wt.toml`'s `template-append` too, which
+tells worktrunk's commit-message LLM what commitlint accepts. Commit that first
+(`build: Add <tool> commit scope`), then run `bun run typecheck`. Then the config itself, e.g.
 `feat(<tool>): Add <tool> config`: 50-char header limit, no em dashes, no AI
 trailer.
 
