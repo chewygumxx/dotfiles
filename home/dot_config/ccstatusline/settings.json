@@ -62,13 +62,14 @@
             },
             {
                 "id": "ed102097-c54e-4a99-a9c2-5c4794dfebbf",
-                "type": "reset-timer",
+                "type": "session-usage",
                 "color": "magenta",
                 "numberFormat": {
                     "style": "compact"
                 },
                 "rawValue": true,
                 "metadata": {
+                    "cursor": "true",
                     "display": "progress",
                     "hide": "no-data"
                 }
@@ -103,10 +104,11 @@
             },
             {
                 "id": "1efae815-36b0-4a79-8413-d59ec6e3d50a",
-                "type": "weekly-reset-timer",
+                "type": "weekly-usage",
                 "color": "magenta",
                 "rawValue": true,
                 "metadata": {
+                    "cursor": "true",
                     "display": "progress",
                     "invert": "false",
                     "hide": "no-data"
