@@ -18,7 +18,14 @@
 
 # Unfortunately, the following include absolute filepaths. Plugins may demand
 # iterative management rather than declarative specification.
-plugins/
+#
+# Except per-plugin settings, which are plain config. chezmoi never descends
+# into an ignored directory, so each level is un-ignored while its siblings
+# stay ignored (excludes win over includes for the same path).
+plugins/*
+!plugins/config/
+plugins/config/*
+!plugins/config/worktrunk/
 plugins.json
 .plugins.lock
 
