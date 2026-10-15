@@ -1,0 +1,33 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/worktrunk/config.toml
+#
+#
+
+#
+# Worktrunk owns worktree creation for herdr (herdr-worktrunk plugin) and
+# Claude Code (worktrunk plugin's WorktreeCreate/WorktreeRemove hooks).
+#
+# https://worktrunk.dev/config/
+#
+
+# Must agree with [worktrees] directory in herdr's config.toml: both lay out
+# <root>/<repo>/<branch-slug>, so native and worktrunk checkouts sit together.
+worktree-path = "~/dev/_worktree/{{ repo }}/{{ branch | sanitize }}"
+
+# Blocking, so .env and friends exist before Claude enters the worktree.
+# --require-include matches Claude Code: only gitignored files that are also
+# listed in .worktreeinclude get copied.
+[pre-start]
+copy = "wt step copy-ignored --require-include"
+
+# Show Claude-created worktrees in herdr's sidebar, skipping subagent ones.
+# Gated on CLAUDE_PROJECT_DIR so it never races the herdr-worktrunk plugin,
+# which registers the worktrees it creates itself. Template variables are
+# shell-escaped by worktrunk, so they stay unquoted.
+[post-start]
+herdr = "case {{ branch }} in agent-*) ;; *) [ -n \"$CLAUDE_PROJECT_DIR\" ] && [ \"$HERDR_ENV\" = 1 ] && herdr worktree open --cwd {{ primary_worktree_path }} --path {{ worktree_path }} --no-focus >/dev/null ;; esac; true"
