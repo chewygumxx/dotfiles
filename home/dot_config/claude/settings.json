@@ -238,7 +238,7 @@
     "prefersReducedMotion": false,
     "timeFormat": "%a %d %b - %H:%M:%S",
     "showThinkingSummaries": true,
-    "theme": "dark",
+    "theme": "custom:chewy-claude",
     "editorMode": "vim",
     "autoCompactEnabled": false,
     "crossSessionInbound": "accept",

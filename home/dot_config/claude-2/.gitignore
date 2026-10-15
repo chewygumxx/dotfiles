@@ -9,3 +9,5 @@
 #
 
 !/CLAUDE.md
+# Custom themes link to ../claude/themes; see the note there
+!/themes/symlink_*.json

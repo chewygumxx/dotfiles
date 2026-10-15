@@ -9,3 +9,6 @@
 #
 
 !/CLAUDE.md
+# Custom themes are named <theme>.json; the global *claude.json rule
+# (meant for .claude.json) would otherwise swallow chewy-claude.json
+!/themes/*.json

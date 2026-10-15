@@ -1,0 +1,16 @@
+{
+    "name": "chewy-claude",
+    "base": "dark-ansi",
+    "overrides": {
+        "inactiveShimmer": "#7171d3",
+        "inactive": "#6161d3",
+        "promptBorder": "#7408cf",
+        "promptBorderShimmer": "#7408ff",
+        "background": "#5f95fa",
+        "briefLabelYou": "#9233dc",
+        "text": "#cad6ff",
+        "rate_limit_empty": "#7fb5ff",
+        "warning": "#7fc5df",
+        "warningShimmer": "#8b9efd"
+    }
+}
