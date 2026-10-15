@@ -2,12 +2,106 @@
     "$schema": "https://www.schemastore.org/claude-code-settings.json",
     "cleanupPeriodDays": 180,
     "skillListingMaxDescChars": 2048,
-    "attribution": {
-        "commit": "",
-        "pr": "",
-        "sessionUrl": false
+    "model": "opus",
+    "effortLevel": "high",
+    "modelSettings": {
+        "claude-sonnet-5": {
+            "effortLevel": "high"
+        },
+        "claude-opus-5-5": {
+            "effortLevel": "high"
+        },
+        "claude-sonnet-5-5": {
+            "effortLevel": "high"
+        }
+    },
+    "hooks": {
+        "SessionStart": [
+            {
+                "matcher": "*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "sh -c 'bash \"${CLAUDE_CONFIG_DIR:=$HOME/.claude}/hooks/herdr-agent-state.sh\" session'",
+                        "timeout": 10
+                    }
+                ]
+            }
+        ]
+    },
+    "workflowSizeGuideline": "medium",
+    "statusLine": {
+        "type": "command",
+        "command": "ccstatusline",
+        "padding": 0,
+        "refreshInterval": 10
+    },
+    "enabledPlugins": {
+        "worktrunk@worktrunk": true
+    },
+    "extraKnownMarketplaces": {
+        "worktrunk": {
+            "source": {
+                "source": "github",
+                "repo": "max-sixty/worktrunk"
+            }
+        }
+    },
+    "timeFormat": "%a %d %b - %H:%M:%S",
+    "editorMode": "vim",
+    "externalEditorContext": true,
+    "crossSessionInbound": "accept",
+    "useAutoModeDuringPlan": true,
+    "skipAutoPermissionPrompt": true,
+    "spinnerVerbs": {
+        "mode": "replace",
+        "verbs": [
+            "Metro Booming",
+            "Dabbing on the hoes",
+            "Yeetin on em",
+            "Sequestering the pack",
+            "Bapping on the haters",
+            "Three-sixty no-scoping",
+            "Wombo Combo-ing",
+            "Giving huggie-wuggies",
+            "Dropping a mixtape",
+            "Taking all your base",
+            "Sipping on Gin and Juice",
+            "Acquisitioning bread",
+            "Selling you to the highest bidder",
+            "Hacking the planet",
+            "Watching tears in the rain",
+            "Swerving on that mood rn",
+            "Harmonising the vibrations",
+            "Not sleeping in Tokyo",
+            "Resurrecting the party",
+            "Waking up out of my coma",
+            "Assembling the fellas",
+            "Calling hot boi helpline",
+            "Winning by any means necessary",
+            "Ascending to a higher plane",
+            "Touching grass",
+            "Calling the wrong number",
+            "Flirting with Gaia",
+            "Distributing disrespect",
+            "Appraising my reflection",
+            "Waking up so pretty",
+            "Pressing F",
+            "Flipping Flat Earth",
+            "Recalculating who cares",
+            "Taking psychic damage",
+            "Investing my time",
+            "Going viral like you don't even know",
+            "Brandishing the registered God Particle",
+            "Disbelief I just read that",
+            "Hyping up the next best watermelon",
+            "Collecting the crumb",
+            "Sweeting up now she sees me",
+            "Recognising I'm that guy"
+        ]
     },
     "permissions": {
+        "defaultMode": "auto",
         "deny": [
             "Read(/etc/wireguard/**)",
             "Read(~/.config/cloudflare-ddns/**)",
@@ -28,48 +122,29 @@
             "Bash(rm -rf ~)",
             "Bash(rm -rf ~*)",
             "Bash(rm -rf .)"
-        ],
-        "defaultMode": "plan"
-    },
-    "model": "opus",
-    "disableClaudeAiConnectors": false,
-    "disableBundledSkills": false,
-    "hooks": {
-        "SessionStart": [
-            {
-                "matcher": "*",
-                "hooks": [
-                    {
-                        "type": "command",
-                        "command": "sh -c 'bash \"${CLAUDE_CONFIG_DIR:-$HOME/.claude}/hooks/herdr-agent-state.sh\" session'",
-                        "timeout": 10
-                    }
-                ]
-            }
         ]
     },
+    "disableClaudeAiConnectors": false,
+    "disableBundledSkills": false,
     "disableRemoteControl": true,
-    "workflowSizeGuideline": "medium",
-    "statusLine": {
-        "type": "command",
-        "command": "ccstatusline",
-        "padding": 0,
-        "refreshInterval": 10
-    },
-    "extraKnownMarketplaces": {
-        "worktrunk": {
-            "source": {
-                "source": "github",
-                "repo": "max-sixty/worktrunk"
-            }
-        }
-    },
+    "feedbackSurveyRate": 0,
+    "feedbackDrafts": "off",
+    "spinnerTipsEnabled": false,
+    "terminalTitleFromRename": false,
+    "emojiCompletionEnabled": false,
+    "awaySummaryEnabled": false,
+    "prefersReducedMotion": false,
+    "showThinkingSummaries": true,
+    "theme": "custom:chewy-claude",
+    "autoCompactEnabled": false,
     "sandbox": {
         "enabled": false,
         "failIfUnavailable": false,
         "autoAllowBashIfSandboxed": true,
         "allowUnsandboxedCommands": true,
         "network": {
+            "strictAllowlist": false,
+            "deniedDomains": [],
             "allowedDomains": [
                 "github.com",
                 "codeberg.org",
@@ -96,10 +171,7 @@
                 "dev.to",
                 "chezmoi.io",
                 "nushell.sh"
-            ],
-            "deniedDomains": [],
-            "strictAllowlist": false,
-            "allowLocalBinding": false
+            ]
         },
         "filesystem": {
             "denyWrite": [
@@ -170,82 +242,9 @@
             ]
         }
     },
-    "feedbackSurveyRate": 0,
-    "feedbackDrafts": "off",
-    "spinnerTipsEnabled": false,
-    "spinnerVerbs": {
-        "mode": "replace",
-        "verbs": [
-            "Metro Booming",
-            "Dabbing on the hoes",
-            "Yeetin on em",
-            "Sequestering the pack",
-            "Bapping on the haters",
-            "Three-sixty no-scoping",
-            "Wombo Combo-ing",
-            "Giving huggie-wuggies",
-            "Dropping a mixtape",
-            "Taking all your base",
-            "Sipping on Gin and Juice",
-            "Acquisitioning bread",
-            "Selling you to the highest bidder",
-            "Hacking the planet",
-            "Watching tears in the rain",
-            "Swerving on that mood rn",
-            "Harmonising the vibrations",
-            "Not sleeping in Tokyo",
-            "Resurrecting the party",
-            "Waking up out of my coma",
-            "Assembling the fellas",
-            "Calling hot boi helpline",
-            "Winning by any means necessary",
-            "Ascending to a higher plane",
-            "Touching grass",
-            "Calling the wrong number",
-            "Flirting with Gaia",
-            "Distributing disrespect",
-            "Appraising my reflection",
-            "Waking up so pretty",
-            "Pressing F",
-            "Flipping Flat Earth",
-            "Recalculating who cares",
-            "Taking psychic damage",
-            "Investing my time",
-            "Going viral like you don't even know",
-            "Brandishing the registered God Particle",
-            "Disbelief I just read that",
-            "Hyping up the next best watermelon",
-            "Collecting the crumb",
-            "Sweeting up now she sees me",
-            "Recognising I'm that guy"
-        ]
-    },
-    "terminalTitleFromRename": false,
-    "effortLevel": "high",
-    "modelSettings": {
-        "claude-sonnet-5": {
-            "effortLevel": "high"
-        },
-        "claude-opus-5-5": {
-            "effortLevel": "high"
-        },
-        "claude-sonnet-5-5": {
-            "effortLevel": "high"
-        }
-    },
-    "emojiCompletionEnabled": false,
-    "awaySummaryEnabled": false,
-    "prefersReducedMotion": false,
-    "timeFormat": "%a %d %b - %H:%M:%S",
-    "showThinkingSummaries": true,
-    "theme": "custom:chewy-claude",
-    "editorMode": "vim",
-    "autoCompactEnabled": false,
-    "crossSessionInbound": "accept",
-    "skipAutoPermissionPrompt": true,
-    "useAutoModeDuringPlan": true,
-    "externalEditorContext": true,
-    "enabledPlugins": {
-        "worktrunk@worktrunk": true
+    "attribution": {
+        "commit": "",
+        "pr": "",
+        "sessionUrl": false
     }
 }
