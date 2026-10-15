@@ -1,0 +1,31 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/plugins/config/worktrunk/config.toml
+#
+#
+
+#
+# herdr-worktrunk plugin settings, read on every picker run (no reload needed).
+# Only this file is managed; the rest of ~/.config/herdr/plugins/ is herdr's
+# runtime state.
+#
+# The plugin parses this with sed, one `key = value` per line: keep values on
+# a single line and don't nest tables.
+#
+# https://github.com/devashish2203/herdr-worktrunk
+#
+
+# Register checkouts as nested worktree workspaces, like herdr's native ones
+open_mode = "workspace"
+
+# Float the fzf picker over the layout instead of splitting below it
+picker_placement = "popup"
+popup_width      = "70%"
+popup_height     = "60%"
+
+# Typing "Fix Login Bug" creates fix-login-bug; existing branches are untouched
+slugify_new_branches = true
