@@ -9,21 +9,19 @@
 #
 #
 
-
 #
 # ** This file executes at the start of *EVERY* zsh shell
 #
-
 
 # ----------------
 # XDG Directories
 # ----------------
 
-: ${XDG_DATA_HOME:="$HOME/.local/share"}
-: ${XDG_STATE_HOME:="$HOME/.local/state"}
-: ${XDG_CACHE_HOME:="$HOME/.local/cache"}
-: ${XDG_CONFIG_HOME:="$HOME/.config"}
-: ${XDG_RUNTIME_DIR:="/run/user/$(id -u)"}
+: "${XDG_DATA_HOME:="$HOME/.local/share"}"
+: "${XDG_STATE_HOME:="$HOME/.local/state"}"
+: "${XDG_CACHE_HOME:="$HOME/.cache"}"
+: "${XDG_CONFIG_HOME:="$HOME/.config"}"
+: "${XDG_RUNTIME_DIR:="/run/user/$(id -u)"}"
 
 export XDG_{DATA,STATE,CACHE,CONFIG}_HOME XDG_RUNTIME_DIR
 

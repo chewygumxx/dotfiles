@@ -14,14 +14,13 @@
 #
 
 export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.local/cache"
+export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_RUNTIME_DIR="$PREFIX/tmp"
 
-if   [[ -d "$XDG_CONFIG_HOME/zsh" ]]; then
+if [[ -d "$XDG_CONFIG_HOME/zsh" ]]; then
     export ZDOTDIR=$XDG_CONFIG_HOME/zsh
 elif [[ -d "$HOME/.config/zsh" ]]; then
     export ZDOTDIR=$HOME/.config/zsh
 fi
-
