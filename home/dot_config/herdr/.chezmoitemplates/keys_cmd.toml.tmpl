@@ -37,3 +37,21 @@ key         = "prefix+f"
 description = "Open file from agent output"
 type        = "plugin_action"
 command     = "herdr-nvim.pick-file"
+
+[[keys.command]]
+key         = "prefix+shift+g"
+description = "Switch to or create a worktree"
+type        = "plugin_action"
+command     = "worktrunk.open"
+
+[[keys.command]]
+key         = "prefix+alt+g"
+description = "Remove a worktree"
+type        = "plugin_action"
+command     = "worktrunk.remove"
+
+[[keys.command]]
+key         = "prefix+alt+m"
+description = "Merge a worktree into its target"
+type        = "plugin_action"
+command     = "worktrunk.merge"
