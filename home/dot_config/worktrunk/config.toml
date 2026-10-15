@@ -31,3 +31,22 @@ copy = "wt step copy-ignored --require-include"
 # shell-escaped by worktrunk, so they stay unquoted.
 [post-start]
 herdr = "case {{ branch }} in agent-*) ;; *) [ -n \"$CLAUDE_PROJECT_DIR\" ] && [ \"$HERDR_ENV\" = 1 ] && herdr worktree open --cwd {{ primary_worktree_path }} --path {{ worktree_path }} --no-focus >/dev/null ;; esac; true"
+
+# LLM commit messages for `wt step commit` and the squash in `wt merge`. The
+# prompt arrives on stdin. Haiku without thinking keeps it quick; --safe-mode
+# skips hooks and plugins (no herdr state reports from this headless run) and
+# --tools='' leaves it nothing to do but answer. git's own commit-msg hook
+# still runs on the result, so commitlint has the final say.
+# https://worktrunk.dev/llm-commits/
+[commit.generation]
+command = "MAX_THINKING_TOKENS=0 claude -p --no-session-persistence --model=haiku --tools='' --safe-mode --setting-sources='user' --system-prompt=''"
+
+# Personal style for every repo; a repo's .config/wt.toml adds its own rules
+template-append = """
+- Never use em dashes
+- Start the subject with a capital letter
+"""
+
+# The dotfiles commit granularly; squashing on merge would undo that
+[projects."github.com/chewygumxx/dotfiles"]
+merge.squash = false
