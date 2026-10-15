@@ -22,3 +22,23 @@
 # copying node_modules here: ~/dev is ext4, so no reflinks.
 [pre-start]
 deps = "bun install --frozen-lockfile"
+
+# This repo's commitlint rules, for the LLM in the user config's
+# [commit.generation]. Types come from @chewygumxx/commitlint-config and
+# scopes from .commitlintrc.mts; keep both lists in step with them. Drift
+# only costs a retry, since the commit-msg hook still rejects a bad header.
+[commit.generation]
+template-append = """
+- Conventional Commits header: type(scope): Subject, at most 50 characters
+- Hard-wrap the body with newlines so no line exceeds 72 characters
+- type is one of: feat (new functionality or tool), fix (correct a
+  misconfiguration), tweak (minor preference adjustment), refactor, perf,
+  chore (repository maintenance), style (formatting only), docs, ai (agent
+  assets such as .claude/), ci, build (toolchain, dependencies), test, revert
+- scope is optional and, when present, one of: btop, ccstatusline, chezmoi,
+  chromium, claude, firefox, gh, git, gpg, herdr, hypr, mise, nushell, ssh,
+  systemd, termux, waybar, wezterm, worktrunk, yay, yazi, zsh
+- Name the config area changed, e.g. home/dot_config/herdr/ is herdr; join
+  two areas with a slash (feat(zsh/hypr): ...). Omit the scope for changes
+  outside any listed area
+"""
