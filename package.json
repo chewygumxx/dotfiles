@@ -37,6 +37,7 @@
     },
     "dependencies": {
         "@chewygumxx/biome-config": "^1.1.0",
+        "@chewygumxx/commitlint-config": "^1.1.0",
         "@chewygumxx/markdownlint-cli2-config": "^1.1.0",
         "@chewygumxx/yamllint-config": "^1.0.1"
     }
