@@ -171,6 +171,11 @@ const scopes: { delimiters: string[]; enum: Enumerable[] } = {
             description: "Terminal Emulator",
         },
         {
+            name: "worktrunk",
+            fullName: "Worktrunk",
+            description: "Git Worktree Manager",
+        },
+        {
             name: "yay",
             fullName: "Yay",
             description: "AUR Helper and Pacman Wrapper",
