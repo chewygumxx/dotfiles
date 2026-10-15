@@ -168,27 +168,11 @@
                 "character": " "
             },
             {
-                "id": "3401d015-a559-48d2-a55c-59fa9e40e8e0",
-                "type": "git-branch",
-                "color": "brightMagenta",
-                "rawValue": true,
-                "metadata": {
-                    "hide": "no-git"
-                }
-            },
-            {
-                "id": "3d21794f-09c9-476c-9dc3-5d59bab05df9",
-                "type": "separator",
-                "color": "brightBlack",
-                "character": "|"
-            },
-            {
-                "id": "416f703e-491c-4018-b5ba-4bff3781dd2e",
-                "type": "git-ahead-behind",
-                "color": "cyan",
-                "metadata": {
-                    "hide": "no-git,no-upstream,zero"
-                }
+                "id": "51c71bd1-f398-408c-b756-b15b65a29af9",
+                "type": "custom-command",
+                "commandPath": "wt -C \"$(jq -r .workspace.current_dir)\" list statusline 2>/dev/null | sed 's/^\\(\\x1b\\[0m\\)\\{0,1\\} //'",
+                "preserveColors": true,
+                "timeout": 3000
             },
             {
                 "id": "2b14cf80-f47a-4531-ad13-b47a46e1ff37",
