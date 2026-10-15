@@ -56,6 +56,14 @@
         "padding": 0,
         "refreshInterval": 10
     },
+    "extraKnownMarketplaces": {
+        "worktrunk": {
+            "source": {
+                "source": "github",
+                "repo": "max-sixty/worktrunk"
+            }
+        }
+    },
     "sandbox": {
         "enabled": false,
         "failIfUnavailable": false,
@@ -236,5 +244,8 @@
     "crossSessionInbound": "accept",
     "skipAutoPermissionPrompt": true,
     "useAutoModeDuringPlan": true,
-    "externalEditorContext": true
+    "externalEditorContext": true,
+    "enabledPlugins": {
+        "worktrunk@worktrunk": true
+    }
 }
