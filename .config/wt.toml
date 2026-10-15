@@ -1,0 +1,24 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/.config/wt.toml
+#
+#
+
+#
+# Worktrunk project config. Sits outside the home/ source root, so chezmoi
+# never applies it. Project commands need one-time approval:
+# `wt config approvals add` (Claude's non-interactive hook can't prompt).
+#
+# https://worktrunk.dev/config/
+#
+
+# core.hooksPath is the relative .husky/_, which is gitignored, so a fresh
+# worktree runs no commit-msg or pre-commit hooks until husky regenerates
+# it. `bun install` runs the prepare script that does so. Installing beats
+# copying node_modules here: ~/dev is ext4, so no reflinks.
+[pre-start]
+deps = "bun install --frozen-lockfile"
