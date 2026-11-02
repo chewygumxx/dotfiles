@@ -215,7 +215,7 @@ Hermes and OpenClaw need their own research before any move; every
   and the source tree, now `home/dot_cache/`. The live `~/.local/cache` and
   `~/.cache/.cache` trees are untouched.
 - Bun globals: moved; see the [relocation report][bun].
-- Codex: next. Every running Codex session must stop first.
+- Codex: moved to `~/.local/var/codex`; see the [relocation report][codex].
 - Hermes, OpenClaw: deferred for research.
 
 A new entry, `.remember`, appeared at 07:25, created by the Claude Code
@@ -225,6 +225,7 @@ mode) are fixed paths with no documented override, so it joins Hermes and
 OpenClaw as needing research.
 
 [bun]: 2026-11-03-bun-global-relocation.md
+[codex]: 2026-11-03-codex-home-relocation.md
 [spec]: ../specs/2026-11-03-home-directory-structure-design.md
 [plan]: ../plans/2026-11-03-home-directory-structure.md
 [research]: ../notes/2026-11-03_home-directory-research.md
