@@ -1,14 +1,15 @@
-// vim:set expandtab shiftwidth=4 filetype=javascript:
+// vim:set expandtab shiftwidth=4 filetype=typescript:
 // SPDX-License-Identifier: GPL-3.0-only
 
 //
 //
 // ~chewygumxx/dotfiles.git
-// ::: :/prettier.config.mjs
+// ::: :/.prettierrc.mts
 //
 //
 
-/** @type {import("prettier").Config} */
+import type { Config } from "prettier";
+
 export default {
     overrides: [
         {
@@ -20,4 +21,4 @@ export default {
             options: { parser: "jsonc", trailingComma: "none" },
         },
     ],
-};
+} satisfies Config;
