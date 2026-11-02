@@ -1,4 +1,13 @@
 {
+    "$schema": "https://json.schemastore.org/package.json",
+    "name": "dotfiles",
+    "version": "1.0.0",
+    "description": "My chezmoi-managed ",
+    "keywords": [
+        "dotfiles",
+        "config",
+        "chezmoi"
+    ],
     "private": true,
     "engines": {
         "bun": ">=1.4"
