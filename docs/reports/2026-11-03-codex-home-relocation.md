@@ -85,8 +85,9 @@ they are history and were left unchanged.
   Codex will ask for the hook to be trusted once.
 - The daemon's control socket and lock files sit in the persistent root rather
   than `XDG_RUNTIME_DIR`; Codex exposes no separate control.
-- Until zsh-config is pushed and `chezmoi update` pulls it, a shell without
-  `CODEX_HOME` would start Codex against a new, empty `~/.codex`.
+- A launch route outside zsh would still start Codex against a new, empty
+  `~/.codex`. zsh-config `b3d462a` (pushed and deployed) covers every shell, and
+  at 08:41 `~/.codex` had not reappeared.
 
 ## Rollback
 

@@ -84,14 +84,13 @@ BUN_INSTALL_GLOBAL_DIR="$G" BUN_INSTALL_BIN="$HOME/.local/bin" \
 - No configuration referenced `~/.cache/.bun/bin`; only herdr's session history
   mentions it.
 
-## Remaining
+## Completion
 
-- The old `~/.cache/.bun/install/global` and `~/.cache/.bun/bin` remain, because
-  four running Codex sessions execute from them. Delete both once those sessions
-  stop.
-- The zsh-config change takes effect in new shells after it is pushed and
-  `chezmoi update` pulls the external. Until then, set the two variables by hand
-  before any `bun add -g`, or the old location is recreated.
+- The old `~/.cache/.bun/install/global` and `~/.cache/.bun/bin` were deleted
+  once the Codex sessions running from them had stopped, during the [Codex
+  relocation][codex].
+- The zsh-config change is pushed and deployed (zsh-config `b3d462a`), so new
+  shells set both variables.
 
 ## Rollback
 
@@ -103,5 +102,6 @@ variables.
 [inventory]: 2026-11-03-home-directory-inventory.md
 [spec]: ../specs/2026-11-03-home-directory-structure-design.md
 [bunfig]: https://bun.com/docs/runtime/bunfig
+[codex]: 2026-11-03-codex-home-relocation.md
 
 <!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
