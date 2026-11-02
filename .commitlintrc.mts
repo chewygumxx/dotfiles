@@ -17,6 +17,11 @@ const scopes = [
         description: "System Resource Monitor",
     },
     {
+        name: "bun",
+        fullName: "Bun",
+        description: "JavaScript Runtime",
+    },
+    {
         name: "ccstatusline",
         fullName: "ccstatusline",
         description: "Claude Code Status Line",
