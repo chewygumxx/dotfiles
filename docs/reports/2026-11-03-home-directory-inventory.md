@@ -216,13 +216,29 @@ Hermes and OpenClaw need their own research before any move; every
   `~/.cache/.cache` trees are untouched.
 - Bun globals: moved; see the [relocation report][bun].
 - Codex: moved to `~/.local/var/codex`; see the [relocation report][codex].
+- `eval`: moved by the user to `~/dev/dorothy-eval`; nothing in it or in
+  `~/dev/dorothy` named the old path. `eval-bakeoff`: deleted by the user.
 - Hermes, OpenClaw: deferred for research.
 
-A new entry, `.remember`, appeared at 07:25, created by the Claude Code
-`remember` plugin 0.33.0. Its machine config (`~/.remember/config.json`) and
-store root (`~/.remember/tmp`, and `~/.remember/<slug>` in external storage
-mode) are fixed paths with no documented override, so it joins Hermes and
-OpenClaw as needing research.
+Two entries appeared during the work:
+
+- `.npm`, holding one debug log from an `npm install --usage` run in this
+  repository. npm defaulted its cache, logs included, to `~/.npm`. zsh-config
+  `1337578` exports `npm_config_cache="$XDG_CACHE_HOME/npm"`, and the user
+  deleted the directory.
+- `.remember`, created at 07:25 by the Claude Code `remember` plugin 0.33.0. Its
+  machine config (`~/.remember/config.json`) and store root (`~/.remember/tmp`,
+  `~/.remember/run`, and `~/.remember/<slug>` in external storage mode) are
+  fixed paths with no documented override. The user deleted it; the plugin
+  recreated it at 08:20. The plugin is installed at user scope in both Claude
+  accounts and enabled in about a dozen repositories, so the entry returns
+  whenever a session runs. It stays a top-level exception unless the plugin is
+  dropped or a relocation is found; it joins Hermes and OpenClaw as needing
+  research.
+
+zsh-config's `BUN_INSTALL_*`, `CODEX_HOME` and `npm_config_cache` exports were
+merged and pushed (zsh-config `b3d462a`), and the deployed `~/.config/zsh` is at
+that commit.
 
 [bun]: 2026-11-03-bun-global-relocation.md
 [codex]: 2026-11-03-codex-home-relocation.md
