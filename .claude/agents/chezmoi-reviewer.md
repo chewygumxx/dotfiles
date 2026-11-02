@@ -7,7 +7,7 @@ description: >-
   after a batch of config changes; give it a git range or say "working tree".
 tools: Read, Grep, Glob, Bash
 ctime: 2026-10-09
-mtime: 2026-10-09
+mtime: 2026-11-03
 spdx: GPL-3.0-only
 tags:
   - claude
@@ -52,7 +52,8 @@ the hunks, since naming and header problems sit outside them.
    (`$.externals` inside `range`/`with`), never a literal. Check `type`,
    `path`, `executable` and that URLs come from `gitHubLatestReleaseAssetURL`
    or are deliberately pinned. Browser extension changes must stay consistent
-   with `home/.chezmoidata/web-extensions.toml` and `docs/web-extensions.md`.
+   with `home/.chezmoidata/web-extensions.toml` and
+   `docs/note/2026-10-08_web-extensions.md`.
 4. **Per-host ignores.** `home/.chezmoiignore` matches target paths, not
    source names. Desktop-only additions (Hyprland, Waybar, browsers, systemd,
    WezTerm) need a line in the Termux block; Termux-only ones in the chewytop

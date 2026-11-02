@@ -1,6 +1,6 @@
 ---
 ctime: 2026-10-08
-mtime: 2026-10-08
+mtime: 2026-11-03
 spdx: GPL-3.0-only
 title: "Report: Web Extensions Verification"
 description: >-
@@ -17,7 +17,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/notes/08-10-2026-web-extensions-verification.md
+   - ::: :/docs/note/08-10-2026-web-extensions-verification.md
    -
    -->
 
@@ -28,12 +28,12 @@ ungoogled-chromium 153.0.8010.52, chezmoi 2.73.0, Python 3.14.7, zsh 5.9.2.
 Every `chezmoi apply` used a temp `--destination`, `--cache` and
 `--persistent-state`; the real home was only read (`chezmoi diff`).
 
-See [the design spec](../specs/08-10-2026-web-extensions-design.md) and
-[the user guide](../web-extensions.md).
+See [the design spec](../spec/08-10-2026-web-extensions-design.md) and
+[the user guide](./2026-10-08_web-extensions.md).
 
 ## Constraints tested before implementation
 
-These shaped the [design spec](../specs/08-10-2026-web-extensions-design.md)
+These shaped the [design spec](../spec/08-10-2026-web-extensions-design.md)
 and were tested with throwaway prototypes. The end-to-end checks below
 confirm each one against the committed code.
 
@@ -221,7 +221,7 @@ data.
 
 ## Revisions: MV2 directory, themes, refresh period
 
-Checks for the [spec's Revisions](../specs/08-10-2026-web-extensions-design.md#revisions).
+Checks for the [spec's Revisions](../spec/08-10-2026-web-extensions-design.md#revisions).
 
 ### Template and wrapper
 

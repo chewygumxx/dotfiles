@@ -57,7 +57,8 @@ A downloaded binary or archive is an external, not a committed file:
 `home/dot_local/bin/.chezmoiexternals/print-quote.toml.tmpl`. Use
 `refreshPeriod = {{ .externals.refreshPeriod | quote }}` (`$.externals` inside
 `range`/`with`); never hardcode a period. Browser extensions instead go in
-`home/.chezmoidata/web-extensions.toml`: read `docs/web-extensions.md` first.
+`home/.chezmoidata/web-extensions.toml`: read
+`docs/note/2026-10-08_web-extensions.md` first.
 
 ## 3. Per-host ignores
 

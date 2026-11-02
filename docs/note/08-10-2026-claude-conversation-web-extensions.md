@@ -1,6 +1,6 @@
 ---
 ctime: 2026-10-08
-mtime: 2026-10-08
+mtime: 2026-11-03
 spdx: GPL-3.0-only
 title: "Conversation with Claude: Chezmoi Managed Web Extensions"
 description: >-
@@ -21,7 +21,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/notes/08-10-2026-claude-conversation-web-extensions.md
+   - ::: :/docs/note/08-10-2026-claude-conversation-web-extensions.md
    -
    -->
 

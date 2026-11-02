@@ -90,16 +90,16 @@ from herdr's keys, and worktrunk's Claude plugin hooks `WorktreeCreate` for
 own `.config/wt.toml` runs `bun install` so husky hooks exist in new
 worktrees.
 
-`docs/` is not applied either. It holds user guides at the top level (e.g.
-`docs/web-extensions.md`) and dated working documents in `notes/`, `plans/`
-and `specs/` (`DD-MM-YYYY-<topic>.md`).
+`docs/` is not applied either. It holds dated working documents and user
+guides, including `docs/note/2026-10-08_web-extensions.md`.
 
 Browser extensions for Firefox and ungoogled-chromium are declared once in
 `home/.chezmoidata/web-extensions.toml` and installed by the
 `.chezmoiexternals` templates inside the Firefox profile and
-`dot_local/share/chromium/`; read `docs/web-extensions.md` before changing
-any of it. Never `chezmoi apply` those targets against the real home to test
-them: use `.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh`, which
+`dot_local/share/chromium/`; read `docs/note/2026-10-08_web-extensions.md`
+before changing any of it. Never `chezmoi apply` those targets against the
+real home to test them: use
+`.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh`, which
 adds `--destination`, `--persistent-state`, `--cache` and `--exclude=scripts`
 under a temp dir (scripts would otherwise write to the real home even from a
 sandbox).

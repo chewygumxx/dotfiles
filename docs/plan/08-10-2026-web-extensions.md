@@ -1,6 +1,6 @@
 ---
 ctime: 2026-10-08
-mtime: 2026-10-08
+mtime: 2026-11-03
 spdx: GPL-3.0-only
 title: "Plan: Chezmoi Managed Web Extensions"
 description: >-
@@ -17,7 +17,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/plans/08-10-2026-web-extensions.md
+   - ::: :/docs/plan/08-10-2026-web-extensions.md
    -
    -->
 
@@ -41,7 +41,7 @@ CRXs converted by `crx-unpack` through a chezmoi `filter`, or GitHub zips,
 **Tech Stack:** chezmoi 2.73 templates and externals, zsh, bash, Python 3
 standard library, Firefox 157, ungoogled-chromium 153.
 
-**Spec:** [`docs/specs/08-10-2026-web-extensions-design.md`](../specs/08-10-2026-web-extensions-design.md)
+**Spec:** [`docs/spec/08-10-2026-web-extensions-design.md`](../spec/08-10-2026-web-extensions-design.md)
 
 ## Global Constraints
 

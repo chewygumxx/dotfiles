@@ -1,37 +1,41 @@
 ---
 ctime: 2026-10-08
-mtime: 2026-10-08
+mtime: 2026-11-03
 spdx: GPL-3.0-only
-title: Web Extensions
+title: Declarative File-Based Configuration of Web Browser Extensions
 description: >-
   How chezmoi installs and updates Firefox add-ons and ungoogled-chromium
   extensions from one data list, and how to use it.
 tags:
+  - config
+  - chezmoi
+  - dotfiles
+  - web-browser
+  - web-extensions
   - firefox
   - chromium
-  - chezmoi
-  - web-extensions
-  - web-browser
 ---
 
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/web-extensions.md
+   - ::: :/docs/note/2026-10-08_web-extensions.md
    -
    -->
 
-# Web Extensions
+# Declarative File-Based Configuration of Web Browser Extensions
 
 One list in `home/.chezmoidata/web-extensions.toml` declares every browser
 extension. `chezmoi apply` downloads each one, places it where the browser
 picks it up, and refreshes it daily. All browser data lives under
 `~/.local/share`, one tree per vendor.
 
-Background: [design spec](specs/08-10-2026-web-extensions-design.md),
-[implementation plan](plans/08-10-2026-web-extensions.md),
-[verification report](notes/08-10-2026-web-extensions-verification.md),
-[conversation notes](notes/08-10-2026-claude-conversation-web-extensions.md).
+Background:
+
+- [Design Spec](../spec/08-10-2026-web-extensions-design.md),
+- [Implementation Plan](../plan/08-10-2026-web-extensions.md),
+- [Verification Report](./08-10-2026-web-extensions-verification.md),
+- [Conversation Notes](./08-10-2026-claude-conversation-web-extensions.md).
 
 ## Overview
 
@@ -101,12 +105,12 @@ chromium    = "ddkjiahejlhfcafbddmgiahcphecmpfh"  # uBlock Origin Lite
 chromiumMv2 = { repo = "gorhill/uBlock", asset = "uBlock0_*.chromium.crx" }
 ```
 
-| Key | Required | Meaning |
-| --- | --- | --- |
-| `name` | yes | Stable identifier. Also the Chromium extension directory name. |
-| `firefox` | no | AMO add-on ID. Omit for Chromium-only extensions. |
-| `chromium` | no | Manifest V3 build: a Chrome Web Store ID (string), or a table naming a GitHub release asset. Goes to `extensions/mv3/<name>`. |
-| `chromiumMv2` | no | Manifest V2 build, same two forms. Goes to `extensions/mv2/<name>`. |
+| Key           | Required | Meaning                                                                                                                       |
+| ------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `name`        | yes      | Stable identifier. Also the Chromium extension directory name.                                                                |
+| `firefox`     | no       | AMO add-on ID. Omit for Chromium-only extensions.                                                                             |
+| `chromium`    | no       | Manifest V3 build: a Chrome Web Store ID (string), or a table naming a GitHub release asset. Goes to `extensions/mv3/<name>`. |
+| `chromiumMv2` | no       | Manifest V2 build, same two forms. Goes to `extensions/mv2/<name>`.                                                           |
 
 Omit both Chromium keys for Firefox-only add-ons, and `firefox` for
 Chromium-only extensions.
@@ -192,7 +196,7 @@ scope**, `<profile>/extensions/<id>.xpi`. The user scope
   scope. With the default (`15`) they install disabled and wait for a prompt.
 - `extensions.update.autoUpdateDefault = false` makes chezmoi the only thing
   that updates add-ons. Otherwise Firefox rewrites the XPIs itself, `chezmoi
-  diff` shows drift, and `chezmoi apply` can put an older cached copy back.
+diff` shows drift, and `chezmoi apply` can put an older cached copy back.
   The trade-off: this applies to every add-on, including ones not in the
   list. Firefox still checks for updates and lists them in `about:addons`,
   where they can be applied by hand.
@@ -275,6 +279,7 @@ skipped with a warning on stderr, and the browser still launches.
    symlinks, and `~/.config/mozilla-firefox` is removed as a whole, stale
    `extensions.json` and emptied directories included, without a prompt.
    Their content is unchanged apart from the two new prefs.
+
 3. `run_before_migrate-chromium-profile` moves
    `~/.local/share/chewy-ungoogled` to
    `~/.local/share/chromium/chewy-ungoogled`. If Chromium is still running,
@@ -286,6 +291,7 @@ skipped with a warning on stderr, and the browser still launches.
    Until the move happens, the wrapper keeps launching the old profile and
    warns `Profile not migrated yet`, so Chromium never starts on an empty
    profile at the new path.
+
 4. `~/.config/chromium` is left alone. It was created by a launch that
    bypassed the wrapper; delete it if nothing there is wanted.
 5. `sudo pacman -S firefox-i18n-en-gb` for the British English language

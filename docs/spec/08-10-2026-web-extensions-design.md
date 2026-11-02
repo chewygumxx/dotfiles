@@ -1,6 +1,6 @@
 ---
 ctime: 2026-10-08
-mtime: 2026-10-08
+mtime: 2026-11-03
 spdx: GPL-3.0-only
 title: "Design: Chezmoi Managed Web Extensions"
 description: >-
@@ -19,13 +19,13 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/specs/08-10-2026-web-extensions-design.md
+   - ::: :/docs/spec/08-10-2026-web-extensions-design.md
    -
    -->
 
 # Design: Chezmoi Managed Web Extensions
 
-Background discussion: [conversation](../notes/08-10-2026-claude-conversation-web-extensions.md).
+Background discussion: [conversation](../note/08-10-2026-claude-conversation-web-extensions.md).
 
 ## Goals
 
@@ -51,7 +51,7 @@ Background discussion: [conversation](../notes/08-10-2026-claude-conversation-we
 ## Verified constraints
 
 Each of these was tested on this machine on 2026-10-08. Evidence is in the
-[verification report](../notes/08-10-2026-web-extensions-verification.md).
+[verification report](../note/08-10-2026-web-extensions-verification.md).
 
 - **Firefox 157 only sideloads new add-ons from the profile scope.**
   `AddonSettings.sys.mjs` hardcodes `SCOPES_SIDELOAD = SCOPE_PROFILE` unless
