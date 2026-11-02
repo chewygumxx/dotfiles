@@ -10,4 +10,4 @@
 
 # Firefox's own auto-generated profile state, not hand-authored; it'll drift
 # from Prettier's style again the moment Firefox rewrites it.
-**/extensions.json
+*/**/extensions.json
