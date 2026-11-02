@@ -7,7 +7,7 @@ description: >-
   .chezmoiignore/.chezmoiremove changes or browser extension installs, or when
   the chezmoi apply guard blocks a command.
 ctime: 2026-10-09
-mtime: 2026-10-09
+mtime: 2026-11-03
 spdx: GPL-3.0-only
 tags:
   - claude
@@ -18,7 +18,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/.claude/skills/chezmoi-sandbox/SKILL.md
+   - ::: :/.agents/skills/chezmoi-sandbox/SKILL.md
    -
    -->
 

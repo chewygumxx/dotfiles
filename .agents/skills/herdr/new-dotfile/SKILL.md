@@ -7,7 +7,7 @@ description: >-
   config directory, a script under ~/.local/bin, a systemd unit, or an
   external.
 ctime: 2026-10-09
-mtime: 2026-10-09
+mtime: 2026-11-03
 spdx: GPL-3.0-only
 tags:
   - claude
@@ -18,7 +18,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/.claude/skills/new-dotfile/SKILL.md
+   - ::: :/.agents/skills/herdr/new-dotfile/SKILL.md
    -
    -->
 

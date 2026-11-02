@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh
+# ::: :/.agents/skills/chezmoi-sandbox/scripts/sandbox-apply.sh
 #
 #
 

@@ -1,24 +1,24 @@
 ---
 ctime: 2026-09-29
-mtime: 2026-10-09
+mtime: 2026-11-03
 spdx: GPL-3.0-only
-title: CLAUDE.md
+title: Repository Agentic Instructions
 description: >-
-  Claude Code's guide to these chezmoi-managed dotfiles: prose rules, layout and
-  conventions.
+  Agentic instructions regatrding the prose rules, layout and
+  conventions of this dotfiles configuration repository.
 tags:
   - llm
-  - claude
+  - agents
 ---
 
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/.claude/CLAUDE.md
+   - ::: :/AGENTS.md
    -
    -->
 
-# CLAUDE.md
+# Repository Agentic Instructions
 
 Continuously granularly commit as you work. Compose single-line commit messages
 whenever appropriate. If the granular commit does indeed warrant further
