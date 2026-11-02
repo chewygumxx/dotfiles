@@ -1,9 +1,9 @@
-# vim: filetype=gitignore
+# vim:set expandtab shiftwidth=4 filetype=gitignore:
 
 # 
 # 
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_local/cache/cpanm/.chezmoiignore
+# ::: :/home/dot_cache/yazi/.chezmoiignore
 # 
 # 
 
@@ -11,7 +11,7 @@
 # Ignored Everywhere
 # -------------------
 
-*
+**
 
 # ------------------
 # Chewytop Exclusive
