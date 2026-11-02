@@ -203,6 +203,28 @@ move it under `.local/share`.
 Each migration after step 2 gets its own task plan and report, per the plan's
 steps 3 to 6.
 
+## Progress
+
+Rulings by the user, 2026-11-03: `.bun`, `.herdr` and `.dsh` may be deleted;
+Hermes and OpenClaw need their own research before any move; every
+`.local/cache` reference in this repository is to become `.cache`.
+
+- `.bun`, `.herdr` and `.dsh`: deleted.
+- Cache references in this repository now point at `~/.cache`: the chezmoi
+  `cacheDir` fallback, yazi's `cache_dir`, cloudflared's log directory (`%C`)
+  and the source tree, now `home/dot_cache/`. The live `~/.local/cache` and
+  `~/.cache/.cache` trees are untouched.
+- Bun globals: moved; see the [relocation report][bun].
+- Codex: next. Every running Codex session must stop first.
+- Hermes, OpenClaw: deferred for research.
+
+A new entry, `.remember`, appeared at 07:25, created by the Claude Code
+`remember` plugin 0.33.0. Its machine config (`~/.remember/config.json`) and
+store root (`~/.remember/tmp`, and `~/.remember/<slug>` in external storage
+mode) are fixed paths with no documented override, so it joins Hermes and
+OpenClaw as needing research.
+
+[bun]: 2026-11-03-bun-global-relocation.md
 [spec]: ../specs/2026-11-03-home-directory-structure-design.md
 [plan]: ../plans/2026-11-03-home-directory-structure.md
 [research]: ../notes/2026-11-03_home-directory-research.md
