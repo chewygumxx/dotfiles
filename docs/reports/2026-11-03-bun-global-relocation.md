@@ -95,9 +95,8 @@ BUN_INSTALL_GLOBAL_DIR="$G" BUN_INSTALL_BIN="$HOME/.local/bin" \
 ## Rollback
 
 Reinstate the `PATH` entry, unset both variables, and remove
-`~/.local/share/bun/global` with the six links in `~/.local/bin`. The old tree
-still works while it exists; otherwise rerun the install above without the
-variables.
+`~/.local/share/bun/global` with the six links in `~/.local/bin`, then rerun the
+install above without the variables; the old tree has been deleted.
 
 [inventory]: 2026-11-03-home-directory-inventory.md
 [spec]: ../specs/2026-11-03-home-directory-structure-design.md
