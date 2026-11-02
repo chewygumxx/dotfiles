@@ -8,7 +8,11 @@
 #
 #
 
-[".config/zsh"]
+# Cloned outside ~/.config: the repository keeps its runtime in zsh/, and only
+# that child is the configuration. home/dot_config/symlink_zsh links it in as
+# ~/.config/zsh, which is what ZDOTDIR names. Cloned straight into
+# ~/.config/zsh, the repository root would be ZDOTDIR and hold no .zshenv.
+[".local/share/zsh-config"]
 type          = "git-repo"
 url           = "git@github.com:chewygumxx/zsh-config.git"
 refreshPeriod = {{ .externals.refreshPeriod | quote }}

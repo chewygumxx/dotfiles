@@ -111,8 +111,11 @@ never hardcode one.
 
 Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
 `nvim-config.toml.tmpl` in `home/.chezmoiexternals/` clone
-`chewygumxx/zsh-config` and `chewygumxx/nvim-config` into `~/.config/zsh` and
-`~/.config/nvim` as git-repo externals. Change them in those repos.
+`chewygumxx/zsh-config` and `chewygumxx/nvim-config` as git-repo externals.
+nvim-config is cloned straight into `~/.config/nvim`. zsh-config keeps its
+runtime in a `zsh/` subdirectory, so it is cloned into
+`~/.local/share/zsh-config`, and `home/dot_config/symlink_zsh` links that
+`zsh/` child in as `~/.config/zsh`, the `ZDOTDIR`. Change them in those repos.
 
 ## Conventions
 
