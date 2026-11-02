@@ -2,7 +2,7 @@
     "$schema": "https://json.schemastore.org/package.json",
     "name": "dotfiles",
     "version": "1.0.0",
-    "description": "My chezmoi-managed ",
+    "description": "My chezmoi-managed dotfiles",
     "keywords": [
         "dotfiles",
         "config",
@@ -13,6 +13,10 @@
         "bun": ">=1.4"
     },
     "devDependencies": {
+        "@chewygumxx/biome-config": "^1.1.0",
+        "@chewygumxx/commitlint-config": "^1.1.0",
+        "@chewygumxx/markdownlint-cli2-config": "^1.1.0",
+        "@chewygumxx/yamllint-config": "^1.0.1",
         "@chewygumxx/cz-commitlint": "^1.0.2",
         "@commitlint/cli": "^21.2.2",
         "@commitlint/config-conventional": "^21.2.2",
@@ -22,6 +26,7 @@
         "remark-frontmatter": "^5.0.0",
         "remark-preset-lint-consistent": "^6.0.1",
         "remark-preset-lint-recommended": "^7.0.1",
+        "skills": "^1.7.5",
         "typescript": "^7.0.2"
     },
     "scripts": {
@@ -43,11 +48,5 @@
             "remark-preset-lint-recommended",
             "remark-preset-lint-consistent"
         ]
-    },
-    "dependencies": {
-        "@chewygumxx/biome-config": "^1.1.0",
-        "@chewygumxx/commitlint-config": "^1.1.0",
-        "@chewygumxx/markdownlint-cli2-config": "^1.1.0",
-        "@chewygumxx/yamllint-config": "^1.0.1"
     }
 }
