@@ -23,7 +23,7 @@ sourceDir       = {{ joinPath
     "dotfiles"
 | quote }}
 cacheDir        = {{ joinPath
-    (or (env "XDG_CACHE_HOME") (joinPath .chezmoi.homeDir ".local" "cache"))
+    (or (env "XDG_CACHE_HOME") (joinPath .chezmoi.homeDir ".cache"))
     "chezmoi"
 | quote }}
 persistentState = {{ joinPath
