@@ -181,3 +181,7 @@ firefox = "{287dcf75-bec6-4eec-b4f6-71948a2eea29}"
 name     = "violentmonkey"
 firefox  = "{aecec67f-0d10-4fa7-b7c7-609a2db280cf}"
 chromium = "jinjaccalgkegednnccohejagnlnfdag"
+
+[[webExtensions]]
+name     = "chatgpt"
+chromium = "hehggadaopoacecdllhhajmbjkdcmajg"

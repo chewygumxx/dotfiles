@@ -1,0 +1,40 @@
+#!/usr/bin/env zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_chatgpt
+#
+#
+
+#
+# Shadow wrapper of the ChatGPT Desktop Client, intended as:
+# - Systemd user service ExecStart target
+# - Shadowed executable not found handling
+# - Configuration
+#
+
+local __this_file="${${(%):-%N}:A}"
+
+# -----------
+# Resolution
+# -----------
+
+# First `chatgpt` in PATH that is not this file, compared by resolved
+# path so a differently spelled PATH entry for this directory is skipped
+# too. PATH itself is left untouched for the shadowed executable.
+local candidate real
+for candidate in ${(f)"$(whence -ap -- "${__this_file:t}")"}; do
+    [[ "${candidate:A}" == "$__this_file" ]] && continue
+    real="$candidate"
+    break
+done
+[[ -n "$real" ]] || fatal -127 "Shadowed command not found: ${__this_file:t}"
+
+# --------
+# Execute
+# --------
+
+exec "$real" "$@"

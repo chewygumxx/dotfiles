@@ -1,0 +1,15 @@
+# vim:set expandtab shiftwidth=4 filetype=dosini:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/systemd/user/chatgpt-desktop.service
+#
+#
+
+[Unit]
+Description=ChatGPT Desktop Client
+
+[Service]
+ExecStart=%h/.local/bin/chatgpt
