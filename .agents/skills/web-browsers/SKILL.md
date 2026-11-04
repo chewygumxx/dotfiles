@@ -73,12 +73,10 @@ becomes `~/.local/share/mozilla/firefox/` (mode 0700 through `private_`).
 | `installs.ini` | Binds the install hash `4F96D1932A9F858E` (`/usr/lib/firefox`) to `chewyfox` with `Locked=1`, so Firefox never creates a fresh default profile. |
 | `.gitattributes` | `-sync-header-metadata` on both `.ini` files: Firefox rewrites them, so they must stay headerless. Never add a header to them. |
 | `.chezmoiignore` | Ignores Firefox-written state under the root (`Crash Reports/`, `Pending Pings/`, `Profile Groups/`, `firefox-mpris/`). |
-| `.prettierignore` | Keeps prettier off any `extensions.json`; left over from when the profile's `extensions.json` was tracked. |
 | `chewyfox/.chezmoiignore` | Allowlist: `*` ignored except `chrome/`, `extensions/` and `user.js`. Everything else in the profile is Firefox's own state. |
 | `chewyfox/user.js` | Prefs applied on every start. Load-bearing ones: `toolkit.legacyUserProfileCustomizations.stylesheets` (enables `chrome/`), `extensions.autoDisableScopes = 14` (enables sideloaded XPIs), `extensions.update.autoUpdateDefault = false` (chezmoi owns updates), `browser.download.dir = ~/net/firefox`. The "Miscellaneous" block is mostly onboarding and telemetry counters captured from `prefs.js`. |
-| `chewyfox/chrome/userChrome.css` | Browser UI: accent colour, hides the native tab bar (tabs live in Sidebery), sidebar header, radii, context menu pruning, URL bar and toolbar. |
+| `chewyfox/chrome/userChrome.css` | Browser UI: accent colour, hides the native tab bar (tabs live in Sidebery), sidebar header, radii, context menu pruning, URL bar and toolbar. A new stylesheet split out of it needs an `@import` at the top of this file. |
 | `chewyfox/chrome/userContent.css` | Dark palette for `about:*` pages through `@-moz-document`. |
-| `chewyfox/chrome/context_menu.css` | Standalone copy of the context menu rules. **Not loaded**: the `@import` in `userChrome.css` is commented out and the same rules are inlined there (slightly diverged: `--panel-background-color`/`--panel-text-color` in `userChrome.css` against `--panel-background`/`--panel-color` here). Edit `userChrome.css`. |
 | `chewyfox/.chezmoiexternals/web-extensions.toml.tmpl` | One `type = "file"` external per entry with a `firefox` key, downloading `addons.mozilla.org/firefox/downloads/latest/<id>/latest.xpi` to `extensions/<id>.xpi`. Skipped on Termux. |
 
 Elsewhere:
@@ -86,7 +84,7 @@ Elsewhere:
 | Source | Purpose |
 | --- | --- |
 | `home/dot_config/symlink_mozilla` | `~/.config/mozilla -> ../.local/share/mozilla`, the XDG path Firefox looks up, so the data tree is the only real copy. |
-| `home/.chezmoiremove` | Removes the retired `~/.config/mozilla-firefox` tree. |
+| `home/.chezmoiremove` | Removes the retired `~/.config/mozilla-firefox` tree and the deployed `chrome/context_menu.css` (its rules were inlined in `userChrome.css`). |
 | `home/dot_cache/.chezmoiignore` | Keeps `~/.cache/mozilla` unmanaged. |
 | `home/dot_config/systemd/user/firefox.service` | `ExecStart=/usr/bin/firefox`; Hyprland autostart runs `systemctl --user start firefox` (`home/dot_config/hypr/chewy.lua`). |
 | `home/net/firefox/` | The download directory. Contents ignored; on `chewytop` only, `ext-sidebery/` and `ext-imagus-mod/` are created as empty dirs. |
@@ -145,8 +143,6 @@ Elsewhere:
 - `webBrowsers.chromium.version` must track the installed major version
   (`pacman -Q ungoogled-chromium-bin`), or the Web Store may stop serving
   builds that need newer APIs.
+- Deleting a tracked profile file leaves the deployed copy behind; add its
+  target path to `home/.chezmoiremove` in the same commit.
 - Commit scopes are `firefox` and `chromium` (`firefox/chromium` for both).
-- Comments in `web-extensions.toml`, `executable_chromium`,
-  `executable_crx-unpack` and `run_before_migrate-chromium-profile` point to
-  `docs/web-extensions.md`, which no longer exists. The guide is
-  `docs/note/2026-10-08_web-extensions.md`.
