@@ -82,3 +82,5 @@ historical reasoning to reflect present circumstances.
 Keep entries concise and focused on decision-making. Refer readers to
 supporting records for implementation details, extended analysis, and
 verification results.
+
+<!-- vim:set expandtab shiftwidth=2 filetype=markdown foldlevel=3: -->
