@@ -16,7 +16,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/notes/2026-11-03_home-directory-research.md
+   - ::: :/docs/note/2026-11-03_home-directory-research.md
    -
    -->
 

@@ -1,6 +1,6 @@
 ---
 ctime: 2026-10-08
-mtime: 2026-11-03
+mtime: 2026-11-04
 spdx: GPL-3.0-only
 title: Declarative File-Based Configuration of Web Browser Extensions
 description: >-
@@ -32,10 +32,10 @@ picks it up, and refreshes it daily. All browser data lives under
 
 Background:
 
-- [Design Spec](../spec/08-10-2026-web-extensions-design.md),
-- [Implementation Plan](../plan/08-10-2026-web-extensions.md),
-- [Verification Report](./08-10-2026-web-extensions-verification.md),
-- [Conversation Notes](./08-10-2026-claude-conversation-web-extensions.md).
+- [Design Spec](./../spec/2026-10-08_web-extensions-design.md)
+- [Implementation Plan](./../plan/2026-10-08_web-extensions.md)
+- [Verification Report](./2026-10-08_web-extensions-verification.md)
+- [Conversation Notes](./2026-10-08_claude-conversation-web-extensions.md)
 
 ## Overview
 
@@ -317,9 +317,9 @@ example `GITHUB_TOKEN=$(gh auth token) chezmoi apply`) to raise it.
 repo's latest release no longer ships an asset matching `asset`.
 `gitHubLatestReleaseAssetURL` returns nothing in that case, and the Chromium
 externals template stops with this message, so every `chezmoi apply` and
-`chezmoi diff` aborts, not just Chromium. TWP is the likely case: its Chromium MV2 CRX is already named
-`..._deprecated`. Fix the glob, or delete that `chromium` or `chromiumMv2`
-key.
+`chezmoi diff` aborts, not just Chromium. TWP is the likely case: its Chromium
+MV2 CRX is already named `..._deprecated`. Fix the glob, or delete that
+`chromium` or `chromiumMv2` key.
 
 **`chromium: Skipping extension without manifest.json: ...`.** The zip wraps
 its files in a top-level directory. Add `stripComponents = 1` to that

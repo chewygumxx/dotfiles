@@ -16,7 +16,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/reports/2026-11-03-home-directory-inventory.md
+   - ::: :/docs/report/2026-11-03_home-directory-inventory.md
    -
    -->
 

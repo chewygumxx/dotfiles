@@ -1,6 +1,6 @@
 ---
 ctime: 2026-11-03
-mtime: 2026-11-03
+mtime: 2026-11-05
 spdx: GPL-3.0-only
 title: Home Directory Structure Implementation Plan
 description: >-
@@ -16,7 +16,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/plans/2026-11-03-home-directory-structure.md
+   - ::: :/docs/plan/2026-11-03_home-directory-structure.md
    -
    -->
 

@@ -19,7 +19,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/spec/08-10-2026-web-extensions-design.md
+   - ::: :/docs/spec/2026-10-08_web-extensions-design.md
    -
    -->
 

@@ -1,6 +1,6 @@
 ---
 ctime: 2026-10-08
-mtime: 2026-11-03
+mtime: 2026-11-04
 spdx: GPL-3.0-only
 title: "Conversation with Claude: Chezmoi Managed Web Extensions"
 description: >-
@@ -21,7 +21,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/note/08-10-2026-claude-conversation-web-extensions.md
+   - ::: :/docs/note/2026-10-08_claude-conversation-web-extensions.md
    -
    -->
 
@@ -324,5 +324,7 @@ Origin is one such extension, and its deployment docs list the accepted keys.
 3. **Manual installs:** treat extensions as unmanaged profile state and let
    chezmoi manage only `user.js` and `userChrome.css`. This is the least
    fragile option.
+
+<!-- vim:set expandtab shiftwidth=2 filetype=markdown foldlevel=3: -->
 
 <!-- vim:set expandtab shiftwidth=2 filetype=markdown foldlevel=3: -->

@@ -17,7 +17,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/reports/2026-11-03-codex-home-relocation.md
+   - ::: :/docs/report/2026-11-03_codex-home-relocation.md
    -
    -->
 

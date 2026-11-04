@@ -16,7 +16,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/specs/2026-11-03-home-directory-structure-design.md
+   - ::: :/docs/spec/2026-11-03_home-directory-structure-design.md
    -
    -->
 

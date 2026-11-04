@@ -1,8 +1,8 @@
 ---
 ctime: 2026-10-08
-mtime: 2026-11-03
+mtime: 2026-11-05
 spdx: GPL-3.0-only
-title: "Plan: Chezmoi Managed Web Extensions"
+title: Chezmoi Managed Web Extensions Implementation Plan
 description: >-
   Task-by-task implementation plan for the chezmoi managed web extensions
   design.
@@ -17,7 +17,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/plan/08-10-2026-web-extensions.md
+   - ::: :/docs/plan/2026-10-08_web-extensions.md
    -
    -->
 
@@ -51,7 +51,7 @@ standard library, Firefox 157, ungoogled-chromium 153.
   scopes from `.commitlintrc.mts` (`chromium` is added in Task 0; combine
   with `/`, for example `feat(chromium/firefox): ...`).
 - Every new file starts with the editor modeline, `SPDX-License-Identifier:
-  GPL-3.0-only`, and the boxed `~chewygumxx/dotfiles.git` /
+GPL-3.0-only`, and the boxed `~chewygumxx/dotfiles.git` /
   `::: :/<repo-relative path>` header in that file's comment syntax.
 - 4-space indentation, 2 spaces for Markdown, LF, final newline.
 - Never run `chezmoi apply` against the real `$HOME`. All apply tests use
@@ -84,6 +84,7 @@ standard library, Firefox 157, ungoogled-chromium 153.
 ### Task 0: `chromium` commit scope
 
 **Files:**
+
 - Modify: `.commitlintrc.mts` (scope list, alphabetical, before `claude`)
 
 - [ ] **Step 1: Write the failing test**
@@ -122,11 +123,13 @@ git commit -m "build: Add chromium commit scope"
 ### Task 1: `crx-unpack` converter
 
 **Files:**
+
 - Create: `home/dot_local/bin/executable_crx-unpack`
 
 **Interfaces:**
+
 - Produces: `python3 -I home/dot_local/bin/executable_crx-unpack < in.crx >
-  out.zip`. Exit 0 with a zip whose `manifest.json` has `key`; exit 1 with a
+out.zip`. Exit 0 with a zip whose `manifest.json` has `key`; exit 1 with a
   `crx-unpack: ...` message on stderr otherwise.
 
 - [ ] **Step 1: Write the failing test**
@@ -290,6 +293,7 @@ git commit -m "feat(chromium): Add crx-unpack CRX converter"
 ### Task 2: Extension data and externals
 
 **Files:**
+
 - Create: `home/.chezmoidata/web-extensions.toml`
 - Create: `home/dot_local/share/chromium/.chezmoiexternals/web-extensions.toml.tmpl`
 - Create: `home/dot_local/share/private_mozilla/private_firefox/chewyfox/.chezmoiexternals/web-extensions.toml.tmpl`
@@ -299,6 +303,7 @@ git commit -m "feat(chromium): Add crx-unpack CRX converter"
   `home/dot_local/share/firefox-extensions/`
 
 **Interfaces:**
+
 - Consumes: `crx-unpack` from Task 1 at
   `{{ .chezmoi.sourceDir }}/dot_local/bin/executable_crx-unpack`.
 - Produces: data keys `webBrowsers.chromium.version` and `webExtensions[]`
@@ -460,6 +465,7 @@ git commit -m "feat(chromium/firefox): Add extension externals"
 ### Task 3: Firefox data tree reorganisation
 
 **Files:**
+
 - Move: `home/dot_config/mozilla-firefox/{installs.ini,profiles.ini,.gitattributes}`
   to `home/dot_local/share/private_mozilla/private_firefox/`
 - Move: `home/dot_config/mozilla-firefox/chewyfox/{user.js,chrome/}` to
@@ -472,10 +478,11 @@ git commit -m "feat(chromium/firefox): Add extension externals"
   (`.config/mozilla-firefox`)
 
 **Interfaces:**
+
 - Consumes: Firefox externals from Task 2.
 - Produces: real files at `.local/share/mozilla/firefox/{profiles.ini,
-  installs.ini}` and `.local/share/mozilla/firefox/chewyfox/{user.js,
-  chrome/*, extensions/*.xpi}`.
+installs.ini}` and `.local/share/mozilla/firefox/chewyfox/{user.js,
+chrome/*, extensions/*.xpi}`.
 
 - [ ] **Step 1: Write the failing test** (Review Focus 5)
 
@@ -512,7 +519,7 @@ symlinks, then fix each moved file's header path with `sed`
 In `user.js`, in the `// Extensions` block, add:
 
 ```js
-user_pref("extensions.autoDisableScopes", 14);           // Enable add-ons chezmoi places in the profile
+user_pref("extensions.autoDisableScopes", 14); // Enable add-ons chezmoi places in the profile
 user_pref("extensions.update.autoUpdateDefault", false); // chezmoi owns add-on updates
 ```
 
@@ -550,9 +557,11 @@ so the move commit is a pure move plus header fixes.)
 ### Task 4: Chromium wrapper
 
 **Files:**
+
 - Create: `home/dot_local/bin/executable_chromium` (rewrite of the draft)
 
 **Interfaces:**
+
 - Consumes: `.local/share/chromium/extensions/<name>/manifest.json` from
   Task 2.
 - Produces: `chromium [args]` execs the real binary with
@@ -696,6 +705,7 @@ git commit -m "feat(chromium): Rewrite shadow wrapper"
 ### Task 5: Chromium profile migration
 
 **Files:**
+
 - Create: `home/.chezmoiscripts/run_before_migrate-chromium-profile`
 
 `run_before_`, not `run_once_before_`: a skipped run (Chromium open) must be
@@ -703,6 +713,7 @@ retried on the next apply, and the script is a no-op once the old directory
 is gone.
 
 **Interfaces:**
+
 - Produces: `${CHEZMOI_DEST_DIR:-$HOME}/.local/share/chewy-ungoogled` moved
   to `.../chromium/chewy-ungoogled`. Uses the destination dir, not
   `XDG_DATA_HOME`, because that is where chezmoi places
@@ -797,6 +808,7 @@ git commit -m "feat(chromium): Migrate profile into data tree"
 ### Task 6: systemd units and host scoping
 
 **Files:**
+
 - Revert: `home/dot_config/systemd/user/firefox.service` (back to
   `ExecStart=/usr/bin/firefox`)
 - Create: `home/dot_config/systemd/user/ungoogled-chromium.service` (draft
@@ -849,6 +861,7 @@ git commit -m "chore(termux): Ignore browser files"
 ### Task 7: End-to-end verification and documentation
 
 **Files:**
+
 - Create: `docs/web-extensions.md` (how the system works and how to use it)
 - Create: `docs/notes/08-10-2026-web-extensions-verification.md` (report)
 - Modify: `.claude/CLAUDE.md` (mention `docs/` and the web extension data)
@@ -916,15 +929,15 @@ git add .claude/CLAUDE.md && git commit -m "docs(claude): Note docs dir and exte
 ### Task 8: Push and pull request
 
 - [ ] **Step 1:** `bun run typecheck` is irrelevant here; instead run
-  `git log --format=%s main..` and check every subject against the commit
-  rules, and `grep -rnP '\x{2014}' docs home/.chezmoidata home/dot_local/bin/executable_c*`
-  for em dashes.
+      `git log --format=%s main..` and check every subject against the commit
+      rules, and `grep -rnP '\x{2014}' docs home/.chezmoidata home/dot_local/bin/executable_c*`
+      for em dashes.
 - [ ] **Step 2:** `git push -u origin feat/web-extensions`.
 - [ ] **Step 3:** `gh pr create --base main` with a body that links (as
-  blob URLs on the branch) the spec, this plan, `docs/web-extensions.md`, the
-  verification report and the conversation notes, plus a summary, the
-  first-apply checklist, and the known trade-offs. No AI trailer.
+      blob URLs on the branch) the spec, this plan, `docs/web-extensions.md`, the
+      verification report and the conversation notes, plus a summary, the
+      first-apply checklist, and the known trade-offs. No AI trailer.
 - [ ] **Step 4:** Watch CI (`commitlint`, `sync-header-metadata`,
-  `lint-config`) and pull any header-sync commit back.
+      `lint-config`) and pull any header-sync commit back.
 
 <!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->

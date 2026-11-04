@@ -1,6 +1,6 @@
 ---
 ctime: 2026-11-03
-mtime: 2026-11-03
+mtime: 2026-11-05
 spdx: GPL-3.0-only
 title: Bun Global Package Relocation
 description: >-
@@ -17,7 +17,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/docs/reports/2026-11-03-bun-global-relocation.md
+   - ::: :/docs/report/2026-11-03_bun-global-relocation.md
    -
    -->
 
