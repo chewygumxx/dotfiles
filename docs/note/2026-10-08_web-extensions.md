@@ -86,7 +86,7 @@ running them.
 
 ```toml
 [webBrowsers.chromium]
-version = "153"  # Major version the Web Store serves builds for
+version = "156"  # Major version the Web Store serves builds for
 
 [[webExtensions]]
 name     = "proton-pass"
@@ -121,7 +121,7 @@ that wrap everything in one top-level directory. An asset ending in `.crx`
 goes through `crx-unpack` like a Web Store CRX, so it keeps its signing
 key's ID; a zip is used as is.
 
-ungoogled-chromium 153 still runs Manifest V2, but upstream Chromium has
+ungoogled-chromium 156 still runs Manifest V2, but upstream Chromium has
 removed it. Give an extension `chromiumMv2` only for something MV3 can't do
 (full uBlock Origin) or that has no MV3 build (TWP). When an entry has both,
 the wrapper loads the MV2 build; once MV2 stops working, launch with

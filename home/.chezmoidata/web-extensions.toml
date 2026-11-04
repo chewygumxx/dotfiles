@@ -22,7 +22,7 @@
 #
 
 [webBrowsers.chromium]
-version = "153"  # Major version the Web Store serves builds for
+version = "156"  # Major version the Web Store serves builds for
 
 [[webExtensions]]
 name    = "australian-english-dictionary"
