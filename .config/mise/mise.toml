@@ -10,7 +10,8 @@
 #
 
 #
-# Sourced during CI by GitHub Action `jdx/mise-action`
+# CI's TOML job installs tombi from here with GitHub Action
+# `jdx/mise-action`; the other jobs install their tools themselves.
 # https://mise.jdx.dev/configuration.html
 #
 
