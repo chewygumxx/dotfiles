@@ -10,7 +10,7 @@
 
 #
 # Browser extensions installed and updated by chezmoi externals.
-# See docs/web-extensions.md.
+# See docs/note/2026-10-08_web-extensions.md.
 #
 #   name         Stable identifier, also the Chromium extension directory
 #   firefox      AMO add-on ID (about:support, Add-ons section)

@@ -10,9 +10,10 @@
 #
 
 #
-# Moves the ungoogled-chromium profile into the per-vendor data tree,
-# see docs/web-extensions.md. Runs before every apply and does nothing once
-# the old directory is gone, so a skipped run is retried next time.
+# Moves the ungoogled-chromium profile into the per-vendor data tree, see
+# docs/note/2026-10-08_web-extensions.md. Runs before every apply and does
+# nothing once the old directory is gone, so a skipped run is retried next
+# time.
 #
 
 script_name="migrate-chromium-profile"

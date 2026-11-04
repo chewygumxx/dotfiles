@@ -13,7 +13,8 @@
 # Shadow wrapper as configuration
 #
 # Loads the unpacked extensions chezmoi places in
-# $XDG_DATA_HOME/chromium/extensions/{mv2,mv3}/, see docs/web-extensions.md.
+# $XDG_DATA_HOME/chromium/extensions/{mv2,mv3}/, see
+# docs/note/2026-10-08_web-extensions.md.
 #
 
 local self="${${(%):-%N}:A}"
