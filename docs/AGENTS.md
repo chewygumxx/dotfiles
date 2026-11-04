@@ -1,14 +1,14 @@
 ---
-ctime: 2026-10-12
-mtime: 2026-11-03
+ctime: 2026-11-05
+mtime: 2026-11-05
 spdx: GPL-3.0-only
 title: docs/AGENTS.md
 description: >-
-  Agentic instructions regarding the organisational conventions of the docs
-  directory with respect documentation storage, filename, and essay structure.
+  Agentic instructions supplementary to `docs/README.md` detailing repository
+  documentation convention and practice.
 tags:
-  - agents
   - docs
+  - agents
 ---
 
 <!--
@@ -20,38 +20,10 @@ tags:
 
 # docs/AGENTS.md
 
-## Where things go
+## Record Index
 
-- `specs/`: designs, `YYYY-MM-DD-<topic>-design.md`.
-- `plans/`: implementation plans, `YYYY-MM-DD-<topic>.md`.
-- `reports/`: a phase's probes, rulings and verification,
-  `YYYY-MM-DD-<topic>.md`, with any captured output in a directory beside
-  it of the same name.
-- `notes/`: research kept for reference, `YYYY-MM-DD_<topic>.md`.
-- `deferred/`: findings left for later, `YYYY-MM-DD_<topic>.md`.
-- `roadmap.md`: the phases in order, revised as its Revising section says.
+[`./wiki/records.md`](./wiki/records.md) is an exhaustive index that must
+include a link reference to every documentation record under `docs/`. Enforced
+at commit by [`../scripts/docs.test.ts`](./../scripts/docs.test.ts).
 
-## How they are written
-
-- Each file opens with frontmatter (`ctime`, `mtime`, `spdx`, `title`,
-  `description`, `tags`) and the breadcrumb comment; copy both from a
-  sibling, and bump `mtime` when you edit. `lint:header` checks the
-  breadcrumb against the file's path.
-- Lines are at most 80 characters, inline code included: a long command
-  goes in a fenced block. Links are Markdown links, never `[[...]]` wiki
-  links. `lint:md` runs remark and markdownlint, which enforce both.
-- A spec says what and why; a plan says how, task by task, with the code.
-- A report records each probe and how it was run, the rulings made on the
-  spec, and the verification, with commands and their output.
-
-## The AGENTS.md files
-
-`agents.test.ts` pins them: the root at most 100 lines, this file 60 and
-each package's 150, header included; every relative link resolves; and no
-`CLAUDE.md`, `.claude/CLAUDE.md` or `CLAUDE.local.md` exists anywhere, as
-one switches Claude Code's `AGENTS.md` off. A package's file that
-outgrows its budget gains a nested `src/<subdir>/AGENTS.md`, read on
-demand; the root moves detail into the file where it is needed. No
-budget grows.
-
-<!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
+<!-- vim:set expandtab shiftwidth=2 filetype=markdown foldlevel=3: -->
