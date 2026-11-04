@@ -15,6 +15,7 @@
 .config/mozilla-firefox   # Firefox files now live in .local/share/mozilla/firefox
 .config/claude/hooks/claude-status-line.sh     # Replaced by ccstatusline
 .config/claude-2/hooks/claude-status-line.sh   # Replaced by ccstatusline
+.local/share/mozilla/firefox/chewyfox/chrome/context_menu.css   # Inlined in userChrome.css
 
 # ------------------
 # Chewytop Removed
