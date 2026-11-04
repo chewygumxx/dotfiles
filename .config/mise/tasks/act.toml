@@ -13,10 +13,14 @@
 # See README.md of <https://github.com/chewygumxx/.github>
 #
 
-# Wrapper to refresh remote task data upon every execution.
+# Wrapper to refresh remote task data upon every execution. mise only
+# fetches `git::` task files with experimental features on, enabled here
+# rather than in mise.toml, whose [settings] would demand `mise trust`. This
+# repo has no ci.yaml, the remote task's default workflow; ACT_WORKFLOW
+# picks another one.
 [act]
 description = "Locally execute GitHub Actions (CI) with Docker"
-run         = "mise run --no-cache act-cached"
+run         = 'MISE_EXPERIMENTAL=1 ACT_WORKFLOW="${ACT_WORKFLOW:-lint-config.yaml}" mise run --no-cache act-cached'
 alias       = [
     "exec-ci",
     "exec-gh-act",
