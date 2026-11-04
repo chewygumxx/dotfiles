@@ -20,32 +20,65 @@ tags:
 
 [Docs Home](./../README.md)
 
-This page records decisions that have shaped the repository or its planned
-direction. While topic pages describe the current state, entries here document
-the decisions behind it and reference their supporting records without
-repeating implementation details.
+This document records significant decisions that have shaped the project or
+continue to guide its development. Each entry preserves the circumstances,
+alternatives, rationale, consequences, and supporting evidence behind a
+decision, together with its current standing.
 
-Decisions are organised under the seven subjects defined in the
-[records index catalogue](./records.md). Each entry is grounded in a documented
-ruling, specification decision, or roadmap revision.
+The purpose of this document is to preserve **why decisions were made**, not
+to duplicate descriptions of their implementation. Reference documentation
+describes the project's current state; this document traces the decisions
+behind it and links to relevant documentation where appropriate.
 
-Minor implementation decisions remain in their respective reports.
+Decisions are organised by subject, following the project's documentation
+structure where one exists. Entries are derived from supporting records,
+including specifications, design documents, implementation reports, roadmap
+revisions, and explicitly documented directives.
 
-Each entry follows a consistent structure using the following fields:
+Only decisions with meaningful architectural, operational, or strategic
+implications belong here. Minor implementation decisions remain in their
+respective records.
 
-- **Context**: The circumstances or requirements that prompted the decision.
-- **Alternatives**: Other options considered or rejected, where documented. If
-  no alternatives were recorded, this is explicitly stated.
-- **Choice**: The decision made and, where documented, who made it. If the
-  decision-maker is not identified, this is stated explicitly. A decision
-  recorded in a specification does not, by itself, establish approval or
-  authority.
-- **Reason**: The documented rationale for the decision. `Reason: Unspecified`
-  indicates that no rationale was recorded.
-- **Cost**: The potential consequences of an incorrect decision or any costs
-  explicitly identified in the supporting records.
-- **Standing**: The decision's current status—current, superseded, or
-  revisited—with the relevant date and, where applicable, a reference to the
-  superseding decision.
-- **Sources**: The supporting records and, where relevant, documentation
-  describing the current implementation.
+## Entry Structure
+
+Each decision is documented under a descriptive heading, followed by a list
+of consistently ordered fields:
+
+- **Context**: The circumstances, requirements, or constraints that
+  prompted the decision.
+- **Weight**: The documented or reasonably established trade-offs, risks,
+  limitations, or consequences of the decision, including the potential
+  cost of an incorrect choice. Distinguish recorded costs from
+  independently identified risks.
+- **Choice**: The decision made, including its date and decision-maker
+  where documented. Neither authorship nor approval may be inferred solely
+  from the existence of a specification or implementation.
+- **Reason**: The documented rationale for the decision. Use
+  `not recorded` when no rationale is available.
+- **Status**: Present state of decision implementation.
+- **Confidence**: Validity sentiment relative to implementation status and
+  current information.
+- **History**: Log of any subsequent revision, replacement, or reconsideration.
+  Include relevant dates and reference subsequent decisions. Distinguish a
+  decision's standing from its implementation status.
+- **Alternatives**: Other approaches considered or rejected, including their
+  documented trade-offs. State when no alternatives were recorded.
+- **Sources**: Additional material relevant to decision and its interpretation,
+  including links to current documentation where useful.
+
+## Documentation Principles
+
+Entries must remain faithful to their supporting records. Missing
+information must be identified rather than inferred, reconstructed, or
+presented as established fact.
+
+Distinguish proposals from adopted decisions, recorded rationale from
+subsequent interpretation, and documented authority from assumed approval.
+
+When a decision changes, preserve its original context and identify the
+subsequent decision responsible for the change. Do not silently rewrite
+historical reasoning to reflect present circumstances.
+
+Keep entries concise and focused on decision-making. Refer readers to
+supporting records for implementation details, extended analysis, and
+verification results.
