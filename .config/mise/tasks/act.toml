@@ -1,0 +1,29 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:schema https://mise.jdx.dev/schema/mise-task.json
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/.config/mise/tasks/act.toml
+#
+#
+
+#
+# See README.md of <https://github.com/chewygumxx/.github>
+#
+
+# Wrapper to refresh remote task data upon every execution.
+[act]
+description = "Locally execute GitHub Actions (CI) with Docker"
+run         = "mise run --no-cache act-cached"
+alias       = [
+    "exec-ci",
+    "exec-gh-act",
+    "exec-gh-actions",
+]
+
+[act-cached]
+description = "[Internal] Locally execute GitHub Actions (CI) with Docker"
+file        = "git::https://github.com/chewygumxx/.github.git//tasks/act?ref=v1"
+hide        = true
