@@ -9,14 +9,17 @@
 #
 
 #
-# Chezmoi tracked self-configuration
-# This file updates the local chezmoi config file upon `chezmoi init` or when
-# `--init` is provided as a valid `chezmoi` option ie. `chezmoi update --init`.
+# Chezmoi Tracked Self-Configuration
+#
+# This file updates local chezmoi config file upon `chezmoi init` or valid
+# `chezmoi <subcommand> --init` eg. `chezmoi update --init`.
 #
 
 
 progress        = true  # Display progress bars
 encryption      = "gpg"
+
+# Chezmoi Intrinsic  Paths
 sourceDir       = {{ joinPath
     .chezmoi.homeDir
     "dev"
@@ -32,6 +35,7 @@ persistentState = {{ joinPath
     "chezmoistate.boltdb"
 | quote }}
 
+# Handling of filesystem permissions in Termux and Android Emulated Storage
 {{- if (eq .chezmoi.os "android") }}
 umask = 0o22
 {{ end }}
@@ -39,7 +43,8 @@ umask = 0o22
 [edit]
 apply    = true
 watch    = true
-hardlink = false
+hardlink = false # Do not hardlink to a tmpdir, disrupts filetype resolution
+                 # by path
 
 [gitHub]
 # Same period as externals, from the data file that defines their defaults
@@ -58,4 +63,3 @@ pager = {{ or
 command = {{ $gitDiff | quote }}
 args    = ["{{ "{{ .Destination }}" }}", "{{ "{{ .Target }}" }}"]
 {{- end }}
-
