@@ -9,7 +9,7 @@
 #
 
 #
-# Browser extensions installed and updated by chezmoi externals.
+# Browser Extensions Managment by chezmoi externals.
 # See docs/note/2026-10-08_web-extensions.md.
 #
 #   name         Stable identifier, also the Chromium extension directory
@@ -166,8 +166,11 @@ chromiumMv2 = { repo = "FilipePS/Traduzir-paginas-web", asset = "TWP_*_Chromium_
 [[webExtensions]]
 name        = "ublock-origin"
 firefox     = "uBlock0@raymondhill.net"
-chromium    = "ddkjiahejlhfcafbddmgiahcphecmpfh"                             # uBlock Origin Lite
 chromiumMv2 = { repo = "gorhill/uBlock", asset = "uBlock0_*.chromium.crx" }
+
+[[webExtensions]]
+name     = "ublock-origin-lite"
+chromium = "ddkjiahejlhfcafbddmgiahcphecmpfh"
 
 [[webExtensions]]
 name    = "ultimadark"
