@@ -8,9 +8,11 @@
 #
 #
 
-# If an executable firefox binary does NOT exist here
-{{- if not (isExecutable "./firefox") }}
+# Without the Firefox binary under the destination, ignore this whole tree.
+# The path is joined onto the destination because a relative path resolves
+# against chezmoi's working directory, not this source directory.
+{{- if not (isExecutable (joinPath .chezmoi.destDir "usr/lib/firefox/firefox")) }}
 
-**  # Then ignore everything within this directory
+**
 
 {{- end }}
