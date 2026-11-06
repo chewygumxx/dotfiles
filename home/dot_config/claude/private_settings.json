@@ -1,0 +1,302 @@
+{
+    "$schema": "https://www.schemastore.org/claude-code-settings.json",
+    "cleanupPeriodDays": 180,
+    "skillListingMaxDescChars": 2048,
+    "attribution": {
+        "commit": "",
+        "pr": "",
+        "sessionUrl": false
+    },
+    "permissions": {
+        "allow": [
+            "Bash(gh pr merge:*)",
+            "Bash(git push origin --delete:*)",
+            "Bash(git branch -D:*)"
+        ],
+        "deny": [
+            "Read(/etc/wireguard/**)",
+            "Read(~/.config/cloudflare-ddns/**)",
+            "Read(~/.config/gh/hosts.yml)",
+            "Read(~/.config/wireguard/**)",
+            "Read(~/.gnupug/**)",
+            "Read(~/.local/share/gnupg/**)",
+            "Read(~/.netrc)",
+            "Read(~/.ssh/**)",
+            "Read(~/doc/**)",
+            "Read(~/sec/**)",
+            "Bash(chmod -R 777*)",
+            "Bash(git fpush)",
+            "Bash(git push --force*)",
+            "Bash(gtrash force *)",
+            "Bash(gtrash rm *)",
+            "Bash(rm -rf /)",
+            "Bash(rm -rf ~)",
+            "Bash(rm -rf ~*)",
+            "Bash(rm -rf .)"
+        ],
+        "defaultMode": "auto"
+    },
+    "model": "opus",
+    "disableClaudeAiConnectors": false,
+    "disableBundledSkills": false,
+    "hooks": {
+        "SessionStart": [
+            {
+                "matcher": "*",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "sh -c 'bash \"${CLAUDE_CONFIG_DIR:=$HOME/.claude}/hooks/herdr-agent-state.sh\" session'",
+                        "timeout": 10
+                    }
+                ]
+            },
+            {
+                "matcher": "^(startup|resume|clear|compact|fork)$",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "bash '/home/chewygumxx/.config/claude/hooks/herdr-agent-state.sh' session",
+                        "timeout": 10
+                    }
+                ]
+            }
+        ]
+    },
+    "disableRemoteControl": true,
+    "workflowSizeGuideline": "medium",
+    "statusLine": {
+        "type": "command",
+        "command": "ccstatusline",
+        "padding": 0,
+        "refreshInterval": 10
+    },
+    "enabledPlugins": {
+        "worktrunk@worktrunk": true
+    },
+    "extraKnownMarketplaces": {
+        "worktrunk": {
+            "source": {
+                "source": "github",
+                "repo": "max-sixty/worktrunk"
+            }
+        }
+    },
+    "outputStyle": "default",
+    "sandbox": {
+        "enabled": false,
+        "failIfUnavailable": false,
+        "autoAllowBashIfSandboxed": true,
+        "allowUnsandboxedCommands": true,
+        "network": {
+            "allowedDomains": [
+                "github.com",
+                "codeberg.org",
+                "gitlab.com",
+                "registry.npmjs.org",
+                "w3.org",
+                "nodejs.org",
+                "mozilla.org",
+                "pypi.org",
+                "lib.rs",
+                "crates.io",
+                "go.dev",
+                "zsh.sourceforge.io",
+                "reddit.com",
+                "claude.com",
+                "stackoverflow.com",
+                "news.ycombinator.com",
+                "wikipedia.org",
+                "dictionary.com",
+                "thesaurus.com",
+                "oed.com",
+                "cambridge.org",
+                "archive.org",
+                "dev.to",
+                "chezmoi.io",
+                "nushell.sh"
+            ],
+            "deniedDomains": [],
+            "strictAllowlist": false
+        },
+        "filesystem": {
+            "denyWrite": [
+                "~/.config/.wrangler/**",
+                "~/.config/cloudflare-ddns/**",
+                "~/.config/gh/hosts.yml",
+                "~/.gnupg/**",
+                "~/.local/share/gnupg/**",
+                "~/.ssh/**",
+                "~/doc/**",
+                "~/sec/**"
+            ],
+            "denyRead": [
+                "~/.config/.wrangler/**",
+                "~/.config/cloudflare-ddns/**",
+                "~/.config/gh/hosts.yml",
+                "~/.gnupg/**",
+                "~/.local/share/gnupg/**",
+                "~/.ssh/**",
+                "~/doc/**",
+                "~/sec/**"
+            ]
+        },
+        "credentials": {
+            "files": [
+                {
+                    "path": "~/.config/.wrangler/**",
+                    "mode": "deny"
+                },
+                {
+                    "path": "~/.config/cloudflare-ddns/**",
+                    "mode": "deny"
+                },
+                {
+                    "path": "~/.config/gh/hosts.yml",
+                    "mode": "deny"
+                },
+                {
+                    "path": "~/.local/share/gnupg/**",
+                    "mode": "deny"
+                },
+                {
+                    "path": "~/.gnupg/**",
+                    "mode": "deny"
+                },
+                {
+                    "path": "~/.netrc",
+                    "mode": "mask"
+                },
+                {
+                    "path": "~/.ssh/id/**",
+                    "mode": "deny"
+                }
+            ],
+            "envVars": [
+                {
+                    "name": "ANTHROPIC_API_KEY",
+                    "mode": "mask"
+                },
+                {
+                    "name": "AWS_SECRET_ACCESS_KEY",
+                    "mode": "mask"
+                },
+                {
+                    "name": "GITHUB_TOKEN",
+                    "mode": "mask"
+                }
+            ]
+        }
+    },
+    "feedbackSurveyRate": 0,
+    "feedbackDrafts": "off",
+    "spinnerTipsEnabled": false,
+    "spinnerVerbs": {
+        "mode": "replace",
+        "verbs": [
+            "Metro Booming",
+            "Dabbing on the hoes",
+            "Yeetin on em",
+            "Sequestering the pack",
+            "Bapping on the haters",
+            "Three-sixty no-scoping",
+            "Wombo Combo-ing",
+            "Giving huggie-wuggies",
+            "Dropping a mixtape",
+            "Taking all your base",
+            "Sipping on Gin and Juice",
+            "Acquisitioning bread",
+            "Selling you to the highest bidder",
+            "Hacking the planet",
+            "Watching tears in the rain",
+            "Swerving on that mood rn",
+            "Harmonising the vibrations",
+            "Not sleeping in Tokyo",
+            "Resurrecting the party",
+            "Waking up out of my coma",
+            "Assembling the fellas",
+            "Calling hot boi helpline",
+            "Winning by any means necessary",
+            "Ascending to a higher plane",
+            "Touching grass",
+            "Calling the wrong number",
+            "Flirting with Gaia",
+            "Distributing disrespect",
+            "Appraising my reflection",
+            "Waking up so pretty",
+            "Pressing F",
+            "Flipping Flat Earth",
+            "Recalculating who cares",
+            "Taking psychic damage",
+            "Investing my time",
+            "Going viral like you don't even know",
+            "Brandishing the registered God Particle",
+            "Disbelief I just read that",
+            "Hyping up the next best watermelon",
+            "Collecting the crumb",
+            "Sweeting up now she sees me",
+            "Recognising I'm that guy"
+        ]
+    },
+    "terminalTitleFromRename": false,
+    "effortLevel": "high",
+    "modelSettings": {
+        "claude-sonnet-5": {
+            "effortLevel": "high"
+        },
+        "claude-opus-5-5": {
+            "effortLevel": "high"
+        },
+        "claude-sonnet-5-5": {
+            "effortLevel": "high"
+        }
+    },
+    "emojiCompletionEnabled": false,
+    "awaySummaryEnabled": false,
+    "prefersReducedMotion": false,
+    "timeFormat": "%a %d %b - %H:%M:%S",
+    "showThinkingSummaries": true,
+    "theme": "custom:chewy-claude",
+    "editorMode": "vim",
+    "autoCompactEnabled": false,
+    "crossSessionInbound": "accept",
+    "skipAutoPermissionPrompt": true,
+    "useAutoModeDuringPlan": true,
+    "externalEditorContext": true,
+    "autoMode": {
+        "allow": [
+            "$defaults",
+            "In github.com/chewygumxx/dorothy, opening pull requests and merging ones the agent opened once CI passes is allowed: the user has given standing approval.",
+            "Deleting branches of github.com/chewygumxx/dorothy that are merged or that the user named is allowed.",
+            "Writing the agent's own memory under .agents/memory/ in the repository is allowed: the user reviews it in git."
+        ],
+        "environment": [
+            "### Org-wide",
+            "**Organization**: None configured",
+            "**Cloud provider(s)**: None configured",
+            "**Repository visibility**: Not queryable via gh (nonessential traffic disabled or policy-restricted); origin is github.com:chewygumxx/dorothy.git — treat as possibly public per shipped-default guidance until verified",
+            "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+            "**Secrets management**: repo contains secrets-related tooling (scripts/check-secrets.sh, packages/core/src/secrets.ts, secrets.json, docs/plans/2026-10-21-sops-secrets.md) and mise supplies sops/age per README — no secrets backend or policy confirmed beyond that",
+            "**Default / protected branches**: main (default branch per repo facts); protected-branch/ruleset status not queryable via gh here",
+            "**CI/CD deploy targets**: None configured",
+            "**Network posture**: None configured",
+            "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine or CI runner with open internet",
+            "**Source control**: The trusted repo (github.com/chewygumxx/dorothy) and its origin remote only",
+            "**Trusted internal domains**: None configured",
+            "**Trusted cloud buckets**: None configured",
+            "**Key internal services**: None configured",
+            "**Internal package registry**: None configured",
+            "**Sensitive data locations & audiences**: scripts/check-secrets.sh, scripts/check-secrets.test.ts, secrets.json, packages/core/src/secrets.ts, packages/core/src/secrets.test.ts, packages/eval/src/secrets.ts, docs/plans/2026-10-21-sops-secrets.md, docs/reports/2026-10-21-sops-secrets.md, docs/specs/2026-10-21-sops-secrets-design.md, and any .env*/*.env/keys.txt files — share only with audiences cleared at the [named+specifics] bar",
+            "**Data retention / declassification**: None configured",
+            "**Sensitive remote targets**: any namespace, host, or container whose name carries prod or production as a whole word or name segment",
+            "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+            "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries prod or production as a whole word or name segment",
+            "### User-specific",
+            "**Primary use of Claude Code**: software development (Dorothy — conversational LLM interface, built on the Claude Agent SDK)",
+            "**Trusted repo**: ~/dev/dorothy (github.com/chewygumxx/dorothy, origin remote) — visibility unverified, treat as possibly public",
+            "**Org-specific CLIs**: None configured — bunx, herdr, hdr, ugrep seen in project usage but no org affiliation evidenced",
+            "**routine under chewygumxx/ prefix**: repos under github.com/chewygumxx/* found on disk (userstyle, zsh-config, nex, header-metadata.nvim, github-personal-playground, zsh-vi-mode, zsh-shell-template, shared-config, dorothy-memory, zsh-als, fork_meteor, dorothy-hermes, lazy.nvim, cloudflare-url-shorten, chezmoi-apply-xattr, cclip-fzf, hashmark) are the same author's personal checkouts, not vetted org context — scope stays limited to this project per Q2"
+        ]
+    },
+    "switchModelsOnFlag": false
+}
