@@ -26,6 +26,7 @@ Living task list file. Items are deleted upon completion.
 - Documentation overhaul
   - The fact an `:/AGENTS.md` file exists and `:/README.md` doesn't is tragic.
     Much of what `:/AGENTS.md` states is also redundant.
+- Finish defining the structure of this `docs/` directory
 - Resolve whether chezmoi handles `yazi` plugin installation from lock file.
 - Refactor `yazi` plugin specification according to
   [note](./note/2026-11-06_chatgpt-conversation-yazi-plugin-spec-refactor.md)
