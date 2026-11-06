@@ -15,40 +15,34 @@ require("no-status"):setup()
 
 require("zoxide"):setup({ update_db = true })
 
-local mux_setup = function()
-    local mux_opts = {
-        notify_on_switch = false,           -- Show notification when switching previews
-        remember_per_file_extension = true, -- Show same previewer per extension
-        aliases = {},
+local mux_opts = {
+    notify_on_switch = false,
+    remember_per_file_extension = true,
+    aliases = {},
+}
+
+-- Directory preview configuration
+local eza_opts = table.concat({
+    "--all",
+    "--group-directories-first",
+    "--color=always",
+    "--icons=always",
+    "--no-quotes",
+}, " ")
+
+local tree_command = [[printf '\e[0;35mTree Level: \e[0;32m%d\n' && eza --tree --level=%d %s "$1"]]
+
+-- Register tree previewers for depths 1–3
+for level = 1, 3 do
+    mux_opts.aliases["eza_tree_" .. level] = {
+        previewer = "piper",
+        args = {
+            tree_command:format(level, level, eza_opts),
+        },
     }
-
-    -- Directory
-    for i = 1, 3, 1 do
-        mux_opts.aliases["eza_tree_" .. i] = {
-            previewer = "piper",
-            args = {
-                table.concat({
-                    "printf \"\\e[0;35mRecursion Depth: \\e[0;32m" .. i
-                        .. "\\n\" &&",
-                    "eza",
-                    "--all",
-                    "--tree",
-                    "--level " .. i,
-                    "--group-directories-first",
-
-                    "--color=always",
-                    "--icons=always",
-                    "--no-quotes",
-                    '"$1"',
-                }, " "),
-            },
-        }
-    end
-
-    return mux_opts
 end
-require("mux"):setup(mux_setup())
 
+require("mux"):setup(mux_opts)
 local time_format = function(time)
     if time == 0 then
         time = ""
