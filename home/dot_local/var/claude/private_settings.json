@@ -67,7 +67,7 @@
     "workflowSizeGuideline": "medium",
     "statusLine": {
         "type": "command",
-        "command": "ccstatusline",
+        "command": "cc-statusline-gateway",
         "padding": 0,
         "refreshInterval": 10
     },

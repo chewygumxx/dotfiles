@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# vim:set expandtab shiftwidth=4 filetype=bash:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_cc-statusline-gateway
+#
+#
+
+#
+# Claude Code statusLine command: renders via ccstatusline, and publishes the
+# raw statusline payload to out.json for dashboards outside Claude Code (eg.
+# a waybar module). out.json is replaced atomically, so readers never see a
+# partial write.
+#
+# No `set -e`/`pipefail` on purpose: if the cache write fails, tee still
+# forwards the payload and the statusline keeps rendering.
+#
+
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/cc-statusline-gateway"
+mkdir -p "$cache_dir"
+tmp="$(mktemp "$cache_dir/.out.XXXXXX")"
+
+tee "$tmp" | ccstatusline
+
+if [ -s "$tmp" ]; then
+    mv -f "$tmp" "$cache_dir/out.json"
+else
+    rm -f "$tmp"
+fi
