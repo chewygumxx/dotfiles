@@ -7,7 +7,6 @@ description: >-
   Agentic instructions regatrding the prose rules, layout and
   conventions of this dotfiles configuration repository.
 tags:
-  - llm
   - agents
 ---
 
@@ -20,9 +19,9 @@ tags:
 
 # Repository Agentic Instructions
 
-Continuously granularly commit as you work. Compose single-line commit messages
-whenever appropriate. If the granular commit does indeed warrant further
-context, include such within the commit message body.
+<!-- TODO: This AGENTS.md desperately needs refactoring -->
+
+<!-- TODO: The below is README.md documentation -->
 
 ## What this repository is
 
@@ -53,48 +52,10 @@ is actually wired up:
   Treat it as inert reference material laid out in chezmoi's naming convention,
   not as something chezmoi will act on as-is.
 
-`template/` is not a source root either; it is a near-empty skeleton
-(`.chezmoiignore` only), kept as a starting point for scaffolding a new one
-later.
+<!-- TODO: The above is README.md documentation -->
 
-`.claude/` at the repo root sits outside the `home/` source root, so chezmoi
-never sees it; it is tooling for working in this repo. (The `.claude/` entry in
-`home/.chezmoiignore` is unrelated: it keeps chezmoi off the `~/.claude`
-target.)
-
-User-level Claude Code config lives in `home/dot_config/claude/` (applied to
-`~/.config/claude`, the `CLAUDE_CONFIG_DIR`) and `home/dot_config/claude-2/` (a
-second account). The second's `settings.json` is a `symlink_` to
-`../claude/settings.json`, so edit only the first. Its SessionStart hook uses
-the `${CLAUDE_CONFIG_DIR}` shell form so the one file serves both accounts.
-herdr's installer (`herdr integration install claude`) only recognises its own
-absolute-path command, so rerunning it appends a duplicate SessionStart group;
-don't run it against this file. Plugin installers (`claude plugin install`,
-`wt config plugins claude install`) likewise write `enabledPlugins` into the
-deployed file only; copy such changes into the source by hand.
-
-Worktrunk (`wt`) owns worktree creation: the herdr-worktrunk plugin drives it
-from herdr's keys, and worktrunk's Claude plugin hooks `WorktreeCreate` for
-`claude -w` and subagents. The layout is set in two places that must agree:
-`worktree-path` in `home/dot_config/worktrunk/config.toml` and
-`[worktrees] directory` in `home/dot_config/herdr/config.toml.tmpl`.
-`.worktreeinclude` is honoured by worktrunk's `pre-start` copy. This repo's
-own `.config/wt.toml` runs `bun install` so husky hooks exist in new
-worktrees.
-
-`docs/` is not applied either. It holds dated working documents and user
-guides, including `docs/note/2026-10-08_web-extensions.md`.
-
-Browser extensions for Firefox and ungoogled-chromium are declared once in
-`home/.chezmoidata/web-extensions.toml` and installed by the
-`.chezmoiexternals` templates inside the Firefox profile and
-`dot_local/share/chromium/`; read `docs/note/2026-10-08_web-extensions.md`
-before changing any of it. Never `chezmoi apply` those targets against the
-real home to test them: use
-`.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh`, which
-adds `--destination`, `--persistent-state`, `--cache` and `--exclude=scripts`
-under a temp dir (scripts would otherwise write to the real home even from a
-sandbox).
+<!-- TODO: The below content should be specified either closer to the path they
+     are significant or elsewhere -->
 
 Externals take their `refreshPeriod` from `home/.chezmoidata/externals.toml`
 (`{{ .externals.refreshPeriod }}`, or `$.externals` inside `range`/`with`),
@@ -109,29 +70,33 @@ runtime in a `zsh/` subdirectory, so it is cloned into
 `~/.local/share/zsh-config`, and `home/dot_config/symlink_zsh` links that
 `zsh/` child in as `~/.config/zsh`, the `ZDOTDIR`. Change them in those repos.
 
+Browser extensions for Firefox and ungoogled-chromium are declared once in
+`home/.chezmoidata/web-extensions.toml` and installed by the
+`.chezmoiexternals` templates inside the Firefox profile and
+`dot_local/share/chromium/`; read `docs/note/2026-10-08_web-extensions.md`
+before changing any of it. Never `chezmoi apply` those targets against the
+real home to test them: use
+`.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh`, which
+adds `--destination`, `--persistent-state`, `--cache` and `--exclude=scripts`
+under a temp dir (scripts would otherwise write to the real home even from a
+sandbox).
+
+<!-- TODO: The above content should be specified either closer to the path they
+     are significant or elsewhere -->
+
+<!-- The following content until EOF is appropriate to be recorded here
+   -->
+
 ## Conventions
 
-- **No em dashes anywhere in this repository** (code, comments, commit
-  messages, docs).
-- **No AI co-author trailers**: never add a `Co-Authored-By: Claude ...`
-  (or similar AI attribution) trailer to a commit message or pull request
-  description unless the user explicitly asks for it on that specific
-  commit/PR.
-- **File headers**: nearly every tracked file starts with an editor modeline,
-  an `SPDX-License-Identifier` line, and a boxed comment giving the repo slug and
-  the file's repo-relative path (e.g. `::: :/home/dot_config/wezterm/wezterm.lua`),
-  using the line-comment syntax for that file's language. Markdown differs:
-  YAML frontmatter (`ctime`, `mtime`, `spdx`, `title`, `description`, `tags`),
-  then an HTML-comment path box, with the modeline on the last line. These
-  headers are auto-maintained by the `sync-header-metadata` GitHub Action on
-  every push/PR to `main` (see `.github/workflows/sync-header-metadata.yaml`),
-  which commits corrections back (`chore: Sync header metadata`). When adding
-  a new file, follow the existing header style from a sibling file of the same
-  type rather than inventing one; CI will fix minor drift. The
-  `header-metadata` plugin writes this header into each new file on Write.
-- **Indentation**: per `.editorconfig`, 4 spaces by default, 2 spaces for
-  `*.md`. LF line endings, trailing whitespace trimmed, final newline inserted.
-- **Commit messages**: Conventional Commits, enforced by `commitlint`
+### Commit Granularity and Message Linting
+
+Continuously granularly commit as you work. Compose single-line commit messages
+whenever appropriate. If the granular commit considerably warrants further
+context than what a single-line commit message can provide, then include such
+within the commit message body.
+
+- Conventional Commits, enforced by `commitlint`
   (`.commitlintrc.mts`) via a `husky` `commit-msg` git hook (`.husky/commit-msg`,
   wired up by the `prepare` package script). `.commitlintrc.mts` defines:
   - Allowed types (error, blocking): `feat`, `fix`, `tweak`, `refactor`,
@@ -155,10 +120,33 @@ runtime in a `zsh/` subdirectory, so it is cloned into
     `configFile: ./.commitlintrc.mts` explicitly; the action's own default
     (`./commitlint.config.mjs`) doesn't exist in this repo and would otherwise
     silently fall back to bare `@commitlint/config-conventional` with no error.
-- **Repo metadata** (`.repo-metadata.jsonc`) is synced to the GitHub repo's own
-  settings (description, topics, license) by
-  `.github/workflows/sync-repo-metadata.yaml` whenever that file changes
-  on push.
+
+### Standard File Header
+
+Nearly every tracked file starts with an editor modeline, an
+`SPDX-License-Identifier` line, and a boxed comment giving the repo slug and
+the file's repo-relative path
+(e.g. `::: :/home/dot_config/wezterm/wezterm.lua`), using the line-comment
+syntax for that file's language. Markdown differs: YAML frontmatter (`ctime`,
+`mtime`, `spdx`, `title`, `description`, `tags`), then an HTML-comment path
+box, with the modeline on the last line. These headers are auto-maintained by
+the `sync-header-metadata` GitHub Action on every push/PR to `main` (see
+`.github/workflows/sync-header-metadata.yaml`), which commits corrections back
+(`chore: Sync header metadata`). When adding a new file, follow the existing
+header style from a sibling file of the same type rather than inventing one; CI
+will fix minor drift. The `header-metadata` plugin writes this header into each
+new file on Write.
+
+### Indentation
+
+Per `.editorconfig`, 4 spaces by default, 2 spaces for `*.md`. LF line endings,
+trailing whitespace trimmed, final newline inserted.
+
+### Repo Metadata
+
+`.repo-metadata.jsonc` is synced to the GitHub repo's own settings
+(description, topics, license) by `.github/workflows/sync-repo-metadata.yaml`
+whenever that file changes on push.
 
 ## Checks
 
@@ -171,28 +159,9 @@ Linting runs in three places:
   skipped. The formatters rewrite in place and re-stage, so JSON written by a
   tool at 2-space indent is committed at `.editorconfig`'s 4. There is no
   biome. `.github/workflows/lint-config.yaml` runs the same checks in CI.
-- `.claude/hooks/lint-on-edit.sh` (each file Claude writes): the above, plus
-  shellcheck (rules in `.shellcheckrc`), `zsh -n`, and
-  `chezmoi execute-template` for templates, skipping any that call a secret
-  or command function directly or through an include.
 - `bun run typecheck`: `tsconfig.json` scopes `tsc` to `.commitlintrc.mts`
   alone (TS's default `**/*` glob skips dotfiles). The commit-msg hook loads
   that file via `jiti` (transpile-only), so a type error there passes silently
   at commit time unless this is run.
-
-Beyond that, "correct" means valid for the target tool, right chezmoi naming,
-and headers/commit messages per the conventions above. Check the tool's own
-docs (context7 MCP is configured for that) rather than looking for a repo-local
-test command.
-
-## Claude tooling
-
-- `.claude/hooks/guard-chezmoi-apply.sh` (PreToolUse Bash) blocks chezmoi
-  commands that write to the real home unless fully sandboxed or `--dry-run`.
-  Applying to the real home is the user's call; suggest the command instead.
-- Skills: `chezmoi-sandbox` (apply into a temp dir), `new-dotfile` (naming,
-  ignores, header and scope checklist for new files).
-- Agent: `chezmoi-reviewer`, a read-only review against these conventions; run
-  it before opening a PR.
 
 <!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
