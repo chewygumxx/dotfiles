@@ -11,22 +11,38 @@
 
 #
 # Claude Code statusLine command: renders via ccstatusline, and publishes the
-# raw statusline payload to out.json for dashboards outside Claude Code (eg.
-# a waybar module). out.json is replaced atomically, so readers never see a
-# partial write.
+# raw statusline payload for dashboards outside Claude Code (eg. a waybar
+# module):
 #
-# No `set -e`/`pipefail` on purpose: if the cache write fails, tee still
+#   sessions/<session_id>.json   latest payload of each session
+#   out.json                     latest payload of whichever session refreshed
+#                                last; best effort, flips between concurrent
+#                                sessions
+#
+# Files are replaced atomically, so readers never see a partial write, but are
+# never cleaned up: a session's file outlives the session.
+#
+# No `set -e`/`pipefail` on purpose: if a cache write fails, tee still
 # forwards the payload and the statusline keeps rendering.
 #
 
 cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/cc-statusline-gateway"
-mkdir -p "$cache_dir"
-tmp="$(mktemp "$cache_dir/.out.XXXXXX")"
+sessions_dir="$cache_dir/sessions"
+mkdir -p "$sessions_dir"
+tmp_out="$(mktemp "$cache_dir/.out.XXXXXX")"
+tmp_session="$(mktemp "$sessions_dir/.session.XXXXXX")"
 
-tee "$tmp" | ccstatusline
+tee "$tmp_out" "$tmp_session" | ccstatusline
 
-if [ -s "$tmp" ]; then
-    mv -f "$tmp" "$cache_dir/out.json"
+if [ -s "$tmp_out" ]; then
+    mv -f "$tmp_out" "$cache_dir/out.json"
 else
-    rm -f "$tmp"
+    rm -f "$tmp_out"
+fi
+
+session_id="$(jq -r '.session_id // empty' "$tmp_session" 2>/dev/null)"
+if [[ -s "$tmp_session" && "$session_id" =~ ^[A-Za-z0-9._-]+$ ]]; then
+    mv -f "$tmp_session" "$sessions_dir/$session_id.json"
+else
+    rm -f "$tmp_session"
 fi
