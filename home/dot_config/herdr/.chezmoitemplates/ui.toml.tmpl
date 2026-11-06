@@ -14,51 +14,6 @@
 #
 
 [ui]
-# --------
-# Sidebar
-# --------
-
-# ** Width **
-# (auto-scaled based on workspace names, this sets the default)
-
-# sidebar_width = 26
-# sidebar_min_width = 18
-# sidebar_max_width = 36
-# sidebar_start_collapsed = false
-
-# Collapsed sidebar presentation: "compact" keeps the narrow status rail, "hidden" uses zero width.
-# sidebar_collapsed_mode = "compact"
-
-sidebar.spaces = {
-    row_gap = 1,
-}
-
-sidebar.agents = { row_gap = 1, rows = [ [ "state_icon", "workspace", "tab" ], [ "agent" ] ] }
-
-
-# Built-ins are
-# - state_icon,
-# - state_text,
-# - workspace,
-# - tab,
-# - pane,
-# - agent,
-# - terminal_title,
-# - terminal_title_stripped.
-# Custom values reported through pane metadata use a $name token.
-#
-# A token occurrence may be styled with:
-# { token = "workspace", fg = "#89b4fa", bold = true, dim = false }.
-# Omitted style fields preserve the contextual default.
-
-# Expanded space rows. Built-ins are state_icon, state_text, workspace, branch, and git_status.
-# Custom values reported through workspace metadata use a $name token, for example $jj_status.
-# Inline token styles accept strict #RGB/#RRGGBB foregrounds plus bold and dim booleans.
-# [ui.sidebar.spaces]
-# Blank rows between space entries. Set to 1 to restore the previous spacing.
-# row_gap = 0
-# rows = [["state_icon", "workspace"], ["branch", "git_status"]]
-
 # Terminal width at or below which Herdr uses the mobile single-column layout.
 # Increase this for foldables, tablets, or wide phone terminals.
 mobile_width_threshold = 76
@@ -150,6 +105,43 @@ tab_bar_position = "top"
 # Accent color for highlights, borders, and navigation UI.
 # Accepts: hex (#89b4fa), named colors (cyan, blue, magenta), or rgb(r,g,b)
 # accent = "cyan"
+
+# --------
+# Sidebar
+# --------
+
+# ** Width **
+# (auto-scaled based on workspace names, this sets the default)
+
+# sidebar_width = 26
+# sidebar_min_width = 18
+# sidebar_max_width = 36
+# sidebar_start_collapsed = false
+
+# Collapsed sidebar presentation: "compact" keeps the narrow status rail, "hidden" uses zero width.
+# sidebar_collapsed_mode = "compact"
+
+# Built-ins are
+# - state_icon,
+# - state_text,
+# - workspace,
+# - tab,
+# - pane,
+# - agent,
+# - terminal_title,
+# - terminal_title_stripped.
+# Custom values reported through pane metadata use a $name token.
+#
+# A token occurrence may be styled with:
+# { token = "workspace", fg = "#89b4fa", bold = true, dim = false }.
+# Omitted style fields preserve the contextual default.
+
+[ui.sidebar.spaces]
+row_gap = 1
+
+[ui.sidebar.agents]
+row_gap = 1
+rows    = [ [ "state_icon", "workspace", "tab" ], [ "agent" ] ]
 
 # Background notification popup delivery
 ui.toast = { delivery = "herdr", delay_seconds = 1, herdr = { position = "top-right" }, clipboard = { enabled = true, position = "top-right" } }
