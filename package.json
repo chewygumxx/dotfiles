@@ -8,6 +8,8 @@
         "config",
         "chezmoi"
     ],
+    "homepage": "https://github.com/chewygumxx/dotfiles",
+    "repository": "github:chewygumxx/dotfiles",
     "private": true,
     "engines": {
         "bun": ">=1.4"
