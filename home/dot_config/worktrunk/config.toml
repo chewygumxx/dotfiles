@@ -15,15 +15,20 @@
 # https://worktrunk.dev/config/
 #
 
-# Must agree with [worktrees] directory in herdr's config.toml: both lay out
-# <root>/<repo>/<branch-slug>, so native and worktrunk checkouts sit together.
-worktree-path = "~/dev/_worktree/{{ repo }}/{{ branch | sanitize }}"
+# Project-local: <repo>/.wtree/<branch-slug>. repo_path is always the main
+# checkout, so creating from inside a linked worktree doesn't nest. Herdr's
+# native dialog can't be templated; the wtree-relocate herdr plugin moves its
+# checkouts here with `wt step relocate`.
+worktree-path = "{{ repo_path }}/.wtree/{{ branch | sanitize }}"
 
+[pre-start]
 # Blocking, so .env and friends exist before Claude enters the worktree.
 # --require-include matches Claude Code: only gitignored files that are also
 # listed in .worktreeinclude get copied.
-[pre-start]
-copy = "wt step copy-ignored --require-include"
+copy         = "wt step copy-ignored --require-include"
+# .wtree/ ignores itself, keeping the main checkout's status clean in any
+# repo without a .gitignore entry for it
+wtree-ignore = "f={{ primary_worktree_path }}/.wtree/.gitignore; [ -e \"$f\" ] || printf '*\\n' > \"$f\""
 
 # Show Claude-created worktrees in herdr's sidebar, skipping subagent ones.
 # Gated on CLAUDE_PROJECT_DIR so it never races the herdr-worktrunk plugin,
