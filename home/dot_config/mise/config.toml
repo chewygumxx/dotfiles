@@ -15,6 +15,7 @@
 #
 
 [tools]
+"aqua:mvdan/sh"    = "3.14.1"
 bun                = "latest"
 node               = "24"
 "npm:ccstatusline" = "latest"
