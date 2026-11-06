@@ -144,6 +144,11 @@ row_gap = 1
 rows    = [ [ "state_icon", "workspace", "tab" ], [ "agent" ] ]
 
 # Background notification popup delivery
-ui.toast = { delivery = "herdr", delay_seconds = 1, herdr = { position = "top-right" }, clipboard = { enabled = true, position = "top-right" } }
+[ui.toast]
+delivery      = "herdr"
+delay_seconds = 1
+herdr         = { position = "top-right" }
+clipboard     = { enabled = true, position = "top-right" }
 
-ui.sound.enabled = true
+[ui.sound]
+enabled = true
