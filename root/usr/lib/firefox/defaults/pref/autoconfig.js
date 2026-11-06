@@ -37,3 +37,15 @@ pref("general.config.filename", "firefox.cfg");
 // shift of 13. This time no.
 //
 pref("general.config.obscure_value", 0);
+
+// Sandbox AutoConfig-Secondary
+//
+// Release and beta builds (Arch Linux's included) already sandbox it by
+// default; this makes that explicit rather than channel-dependent. Sandboxed,
+// the file runs with no chrome privileges and only the AutoConfig functions
+// (pref, defaultPref, lockPref, unlockPref, getPref, clearPref, getenv,
+// displayError). That covers setting and locking prefs. Only set false for
+// privileged code, and never alongside "autoadmin.global_config_url", whose
+// remote file would then run with full browser privileges.
+//
+pref("general.config.sandbox_enabled", true);
