@@ -55,9 +55,9 @@ resume_agents_on_restore = true
 # scrollback_limit_bytes = 10000000
 
 [worktrees]
-# Must agree with worktree-path in ~/.config/worktrunk/config.toml, which
-# owns creation via the herdr-worktrunk plugin. Native herdr worktrees nest
-# <repo>/<branch-slug> beneath this, matching worktrunk's layout.
+# Staging only: the sidebar's "New worktree" dialog creates
+# <repo>/<branch-slug> here, then the wtree-relocate plugin (local-plugins/)
+# moves it to worktrunk's worktree-path, <repo>/.wtree/<branch-slug>.
 directory = "~/dev/_worktree"
 
 [remote]

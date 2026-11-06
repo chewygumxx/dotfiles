@@ -1,0 +1,35 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/local-plugins/wtree-relocate/herdr-plugin.toml
+#
+#
+
+#
+# Herdr's sidebar "New worktree" dialog always creates
+# <[worktrees] directory>/<repo>/<branch-slug> and skips worktrunk's hooks.
+# This moves each such checkout to worktrunk's worktree-path and runs the
+# create hooks it missed, so the dialog and the herdr-worktrunk plugin agree.
+#
+# Lives outside herdr's own plugins/ runtime directory, which it manages
+# itself. Register it once per herdr session; herdr caches the manifest, so
+# relink after editing this file (script edits apply on the next event):
+#
+#   herdr plugin link ~/.config/herdr/local-plugins/wtree-relocate
+#
+# https://herdr.dev/docs/plugins/
+#
+
+id                = "wtree-relocate"
+name              = "Worktrunk relocation"
+version           = "0.1.0"
+min_herdr_version = "0.7.4"
+description       = "Move native herdr worktrees to worktrunk's worktree-path and run its create hooks"
+platforms         = [ "macos", "linux" ]
+
+[[events]]
+on      = "worktree.created"
+command = [ "bash", "on-worktree-created.sh" ]
