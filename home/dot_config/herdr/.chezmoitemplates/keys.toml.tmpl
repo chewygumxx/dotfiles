@@ -10,74 +10,169 @@
 
 #
 # Fragment intended for insertion within chezmoi-populated herdr
-# config.toml.tmpl masterdoc
+# config.toml.tmpl masterdoc.
+#
+# https://herdr.dev/tui/docs/keyboard/
+# https://herdr.dev/tui/docs/configuration/#keybindings
+# https://herdr.dev/tui/docs/config-reference/
 #
 
 [keys]
-# Prefix key to enter prefix mode (default: "ctrl+b")
-# Examples: "ctrl+b", "f12", "esc", "-"
-# Action bindings use explicit syntax: "prefix+n" requires the prefix;
-# "ctrl+alt+n" is a direct terminal-mode shortcut.
-# Accepted key syntax: plain keys, ctrl/shift/alt/cmd/super modifiers, and special keys like enter/tab/esc/left/right/up/down.
-# Named punctuation such as minus, comma, ampersand, plus, and backtick is also accepted.
-# Most reliable direct bindings are ctrl+letter, function keys, and explicit modified chords.
-# alt+..., cmd/super, and punctuation-with-modifiers may depend on your terminal/tmux setup.
+# --------------
+# Keymap Syntax
+# --------------
+#
+# | System | Modifier | Punctuation |
+# | ------ | -------- | ----------- |
+# | esc    | ctrl     | plus        |
+# | tab    | alt      | minua       |
+# | up     | shift    | comma       |
+# | down   | super    | backtick    |
+# | enter  | cmd      | ampersand   |
+# | left   | meta     | semicolon   |
+# | right  | hyper    | apostrophe  |
+#
+# ** Modal Invocation **
+#
+# - Benefits
+#   - Scoped capture trigger efficaciously addresses map pollution and
+#     collision.
+#   - Facilitates personalisation and accessility for esoteric interface
+#     (ie. one-handed while eating), and bespoke/idiomatic assignment.
+#
+# - Hindrance
+#   - Necessitates preparatory key capture trigger, id est prefix.
+#   - Instrinsically slower and of greater friction.
+#   - The same as the last two items, now thrice.
+#
+# ** Activation Reliability **
+#
+# - Dependable:
+#   - "ctrl+<letter>"
+#   - Function keys
+#
+# - Environment Dependant:
+#   - "alt+..."
+#   - "cmd/super"
+#
+# - Logged Faliure
+#   - Modifier+Punctuation
+#     - Non-functional: "prefix+shift+\\"
+#     - Non-functional: "prefix+shift+;"
+#
+
+# ---------------------------
+# Meta: Prefix Modal Capture
+# ---------------------------
+#
+# I nned to configure a passthrough, something like:
+#
+#   trigger = "prefix+ctrl+s"
+#   action = { send_keys = "ctrl+s" }
+#
+# Whatever the object structure be, it's essential and belongs
+# within this same file alongside this prefix definition.
+#
 prefix = "ctrl+s"
 
-help                = "prefix+?"
-settings            = "prefix+f12"
-detach              = "prefix+q"
-reload_config       = "prefix+shift+r"
-goto                = "prefix+g"
-edit_scrollback     = "prefix+shift+e"
-zoom                = "prefix+z"
-toggle_sidebar      = "prefix+b"
-copy_mode           = ""
+# --------
+# General
+# --------
+#
+help          = "prefix+f1"
+settings      = "prefix+f12"
+detach        = "prefix+q"
+reload_config = "prefix+shift+esc"
 
-# Tab
-new_tab             = "prefix+t"
-rename_tab          = "prefix+shift+t"
-close_tab           = "prefix+shift+x"
-next_tab            = "prefix+]"
-previous_tab        = "prefix+["
-switch_tab          = "prefix+1..9"
-move_tab_previous   = "prefix+," # <
-move_tab_next       = "prefix+." # >
+goto            = "prefix+g"
+zoom            = "prefix+z"
+copy_mode       = "prefix+y"
+toggle_sidebar  = "prefix+b"
+edit_scrollback = "prefix+e"
 
+# -----
 # Pane
-last_pane           = "prefix+space"
-rename_pane         = "prefix+shift+p"
-close_pane          = "prefix+shift+backspace"
-split_vertical      = "prefix+\\"
-split_horizontal    = "prefix+;"
+# -----
 
-focus_pane_left     = "prefix+h"
-focus_pane_down     = "prefix+j"
-focus_pane_up       = "prefix+k"
-focus_pane_right    = "prefix+l"
+# Pane: Manage
+split_vertical   = "prefix+\\"
+split_horizontal = "prefix+;"
+rename_pane      = "prefix+shift+p"
+close_pane       = "prefix+shift+backspace"
 
-resize_pane_left    = "prefix+alt+h"
-resize_pane_down    = "prefix+alt+j"
-resize_pane_up      = "prefix+alt+k"
-resize_pane_right   = "prefix+alt+l"
+# Pane: Focus
+last_pane        = "prefix+space"
+focus_pane_left  = "prefix+h"
+focus_pane_down  = "prefix+j"
+focus_pane_up    = "prefix+k"
+focus_pane_right = "prefix+l"
 
-swap_pane_left      = "prefix+shift+h"
-swap_pane_down      = "prefix+shift+j"
-swap_pane_up        = "prefix+shift+k"
-swap_pane_right     = "prefix+shift+l"
+# Pane: Move
+swap_pane_left  = "prefix+shift+h"
+swap_pane_down  = "prefix+shift+j"
+swap_pane_up    = "prefix+shift+k"
+swap_pane_right = "prefix+shift+l"
 
-# Workspace
-new_workspace       = "prefix+shift+n"
-switch_workspace    = "prefix+shift+1..9"
-rename_workspace    = "prefix+shift+w"
-close_workspace     = "prefix+shift+d"
+# Pane: Resize
+resize_pane_left  = "prefix+alt+h"
+resize_pane_down  = "prefix+alt+j"
+resize_pane_up    = "prefix+alt+k"
+resize_pane_right = "prefix+alt+l"
 
-# Worktree (native dialog skips worktrunk hooks until wtree-relocate moves its
-# checkout; see worktrunk.* in keys_cmd)
-new_worktree        = ""
-open_worktree       = ""
-remove_worktree     = ""
+# ----
+# Tab
+# ----
 
+# Tab: Manage
+new_tab    = "prefix+t"
+rename_tab = "prefix+shift+r"
+close_tab  = "prefix+shift+w"
+
+# Tab: Focus
+next_tab     = "ctrl+alt+right"
+previous_tab = "ctrl+alt+left"
+switch_tab   = "prefix+1..9"
+
+# Tab: Move
+move_tab_previous = "prefix+,"  # <
+move_tab_next     = "prefix+."  # >
+
+# ----------
+# Worksapce
+# ----------
+
+# Workspace: Manage
+new_workspace    = "prefix+shift+n"
+rename_workspace = "prefix+shift+r"
+close_workspace  = "prefix+ctrl+w"
+
+# Worksapce: Focus
+previous_workspace = "ctrl+alt+up"
+next_workspace     = "ctrl+alt+down"
+switch_workspace   = "prefix+shift+1..9"
+
+# ------
 # Agent
-focus_agent         = "prefix+alt+1..9"
-open_notification_target = "prefix+o"  # Pending #1379
+# ------
+#
+# >tfw no 'rename_agent'
+
+# Agent: Focus
+previous_agent           = "ctrl+alt+,"
+next_agent               = "ctrl+alt+."
+focus_agent              = "prefix+alt+1..9"
+open_notification_target = "ctrl+insert"      # Pending #1379
+
+
+# --------------------
+# [DISABLED] Worktree
+# --------------------
+#
+# Native worktree interface constrains worktrees to a unified directory
+# of layered repository and worktree scoping. Herdr dialog fails to trigger
+# worktrunk hooks (See worktrunk.* of keys_cmd).
+#
+# Disabled entirely for integration with external utility 'worktrunk'.
+new_worktree    = ""
+open_worktree   = ""
+remove_worktree = ""
