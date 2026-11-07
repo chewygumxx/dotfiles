@@ -10,21 +10,37 @@
 #
 
 #
-# worktree.created handler: move a checkout made by herdr's native dialog to
-# worktrunk's worktree-path, then run the create hooks the dialog skipped.
+# Handle worktree.created
+#
+# Migrate the new checkout, created via herdr native dialog, to conform
+# to the wqrktrunk specified by worktree-path and trigger create hooks.
+#
 # Output lands in `herdr plugin log list`.
 #
 
 set -euo pipefail
 
-herdr=${HERDR_BIN_PATH:-herdr}
+herdr="${HERDR_BIN_PATH:-herdr}"
 
-# Payload (herdr 0.9.5), trimmed:
-#   {"event":"worktree_created","data":{
-#    "workspace":{"label":…,"focused":…,"worktree":{"repo_root":…}},
-#    "worktree":{"path":…,"branch":…,"open_workspace_id":…}}}
-# herdr runs this with HERDR_SOCKET_PATH set, so the herdr calls below reach
-# the session that fired the event.
+# Payload (herdr 0.9.5)
+# trimmed: {
+#    "event": "worktree_created",
+#    "data":{
+#        "workspace": {
+#            "label":…,
+#            "focused":…,
+#            "worktree":{ "repo_root":… }
+#        },
+#        "worktree": {
+#            "path":…,
+#            "branch":…,
+#            "open_workspace_id":…
+#        }
+#    }
+# }
+# herdr runs this with HERDR_SOCKET_PATH set. As such, the herdr calls
+# below are expected to reach the session that fired the event.
+
 {
     read -r src
     read -r branch
@@ -32,41 +48,51 @@ herdr=${HERDR_BIN_PATH:-herdr}
     read -r primary
     read -r label
     read -r focused
-} < <(jq -r '.data
-    | .worktree.path // "", .worktree.branch // "",
-      .worktree.open_workspace_id // "", .workspace.worktree.repo_root // "",
-      .workspace.label // "", .workspace.focused // false' \
-    <<<"${HERDR_PLUGIN_EVENT_JSON:-"{}"}")
+} < <(jq -r '.data |
+      .worktree.path // "",
+      .worktree.branch // "",
+      .worktree.open_workspace_id // "",
+      .workspace.worktree.repo_root // "",
+      .workspace.label // "",
+      .workspace.focused // false' <<<"${HERDR_PLUGIN_EVENT_JSON:-"{}"}")
+
 # Detached checkouts have no branch for worktrunk to template a path from
-[[ -n $src && -d $src && -n $branch && -n $primary ]] || exit 0
+[[ -n "$src" && -d "$src" && -n "$branch" && -n "$primary" ]] || exit 0
 
-# Empty when the checkout already sits at the template path: created by the
-# herdr-worktrunk plugin, or this event firing again after the reopen below.
-dest=$(wt -C "$src" step relocate "$branch" --dry-run --format=json \
-    | jq -r '.entries[0].to // empty')
-[[ -n $dest ]] || exit 0
+# [Idempotency Guard]
+# Empty when checkout already exists within worktrunk specified path:
+# - Created compliantly by plugin `devashish2203/herdr-worktrunk`
+# - Self-Trigger following event below
+dest=$(wt -C "$src" step relocate "$branch" --dry-run --format=json |
+    jq -r '.entries[0].to // empty')
+[[ -n "$dest" ]] || exit 0
 
-# relocate doesn't create the destination's parent (e.g. <repo>/.wtree)
-mkdir -p "$(dirname "$dest")"
+mkdir -p "$(dirname "$dest")" # Ensure destination directory exists
 wt -C "$primary" step relocate "$branch"
 
 # The workspace's shells sit in a directory that no longer exists
-[[ -z $ws ]] || "$herdr" workspace close "$ws" >/dev/null
+[[ -z "$ws" ]] || "$herdr" workspace close "$ws" >/dev/null
 
-# No TTY here: unapproved project hooks fail rather than prompt. Open the
-# workspace regardless; `wt config approvals add` once per repo fixes it.
-wt -C "$dest" hook pre-start \
-    || echo "wtree-relocate: pre-start hooks failed in $dest" >&2
+hook-fail() {
+    echo "wtree-relocate: Failed to trigger $1-start hooks for: '$2'" >&2
+}
 
-# Reopen as the dialog left it; open would otherwise relabel it after the
-# new directory and always take focus
-open_args=(--cwd "$primary" --path "$dest")
-[[ -z $label ]] || open_args+=(--label "$label")
-if [[ $focused == true ]]; then
-    open_args+=(--focus)
-else
+# No TTY here: Unapproved project hooks fail rather than prompt.
+# Open the workspace regardless and execute the following once
+# per repo to fix:
+#    `wt config approvals add`
+wt -C "$dest" hook pre-start || hook-fail pre "$dest"
+
+# Reopen as the dialog left it. Open would otherwise relabel it after the
+# new directory and always take focus.
+open_args=(
+    --cwd "$primary"
+    --path "$dest"
+)
+[[ -z "$label" ]] || open_args+=(--label "$label")
+[[ $focused == true ]] &&
+    open_args+=(--focus) ||
     open_args+=(--no-focus)
-fi
+
 "$herdr" worktree open "${open_args[@]}" >/dev/null
-wt -C "$dest" hook post-start \
-    || echo "wtree-relocate: post-start hooks failed in $dest" >&2
+wt -C "$dest" hook post-start || hook-fail post "$dest"
