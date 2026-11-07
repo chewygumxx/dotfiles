@@ -16,69 +16,78 @@
 # https://herdr.dev/tui/docs/config-reference/
 #
 
-# First-time user introductory tutorial
 onboarding = false
 
-# Size of the virtual terminal used when no client is attached.
-# Attached clients always use their own terminal size.
 [server]
-# Set smaller for potential Termux interfacing
-# Default: 120
+# https://herdr.dev/tui/docs/config-reference/#ref-server
+# Size of the virtual terminal when no client attached.
 headless_cols = 76
-# Default: 40
 headless_rows = 40
 
 [terminal]
-# Executable used for new interactive panes. Empty means $SHELL, then /bin/sh.
-# Default: ""
+# https://herdr.dev/tui/docs/config-reference/
+
+# Pane: Interactive Shell
+# If empty: $SHELL, then /bin/sh
 default_shell = ""
 
-# Startup mode for new interactive pane shells: "auto", "login", or "non_login".
-# Default: "auto"
+# Pane: Login Shell
+# - auto
+# - login
+# - non_login
 shell_mode = "auto"
 
-# Default cwd for new shells.
-# - "follow" inherit the source pane/workspace,
-# - "home"
-# - "current" for Herdr's process directory
-# - Fixed path such as "~/Projects".
-# Default: "follow"
+# Pane: Initial Working Directory
+# - follow   Inherit
+# - current  Herdr Server Process
+# - home     Static
+# - ~/dev
 new_cwd = "follow"
 
+# Pane: Kitty Graphical Protocol
+kitty_graphics = true
+
 [session]
-# Resume supported AI-agent panes into their native conversation sessions after
-# a Herdr server restart. Requires official integrations that report session refs.
-# Default: true
+# https://herdr.dev/tui/docs/config-reference/#ref-session
+# Resume agent conversation sessions following Herdr server restart.
+# Requires official integrations that report session refs.
 resume_agents_on_restore = true
 
 [advanced]
+# https://herdr.dev/tui/docs/config-reference/#ref-advanced
 # Maximum scrollback buffer size in bytes retained per pane terminal.
-# scrollback_limit_bytes = 10000000
+scrollback_limit_bytes = 300000
 
 [worktrees]
-# Staging only: the sidebar's "New worktree" dialog creates
-# <repo>/<branch-slug> here, then the wtree-relocate plugin (local-plugins/)
-# moves it to worktrunk's worktree-path, <repo>/.wtree/<branch-slug>.
+#
+# Sidebar Workspace Menu Option: "New worktree"
+# 1. Creates a new worktree at: `<.worktrees.directory>/<repo-name>/<branch-slug>`
+#
+# 2. Local plugin `wtree-relocate` migrates it to the standard worktree-path
+#    as defined by wt.tom<wksp-repo>/.wtree/<branch-slug>/, where the <wksp-repo>
+#    is the dirpath of the original repository
+#
+# https://herdr.dev/tui/docs/config-reference/#ref-worktrees
 directory = "~/dev/_worktree"
 
 [remote]
+# https://herdr.dev/tui/docs/config-reference/#ref-remote
+# Private connection reuse and `keepalive` fallbacks for `herdr --remote`
 manage_ssh_config = false
 
 [experimental]
-# They put a herdr _inside_ a herdr `xzibit.jpeg`
-allow_nested   = false
-# Computationally expensive
-kitty_graphics = true
-# Save recent pane screen history across full server restarts.
-pane_history   = true
+# https://herdr.dev/tui/docs/config-reference/
+allow_nested   = false # Recursion
+pane_history   = true  # Persistent session-history.json
 # cjk_ime_agents = []
 # cjk_ime_cursor_shape = "steady_block"
 # reveal_hidden_cursor_for_cjk_ime = false
 
 [update]
+# https://herdr.dev/tui/docs/config-reference/#ref-update
+channel        = "stable"
 version_check  = true
 manifest_check = true
-channel        = "stable"
 
 {{ template "theme.toml.tmpl" . }}
 {{ template "ui.toml.tmpl" . }}
