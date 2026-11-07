@@ -9,26 +9,29 @@
 #
 
 #
-# Worktrunk owns worktree creation for herdr (herdr-worktrunk plugin) and
-# Claude Code (worktrunk plugin's WorktreeCreate/WorktreeRemove hooks).
+# Worktrunk owns worktree creation for:
+# - herdr (herdr-worktrunk plugin) and
+# - Claude Code (worktrunk plugin's WorktreeCreate/WorktreeRemove hooks).
 #
 # https://worktrunk.dev/config/
 #
 
-# Project-local: <repo>/.wtree/<branch-slug>. repo_path is always the main
-# checkout, so creating from inside a linked worktree doesn't nest. Herdr's
-# native dialog can't be templated; the wtree-relocate herdr plugin moves its
-# checkouts here with `wt step relocate`.
-worktree-path = "{{ repo_path }}/.wtree/{{ branch | sanitize }}"
+# <!-- NOTE(@chewygumxx):
+#    - I re-worded this and no longer understand its meaning.
+#    -->
+#
+# Dependant upon agreement with:
+#   `.worktrees.directory` of `~/.config/herdr/config.toml`
+#
+# Each define `<worktree-root-dir>/<repo-name>/<branch-slug>` and thus must
+# conform such that herdr native and worktrunk checkouts harmonise.
+worktree-path = "~/dev/_worktree/{{ repo }}/{{ branch | sanitize }}"
 
-[pre-start]
 # Blocking, so .env and friends exist before Claude enters the worktree.
 # --require-include matches Claude Code: only gitignored files that are also
 # listed in .worktreeinclude get copied.
-copy         = "wt step copy-ignored --require-include"
-# .wtree/ ignores itself, keeping the main checkout's status clean in any
-# repo without a .gitignore entry for it
-wtree-ignore = "f={{ primary_worktree_path }}/.wtree/.gitignore; [ -e \"$f\" ] || printf '*\\n' > \"$f\""
+[pre-start]
+copy = "wt step copy-ignored --require-include"
 
 # Show Claude-created worktrees in herdr's sidebar, skipping subagent ones.
 # Gated on CLAUDE_PROJECT_DIR so it never races the herdr-worktrunk plugin,
