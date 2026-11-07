@@ -90,6 +90,34 @@ copy_mode       = "prefix+y"
 toggle_sidebar  = "prefix+b"
 edit_scrollback = "prefix+e"
 
+#
+# ...+plain
+# n - New
+# r - Rename
+# d - Delete
+#
+# prefix+...
+#       - Pane
+# shift - Tab
+# ctrl  - Workspace
+# alt   - Agent
+#
+# ctrl+alt - Essential and frequent ie. primitive focus
+#
+
+# ------------------
+# Modal: Navigation
+# ------------------
+# https://herdr.dev/tui/docs/config-reference/#:~:text=keys%2Eworkspace%5Fpicker
+
+workspace_picker        = "prefix+w"
+navigate_pane_up        = "k"
+navigate_pane_down      = "j"
+navigate_pane_left      = "h"
+navigate_pane_right     = "l"
+navigate_workspace_up   = "up"
+navigate_workspace_down = "down"
+
 # -----
 # Pane
 # -----
@@ -97,17 +125,18 @@ edit_scrollback = "prefix+e"
 # Pane: Manage
 split_vertical   = "prefix+\\"
 split_horizontal = "prefix+;"
-rename_pane      = "prefix+shift+p"
-close_pane       = "prefix+shift+backspace"
+rename_pane      = "prefix+r"
+close_pane       = "prefix+d"
 
 # Pane: Focus
-focus_pane_left     = "prefix+h"
-focus_pane_down     = "prefix+j"
-focus_pane_up       = "prefix+k"
-focus_pane_right    = "prefix+l"
-last_pane           = "prefix+space"
-cycle_pane_next     = "prefix+tab"
-cycle_pane_previous = "prefix+shift+tab"
+focus_pane_left  = "ctrl+h"
+focus_pane_down  = "ctrl+j"
+focus_pane_up    = "ctrl+k"
+focus_pane_right = "ctrl+l"
+last_pane        = "ctrl+space"
+# I question the value of these
+# cycle_pane_next     = "ctrl+alt+tab"
+# cycle_pane_previous = "ctrl+alt+shift+tab"
 
 # Pane: Move
 swap_pane_left  = "prefix+shift+h"
@@ -126,9 +155,9 @@ resize_pane_right = "prefix+alt+l"
 # ----
 
 # Tab: Manage
-new_tab    = "prefix+t"
+new_tab    = "prefix+shift+n"
 rename_tab = "prefix+shift+r"
-close_tab  = "prefix+shift+w"
+close_tab  = "prefix+shift+d"
 
 # Tab: Focus
 next_tab     = "ctrl+alt+right"
@@ -136,36 +165,33 @@ previous_tab = "ctrl+alt+left"
 switch_tab   = "prefix+1..9"
 
 # Tab: Move
-move_tab_previous = "prefix+,"  # <
-move_tab_next     = "prefix+."  # >
+move_tab_previous = "prefix+shift+,"
+move_tab_next     = "prefix+shift+."
 
 # ----------
 # Worksapce
 # ----------
 
 # Workspace: Manage
-new_workspace    = "prefix+shift+n"
-rename_workspace = "prefix+shift+r"
-close_workspace  = "prefix+ctrl+w"
+new_workspace    = "prefix+ctrl+n"
+rename_workspace = "prefix+ctrl+r"
+close_workspace  = "prefix+ctrl+d"
 
 # Worksapce: Focus
 previous_workspace = "ctrl+alt+up"
 next_workspace     = "ctrl+alt+down"
-workspace_picker   = "ctrl+alt+:"
-switch_workspace   = "prefix+shift+1..9"
+switch_workspace   = "prefix+ctrl+1..9"
 
 # ------
 # Agent
 # ------
-#
-# >tfw no 'rename_agent'
 
 # Agent: Focus
 previous_agent           = "ctrl+alt+,"
 next_agent               = "ctrl+alt+."
-focus_agent              = "prefix+alt+1..9"
-open_notification_target = "ctrl+insert"      # Pending #1379
-
+focus_agent              = "ctrl+alt+1..9"
+# >tfw no 'rename_agent'
+open_notification_target = "ctrl+alt+enter"  # Pending #1379
 
 # --------------------
 # [DISABLED] Worktree
