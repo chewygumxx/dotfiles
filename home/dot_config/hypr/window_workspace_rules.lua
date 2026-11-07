@@ -24,7 +24,7 @@ M.rules.wksp = {
     special_shadow = function()
         -- Render window shadows exclusively in special workspaces
 
-        for i = 1, 1, 10 do
+        for i = 1, 10 do
             hl.workspace_rule({ workspace = tostring(i), no_shadow = true })
         end
         hl.workspace_rule({
