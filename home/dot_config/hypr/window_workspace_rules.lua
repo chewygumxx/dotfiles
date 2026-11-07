@@ -83,6 +83,10 @@ M.rules.wndw = {
         match = { class = "firefox" },
         workspace = 2,
         no_initial_focus = true,
+        -- xdg-open hands URLs to the running instance, which then asks to be
+        -- activated. Overrides misc.focus_on_activate for firefox only: the
+        -- window is marked urgent rather than focused on every new tab.
+        focus_on_activate = false,
     },
 
     cclip_fzf = {
