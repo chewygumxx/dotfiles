@@ -12,7 +12,7 @@
 
 ---@class Hypr.WindowWorkspaceRules
 ---@field setup? fun(): nil
----@field rules  { wksp: table<string, fun(): nil>, wndw: table<string, table> }
+---@field rules  { wksp: table<string, fun(): nil>, wndw: table<string, HL.WindowRuleSpec> }
 local M = {
     rules = {
         wksp = {},
@@ -56,6 +56,7 @@ M.rules.wksp = {
     end,
 }
 
+---@type table<string, HL.WindowRuleSpec>
 M.rules.wndw = {
     terminal_float = {
         match = { class = "term-float" },
