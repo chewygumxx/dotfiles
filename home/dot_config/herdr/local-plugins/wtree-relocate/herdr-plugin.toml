@@ -9,13 +9,14 @@
 #
 
 #
-# Herdr's sidebar "New worktree" dialog always creates
-# <[worktrees] directory>/<repo>/<branch-slug> and skips worktrunk's hooks.
-# This moves each such checkout to worktrunk's worktree-path and runs the
-# create hooks it missed, so the dialog and the herdr-worktrunk plugin agree.
+# Herdr's sidebar "New worktree" dialog predictably creates
+# <[.worktrees.directory]>/<repo-name>/<branch-slug> without trigger of
+# worktrunk hooks. This plugin moves each created checkout to worktrunk's
+# worktree-path and runs the create hooks it missed, such that both the
+# dialog and the herdr-worktrunk plugin agree.
 #
 # Lives outside herdr's own plugins/ runtime directory, which it manages
-# itself. Register it once per herdr session; herdr caches the manifest, so
+# itself. Register it once per herdr session, herdr caches the manifest, so
 # relink after editing this file (script edits apply on the next event):
 #
 #   herdr plugin link ~/.config/herdr/local-plugins/wtree-relocate
@@ -24,10 +25,10 @@
 #
 
 id                = "wtree-relocate"
-name              = "Worktrunk relocation"
+name              = "Worktrunk Relocation"
 version           = "0.1.0"
 min_herdr_version = "0.7.4"
-description       = "Move native herdr worktrees to worktrunk's worktree-path and run its create hooks"
+description       = "Conform native herdr worktrees to worktrunk's worktree-path and run its create hooks"
 platforms         = [ "macos", "linux" ]
 
 [[events]]
