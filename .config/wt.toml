@@ -9,9 +9,8 @@
 #
 
 #
-# Worktrunk project config. Sits outside the home/ source root, so chezmoi
-# never applies it. Project commands need one-time approval:
-# `wt config approvals add` (Claude's non-interactive hook can't prompt).
+# Worktrunk Repository Configuration.
+# Project commands need one-time approval: `wt config approvals add`
 #
 # https://worktrunk.dev/config/
 #
