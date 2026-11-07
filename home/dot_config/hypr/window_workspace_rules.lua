@@ -34,11 +34,24 @@ M.rules.wksp = {
         hl.workspace_rule({
             workspace = "special:scratch",
             no_shadow = false,
-            on_created_empty = require("chewy")
-                .terminal
-                .cmd
-                .float,
         })
+    end,
+
+    scratch_terminal = function()
+        -- Spawn a floating terminal when special:scratch is created empty
+        -- (replaces the deprecated `on_created_empty` workspace rule)
+
+        hl.on("workspace.created", function(ws)
+            if ws.name ~= "special:scratch" or not ws.is_empty then
+                return
+            end
+            hl.dispatch(
+                hl.dsp.exec_cmd(
+                    require("chewy").terminal.cmd.float,
+                    { workspace = ws.name .. " silent" }
+                )
+            )
+        end)
     end,
 }
 
