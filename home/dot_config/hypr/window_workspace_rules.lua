@@ -11,10 +11,16 @@
 
 ---@class Hypr.WindowWorkspaceRules
 ---@field setup? fun(): nil
-local M = {}
+---@field rules  { wksp: table<string, fun(): nil>, wndw: table<string, table> }
+local M = {
+    rules = {
+        wksp = {},
+        wndw = {},
+    },
+}
 
 ---@type table<string, fun(): nil>
-local workspace_rules = {
+M.rules.wksp = {
     special_shadow = function()
         -- Render window shadows exclusively in special workspaces
 
@@ -36,87 +42,61 @@ local workspace_rules = {
     end,
 }
 
-local window_rules = {
-    terminal_float = function()
-        hl.window_rule({
-            name = "terminal_float",
-            match = { class = "term-float" },
+M.rules.wndw = {
+    terminal_float = {
+        match = { class = "term-float" },
 
-            float = true,
-            center = true,
-            size = { 1100, 652 },
-        })
-    end,
+        float = true,
+        center = true,
+        size = { 1100, 652 },
+    },
 
-    firefox_library = function()
-        hl.window_rule({
-            -- History and Bookmarks Window
-            name = "firefox_library",
-            match = { class = "firefox", title = "Library" },
+    -- History and Bookmarks
+    firefox_library = {
+        match = { class = "firefox", title = "Library" },
 
-            float = true,
-            center = true,
-            size = { 1200, 652 },
-        })
-    end,
+        float = true,
+        center = true,
+        size = { 1200, 652 },
+    },
 
-    firefox_extensions = function()
-        hl.window_rule({
-            name = "firefox-extensions-popups",
-            match = { class = "firefox", title = "^Extension.*$" },
+    firefox_extensions_popups = {
+        match = { class = "firefox", title = "^Extension.*$" },
+        float = true,
+    },
 
-            float = true,
-        })
-    end,
+    firefox_main = {
+        match = { class = "firefox" },
+        workspace = 2,
+        no_initial_focus = true,
+    },
 
-    firefox_main = function()
-        hl.window_rule({
-            name = "firefox-main",
-            match = { class = "firefox" },
+    cclip_fzf = {
+        match = { class = "cclip-fzf" },
+        float = true,
+        size = { 1100, 652 },
+    },
 
-            --tile = true,
-            workspace = 2,
-            no_initial_focus = true,
-        })
-    end,
+    terminal_file_picker = {
+        match = { class = "terminal-file-picker" },
+        float = true,
+        center = true,
+        size = { 1200, 652 },
+    },
 
-    clipboard_manager = function()
-        hl.window_rule({
-            name = "terminal-clipboard-manager-cclip-fzf",
-            match = { class = "cclip-fzf" },
-
-            float = true,
-            size = { 1100, 652 },
-        })
-    end,
-
-    terminal_file_picker = function()
-        hl.window_rule({
-            name = "terminal-file-picker",
-            match = { class = "terminal-file-picker" },
-
-            float = true,
-            center = true,
-            size = { 1200, 652 },
-        })
-    end,
-
-    steam_games_library = function()
-        hl.window_rule({
-            name = "steam-games-library",
-            match = { class = "steam" },
-
-            workspace = 3,
-        })
-    end,
+    steam_games_library = {
+        match = { class = "steam" },
+        workspace = 3,
+    },
 }
 
 M.setup = function()
-    for _, workspace_rule in pairs(workspace_rules) do
-        workspace_rule()
+    for _, wksp in pairs(M.rules.wksp) do
+        wksp()
     end
-    for _, window_rule in pairs(window_rules) do
-        window_rule()
+    for name, wndw in pairs(M.rules.wndw) do
+        wndw.name = name
+        hl.window_rule(wndw)
     end
 end
 
