@@ -1,0 +1,38 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:schema https://www.schemastore.org/tombi.json
+#:tombi toml-version = "v1.1.0"
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/tombi/tombi.toml
+#
+#
+
+# Default to TOML 1.0 for compatibility.
+toml-version = "v1.0.0"
+
+[[schemas]]
+toml-version = "v1.1.0"
+path = "https://mise.jdx.dev/schema/mise.json"
+include = [
+  # Project
+  "mise.toml",
+  "mise.*.toml",
+  ".mise.toml",
+  ".mise.*.toml",
+
+  # Project + Global + System
+  "**/mise/config.toml",
+  "**/mise/config.*.toml",
+  "**/.mise/config.toml",
+  "**/.mise/config.*.toml",
+  "**/.config/mise/config.toml",
+  "**/.config/mise/config.*.toml",
+
+  # Named Fragment
+  "**/mise/conf.d/*.toml",
+  "**/.mise/conf.d/*.toml",
+  "**/.config/mise/conf.d/*.toml",
+]
