@@ -29,13 +29,11 @@ M.setup = function()
         hl.dispatch(
             hl.dsp.exec_cmd(chewy.terminal.cmd.tiled, { workspace = 1 })
         )
-        hl.dispatch(
-            hl.dsp.exec_cmd(chewy.browser.cmd, {
-                tile = true,
-                workspace = "2 silent",  -- These do not fucking work
-                no_initial_focus = true, -- These do not fucking work
-            })
-        )
+        -- No exec rules here: they match a window by an env token that
+        -- exec_cmd sets, else by the spawned PID. Firefox is a child of
+        -- the user manager (systemctl only asks it to start the unit), so
+        -- it has neither. The firefox_main window rule places it instead.
+        hl.dispatch(hl.dsp.exec_cmd(chewy.browser.cmd))
     end)
 end
 

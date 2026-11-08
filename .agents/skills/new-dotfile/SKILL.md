@@ -47,6 +47,9 @@ source dir, so it is safe to run. Check the result with
 
 - Existing `symlink_*` files hold a path, not content: the linters and
   pre-commit skip them, so don't "fix" their extension.
+- A Lua config dir also needs the `.luacheckrc`/`.luafmt.toml`/`.luarc.json`
+  symlinks to their `dot_*` files; see "Paired `.*` and `dot_*` dev-tool
+  configs" in `AGENTS.md`.
 - Templates: `missingkey=error` is on, so every `.foo` must exist in data.
   Shared data lives in `home/.chezmoidata/*.toml`.
 

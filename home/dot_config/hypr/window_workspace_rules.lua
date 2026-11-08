@@ -1,5 +1,6 @@
 #!/usr/bin/env lua
 -- vim:set expandtab shiftwidth=4 filetype=lua:
+-- SPDX-License-Identifier: GPL-3.0-only
 -- luacheck: globals hl
 
 --
@@ -11,14 +12,20 @@
 
 ---@class Hypr.WindowWorkspaceRules
 ---@field setup? fun(): nil
-local M = {}
+---@field rules  { wksp: table<string, fun(): nil>, wndw: table<string, HL.WindowRuleSpec> }
+local M = {
+    rules = {
+        wksp = {},
+        wndw = {},
+    },
+}
 
 ---@type table<string, fun(): nil>
-local workspace_rules = {
+M.rules.wksp = {
     special_shadow = function()
         -- Render window shadows exclusively in special workspaces
 
-        for i = 1, 1, 10 do
+        for i = 1, 10 do
             hl.workspace_rule({ workspace = tostring(i), no_shadow = true })
         end
         hl.workspace_rule({
@@ -28,95 +35,87 @@ local workspace_rules = {
         hl.workspace_rule({
             workspace = "special:scratch",
             no_shadow = false,
-            on_created_empty = require("chewy")
-                .terminal
-                .cmd
-                .float,
         })
+    end,
+
+    scratch_terminal = function()
+        -- Spawn a floating terminal when special:scratch is created empty
+        -- (replaces the deprecated `on_created_empty` workspace rule)
+
+        hl.on("workspace.created", function(ws)
+            if ws.name ~= "special:scratch" or not ws.is_empty then
+                return
+            end
+            hl.dispatch(
+                hl.dsp.exec_cmd(
+                    require("chewy").terminal.cmd.float,
+                    { workspace = ws.name .. " silent" }
+                )
+            )
+        end)
     end,
 }
 
-local window_rules = {
-    terminal_float = function()
-        hl.window_rule({
-            name = "terminal_float",
-            match = { class = "term-float" },
+---@type table<string, HL.WindowRuleSpec>
+M.rules.wndw = {
+    terminal_float = {
+        match = { class = "term-float" },
 
-            float = true,
-            center = true,
-            size = { 1100, 652 },
-        })
-    end,
+        float = true,
+        center = true,
+        size = { 1100, 652 },
+    },
 
-    firefox_library = function()
-        hl.window_rule({
-            -- History and Bookmarks Window
-            name = "firefox_library",
-            match = { class = "firefox", title = "Library" },
+    -- History and Bookmarks
+    firefox_library = {
+        match = { class = "firefox", title = "Library" },
 
-            float = true,
-            center = true,
-            size = { 1200, 652 },
-        })
-    end,
+        float = true,
+        center = true,
+        size = { 1200, 652 },
+    },
 
-    firefox_extensions = function()
-        hl.window_rule({
-            name = "firefox-extensions-popups",
-            match = { class = "firefox", title = "^Extension.*$" },
+    firefox_extensions_popups = {
+        match = { class = "firefox", title = "^Extension.*$" },
+        float = true,
+    },
 
-            float = true,
-        })
-    end,
+    firefox_main = {
+        match = { class = "firefox" },
+        workspace = 2,
+        no_initial_focus = true,
+        -- xdg-open hands URLs to the running instance, which then asks to be
+        -- activated. Overrides misc.focus_on_activate for firefox only: the
+        -- window is marked urgent rather than focused on every new tab.
+        focus_on_activate = false,
+    },
 
-    firefox_main = function()
-        hl.window_rule({
-            name = "firefox-main",
-            match = { class = "firefox" },
+    cclip_fzf = {
+        match = { class = "cclip-fzf" },
+        float = true,
+        size = { 1100, 652 },
+    },
 
-            --tile = true,
-            workspace = 2,
-            no_initial_focus = true,
-        })
-    end,
+    terminal_file_picker = {
+        match = { class = "terminal-file-picker" },
+        float = true,
+        center = true,
+        size = { 1200, 652 },
+    },
 
-    clipboard_manager = function()
-        hl.window_rule({
-            name = "terminal-clipboard-manager-cclip-fzf",
-            match = { class = "cclip-fzf" },
-
-            float = true,
-            size = { 1100, 652 },
-        })
-    end,
-
-    terminal_file_picker = function()
-        hl.window_rule({
-            name = "terminal-file-picker",
-            match = { class = "terminal-file-picker" },
-
-            float = true,
-            center = true,
-            size = { 1200, 652 },
-        })
-    end,
-
-    steam_games_library = function()
-        hl.window_rule({
-            name = "steam-games-library",
-            match = { class = "steam" },
-
-            workspace = 3,
-        })
-    end,
+    steam_games_library = {
+        match = { class = "steam" },
+        workspace = 3,
+    },
 }
 
 M.setup = function()
-    for _, workspace_rule in pairs(workspace_rules) do
-        workspace_rule()
+    for _, wksp in pairs(M.rules.wksp) do
+        wksp()
     end
-    for _, window_rule in pairs(window_rules) do
-        window_rule()
+    for name, wndw in pairs(M.rules.wndw) do
+        wndw.name = name
+        hl.window_rule(wndw)
     end
 end
 

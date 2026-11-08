@@ -52,6 +52,28 @@ is actually wired up:
   Treat it as inert reference material laid out in chezmoi's naming convention,
   not as something chezmoi will act on as-is.
 
+### Paired `.*` and `dot_*` dev-tool configs
+
+Some config dirs under `home/` hold what looks like a duplicate pair, e.g.
+`home/dot_config/hypr/dot_luacheckrc` and `home/dot_config/hypr/.luacheckrc`.
+They are one file: the `.*` name is a tracked git symlink to its `dot_*`
+sibling (`.luacheckrc -> dot_luacheckrc`). Each name has its own job:
+
+- `dot_*` is the real file, and the copy chezmoi deploys (`dot_luacheckrc`
+  becomes `~/.config/hypr/.luacheckrc`), so the tools also work when editing
+  the deployed config.
+- `.*` exists only for working in the repo. chezmoi ignores source entries
+  that start with `.` (other than `.chezmoi*`), so it is never deployed. The
+  tools look for their config by its real dot name in the source tree: the
+  pre-commit hook walks up for the nearest `.luacheckrc`, luafmt reads
+  `.luafmt.toml`, and LuaLS reads `.luarc.json`.
+
+Pairs exist in `home/dot_config/{hypr,luarocks,wezterm,yay,yazi}/`
+(`git ls-files -s | grep ^120000` lists every tracked symlink). Never delete
+either name as a duplicate, never turn the symlink into a copy, and edit the
+`dot_*` file. A new Lua config dir gets the same pair: copy a sibling's
+`dot_*` files and add the symlinks with `ln -s dot_<name> .<name>`.
+
 <!-- TODO: The above is README.md documentation -->
 
 <!-- TODO: The below content should be specified either closer to the path they
