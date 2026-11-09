@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# vim:set expandtab shiftwidth=4 filetype=bash:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_service-script-ollama-chown-dir
+#
+#
+
+#
+# Intended for execution via oneshot systemd user service for validation Ollama
+# of model download destination directory recursive ownership of 'ollama:ollama'
+#
+# Referenced by ~/.config/systemd/user/ollama-chown-dir.service
+#
+
+# Check envvar not null
+[[ -z "${OLLAMA_MODELS}" ]] && exit 0
+
+command -v ollama >/dev/null >&2 || exit 127
+
+if [[ ! -d "${OLLAMA_MODELS}" ]]; then
+    mkdir -p "$OLLAMA_MODELS" || exit $?
+fi
+
+chown -R 'ollama:ollama' "$OLLAMA_MODELS" || exit $?
