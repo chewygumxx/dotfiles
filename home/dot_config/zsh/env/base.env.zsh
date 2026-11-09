@@ -4,14 +4,16 @@
 
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/env/base.env.zsh
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/env/base.env.zsh
 #
 #
 
 #
 # Sister of ~/.config/environment.d/base.conf
 #
+
+: "${XDG_DATA_HOME:="$HOME/.local/share"}"
 
 # -U keeps path free of duplicates. This file runs for every zsh, and PATH is
 # inherited, so without it each nested shell (a terminal inside Neovim, a
@@ -25,9 +27,10 @@
 typeset -gU path
 path=(
     "$HOME/.local/bin"
-    "${XDG_DATA_HOME:="$HOME/.local/share"}/cargo/bin"
-    "${XDG_DATA_HOME:="$HOME/.local/share"}/go/bin"
+    "$XDG_DATA_HOME/cargo/bin"
+    "$XDG_DATA_HOME/go/bin"
     $path
+    "$XDG_DATA_HOME/radicle/bin" # Radicle insists on last position
 )
 export PAGER="less -RN"
 export BROWSER="firefox"

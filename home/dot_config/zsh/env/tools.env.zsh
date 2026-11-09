@@ -4,8 +4,8 @@
 
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/env/tools.env.zsh
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/env/tools.env.zsh
 #
 #
 
@@ -87,6 +87,9 @@ export PERL_CPANM_HOME="$XDG_CACHE_HOME/cpanm"
 # Python
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PYTHON_HISTORY="$XDG_STATE_HOME/python/history"
+
+# Radicle
+export RAD_HOME="$XDG_DATA_HOME/radicle"
 
 # Rust
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
