@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/func/adb-wifi
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/func/adb-wifi
 #
 #
 # ADB Wifi Connect and Set Port

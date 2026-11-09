@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/func/__bg_jobs_summary
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/func/__bg_jobs_summary
 #
 #
 # Autoloaded from fpath as __bg_jobs_summary, per rc/function.rc.zsh
