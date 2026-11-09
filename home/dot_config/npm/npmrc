@@ -1,0 +1,14 @@
+; vim:set expandtab shiftwidth=4 filetype=dosini:
+; SPDX-License-Identifier: GPL-3.0-only
+
+;
+;
+; ~chewygumxx/dotfiles.git
+; ::: :/home/dot_config/npm/npmrc
+;
+;
+
+tmp=${XDG_RUNTIME_DIR}/npm
+cache=${XDG_CACHE_HOME}/npm
+prefix=${XDG_DATA_HOME}/npm
+init-module=${XDG_CONFIG_HOME}/npm/config/npm-init.js
