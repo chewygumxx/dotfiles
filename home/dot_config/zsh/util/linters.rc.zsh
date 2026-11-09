@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/util/linters.rc.zsh
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/util/linters.rc.zsh
 #
 #
 # Plain aliases; no helper is involved. This previously claimed a dependency on

@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/util/fzf.rc.zsh
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/util/fzf.rc.zsh
 #
 #
 # The ubiquitous command-line fuzzy finder

@@ -4,8 +4,8 @@
 
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/util/gtrash.rc.zsh
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/util/gtrash.rc.zsh
 #
 #
 

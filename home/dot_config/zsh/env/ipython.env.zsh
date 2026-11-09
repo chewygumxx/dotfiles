@@ -4,8 +4,8 @@
 
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/env/ipython.env.zsh
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/env/ipython.env.zsh
 #
 #
 

@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/func/read-pipe
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/func/read-pipe
 #
 #
 # Both branches return. Without that, the usage text printed and execution fell

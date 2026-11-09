@@ -4,8 +4,8 @@
 
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/util/mise.rc.zsh
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/util/mise.rc.zsh
 #
 #
 

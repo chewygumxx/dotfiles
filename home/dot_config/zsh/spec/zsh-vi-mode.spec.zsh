@@ -4,8 +4,8 @@
 
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/spec/zsh-vi-mode.spec.zsh
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/spec/zsh-vi-mode.spec.zsh
 #
 #
 

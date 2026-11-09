@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-only
 #
 #
-# ~chewygumxx/zsh-config.git
-# ::: :/zsh/rc/completion.rc.zsh
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/rc/completion.rc.zsh
 #
 #
 # https://thevaluable.dev/zsh-completion-guide-examples/
