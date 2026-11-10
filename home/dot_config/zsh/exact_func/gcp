@@ -39,7 +39,7 @@ function print_help () {
 local getopt_parsed
 getopt_parsed=$(getopt -n "$0" -o "efqvh" -- "$@")
 local getopt_exit=$?
-if [[ $getopt_exit -ne 0 ]]; then 
+if [[ $getopt_exit -ne 0 ]]; then
     print -u2 "${0}: getopt parse failed"
     return $getopt_exit
 fi
@@ -74,10 +74,10 @@ if   ((  $edit  )); then
 elif ((  $fix   )); then
     local cm_argv=(--reuse-message=HEAD)
 else
-    local IFS=" " 
+    local IFS=" "
     local cm_argv=(--message="${*:-"Lazy Commit: $(date)"}")
 fi
 
-git add .  $output 
+git add .  $output
 git commit $output $cm_argv
 git push   $output

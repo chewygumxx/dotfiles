@@ -23,4 +23,3 @@ do
 
     \builtin print -f "%20s=%s\n" "$name" "$dir"
 done
-

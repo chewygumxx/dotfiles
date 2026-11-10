@@ -38,4 +38,3 @@ nvim "$func_file"
 
 unset -f "$func_name"
 autoload -Uz "$func_file"
-

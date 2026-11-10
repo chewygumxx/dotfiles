@@ -2,16 +2,16 @@
 # vim:set expandtab shiftwidth=4 filetype=zsh:
 # SPDX-License-Identifier: GPL-3.0-only
 
-# 
-# 
+#
+#
 # ~chewygumxx/dotfiles.git
 # ::: :/home/dot_config/zsh/func/openrouter
-# 
-# 
+#
+#
 
-# 
-# Secure wrapper for curl of openrouter REST API 
-# 
+#
+# Secure wrapper for curl of openrouter REST API
+#
 
 local PASS_URI_OPENROUTER_APIKEY="${PASS_URI_OPENROUTER_APIKEY:-"pass://J-xaaVbsyf9NXSOTldrv8KqCo46GwqzhNFBtLlq80kZIVU6i54tu3l1k2-poPAfD-O6sOeYHLPzPIaCj8v20pg==/NbssAEYTKTxgsBgkYlmtOQJ9rccg8Vm93YDxF9BC4neMF06etWFU35EtsLES93nSSExPI5MnFSC5LhwjMylB1A==/API\ Key"}"
 
