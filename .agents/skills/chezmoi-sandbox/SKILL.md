@@ -7,7 +7,7 @@ description: >-
   .chezmoiignore/.chezmoiremove changes or browser extension installs, or when
   the chezmoi apply guard blocks a command.
 ctime: 2026-10-09
-mtime: 2026-11-03
+mtime: 2026-11-10
 spdx: GPL-3.0-only
 tags:
   - claude
@@ -50,7 +50,23 @@ Every follow-up chezmoi command needs the same five flags the script printed
 (`--source`, `--destination`, `--persistent-state`, `--cache`,
 `--exclude=scripts`), e.g. `chezmoi managed`, `chezmoi diff`,
 `chezmoi verify`. Compare a rendered file with the live one using plain
-`diff "$sandbox/home/.config/foo" ~/.config/foo`.
+`diff "$sandbox/home/.config/foo" ~/.config/foo`. Without a TTY,
+`chezmoi diff` and `apply --verbose` also need `--use-builtin-diff
+--no-pager`.
+
+## Zsh
+
+To start the sandboxed zsh, empty the environment and point every `XDG_*`
+into the sandbox, or `env/zsh_dirs.env.zsh` creates directories in the real
+`~/.cache` and `~/.local`:
+
+```sh
+H="$sandbox/home"
+env -i HOME="$H" USER="$USER" TERM=xterm-256color PATH=/usr/local/bin:/usr/bin:/bin \
+    XDG_CONFIG_HOME="$H/.config" XDG_CACHE_HOME="$H/.cache" \
+    XDG_DATA_HOME="$H/.local/share" XDG_STATE_HOME="$H/.local/state" \
+    ZDOTDIR="$H/.config/zsh" zsh -i -c '...'
+```
 
 ## Limits
 
@@ -58,6 +74,12 @@ Every follow-up chezmoi command needs the same five flags the script printed
   `$CHEZMOI_DEST_DIR` (e.g. `run_onchange_wezterm-terminfo` prefers
   `$TERMINFO`/`$XDG_DATA_HOME`). Test a script by reading it, or by running it
   by hand with those variables pointed into the sandbox.
+- Never register anything live from a sandbox, e.g. `herdr plugin link` on
+  a sandboxed `local-plugins/` directory: the registration outlives the
+  sandbox and points at a deleted path. Link from the real
+  `~/.config/herdr/local-plugins/` only.
 - Remove the sandbox when done: `rm -rf "$sandbox"`.
 - Applying to the real home is the user's call; suggest the command, do not run
   it.
+
+<!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
