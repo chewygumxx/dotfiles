@@ -36,10 +36,22 @@ jobs:
 
             - run: bun install --frozen-lockfile
 
+            # From the base, not head~<commits>: ~ follows first parents, so a
+            # PR containing merges linted unrelated commits instead of its own
             - name: Lint pull request commits
               if: github.event_name == 'pull_request'
-              run: bunx --bun --no-install commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
+              run: bunx --bun --no-install commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
-            - name: Lint pushed commit
+            # Every pushed commit, not only the last: --last saw just the merge
+            # commit of a merged PR. A new branch has no before, so fall back.
+            - name: Lint pushed commits
               if: github.event_name != 'pull_request'
-              run: bunx --bun --no-install commitlint --last --verbose
+              env:
+                  BEFORE: ${{ github.event.before }}
+                  AFTER: ${{ github.sha }}
+              run: |
+                  if [ -n "$BEFORE" ] && [ "$BEFORE" != 0000000000000000000000000000000000000000 ]; then
+                      bunx --bun --no-install commitlint --from "$BEFORE" --to "$AFTER" --verbose
+                  else
+                      bunx --bun --no-install commitlint --last --verbose
+                  fi
