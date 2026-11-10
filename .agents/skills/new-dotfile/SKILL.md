@@ -7,8 +7,9 @@ description: >-
   config directory, a script under ~/.local/bin, a systemd unit, or an
   external.
 ctime: 2026-10-09
-mtime: 2026-11-03
+mtime: 2026-11-10
 spdx: GPL-3.0-only
+title: "New dotfile"
 tags:
   - claude
   - skill
@@ -40,6 +41,8 @@ prefixes stacking in chezmoi's order (`private_`, `readonly_`, `empty_`,
 | `~/.ssh/config` (0600 dir) | `home/private_dot_ssh/config` |
 | symlink | `symlink_<name>` holding the target path only |
 | rendered per host | append `.tmpl` |
+| `~/.config/zsh/env/foo.env.zsh` | `home/dot_config/zsh/exact_env/foo.env.zsh` |
+| `~/.config/zsh/func/foo` (autoloaded) | `home/dot_config/zsh/exact_func/foo`, no `executable_` |
 
 `chezmoi add` on the real file does this naming for you; it only writes the
 source dir, so it is safe to run. Check the result with
@@ -50,6 +53,11 @@ source dir, so it is safe to run. Check the result with
 - A Lua config dir also needs the `.luacheckrc`/`.luafmt.toml`/`.luarc.json`
   symlinks to their `dot_*` files; see "Paired `.*` and `dot_*` dev-tool
   configs" in `AGENTS.md`.
+- Zsh lives in this repo under `home/dot_config/zsh/`. Its subdirectories
+  are `exact_`, so a file chezmoi doesn't manage there is deleted on apply:
+  a host-generated file needs an entry in
+  `home/dot_config/zsh/.chezmoiignore`. Commit with scope `zsh`, never the
+  old zsh-config scopes `env`, `rc` or `wrap`. See `AGENTS.md`.
 - Templates: `missingkey=error` is on, so every `.foo` must exist in data.
   Shared data lives in `home/.chezmoidata/*.toml`.
 
@@ -111,3 +119,5 @@ trailer.
 - Render it without touching the real home with the `chezmoi-sandbox` skill:
   `.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh ~/<target>`, then
   inspect the file and its mode.
+
+<!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->

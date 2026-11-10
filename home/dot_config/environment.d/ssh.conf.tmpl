@@ -1,0 +1,11 @@
+# vim:set expandtab shiftwidth=4 filetype=conf:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/environment.d/ssh.conf.tmpl
+#
+#
+
+SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/{{ .chezmoi.uid }}}/ssh-agent-protonpass.socket"

@@ -63,9 +63,9 @@ scrollback_limit_bytes = 300000
 # Sidebar Workspace Menu Option: "New worktree"
 # 1. Creates a new worktree at: `<.worktrees.directory>/<repo-name>/<branch-slug>`
 #
-# 2. Local plugin `wtree-relocate` migrates it to the standard worktree-path
-#    as defined by wt.tom<wksp-repo>/.wtree/<branch-slug>/, where the <wksp-repo>
-#    is the dirpath of the original repository
+# 2. Local plugin `wtree-relocate` migrates it to the worktrunk worktree-path
+#    (`wt step relocate`), ie. `<wksp-repo>/.wtree/<branch-slug>/`, where
+#    <wksp-repo> is the dirpath of the original repository.
 #
 # https://herdr.dev/tui/docs/config-reference/#ref-worktrees
 directory = "~/dev/_worktree"

@@ -38,7 +38,7 @@ if [ -d "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/env" ]; then
 		#
 		#
 		# ~chewygumxx/dotfiles.git
-		# ::: :${source_dir#${working_tree}}/dot_config/zsh/env/chezmoi.env.zsh
+		# ::: :${source_dir#${working_tree}}/dot_config/zsh/exact_env/chezmoi.env.zsh
 		#
 		#
 

@@ -84,13 +84,28 @@ Externals take their `refreshPeriod` from `home/.chezmoidata/externals.toml`
 which `gitHub.refreshPeriod` in `home/.chezmoi.toml.tmpl` also includes;
 never hardcode one.
 
-Zsh and Neovim config are **not in this repo**: `zsh-config.toml.tmpl` and
-`nvim-config.toml.tmpl` in `home/.chezmoiexternals/` clone
-`chewygumxx/zsh-config` and `chewygumxx/nvim-config` as git-repo externals.
-nvim-config is cloned straight into `~/.config/nvim`. zsh-config keeps its
-runtime in a `zsh/` subdirectory, so it is cloned into
-`~/.local/share/zsh-config`, and `home/dot_config/symlink_zsh` links that
-`zsh/` child in as `~/.config/zsh`, the `ZDOTDIR`. Change them in those repos.
+Neovim config is **not in this repo**: `nvim-config.toml.tmpl` in
+`home/.chezmoiexternals/` clones `chewygumxx/nvim-config` as a git-repo
+external straight into `~/.config/nvim`. Change it in that repo.
+
+Zsh config **is in this repo**, in `home/dot_config/zsh/`, deployed to
+`~/.config/zsh`, the `ZDOTDIR`. It used to be the external
+`chewygumxx/zsh-config`; that repo is now only the record of the history
+before the move (2026-11-03), so never edit it. In the source:
+
+- `/etc/zsh/zshenv` sets `ZDOTDIR` (copied by hand from the inert
+  `root/etc/zsh/zshenv`); `home/symlink_dot_zshenv` links `~/.zshenv` to
+  `.config/zsh/.zshenv` for hosts where it doesn't.
+- `.zshenv`/`.zshrc` are `dot_zshenv`/`dot_zshrc`. The files in `func/`,
+  `wrap/` and `comp/` are autoloaded, so they take no `executable_`.
+- The sourced and autoloaded subdirectories are `exact_` (`exact_env`,
+  `exact_rc`, ...), because `.zshenv` and `.zshrc` glob them: without it, a
+  renamed or deleted file stayed deployed and kept being sourced.
+  Host-generated files there, such as `env/chezmoi.env.zsh` and per-host
+  `*.local.*` overrides, are listed in `home/dot_config/zsh/.chezmoiignore`,
+  which keeps `exact_` from deleting them; add any new one there.
+- Commit zsh changes with the single scope `zsh`. The imported commits'
+  scopes `env`, `rc` and `wrap` are not in `scope-enum`; don't add them.
 
 Browser extensions for Firefox and ungoogled-chromium are declared once in
 `home/.chezmoidata/web-extensions.toml` and installed by the
@@ -120,7 +135,9 @@ within the commit message body.
 
 - Conventional Commits, enforced by `commitlint`
   (`.commitlintrc.mts`) via a `husky` `commit-msg` git hook (`.husky/commit-msg`,
-  wired up by the `prepare` package script). `.commitlintrc.mts` defines:
+  wired up by the `prepare` package script, which is deliberately a bare
+  `husky`: installing without dev dependencies, e.g.
+  `bun install --production`, fails on it). `.commitlintrc.mts` defines:
   - Allowed types (error, blocking): `feat`, `fix`, `tweak`, `refactor`,
     `chore`, `style`, `docs`, `ci`, `build`, `test`, `revert`.
   - 50-char header limit (error), 72-char body line-wrap limit (error), subject
@@ -176,14 +193,20 @@ There is no build step or test suite. `package.json`/`bun.lock` only pull in
 dev tooling (husky, commitlint, commitizen, prettier, remark, typescript).
 Linting runs in three places:
 
-- `.husky/pre-commit` (staged files): luafmt then luacheck (nearest
-  `.luacheckrc`), tombi format/lint, prettier on JSON/YAML; `symlink_*` files
-  skipped. The formatters rewrite in place and re-stage, so JSON written by a
-  tool at 2-space indent is committed at `.editorconfig`'s 4. There is no
-  biome. `.github/workflows/lint-config.yaml` runs the same checks in CI.
+- `.husky/pre-commit` (staged files): `git diff --cached --check` on the
+  added lines, luafmt then luacheck (nearest `.luacheckrc`), tombi
+  format/lint, prettier on JSON/YAML, and `zsh -n` plus `shuck check`
+  (configured by `home/dot_config/zsh/.shuck.toml`) on the zsh tree;
+  `symlink_*` files skipped. The formatters rewrite in place and re-stage,
+  so JSON written by a tool at 2-space indent is committed at
+  `.editorconfig`'s 4. There is no biome. `.github/workflows/lint-config.yaml`
+  runs the same checks in CI over the whole tree, all but the whitespace one.
 - `bun run typecheck`: `tsconfig.json` scopes `tsc` to `.commitlintrc.mts`
   alone (TS's default `**/*` glob skips dotfiles). The commit-msg hook loads
   that file via `jiti` (transpile-only), so a type error there passes silently
   at commit time unless this is run.
+
+To check TOML by hand, use `tombi format --check`: `tombi format --diff`
+prints the diff _and_ rewrites the file in place.
 
 <!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
