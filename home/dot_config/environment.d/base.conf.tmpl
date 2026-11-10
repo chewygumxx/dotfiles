@@ -3,11 +3,11 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/environment.d/base.conf
+# ::: :/home/dot_config/environment.d/base.conf.tmpl
 #
 #
 
-PATH="${PATH}:%h/.local/bin"
+PATH="${PATH}:{{ .chezmoi.homeDir }}/.local/bin"
 PAGER="less -R"
 EDITOR="nvim"
 VISUAL="${EDITOR:-"nvim"}"
