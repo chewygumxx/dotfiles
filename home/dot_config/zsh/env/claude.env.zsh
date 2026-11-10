@@ -9,5 +9,7 @@
 #
 #
 
-# Herdr also requires this
-export CLAUDE_CONFIG_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/claude"
+# Herdr also requires this. Like CODEX_HOME, it lives in ~/.local/var, where
+# the chezmoi source deploys it (home/dot_local/var/claude). Keep it equal to
+# ~/.config/environment.d/claude.conf and the default in wrap/claude.
+export CLAUDE_CONFIG_DIR="$HOME/.local/var/claude"
