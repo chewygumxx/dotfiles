@@ -22,6 +22,12 @@
 .claude.json
 sec/
 
+# Gated like ~/.config/zsh in dot_config/.chezmoiignore, so a host without
+# zsh gets no dangling link
+{{ if not (lookPath "zsh") }}
+.zshenv
+{{ end }}
+
 
 # ------------------
 # Chewytop Ignored
