@@ -104,3 +104,43 @@ jobs:
                   git ls-files -- '*.json' '*.jsonc' '*.yaml' '*.yml' ':!**/symlink_*' |
                       while IFS= read -r f; do [ -L "$f" ] || printf '%s\n' "$f"; done |
                       xargs bunx --bun --no-install prettier --check
+
+    zsh:
+        name: Zsh
+        runs-on: ubuntu-latest
+
+        env:
+            # Pinned here rather than in .config/mise/mise.toml, as
+            # chewygumxx/zsh-config's CI installed it, through mise from its
+            # GitHub releases.
+            SHUCK: github:ewhauser/shuck@0.2.7
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v7
+
+            # Not guaranteed on the runner image.
+            - name: Install zsh
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y zsh
+
+            - name: Install shuck
+              uses: jdx/mise-action@v5
+              with:
+                  install_args: ${{ env.SHUCK }}
+
+            - name: Check Syntax
+              run: |
+                  status=0
+                  for f in $(git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml'); do
+                      zsh -n -- "$f" || status=1
+                  done
+                  exit $status
+
+            # shuck reads home/dot_config/zsh/.shuck.toml, found by walking up
+            # from each file.
+            - name: Lint
+              run: |
+                  git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' |
+                      xargs mise exec "$SHUCK" -- shuck check
