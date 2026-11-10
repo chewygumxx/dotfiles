@@ -65,6 +65,8 @@ claude -p \
 # - Start the subject with a capital letter
 # """
 
-# Always Granularlly Commit
-[projects]
-merge.squash = false
+# Always granularly commit: wt merge keeps every commit in every repo.
+# A bare [projects] table does not work here: worktrunk ignored
+# projects.merge.squash as an unknown field.
+[merge]
+squash = false
