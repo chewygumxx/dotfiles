@@ -19,9 +19,9 @@
 # every subcommand and option in step with whichever herdr is installed.
 #
 # The amendment is matched on the argument names alone, which the installed
-# herdr is free to change. tests/comp.zunit runs it against the real script
-# for that reason, so a rename fails there instead of quietly falling back to
-# filenames.
+# herdr is free to change. Nothing tests it automatically, so after a herdr
+# upgrade check that the cached script still contains _herdr_live_ids for
+# each kind: a renamed argument quietly falls back to filename completion.
 #
 # Shadows the _herdr the herdr package installs in site-functions, which is
 # that same script unamended. That only works because rc/completion.rc.zsh puts

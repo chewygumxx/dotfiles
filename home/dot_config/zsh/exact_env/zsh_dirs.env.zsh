@@ -32,7 +32,7 @@ zsh_state="${XDG_STATE_HOME:=$HOME/.local/state}/zsh"
 # subscripted keys below are only valid once `typeset -gA` has actually run, so
 # `zsh -n` (which parses without executing) misreads them as a direct array
 # assignment and rejects the file. Combined, it parses and this file needs no
-# exemption from the lint:syntax task.
+# exemption from the `zsh -n` check in .husky/pre-commit and lint-config CI.
 typeset -gA zsh_dirs=(
     [conf]="$zsh_conf"
     [env]="$zsh_conf/env"

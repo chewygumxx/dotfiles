@@ -13,8 +13,8 @@ local __this_file="${(D)${${(%):-%N}:A}}"
 
 zsh_dirs_require "$__this_file" spec plugin || return 1
 
-# Every slug that loaded, in load order, for inspection from the shell and so
-# tests/boot.zunit can compare it against spec/ rather than a list of its own.
+# Every slug that loaded, in load order, for inspection from the shell, e.g.
+# to compare against spec/ when a plugin seems to be missing.
 typeset -ga zsh_plugins_loaded=()
 
 # [^.]* rather than *, and only *.spec.zsh. .zshrc sets globdots, so a bare *
