@@ -85,60 +85,13 @@ fi
 # recorded the real one.
 local -a managed=() managed_paths=()
 local -a chezmoi_background=()
+local -i new_in_managed=0
 
 if (($+commands[chezmoi])); then
     local cache_root="${XDG_CACHE_HOME:=$HOME/.cache}/zsh"
     local cache_dir="${zsh_dirs[cache]:-$cache_root}/nvim"
     local cache="$cache_dir/chezmoi-managed"
     local source_dir="${XDG_DATA_HOME:=$HOME/.local/share}/chezmoi"
-
-    # Disowning a job and redirecting stdin leave its controlling terminal
-    # intact. A template or password helper can still open /dev/tty and stop
-    # the whole background job with SIGTTIN while chezmoi holds its state lock.
-    # Start a new session, bound the command and its children, and serialize
-    # this wrapper's commands so a refresh cannot race an add or re-add.
-    # Start the execution timeout after acquiring the serialization lock, so
-    # queued edits retain their full execution budget.
-    # Ubuntu can provide uutils as timeout and GNU as gnutimeout. Its affected
-    # uutils versions kill only the direct child on SIGKILL, leaving helpers
-    # alive with inherited state locks. Check the implementation, not the name.
-    local timeout_command timeout_candidate
-    for timeout_candidate in timeout gtimeout gnutimeout; do
-        if (($+commands[$timeout_candidate])) &&
-            [[ "$(command "$timeout_candidate" --version 2> /dev/null)" == *'GNU coreutils'* ]]; then
-            timeout_command="$timeout_candidate"
-            break
-        fi
-    done
-
-    if [[ -n "$timeout_command" ]] && (($+commands[setsid] && $+commands[flock])); then
-        if command mkdir -p -- "$cache_dir"; then
-            chezmoi_background=(
-                flock --close "$cache_dir/chezmoi.lock"
-                setsid --fork --wait
-                "$timeout_command" --verbose --kill-after=5s "${NVIM_CHEZMOI_TIMEOUT:-60s}"
-                sh -c '
-                    trap "while :; do sleep 1; done" TERM
-                    "$@" &
-                    wait "$!"
-                    code=$?
-                    if [ "$code" -ne 0 ]; then
-                        printf "chezmoi background command exited with status %s\n" "$code" >&2
-                    fi
-                    exit "$code"
-                ' nvim-chezmoi
-                chezmoi
-            )
-        fi
-    else
-        print -u2 -- "$__this_file: Automatic chezmoi jobs require setsid, flock and GNU timeout"
-    fi
-
-    # flock stays outside the timeout's process group and closes its lock
-    # descriptor in children, so helpers cannot retain the queue lock.
-    # The shell supervisor above stays alive after timeout sends SIGTERM,
-    # ensuring its later SIGKILL reaches the entire process group even if
-    # chezmoi exits first and leaves a helper holding an inherited lock.
 
     if [[ -s "$cache.source" ]]; then
         source_dir="$(< "$cache.source")"
@@ -157,6 +110,99 @@ if (($+commands[chezmoi])); then
     else
         stale=1
     fi
+
+    # Both the path as given and the one it resolves to are looked up. ${1:a}
+    # above only tidies the path and leaves symlinks alone, so a link to a
+    # managed file, or a file reached through a linked directory, never
+    # matched the list on its own. The given path is still kept: chezmoi can
+    # manage the link itself, and Neovim is still opened on the path as typed.
+    # Every match is re-added below, since editing through a managed link
+    # writes to its target, which may be managed in its own right.
+    #
+    # The list is read before any refresh starts, which changes nothing: the
+    # refresh publishes its result with a rename, and answers the next launch.
+    if [[ -s "$cache" ]]; then
+        managed_paths=("${(@f)$(<"$cache")}")
+        local candidate
+
+        for candidate in "$target" "${target:A}"; do
+            if ((${managed_paths[(Ie)$candidate]} && !${managed[(Ie)$candidate]})); then
+                managed+=("$candidate")
+            fi
+        done
+    fi
+
+    # A new file's directory is looked up now, before Neovim runs, so that the
+    # probe below knows whether an add may follow (see New File).
+    if [[ ! -e "$target" ]]; then
+        local parent
+        for parent in "${target:h}" "${target:h:A}"; do
+            if ((${managed_paths[(Ie)$parent]})); then
+                new_in_managed=1
+                break
+            fi
+        done
+    fi
+
+    # Disowning a job and redirecting stdin leave its controlling terminal
+    # intact. A template or password helper can still open /dev/tty and stop
+    # the whole background job with SIGTTIN while chezmoi holds its state lock.
+    # Start a new session, bound the command and its children, and serialize
+    # this wrapper's commands so a refresh cannot race an add or re-add.
+    # Start the execution timeout after acquiring the serialization lock, so
+    # queued edits retain their full execution budget.
+    # Ubuntu can provide uutils as timeout and GNU as gnutimeout. Its affected
+    # uutils versions kill only the direct child on SIGKILL, leaving helpers
+    # alive with inherited state locks. Check the implementation, not the name.
+    #
+    # The tools are probed only when this launch has a job to start: a stale
+    # cache, a managed file, or a new file in a managed directory. Editing an
+    # unmanaged file with a fresh cache forks nothing. A failed probe is
+    # remembered for the rest of the shell session, so a host without these
+    # tools is warned once and not probed again until a new shell starts.
+    if ((!$+__nvim_chezmoi_jobs_unavailable)) &&
+        { [[ -n "$stale" ]] || (($#managed || new_in_managed)); }; then
+        local timeout_command timeout_candidate
+        for timeout_candidate in timeout gtimeout gnutimeout; do
+            if (($+commands[$timeout_candidate])) &&
+                [[ "$(command "$timeout_candidate" --version 2> /dev/null)" == *'GNU coreutils'* ]]; then
+                timeout_command="$timeout_candidate"
+                break
+            fi
+        done
+
+        if [[ -n "$timeout_command" ]] && (($+commands[setsid] && $+commands[flock])); then
+            if command mkdir -p -- "$cache_dir"; then
+                # The single-quoted script is for sh to expand.
+                # shuck: disable=C005
+                chezmoi_background=(
+                    flock --close "$cache_dir/chezmoi.lock"
+                    setsid --fork --wait
+                    "$timeout_command" --verbose --kill-after=5s "${NVIM_CHEZMOI_TIMEOUT:-60s}"
+                    sh -c '
+                        trap "while :; do sleep 1; done" TERM
+                        "$@" &
+                        wait "$!"
+                        code=$?
+                        if [ "$code" -ne 0 ]; then
+                            printf "chezmoi background command exited with status %s\n" "$code" >&2
+                        fi
+                        exit "$code"
+                    ' nvim-chezmoi
+                    chezmoi
+                )
+            fi
+        else
+            typeset -g __nvim_chezmoi_jobs_unavailable=1
+            print -u2 -- "$__this_file: Automatic chezmoi jobs require setsid, flock and GNU timeout; skipped for this shell session"
+        fi
+    fi
+
+    # flock stays outside the timeout's process group and closes its lock
+    # descriptor in children, so helpers cannot retain the queue lock.
+    # The shell supervisor above stays alive after timeout sends SIGTERM,
+    # ensuring its later SIGKILL reaches the entire process group even if
+    # chezmoi exits first and leaves a helper holding an inherited lock.
 
     if [[ -n "$stale" ]] && (($#chezmoi_background)); then
         # Only one refresh may run while the cache is stale. flock holds the
@@ -183,24 +229,6 @@ if (($+commands[chezmoi])); then
                 ${stamp:+"$stamp"} ${tmp:+"$tmp"} ${tmp_source:+"$tmp_source"}
         } 9> "$cache.refresh.lock" < /dev/null > /dev/null 2>> "$cache_dir/chezmoi.log" &!
     fi
-
-    # Both the path as given and the one it resolves to are looked up. ${1:a}
-    # above only tidies the path and leaves symlinks alone, so a link to a
-    # managed file, or a file reached through a linked directory, never
-    # matched the list on its own. The given path is still kept: chezmoi can
-    # manage the link itself, and Neovim is still opened on the path as typed.
-    # Every match is re-added below, since editing through a managed link
-    # writes to its target, which may be managed in its own right.
-    if [[ -s "$cache" ]]; then
-        managed_paths=("${(@f)$(<"$cache")}")
-        local candidate
-
-        for candidate in "$target" "${target:A}"; do
-            if ((${managed_paths[(Ie)$candidate]} && !${managed[(Ie)$candidate]})); then
-                managed+=("$candidate")
-            fi
-        done
-    fi
 fi
 
 # ---------
@@ -208,10 +236,10 @@ fi
 # ---------
 
 # A new file is offered to chezmoi when its directory is managed. That is
-# answered from the cached list, which names directories as well as files, so
-# no chezmoi process runs before the question. The add itself runs detached,
-# since it builds the whole source state just as `chezmoi managed` does. A
-# directory that became managed since the last rebuild is missed once.
+# answered from the cached list above, which names directories as well as
+# files, so no chezmoi process runs before the question. The add itself runs
+# detached, since it builds the whole source state just as `chezmoi managed`
+# does. A directory that became managed since the last rebuild is missed once.
 #
 # The question is asked here rather than through `chezmoi add --prompt`, which
 # could only ask once that source state was built. Alone, read -q opens the
@@ -228,23 +256,17 @@ if [[ ! -e "$target" ]]; then
         return $nvim_exit
     fi
 
-    (($#chezmoi_background)) || return $nvim_exit
+    ((new_in_managed && $#chezmoi_background)) || return $nvim_exit
 
-    local parent
-    for parent in "${target:h}" "${target:h:A}"; do
-        ((${managed_paths[(Ie)$parent]})) || continue
+    local answer=1
+    print -nu2 -- "Add ${(D)target} to chezmoi? [y/N] "
+    read -q -u 0 && answer=0
+    print -u2
 
-        local answer=1
-        print -nu2 -- "Add ${(D)target} to chezmoi? [y/N] "
-        read -q -u 0 && answer=0
-        print -u2
-
-        if ((answer == 0)); then
-            command "${chezmoi_background[@]}" add -- "$target" \
-                < /dev/null >> "$cache_dir/chezmoi.log" 2>&1 &!
-        fi
-        break
-    done
+    if ((answer == 0)); then
+        command "${chezmoi_background[@]}" add -- "$target" \
+            < /dev/null >> "$cache_dir/chezmoi.log" 2>&1 &!
+    fi
 
     return $nvim_exit
 fi
