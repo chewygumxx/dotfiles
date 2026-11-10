@@ -16,6 +16,9 @@
 .config/claude/hooks/claude-status-line.sh     # Replaced by ccstatusline
 .config/claude-2/hooks/claude-status-line.sh   # Replaced by ccstatusline
 .local/share/mozilla/firefox/chewyfox/chrome/context_menu.css   # Inlined in userChrome.css
+.config/systemd/user/ollama-chown-dir.service   # Dropped: a user unit cannot chown
+.local/bin/service-script-ollama-chown-dir
+.config/environment.d/ollama.conf               # Only that unit used OLLAMA_MODELS
 
 # ------------------
 # Chewytop Removed
