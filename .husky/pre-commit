@@ -14,6 +14,15 @@ set -e
 status=0
 
 # --------
+# Whitespace
+# --------
+
+# Only the lines this commit adds: trailing whitespace, a blank line at end of
+# file, and leftover conflict markers, as .editorconfig asks. Older files still
+# have some, so the whole tree is not checked.
+git diff --cached --check || status=1
+
+# --------
 # Lua
 # --------
 
