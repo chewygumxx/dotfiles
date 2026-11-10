@@ -16,79 +16,11 @@
 # https://herdr.dev/tui/docs/config-reference/
 #
 
-onboarding = false
+{{/* The following template must be before all other templates since */ -}}
+{{/* it contains root level TOML keys */ -}}
+{{ template "general-START.toml.tmpl" . }}
 
-[server]
-# https://herdr.dev/tui/docs/config-reference/#ref-server
-# Size of the virtual terminal when no client attached.
-headless_cols = 76
-headless_rows = 40
-
-[terminal]
-# https://herdr.dev/tui/docs/config-reference/
-
-# Pane: Interactive Shell
-# If empty: $SHELL, then /bin/sh
-default_shell = ""
-
-# Pane: Login Shell
-# - auto
-# - login
-# - non_login
-shell_mode = "auto"
-
-# Pane: Initial Working Directory
-# - follow   Inherit
-# - current  Herdr Server Process
-# - home     Static
-# - ~/dev
-new_cwd = "follow"
-
-# Pane: Kitty Graphical Protocol
-kitty_graphics = true
-
-[session]
-# https://herdr.dev/tui/docs/config-reference/#ref-session
-# Resume agent conversation sessions following Herdr server restart.
-# Requires official integrations that report session refs.
-resume_agents_on_restore = true
-
-[advanced]
-# https://herdr.dev/tui/docs/config-reference/#ref-advanced
-# Maximum scrollback buffer size in bytes retained per pane terminal.
-scrollback_limit_bytes = 300000
-
-[worktrees]
-#
-# Sidebar Workspace Menu Option: "New worktree"
-# 1. Creates a new worktree at: `<.worktrees.directory>/<repo-name>/<branch-slug>`
-#
-# 2. Local plugin `wtree-relocate` migrates it to the worktrunk worktree-path
-#    (`wt step relocate`), ie. `<wksp-repo>/.wtree/<branch-slug>/`, where
-#    <wksp-repo> is the dirpath of the original repository.
-#
-# https://herdr.dev/tui/docs/config-reference/#ref-worktrees
-directory = "~/dev/_worktree"
-
-[remote]
-# https://herdr.dev/tui/docs/config-reference/#ref-remote
-# Private connection reuse and `keepalive` fallbacks for `herdr --remote`
-manage_ssh_config = false
-
-[experimental]
-# https://herdr.dev/tui/docs/config-reference/
-allow_nested   = false # Recursion
-pane_history   = true  # Persistent session-history.json
-# cjk_ime_agents = []
-# cjk_ime_cursor_shape = "steady_block"
-# reveal_hidden_cursor_for_cjk_ime = false
-
-[update]
-# https://herdr.dev/tui/docs/config-reference/#ref-update
-channel        = "stable"
-version_check  = true
-manifest_check = true
-
+{{/* All templates following this comment are position insensitive */ -}}
 {{ template "theme.toml.tmpl" . }}
 {{ template "ui.toml.tmpl" . }}
 {{ template "keys.toml.tmpl" . }}

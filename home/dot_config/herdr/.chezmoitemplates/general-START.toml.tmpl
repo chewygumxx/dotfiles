@@ -1,0 +1,157 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/.chezmoitemplates/general-START.toml.tmpl
+#
+#
+
+#
+# Fragment intended for insertion within chezmoi-populated herdr
+# config.toml.tmpl masterdoc.
+#
+# Inserted first due to presense of root level TOML keys
+#
+# https://herdr.dev/tui/docs/configuration/
+# https://herdr.dev/tui/docs/config-reference/
+#
+
+# -------------------
+# Section Navigation
+#
+# <GEN> General
+# <TRM> Terminal
+# <EXP> Experimental
+# -------------------
+
+# --------------
+# <GEN> General
+# --------------
+
+onboarding = false
+
+# <GEN> Agent Session Restore
+#
+# Resume agent conversation sessions sequentially following Herdr server restart
+# and how long to delay, in milliseconds, between each resumption.
+#
+# Requires official integrations that report session refs.
+#
+# https://herdr.dev/tui/docs/configuration/#agent-session-restore
+# https://herdr.dev/tui/docs/integrations/#how-herdr-uses-integrations
+# https://herdr.dev/tui/docs/session-state/#native-agent-session-restore
+[session]
+resume_agents_on_restore = true
+
+# <GEN> Worktree Directory
+#
+# Sidebar Workspace Menu Option: "New worktree"
+# 1. Creates a new worktree at: `<.worktrees.directory>/<repo-name>/<branch-slug>`
+#
+# 2. Local plugin `wtree-relocate` migrates it to the worktrunk worktree-path
+#    (`wt step relocate`), ie. `<wksp-repo>/.wtree/<branch-slug>/`, where
+#    <wksp-repo> is the dirpath of the original repository.
+#
+# https://herdr.dev/tui/docs/configuration/#worktrees
+# https://herdr.dev/tui/docs/cli-reference/#worktrees
+[worktrees]
+directory = "~/dev/_worktree"
+
+# <GEN> SSH Configuration Appendix
+#
+# Appends user-overridable rules to ssh_config pertaining to private connection
+# reuse and `keepalive` fallbacks for `herdr --remote`
+#
+# https://herdr.dev/tui/docs/configuration/#remote-attach
+[remote]
+manage_ssh_config = false
+
+# <GEN> Herdr Update Check
+#
+# TODO: Summarise this
+#
+[update]
+channel = "stable"
+version_check = true
+manifest_check = true  # https://herdr.dev/tui/docs/agents/#detection-manifests
+
+# ---------------
+# <TRM> Terminal
+# ---------------
+
+[terminal]
+# <TRM> Interactive Shell
+#
+# If empty: $SHELL, then /bin/sh
+#
+# https://herdr.dev/tui/docs/configuration/#terminal-defaults
+default_shell = ""
+
+# <TRM> Login Shell
+#
+# - auto
+# - login
+# - non_login
+#
+# https://herdr.dev/tui/docs/configuration/#terminal-defaults
+shell_mode = "auto"
+
+# <TRM> Initial Working Directory
+#
+# - follow    Inherit
+# - current   Herdr Server Process
+# - home      Always ~
+# - <path>    Always to path, respects ~
+#
+# https://herdr.dev/tui/docs/configuration/#terminal-defaults
+new_cwd = "follow"
+
+# <TRM> Kitty Graphical Protocol
+#
+# https://herdr.dev/tui/docs/configuration/#kitty-graphics
+kitty_graphics = true
+
+# <TRM> Virtual Terminal Size
+#
+# Size of newly created panes when no client attached.
+# Set approximate to terminal size on Termux.
+#
+# https://herdr.dev/tui/docs/configuration/#headless-terminal-size
+[server]
+headless_cols = 76
+headless_rows = 40
+
+# <TERM> Pane Cache Limit
+#
+# Maximum scrollback buffer size retained per pane terminal (bytes, not lines).
+[advanced]
+scrollback_limit_bytes = 300000
+
+# -------------------
+# <EXP> Experimental
+# -------------------
+
+[experimental]
+# <EXP> Herdr Nesting
+#
+# Attach to a herdr server from within another herdr pane
+allow_nested = false
+
+# <EXP> Pane History
+#
+# Persistent session-history.json
+#
+# https://herdr.dev/tui/docs/session-state/#pane-screen-history-replay
+pane_history = true
+
+# <EXP> IMR Cursor Tracking
+#
+# On MacOS, handles harness TUIs that hide the cursor prevent native
+# input-method candidate windows from following the focused pane.
+#
+# https://herdr.dev/tui/docs/configuration/#ime-cursor-tracking
+#cjk_ime_agents = []
+#cjk_ime_cursor_shape = "steady_block"
+#reveal_hidden_cursor_for_cjk_ime = false
