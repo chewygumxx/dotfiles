@@ -1,0 +1,34 @@
+{{- /* vim:set expandtab shiftwidth=4 filetype=gotmpl foldlevel=5: */ -}}
+{{- /* SPDX-License-Identifier: GPL-3.0-only */ -}}
+
+{{- /*
+     *
+     * ~chewygumxx/dotfiles.git
+     * ::: :/home/dot_local/share/audio/.chezmoitemplates/audio-link.tmpl
+     *
+     * Symlink target for ~/.local/share/audio/<name>.mp3: the first of
+     * .order (basenames, without .mp3) present in the source checkout's
+     * ref/audio/beep/. Linked from the source dir because ref/audio is
+     * ignored and never deployed to ~/ref.
+     *
+     * Usage: {{ template "audio-link.tmpl" (dict "chezmoi" .chezmoi "order" (list ...)) }}
+     *
+     */ -}}
+
+{{- $assetDir := joinPath .chezmoi.sourceDir "ref" "audio" "beep" -}}
+{{- $target := "" -}}
+
+{{- range $basename := .order -}}
+    {{- if not $target -}}
+        {{- $path := joinPath $assetDir (printf "%s.mp3" $basename) -}}
+        {{- if stat $path -}}
+            {{- $target = $path -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if not $target -}}
+    {{- fail (printf "No notification audio asset found in %s" $assetDir) -}}
+{{- end -}}
+
+{{- $target -}}

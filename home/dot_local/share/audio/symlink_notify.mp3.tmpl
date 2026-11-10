@@ -1,0 +1,11 @@
+{{- /* vim:set expandtab shiftwidth=4 filetype=gotmpl: */ -}}
+{{- /* SPDX-License-Identifier: GPL-3.0-only */ -}}
+
+{{- /*
+     *
+     * ~chewygumxx/dotfiles.git
+     * ::: :/home/dot_local/share/audio/symlink_notify.mp3.tmpl
+     *
+     */ -}}
+
+{{- template "audio-link.tmpl" (dict "chezmoi" .chezmoi "order" (list "notify" "done" "beep")) -}}
