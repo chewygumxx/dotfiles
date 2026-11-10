@@ -129,10 +129,16 @@ rename_pane      = "prefix+r"
 close_pane       = "prefix+d"
 
 # Pane: Focus
-focus_pane_left  = "ctrl+h"
-focus_pane_down  = "ctrl+j"
-focus_pane_up    = "ctrl+k"
-focus_pane_right = "ctrl+l"
+# Behind the prefix, not bare ctrl+h/j/k/l: herdr intercepts direct
+# bindings before the pane, which would steal ctrl+j/k (nvim completion,
+# fzf), ctrl+h (nvim harpoon, BS) and ctrl+l (zsh clear-screen).
+# ctrl+alt+h/j/k/l was rejected: legacy terminals send ESC + 0x08/0x0a,
+# which collide with alt+backspace and alt+enter. prefix+h/j/k/l is free
+# here and always deliverable.
+focus_pane_left  = "prefix+h"
+focus_pane_down  = "prefix+j"
+focus_pane_up    = "prefix+k"
+focus_pane_right = "prefix+l"
 last_pane        = "ctrl+space"
 # I question the value of these
 # cycle_pane_next     = "ctrl+alt+tab"
