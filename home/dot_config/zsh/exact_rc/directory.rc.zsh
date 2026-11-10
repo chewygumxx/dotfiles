@@ -83,8 +83,6 @@ fi
     )
     [[ -d "$HOME/dev/nvim-config" ]] &&
         cfg_dirs[nvim]="$HOME/dev/nvim-config"
-    [[ -d "$HOME/dev/zsh-config" ]] &&
-        cfg_dirs[zsh]="$HOME/dev/zsh-config"
 
     local name dir
     for name dir in "${(@kv)cfg_dirs}"; do
