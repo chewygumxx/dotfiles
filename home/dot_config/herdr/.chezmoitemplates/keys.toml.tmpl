@@ -25,7 +25,7 @@
 # | System | Modifier | Punctuation |
 # | ------ | -------- | ----------- |
 # | esc    | ctrl     | plus        |
-# | tab    | alt      | minua       |
+# | tab    | alt      | minus       |
 # | up     | shift    | comma       |
 # | down   | super    | backtick    |
 # | enter  | cmd      | ampersand   |
@@ -37,12 +37,12 @@
 # - Benefits
 #   - Scoped capture trigger efficaciously addresses map pollution and
 #     collision.
-#   - Facilitates personalisation and accessility for esoteric interface
+#   - Facilitates personalisation and accessibility for esoteric interface
 #     (ie. one-handed while eating), and bespoke/idiomatic assignment.
 #
 # - Hindrance
 #   - Necessitates preparatory key capture trigger, id est prefix.
-#   - Instrinsically slower and of greater friction.
+#   - Intrinsically slower and of greater friction.
 #   - The same as the last two items, now thrice.
 #
 # ** Activation Reliability **
@@ -55,7 +55,7 @@
 #   - "alt+..."
 #   - "cmd/super"
 #
-# - Logged Faliure
+# - Logged Failure
 #   - Modifier+Punctuation
 #     - Non-functional: "prefix+shift+\\"
 #     - Non-functional: "prefix+shift+;"
@@ -97,9 +97,9 @@ edit_scrollback = "prefix+e"
 #       - Pane
 # shift - Tab
 # ctrl  - Workspace
-# alt   - Agent
+# alt   - Resize (prefix+alt+h/j/k/l) and worktrunk (prefix+alt+g/m)
 #
-# ctrl+alt - Essential and frequent ie. primitive focus
+# ctrl+alt - Direct (prefix-less) focus: tab, workspace, agent
 #
 
 # ------------------
@@ -125,35 +125,13 @@ split_horizontal = "prefix+;"
 rename_pane      = "prefix+r"
 # Free prefix+r for rename_pane; resize uses explicit resize_pane_* below
 resize_mode      = ""
-# Free prefix+r for rename_pane; resize uses explicit resize_pane_* below
-resize_mode      = ""
-# Free prefix+r for rename_pane; resize uses explicit resize_pane_* below
+close_pane       = "prefix+d"
+
+# Pane: Focus
 # Behind the prefix, not bare ctrl+h/j/k/l: herdr intercepts direct
 # bindings before the pane, which would steal ctrl+j/k (nvim completion,
 # fzf), ctrl+h (nvim harpoon, BS) and ctrl+l (zsh clear-screen).
 # ctrl+alt+h/j/k/l was rejected: legacy terminals send ESC + 0x08/0x0a,
-# which collide with alt+backspace and alt+enter. prefix+h/j/k/l is free
-# here and always deliverable.
-focus_pane_left  = "prefix+h"
-focus_pane_down  = "prefix+j"
-focus_pane_up    = "prefix+k"
-focus_pane_right = "prefix+l"
-# fzf), ctrl+h (nvim harpoon, BS) and ctrl+l (zsh clear-screen).
-# ctrl+alt+h/j/k/l was rejected: legacy terminals send ESC + 0x08/0x0a,
-# which collide with alt+backspace and alt+enter. prefix+h/j/k/l is free
-# here and always deliverable.
-focus_pane_left  = "prefix+h"
-focus_pane_down  = "prefix+j"
-focus_pane_up    = "prefix+k"
-focus_pane_right = "prefix+l"
-# fzf), ctrl+h (nvim harpoon, BS) and ctrl+l (zsh clear-screen).
-# ctrl+alt+h/j/k/l was rejected: legacy terminals send ESC + 0x08/0x0a,
-# which collide with alt+backspace and alt+enter. prefix+h/j/k/l is free
-# here and always deliverable.
-focus_pane_left  = "prefix+h"
-focus_pane_down  = "prefix+j"
-focus_pane_up    = "prefix+k"
-focus_pane_right = "prefix+l"
 # which collide with alt+backspace and alt+enter. prefix+h/j/k/l is free
 # here and always deliverable.
 focus_pane_left  = "prefix+h"
@@ -170,19 +148,19 @@ swap_pane_left  = "prefix+shift+h"
 swap_pane_down  = "prefix+shift+j"
 swap_pane_up    = "prefix+shift+k"
 swap_pane_right = "prefix+shift+l"
-move_tab_previous = "prefix+shift+left"
-move_tab_next     = "prefix+shift+right"
+
+# Pane: Resize
 resize_pane_left  = "prefix+alt+h"
 resize_pane_down  = "prefix+alt+j"
-# Workspace
+resize_pane_up    = "prefix+alt+k"
 resize_pane_right = "prefix+alt+l"
 
 # ----
-move_tab_previous = "prefix+shift+left"
-move_tab_next     = "prefix+shift+right"
+# Tab
+# ----
 
 # Tab: Manage
-# Workspace
+new_tab    = "prefix+shift+n"
 rename_tab = "prefix+shift+r"
 close_tab  = "prefix+shift+d"
 
@@ -192,19 +170,19 @@ previous_tab = "ctrl+alt+left"
 switch_tab   = "prefix+1..9"
 
 # Tab: Move
-previous_agent           = "ctrl+alt+shift+left"
-next_agent               = "ctrl+alt+shift+right"
+move_tab_previous = "prefix+shift+left"
+move_tab_next     = "prefix+shift+right"
 
 # ----------
-open_notification_target = "ctrl+alt+enter"        # Pending #1379
+# Workspace
 # ----------
 
 # Workspace: Manage
-previous_agent           = "ctrl+alt+shift+left"
-next_agent               = "ctrl+alt+shift+right"
+new_workspace    = "prefix+ctrl+n"
+rename_workspace = "prefix+ctrl+r"
 close_workspace  = "prefix+ctrl+d"
 
-open_notification_target = "ctrl+alt+enter"        # Pending #1379
+# Workspace: Focus
 previous_workspace = "ctrl+alt+up"
 next_workspace     = "ctrl+alt+down"
 switch_workspace   = "prefix+ctrl+1..9"
@@ -214,11 +192,11 @@ switch_workspace   = "prefix+ctrl+1..9"
 # ------
 
 # Agent: Focus
-previous_agent           = "ctrl+alt+,"
-next_agent               = "ctrl+alt+."
+previous_agent           = "ctrl+alt+shift+left"
+next_agent               = "ctrl+alt+shift+right"
 focus_agent              = "ctrl+alt+1..9"
 # >tfw no 'rename_agent'
-open_notification_target = "ctrl+alt+enter"  # Pending #1379
+open_notification_target = "ctrl+alt+enter"        # Pending #1379
 
 # --------------------
 # [DISABLED] Worktree
