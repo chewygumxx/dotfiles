@@ -128,11 +128,19 @@ split_horizontal = "prefix+;"
 rename_pane      = "prefix+r"
 # Free prefix+r for rename_pane; resize uses explicit resize_pane_* below
 resize_mode      = ""
+# Free prefix+r for rename_pane; resize uses explicit resize_pane_* below
+resize_mode      = ""
 close_pane       = "prefix+d"
-
-# Pane: Focus
 # Behind the prefix, not bare ctrl+h/j/k/l: herdr intercepts direct
 # bindings before the pane, which would steal ctrl+j/k (nvim completion,
+# fzf), ctrl+h (nvim harpoon, BS) and ctrl+l (zsh clear-screen).
+# ctrl+alt+h/j/k/l was rejected: legacy terminals send ESC + 0x08/0x0a,
+# which collide with alt+backspace and alt+enter. prefix+h/j/k/l is free
+# here and always deliverable.
+focus_pane_left  = "prefix+h"
+focus_pane_down  = "prefix+j"
+focus_pane_up    = "prefix+k"
+focus_pane_right = "prefix+l"
 # fzf), ctrl+h (nvim harpoon, BS) and ctrl+l (zsh clear-screen).
 # ctrl+alt+h/j/k/l was rejected: legacy terminals send ESC + 0x08/0x0a,
 # which collide with alt+backspace and alt+enter. prefix+h/j/k/l is free
@@ -165,11 +173,11 @@ resize_pane_up    = "prefix+alt+k"
 resize_pane_right = "prefix+alt+l"
 
 # ----
-# Tab
-# ----
+move_tab_previous = "prefix+shift+left"
+move_tab_next     = "prefix+shift+right"
 
 # Tab: Manage
-new_tab    = "prefix+shift+n"
+# Workspace
 rename_tab = "prefix+shift+r"
 close_tab  = "prefix+shift+d"
 
@@ -187,11 +195,11 @@ move_tab_next     = "prefix+shift+."
 # ----------
 
 # Workspace: Manage
-new_workspace    = "prefix+ctrl+n"
-rename_workspace = "prefix+ctrl+r"
+previous_agent           = "ctrl+alt+shift+left"
+next_agent               = "ctrl+alt+shift+right"
 close_workspace  = "prefix+ctrl+d"
 
-# Worksapce: Focus
+open_notification_target = "ctrl+alt+enter"        # Pending #1379
 previous_workspace = "ctrl+alt+up"
 next_workspace     = "ctrl+alt+down"
 switch_workspace   = "prefix+ctrl+1..9"
