@@ -12,7 +12,7 @@
 
 ---@class Hypr.WindowWorkspaceRules
 ---@field setup? fun(): nil
----@field rules  { wksp: table<string, fun(): nil>, wndw: table<string, HL.WindowRuleSpec> }
+---@field rules  { wksp: Hypr.WorkspaceRule[], wndw: HL.WindowRuleSpec[] }
 local M = {
     rules = {
         wksp = {},
@@ -20,45 +20,67 @@ local M = {
     },
 }
 
----@type table<string, fun(): nil>
+---@class Hypr.WorkspaceRule
+---@field name  string
+---@field apply fun(): nil
+
+-- Both rule lists are arrays, applied in order by setup()
+
+---@type HL.EventSubscription?
+local scratch_sub
+
+---@type Hypr.WorkspaceRule[]
 M.rules.wksp = {
-    special_shadow = function()
-        -- Render window shadows exclusively in special workspaces
+    {
+        name = "special_shadow",
+        apply = function()
+            -- Render window shadows exclusively in special workspaces
 
-        for i = 1, 10 do
-            hl.workspace_rule({ workspace = tostring(i), no_shadow = true })
-        end
-        hl.workspace_rule({
-            workspace = "special:dashboard",
-            no_shadow = false,
-        })
-        hl.workspace_rule({
-            workspace = "special:scratch",
-            no_shadow = false,
-        })
-    end,
-
-    scratch_terminal = function()
-        -- Spawn a floating terminal when special:scratch is created empty
-        -- (replaces the deprecated `on_created_empty` workspace rule)
-
-        hl.on("workspace.created", function(ws)
-            if ws.name ~= "special:scratch" or not ws.is_empty then
-                return
+            for i = 1, 10 do
+                hl.workspace_rule({ workspace = tostring(i), no_shadow = true })
             end
-            hl.dispatch(
-                hl.dsp.exec_cmd(
-                    require("chewy").terminal.cmd.float,
-                    { workspace = ws.name .. " silent" }
+            hl.workspace_rule({
+                workspace = "special:dashboard",
+                no_shadow = false,
+            })
+            hl.workspace_rule({
+                workspace = "special:scratch",
+                no_shadow = false,
+            })
+        end,
+    },
+
+    {
+        name = "scratch_terminal",
+        apply = function()
+            -- Spawn a floating terminal when special:scratch is created empty
+            -- (replaces the deprecated `on_created_empty` workspace rule)
+
+            -- Replace, not add to, any subscription from an earlier setup()
+            -- in this Lua state, or special:scratch would get one terminal
+            -- per call
+            if scratch_sub and scratch_sub:is_active() then
+                scratch_sub:remove()
+            end
+            scratch_sub = hl.on("workspace.created", function(ws)
+                if ws.name ~= "special:scratch" or not ws.is_empty then
+                    return
+                end
+                hl.dispatch(
+                    hl.dsp.exec_cmd(
+                        require("chewy").terminal.cmd.float,
+                        { workspace = ws.name .. " silent" }
+                    )
                 )
-            )
-        end)
-    end,
+            end)
+        end,
+    },
 }
 
----@type table<string, HL.WindowRuleSpec>
+---@type HL.WindowRuleSpec[]
 M.rules.wndw = {
-    terminal_float = {
+    {
+        name = "terminal_float",
         match = { class = "term-float" },
 
         float = true,
@@ -67,7 +89,8 @@ M.rules.wndw = {
     },
 
     -- History and Bookmarks
-    firefox_library = {
+    {
+        name = "firefox_library",
         match = { class = "firefox", title = "Library" },
 
         float = true,
@@ -75,12 +98,14 @@ M.rules.wndw = {
         size = { 1200, 652 },
     },
 
-    firefox_extensions_popups = {
+    {
+        name = "firefox_extensions_popups",
         match = { class = "firefox", title = "^Extension.*$" },
         float = true,
     },
 
-    firefox_main = {
+    {
+        name = "firefox_main",
         match = { class = "firefox" },
         workspace = 2,
         no_initial_focus = true,
@@ -90,31 +115,37 @@ M.rules.wndw = {
         focus_on_activate = false,
     },
 
-    cclip_fzf = {
+    {
+        name = "cclip_fzf",
         match = { class = "cclip-fzf" },
         float = true,
         size = { 1100, 652 },
     },
 
-    terminal_file_picker = {
+    {
+        name = "terminal_file_picker",
         match = { class = "terminal-file-picker" },
         float = true,
         center = true,
         size = { 1200, 652 },
     },
 
-    steam_games_library = {
+    {
+        name = "steam_games_library",
         match = { class = "steam" },
         workspace = 3,
     },
 }
 
+-- Safe to call again: it does not modify the rule tables, and scratch_terminal
+-- replaces its own event subscription. No early return on a second call,
+-- since whether a config reload keeps this Lua state, and its rules, is
+-- undocumented.
 M.setup = function()
-    for _, wksp in pairs(M.rules.wksp) do
-        wksp()
+    for _, wksp in ipairs(M.rules.wksp) do
+        wksp.apply()
     end
-    for name, wndw in pairs(M.rules.wndw) do
-        wndw.name = name
+    for _, wndw in ipairs(M.rules.wndw) do
         hl.window_rule(wndw)
     end
 end
