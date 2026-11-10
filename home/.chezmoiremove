@@ -21,6 +21,7 @@
 .config/environment.d/ollama.conf               # Only that unit used OLLAMA_MODELS
 .config/environment.d/gpg.conf                  # Renamed gnupg.conf, and sorts after it
 .config/environment.d/python.conf               # Split into ipython.conf, jupyter.conf
+.config/herdr/.tombi.toml                       # Lint config, now only in the source tree
 
 # ------------------
 # Chewytop Removed

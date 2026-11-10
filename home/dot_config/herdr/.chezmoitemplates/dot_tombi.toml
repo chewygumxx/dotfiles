@@ -1,0 +1,31 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/.chezmoitemplates/.tombi.toml
+#
+#
+
+# https://tombi-toml.github.io/tombi/docs/configuration
+#
+# tombi has no `extends` and reads only the nearest config, so the root
+# .tombi.toml format rules are repeated here.
+
+toml-version = "v1.0.0"
+
+[files]
+include = [ "./*.toml.tmpl" ]
+exclude = [ "./ui_sound.toml.tmpl" ]
+
+[format]
+[format.rules]
+array-bracket-space-width       = 1
+comment-style                   = "preserve"
+date-time-delimiter             = "space"
+group-blank-lines-limit         = 2
+indent-width                    = 4
+key-value-equals-sign-alignment = true
+trailing-comment-alignment      = true
+trailing-comment-space-width    = 2
