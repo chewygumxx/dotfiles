@@ -65,13 +65,10 @@
 # Meta: Prefix Modal Capture
 # ---------------------------
 #
-# I nned to configure a passthrough, something like:
-#
-#   trigger = "prefix+ctrl+s"
-#   action = { send_keys = "ctrl+s" }
-#
-# Whatever the object structure be, it's essential and belongs
-# within this same file alongside this prefix definition.
+# Known limitation: herdr has no key for sending the prefix through to a
+# pane, so a literal ctrl+s cannot reach a pane while it is the prefix.
+# ctrl+s is also the terminal's XOFF (flow-control stop), so programs
+# expecting it (ie. nvim/zsh save or search maps) must use another key.
 #
 prefix = "ctrl+s"
 
@@ -130,9 +127,17 @@ rename_pane      = "prefix+r"
 resize_mode      = ""
 # Free prefix+r for rename_pane; resize uses explicit resize_pane_* below
 resize_mode      = ""
-close_pane       = "prefix+d"
+# Free prefix+r for rename_pane; resize uses explicit resize_pane_* below
 # Behind the prefix, not bare ctrl+h/j/k/l: herdr intercepts direct
 # bindings before the pane, which would steal ctrl+j/k (nvim completion,
+# fzf), ctrl+h (nvim harpoon, BS) and ctrl+l (zsh clear-screen).
+# ctrl+alt+h/j/k/l was rejected: legacy terminals send ESC + 0x08/0x0a,
+# which collide with alt+backspace and alt+enter. prefix+h/j/k/l is free
+# here and always deliverable.
+focus_pane_left  = "prefix+h"
+focus_pane_down  = "prefix+j"
+focus_pane_up    = "prefix+k"
+focus_pane_right = "prefix+l"
 # fzf), ctrl+h (nvim harpoon, BS) and ctrl+l (zsh clear-screen).
 # ctrl+alt+h/j/k/l was rejected: legacy terminals send ESC + 0x08/0x0a,
 # which collide with alt+backspace and alt+enter. prefix+h/j/k/l is free
@@ -165,11 +170,11 @@ swap_pane_left  = "prefix+shift+h"
 swap_pane_down  = "prefix+shift+j"
 swap_pane_up    = "prefix+shift+k"
 swap_pane_right = "prefix+shift+l"
-
-# Pane: Resize
+move_tab_previous = "prefix+shift+left"
+move_tab_next     = "prefix+shift+right"
 resize_pane_left  = "prefix+alt+h"
 resize_pane_down  = "prefix+alt+j"
-resize_pane_up    = "prefix+alt+k"
+# Workspace
 resize_pane_right = "prefix+alt+l"
 
 # ----
@@ -187,11 +192,11 @@ previous_tab = "ctrl+alt+left"
 switch_tab   = "prefix+1..9"
 
 # Tab: Move
-move_tab_previous = "prefix+shift+,"
-move_tab_next     = "prefix+shift+."
+previous_agent           = "ctrl+alt+shift+left"
+next_agent               = "ctrl+alt+shift+right"
 
 # ----------
-# Worksapce
+open_notification_target = "ctrl+alt+enter"        # Pending #1379
 # ----------
 
 # Workspace: Manage
