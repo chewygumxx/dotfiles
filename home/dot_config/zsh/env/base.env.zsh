@@ -15,7 +15,7 @@
 
 # -U keeps path free of duplicates. This file runs for every zsh, and PATH is
 # inherited, so without it each nested shell (a terminal inside Neovim, a
-# script with a zsh shebang, a subshell of a subshell) prepended these three
+# script with a zsh shebang, a subshell of a subshell) prepended these four
 # entries again. -g because .zshenv sources this file from inside a function,
 # where a bare typeset would declare a local path and discard it on return.
 #
@@ -27,6 +27,7 @@ path=(
     "$HOME/.local/bin"
     "${XDG_DATA_HOME:="$HOME/.local/share"}/cargo/bin"
     "${XDG_DATA_HOME:="$HOME/.local/share"}/go/bin"
+    "${XDG_DATA_HOME:="$HOME/.local/share"}/bun/bin"
     $path
 )
 export PAGER="less -RN"
