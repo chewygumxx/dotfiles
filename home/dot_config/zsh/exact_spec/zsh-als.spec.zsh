@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/spec/zsh-als.spec.zsh
+# ::: :/home/dot_config/zsh/exact_spec/zsh-als.spec.zsh
 #
 #
 

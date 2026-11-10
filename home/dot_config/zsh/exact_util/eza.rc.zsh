@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/util/eza.rc.zsh
+# ::: :/home/dot_config/zsh/exact_util/eza.rc.zsh
 #
 #
 

@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/spec/zsh-vi-mode.spec.zsh
+# ::: :/home/dot_config/zsh/exact_spec/zsh-vi-mode.spec.zsh
 #
 #
 

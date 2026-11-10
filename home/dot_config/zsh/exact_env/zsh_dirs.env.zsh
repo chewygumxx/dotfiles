@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/env/zsh_dirs.env.zsh
+# ::: :/home/dot_config/zsh/exact_env/zsh_dirs.env.zsh
 #
 #
 

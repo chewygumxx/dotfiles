@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/func/journal
+# ::: :/home/dot_config/zsh/exact_func/journal
 #
 #
 # Generate fleeting journal entry and populate with cat stdin.

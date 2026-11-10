@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/func/read-pipe
+# ::: :/home/dot_config/zsh/exact_func/read-pipe
 #
 #
 # Both branches return. Without that, the usage text printed and execution fell

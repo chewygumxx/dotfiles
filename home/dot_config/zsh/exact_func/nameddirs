@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/func/nameddirs
+# ::: :/home/dot_config/zsh/exact_func/nameddirs
 #
 #
 # Overwrites 'named' system command for DNS (I never invoke it interactively)

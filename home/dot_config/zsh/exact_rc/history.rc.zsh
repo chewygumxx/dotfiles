@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/rc/history.rc.zsh
+# ::: :/home/dot_config/zsh/exact_rc/history.rc.zsh
 #
 #
 [[ -o interactive ]] || return

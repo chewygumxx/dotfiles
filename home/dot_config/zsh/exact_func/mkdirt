@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/func/mkdirt
+# ::: :/home/dot_config/zsh/exact_func/mkdirt
 #
 #
 while (( $# ))

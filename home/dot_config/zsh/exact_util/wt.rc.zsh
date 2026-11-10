@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/util/wt.rc.zsh
+# ::: :/home/dot_config/zsh/exact_util/wt.rc.zsh
 #
 #
 # Worktrunk git worktree manager

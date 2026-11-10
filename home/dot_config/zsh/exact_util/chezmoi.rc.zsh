@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/util/chezmoi.rc.zsh
+# ::: :/home/dot_config/zsh/exact_util/chezmoi.rc.zsh
 #
 #
 

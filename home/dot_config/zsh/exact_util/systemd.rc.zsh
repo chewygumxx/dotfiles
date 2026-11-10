@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/util/systemd.rc.zsh
+# ::: :/home/dot_config/zsh/exact_util/systemd.rc.zsh
 #
 #
 [[ -o interactive ]] || return

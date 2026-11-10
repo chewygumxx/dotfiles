@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/env/claude.env.zsh
+# ::: :/home/dot_config/zsh/exact_env/claude.env.zsh
 #
 #
 

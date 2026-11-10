@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/util/linters.rc.zsh
+# ::: :/home/dot_config/zsh/exact_util/linters.rc.zsh
 #
 #
 # Plain aliases; no helper is involved. This previously claimed a dependency on

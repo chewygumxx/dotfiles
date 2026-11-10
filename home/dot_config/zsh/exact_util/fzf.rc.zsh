@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/util/fzf.rc.zsh
+# ::: :/home/dot_config/zsh/exact_util/fzf.rc.zsh
 #
 #
 # The ubiquitous command-line fuzzy finder

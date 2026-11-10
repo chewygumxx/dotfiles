@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/func/pkglist
+# ::: :/home/dot_config/zsh/exact_func/pkglist
 #
 #
 if [[ -z "$TERMUX_VERSION" ]]; then

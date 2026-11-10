@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/util/bat.rc.zsh
+# ::: :/home/dot_config/zsh/exact_util/bat.rc.zsh
 #
 #
 # https://github.com/sharkdp/bat

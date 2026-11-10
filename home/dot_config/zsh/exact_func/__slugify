@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/func/__slugify
+# ::: :/home/dot_config/zsh/exact_func/__slugify
 #
 #
 emulate -L zsh

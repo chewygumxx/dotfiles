@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/rc/completion.rc.zsh
+# ::: :/home/dot_config/zsh/exact_rc/completion.rc.zsh
 #
 #
 # https://thevaluable.dev/zsh-completion-guide-examples/

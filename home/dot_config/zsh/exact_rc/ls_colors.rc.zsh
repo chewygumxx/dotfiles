@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/rc/ls_colors.rc.zsh
+# ::: :/home/dot_config/zsh/exact_rc/ls_colors.rc.zsh
 #
 #
 # Provides for `rc/completion.rc.zsh` and `util/eza.rc.zsh`

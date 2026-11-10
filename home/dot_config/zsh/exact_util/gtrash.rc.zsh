@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/util/gtrash.rc.zsh
+# ::: :/home/dot_config/zsh/exact_util/gtrash.rc.zsh
 #
 #
 

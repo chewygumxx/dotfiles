@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/env/fzf.env.zsh
+# ::: :/home/dot_config/zsh/exact_env/fzf.env.zsh
 #
 #
 # FZF_DEFAULT_COMMAND

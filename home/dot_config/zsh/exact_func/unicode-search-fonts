@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/func/unicode-search-fonts
+# ::: :/home/dot_config/zsh/exact_func/unicode-search-fonts
 #
 #
 local UNICODE=$1 # U+0123

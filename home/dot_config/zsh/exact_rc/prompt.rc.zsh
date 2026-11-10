@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/rc/prompt.rc.zsh
+# ::: :/home/dot_config/zsh/exact_rc/prompt.rc.zsh
 #
 #
 # https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html

@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/rc/alias.rc.zsh
+# ::: :/home/dot_config/zsh/exact_rc/alias.rc.zsh
 #
 #
 

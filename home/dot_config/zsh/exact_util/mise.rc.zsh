@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/util/mise.rc.zsh
+# ::: :/home/dot_config/zsh/exact_util/mise.rc.zsh
 #
 #
 

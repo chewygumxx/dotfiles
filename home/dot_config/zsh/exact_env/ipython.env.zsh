@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/env/ipython.env.zsh
+# ::: :/home/dot_config/zsh/exact_env/ipython.env.zsh
 #
 #
 

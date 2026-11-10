@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/spec/fast-syntax-highlighting.spec.zsh
+# ::: :/home/dot_config/zsh/exact_spec/fast-syntax-highlighting.spec.zsh
 #
 #
 

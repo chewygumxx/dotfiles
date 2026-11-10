@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/util/zoxide.rc.zsh
+# ::: :/home/dot_config/zsh/exact_util/zoxide.rc.zsh
 #
 #
 # Fuzzy frecency directory jumper

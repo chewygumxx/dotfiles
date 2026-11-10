@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/zsh/env/jupyter.env.zsh
+# ::: :/home/dot_config/zsh/exact_env/jupyter.env.zsh
 #
 #
 
