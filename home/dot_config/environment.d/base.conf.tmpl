@@ -1,0 +1,20 @@
+# vim:set expandtab shiftwidth=4 filetype=dosini:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/environment.d/base.conf.tmpl
+#
+#
+
+# ${PATH:+...} avoids a leading empty entry (the current directory) when the
+# manager starts without PATH. Bun's global bin is BUN_INSTALL_BIN in
+# zsh/env/tools.env.zsh; zsh/env/base.env.zsh adds the same directories.
+PATH="${PATH:+$PATH:}{{ .chezmoi.homeDir }}/.local/bin:{{ .chezmoi.homeDir }}/.local/share/bun/bin"
+PAGER="less -R"
+EDITOR="nvim"
+# environment.d does not nest quotes: "${EDITOR:-"nvim"}" gave VISUAL=nvim"
+VISUAL="${EDITOR:-nvim}"
+BROWSER=firefox
+TERMCMD=wezterm

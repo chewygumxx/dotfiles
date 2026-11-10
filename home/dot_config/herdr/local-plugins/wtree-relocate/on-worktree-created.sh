@@ -13,7 +13,7 @@
 # Handle worktree.created
 #
 # Migrate the new checkout, created via herdr native dialog, to conform
-# to the wqrktrunk specified by worktree-path and trigger create hooks.
+# to the worktrunk specified by worktree-path and trigger create hooks.
 #
 # Output lands in `herdr plugin log list`.
 #

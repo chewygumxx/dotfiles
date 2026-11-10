@@ -1,0 +1,12 @@
+# vim:set expandtab shiftwidth=4 filetype=dosini:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/environment.d/bun.conf.tmpl
+#
+#
+
+BUN_INSTALL="${XDG_DATA_HOME:-{{ .chezmoi.homeDir }}/.local/share}/bun"
+BUN_INSTALL_CACHE_DIR="${XDG_CACHE_HOME:-{{ .chezmoi.homeDir }}/.cache}/bun"

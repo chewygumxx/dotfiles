@@ -1,0 +1,73 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/.shuck.toml
+#
+#
+
+#
+# Brought over from chewygumxx/zsh-config, with the paths made relative to this
+# directory. chezmoi skips dot-named source entries, so this file is never
+# deployed. .husky/pre-commit and .github/workflows/lint-config.yaml run
+# `shuck check` against it.
+#
+# https://ewhauser.github.io/shuck/docs/configuration/
+# https://ewhauser.github.io/shuck/docs/settings/
+#
+
+# Required for correctness rather than tidiness. Left unmapped, shuck reads
+# these files as sh, where `$+functions[...]` means nothing, and `shuck format`
+# rewrites it to `(($ + functions[...]))`: an expression that is true when the
+# function is absent and false when it is present.
+[per-file-shell]
+"dot_zshenv"   = "zsh"
+"dot_zshrc"    = "zsh"
+"exact_comp/*" = "zsh"
+"exact_env/*"  = "zsh"
+"exact_func/*" = "zsh"
+"exact_rc/*"   = "zsh"
+"exact_spec/*" = "zsh"
+"exact_util/*" = "zsh"
+"exact_wrap/*" = "zsh"
+
+[format]
+never-split        = false
+indent-style       = "space"
+indent-width       = 4
+keep-padding       = true
+space-redirects    = true
+binary-next-line   = false
+switch-case-indent = true
+function-next-line = false
+
+[lint]
+ignore = [
+    "C001",  # Variable is assigned but never used
+    "C002",  # Source path is built at runtime
+    "C003",  # Sourced file is not available to this analysis
+]
+
+# zsh_dirs is a global associative array assigned in env/zsh_dirs.env.zsh,
+# which .zshenv sources before anything in rc/, util/, func/ or wrap/ runs.
+# Every file that reads it does so without ever assigning it, so shuck's own
+# analysis flags it as referenced before assignment (C006).
+[[lint.contracts.custom]]
+id   = "zsh-dirs"
+when = "always"
+
+[lint.contracts.custom.provides]
+variables = [ "zsh_dirs" ]
+
+# functions_source is a zsh/parameter special, assigned by zsh itself, which
+# shuck does not know about. Every autoloaded function that names its own file
+# for diagnostics reads it, so it is declared once here rather than with a
+# pragma in each. (comp/_herdr predates this and keeps its pragma.)
+[[lint.contracts.custom]]
+id   = "zsh-parameter-specials"
+when = "always"
+
+[lint.contracts.custom.provides]
+variables = [ "functions_source" ]

@@ -14,6 +14,15 @@ set -e
 status=0
 
 # --------
+# Whitespace
+# --------
+
+# Only the lines this commit adds: trailing whitespace, a blank line at end of
+# file, and leftover conflict markers, as .editorconfig asks. Older files still
+# have some, so the whole tree is not checked.
+git diff --cached --check || status=1
+
+# --------
 # Lua
 # --------
 
@@ -85,6 +94,42 @@ if command -v bunx >/dev/null 2>&1; then
     fi
 else
     echo "pre-commit: bunx not on PATH, skipping JSON/YAML checks" >&2
+fi
+
+# --------
+# Zsh
+# --------
+
+# Every file in the zsh tree is zsh source, most without an extension, apart
+# from chezmoi's own .chezmoiignore, shuck's .shuck.toml and any symlink_*
+# "source" file. Neither tool rewrites anything, so nothing is re-staged.
+# Both read the working tree, so skip a staged file that is gone from it
+# (e.g. a rename staged ahead of a deletion).
+zsh_files=$(
+    git diff --cached --name-only --diff-filter=ACMR -- 'home/dot_config/zsh/' \
+        ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' |
+        while IFS= read -r f; do [ -f "$f" ] && printf '%s\n' "$f"; done
+)
+
+if command -v zsh >/dev/null 2>&1; then
+    # Parse only: a syntax error in env/ or .zshenv breaks every zsh start,
+    # scp, rsync and git over ssh included.
+    for f in $zsh_files; do
+        zsh -n -- "$f" || status=1
+    done
+else
+    echo "pre-commit: zsh not on PATH, skipping zsh syntax checks" >&2
+fi
+
+if command -v shuck >/dev/null 2>&1; then
+    # shuck finds home/dot_config/zsh/.shuck.toml by walking up from each
+    # file, and needs it: it maps the extensionless files to zsh, which they
+    # would otherwise be misread as sh.
+    if [ -n "$zsh_files" ]; then
+        echo "$zsh_files" | xargs shuck check || status=1
+    fi
+else
+    echo "pre-commit: shuck not on PATH, skipping zsh lint" >&2
 fi
 
 exit $status

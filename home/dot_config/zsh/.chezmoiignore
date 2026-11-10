@@ -1,0 +1,22 @@
+# vim:set expandtab shiftwidth=4 filetype=gitignore:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/zsh/.chezmoiignore
+#
+#
+
+#
+# Patterns are target paths relative to ~/.config/zsh. The subdirectories are
+# exact_, so anything in them that chezmoi does not manage is deleted on
+# apply; ignored entries are left alone instead, which is what keeps the
+# files below alive.
+#
+
+# Written by ~/.local/bin/chezmoi-environment with this host's paths.
+env/chezmoi.env.zsh
+
+# Per-host overrides, never committed.
+**/*.local.*
