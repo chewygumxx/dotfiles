@@ -1,0 +1,46 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/.chezmoitemplates/ui_toast.toml.tmpl
+#
+#
+
+#
+# Fragment intended for insertion within chezmoi-populated herdr
+# config.toml.tmpl masterdoc
+#
+# https://herdr.dev/docs/configuration/
+# https://herdr.dev/tui/docs/config-reference/
+#
+
+# --------------
+# Agent
+# Mouse
+# Notification
+# Pane
+# Prompt
+# Sidebar
+# Sound
+# Tab-Bar
+# --------------
+
+[ui.toast]
+# Popup Delivery
+# - 'herdr'    Herdr drawn within host
+# - 'terminal' Desktop notify via host terminal request
+# - 'system'   Direct message via host operating system
+# - 'off'      Disable entirely
+delivery = "herdr"
+
+# Delay: Event -> Notify
+# Minimum time to validate change of agent status
+delay_seconds = 2
+
+# Draw: Herdr Popup
+herdr = { position = "top-right" }
+
+# Draw: Copied-to-Clipboard
+clipboard = { position = "top-right", enabled = true }
