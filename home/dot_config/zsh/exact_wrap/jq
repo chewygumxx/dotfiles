@@ -21,6 +21,8 @@
 # all: it raised `bad math expression` on stderr for every call and was never
 # true, so --indent 4 went ahead of whatever the caller passed. The other
 # layout options are respected too, since a forced indent contradicts them.
+# shuck reads the (Ie) subscript flags and -c as variable names.
+# shuck: disable=C006
 if ! ((${@[(Ie)--indent]} || ${@[(Ie)--tab]} || ${@[(Ie)-c]} ||
     ${@[(Ie)--compact-output]})); then
     command jq --indent 4 "$@"

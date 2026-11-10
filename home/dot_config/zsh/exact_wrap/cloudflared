@@ -47,6 +47,8 @@ if [[ ! -d "$TUNNEL_LOGDIRECTORY" ]]; then
     command mkdir -p "$TUNNEL_LOGDIRECTORY"
     mkdir_exit=$?
     if ((mkdir_exit)); then
+        # The backticks are literal text in the message.
+        # shuck: disable=C005
         print -u2 -f '%s: `%s` exited: %s\n' "$__this_file" \
             "mkdir -p \"$TUNNEL_LOGDIRECTORY\"" \
             "$mkdir_exit"

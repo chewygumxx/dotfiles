@@ -58,6 +58,8 @@ __help_main() {
         ${cgxx_help_sect}
         ${chez_help_sects[4,-1]}
     )
+    # __help_pager prints the pager command to run, so its output is executed.
+    # shuck: disable=C092
     printf '%s\n\n' $help_output | $(__help_pager)
 }
 

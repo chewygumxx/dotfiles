@@ -40,6 +40,8 @@ if (( $# == 0 )) && (( $+commands[nvim] )); then
         # off expanding $tempfile until the trap fires, by which point the local
         # is out of scope and the removal silently targets an empty path. (q)
         # keeps the result safe should the path ever contain whitespace.
+        # Expanded when set, on purpose, as explained above.
+        # shuck: disable=C008
         trap "command rm -f -- ${(q)tempfile}" EXIT
         command nvim "$tempfile"
         # Negated. `-s` is true when the file exists and is non-empty, so the

@@ -16,6 +16,8 @@ if ! [[ $UNICODE =~ '^U\+[0-9ABCDEFabcdef]{4}$' ]]; then
     return 2
 fi
 
+# The single-quoted command is parallel's to expand, not this shell's.
+# shuck: disable=C005
 fd -e ttf -e otf . '/usr/share/fonts' --exec echo $UNICODE | parallel \
     --colsep "^(U\+[0-9ABCDEFabcdef]{4}) (.*?)$" \
     'result=$(interrofont --glyph-for {2} {3})
