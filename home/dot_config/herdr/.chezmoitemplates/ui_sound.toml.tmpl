@@ -1,0 +1,62 @@
+# vim:set expandtab shiftwidth=4 filetype=gotoml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:tombi lint.disabled = true
+
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/herdr/.chezmoitemplates/ui_sound.toml.tmpl
+#
+#
+
+#
+# Fragment intended for insertion within chezmoi-populated herdr
+# config.toml.tmpl masterdoc
+#
+# https://herdr.dev/docs/configuration/
+# https://herdr.dev/tui/docs/config-reference/
+#
+
+# --------------
+# Agent
+# Mouse
+# Notification
+# Pane
+# Prompt
+# Sidebar
+# Sound
+# Tab-Bar
+# --------------
+
+[ui.sound]
+enabled = true
+
+# MP3 Filepath
+# Absolute or relative to configuration file.
+#
+# ~/.local/share/audio/*.mp3 are symlinks deployed by this same apply
+# (see dot_local/share/audio/). Override the basenames per host via
+# data `herdr.notifymp3.{std,done,request}`.
+{{- $audioDir := joinPath .chezmoi.destDir ".local" "share" "audio" }}
+{{- $sounds := dig "herdr" "notifymp3" (dict) . }}
+path         = {{ joinPath $audioDir (get $sounds "std" | default "notify.mp3") | quote }}
+done_path    = {{ joinPath $audioDir (get $sounds "done" | default "done.mp3") | quote }}
+request_path = {{ joinPath $audioDir (get $sounds "request" | default "request.mp3") | quote }}
+
+# ----------------
+# UI Sound Agents
+# ----------------
+
+[ui.sound.agents]
+# "on" vs "off" vs "default"
+# Override per agent via data `herdr.ui_sound_agents.<agent>`.
+{{- $overrides := dig "herdr" "ui_sound_agents" (dict) . }}
+{{- $agents := list
+    "agy" "amp" "claude" "cline" "codex" "cursor"
+    "devin" "droid" "gemini" "github_copilot" "grok" "hermes"
+    "kilo" "kimi" "kiro" "letta" "maki" "muse"
+    "open_code" "pi" "qodercli" "qwen" }}
+{{- range $agent := $agents }}
+{{ printf "%-14s = %q" $agent (get $overrides $agent | default "default") }}
+{{- end }}
