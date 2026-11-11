@@ -42,6 +42,28 @@ copy = "wt step copy-ignored --require-include"
 [post-start]
 herdr = "case {{ branch }} in agent-*) ;; *) [ -n \"$CLAUDE_PROJECT_DIR\" ] && [ \"$HERDR_ENV\" = 1 ] && herdr worktree open --cwd {{ primary_worktree_path }} --path {{ worktree_path }} --no-focus >/dev/null ;; esac; true"
 
+# Close the herdr workspace left on a removed worktree, its shells otherwise
+# sit in a deleted directory. Covers `wt remove` and `wt merge` from a shell;
+# skipped inside herdr-worktrunk plugin panes, whose remover and merger close
+# it themselves. herdr still lists the workspace's checkout_path after the
+# directory is gone. This closes every pane in that workspace.
+[post-remove]
+herdr = """
+[ "$HERDR_ENV" = 1 ] && [ -z "$HERDR_PLUGIN_ROOT" ] || exit 0
+herdr workspace list |
+    jq -r --arg p {{ worktree_path }} '.result.workspaces[]
+        | select(.worktree.checkout_path == $p) | .workspace_id' |
+    while read -r ws; do herdr workspace close "$ws" >/dev/null; done
+"""
+
+# Toast in herdr once a merge lands, for merges run by agents or elsewhere.
+[post-merge]
+herdr = """
+[ "$HERDR_ENV" = 1 ] || exit 0
+herdr notification show Merged --sound done \
+    --body "$(printf '%s into %s' {{ branch }} {{ target }})" >/dev/null
+"""
+
 # LLM Commit Message Generation
 # - `wt step commit`
 # - `wt step squash`
