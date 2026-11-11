@@ -29,11 +29,7 @@
 # conform such that herdr native and worktrunk checkouts harmonise.
 worktree-path = "~/dev/_worktree/{{ repo }}/{{ branch | sanitize }}"
 
-# Blocking, so .env and friends exist before Claude enters the worktree.
-# --require-include matches Claude Code: only gitignored files that are also
-# listed in .worktreeinclude get copied.
 [pre-start]
-copy = "wt step copy-ignored --require-include"
 # Marks the checkout as started by worktrunk, in its own git dir so it
 # goes with the worktree. herdr local plugin wtree-relocate runs the
 # create hooks for checkouts lacking it, ie. those herdr's dialog made.
