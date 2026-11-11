@@ -92,3 +92,49 @@ claude -p \
 # projects.merge.squash as an unknown field.
 [merge]
 squash = false
+
+# `wt <alias>`. Aliases that forward {{ args }} to a wt command inherit its
+# completion, so `wt s <Tab>` completes branches like `wt switch <Tab>`.
+# Inspect with `wt config alias show <name>` and `dry-run <name> -- args`.
+#
+# https://worktrunk.dev/extending/#aliases
+[aliases]
+s  = "wt switch {{ args }}"
+sc = "wt switch --create {{ args }}"
+l  = "wt list {{ args }}"
+m  = "wt merge {{ args }}"
+rm = "wt remove {{ args }}"
+cm = "wt step commit {{ args }}"
+
+# Commits on this branch that the default branch lacks.
+since = "git log --oneline {{ default_branch }}..HEAD {{ args }}"
+
+# wt ho [-c] <branch>: Open the worktree as a herdr workspace and focus it,
+# leaving this shell where it is. Reuses the workspace if already open.
+ho = """
+set -e
+p=$(wt switch {{ args }} --no-cd --format=json | jq -r .path)
+[ -n "$p" ] || exit 1
+herdr worktree open --cwd {{ primary_worktree_path }} --path "$p" \
+    --focus >/dev/null
+"""
+
+# wt ha <branch> [-- <claude args>]: As `ho`, creating the branch if it
+# doesn't exist, then start Claude in the workspace (its root pane when
+# newly opened, else a fresh split), named after the worktree directory.
+#   wt ha fix/login -- 'Fix the login redirect'
+ha = """
+set -e -- {{ args }}
+b=$1
+shift
+git show-ref -q --verify "refs/heads/$b" || c=--create
+p=$(wt switch $c "$b" --no-cd --format=json | jq -r .path)
+[ -n "$p" ] || exit 1
+o=$(herdr worktree open --cwd {{ primary_worktree_path }} --path "$p" --focus)
+pane=$(printf '%s' "$o" | jq -r .result.root_pane.pane_id)
+if [ "$(printf '%s' "$o" | jq -r .result.already_open)" = true ]; then
+    pane=$(herdr pane split "$pane" --direction right --cwd "$p" \
+        --no-focus | jq -r .result.pane.pane_id)
+fi
+herdr agent start "${p##*/}" --kind claude --pane "$pane" -- "$@" >/dev/null
+"""
