@@ -34,6 +34,10 @@ worktree-path = "~/dev/_worktree/{{ repo }}/{{ branch | sanitize }}"
 # listed in .worktreeinclude get copied.
 [pre-start]
 copy = "wt step copy-ignored --require-include"
+# Marks the checkout as started by worktrunk, in its own git dir so it
+# goes with the worktree. herdr local plugin wtree-relocate runs the
+# create hooks for checkouts lacking it, ie. those herdr's dialog made.
+mark = "touch \"$(git rev-parse --absolute-git-dir)/wt-started\""
 
 # Show Claude-created worktrees in herdr's sidebar, skipping subagent ones.
 # Gated on CLAUDE_PROJECT_DIR so it never races the herdr-worktrunk plugin,

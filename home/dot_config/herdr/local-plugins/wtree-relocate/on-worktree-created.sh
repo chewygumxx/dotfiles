@@ -60,18 +60,28 @@ herdr="${HERDR_BIN_PATH:-herdr}"
 [[ -n "$src" && -d "$src" && -n "$branch" && -n "$primary" ]] || exit 0
 
 # [Idempotency Guard]
-# Empty when checkout already exists within worktrunk specified path:
-# - Created compliantly by plugin `devashish2203/herdr-worktrunk`
+# worktrunk's pre-start leaves this marker in the checkout's own git dir
+# (see ~/.config/worktrunk/config.toml), so it exists once the create hooks
+# have run:
+# - Created by worktrunk, eg. plugin `devashish2203/herdr-worktrunk`
 # - Self-Trigger following event below
+# git deletes the dir with the worktree, so a reused branch name starts clean.
+marker="$(git -C "$src" rev-parse --absolute-git-dir)/wt-started"
+[[ ! -e "$marker" ]] || exit 0
+
+# Empty when the checkout already sits at worktrunk's worktree-path, as
+# herdr's directory and worktree-path build the same path. It still missed
+# the create hooks, so only the move is skipped.
 dest=$(wt -C "$src" step relocate "$branch" --dry-run --format=json |
     jq -r '.entries[0].to // empty')
-[[ -n "$dest" ]] || exit 0
 
-mkdir -p "$(dirname "$dest")" # Ensure destination directory exists
-wt -C "$primary" step relocate "$branch"
+if [[ -n "$dest" ]]; then
+    mkdir -p "$(dirname "$dest")" # Ensure destination directory exists
+    wt -C "$primary" step relocate "$branch"
 
-# The workspace's shells sit in a directory that no longer exists
-[[ -z "$ws" ]] || "$herdr" workspace close "$ws" >/dev/null
+    # The workspace's shells sit in a directory that no longer exists
+    [[ -z "$ws" ]] || "$herdr" workspace close "$ws" >/dev/null
+fi
 
 hook-fail() {
     echo "wtree-relocate: Failed to trigger $1-start hooks for: '$2'" >&2
@@ -81,18 +91,21 @@ hook-fail() {
 # Open the workspace regardless and execute the following once
 # per repo to fix:
 #    `wt config approvals add`
-wt -C "$dest" hook pre-start || hook-fail pre "$dest"
+wt -C "${dest:-$src}" hook pre-start || hook-fail pre "${dest:-$src}"
 
-# Reopen as the dialog left it. Open would otherwise relabel it after the
-# new directory and always take focus.
-open_args=(
-    --cwd "$primary"
-    --path "$dest"
-)
-[[ -z "$label" ]] || open_args+=(--label "$label")
-[[ $focused == true ]] &&
-    open_args+=(--focus) ||
-    open_args+=(--no-focus)
+if [[ -n "$dest" ]]; then
+    # Reopen as the dialog left it. Open would otherwise relabel it after
+    # the new directory and always take focus.
+    open_args=(
+        --cwd "$primary"
+        --path "$dest"
+    )
+    [[ -z "$label" ]] || open_args+=(--label "$label")
+    [[ $focused == true ]] &&
+        open_args+=(--focus) ||
+        open_args+=(--no-focus)
 
-"$herdr" worktree open "${open_args[@]}" >/dev/null
-wt -C "$dest" hook post-start || hook-fail post "$dest"
+    "$herdr" worktree open "${open_args[@]}" >/dev/null
+fi
+
+wt -C "${dest:-$src}" hook post-start || hook-fail post "${dest:-$src}"
