@@ -34,6 +34,10 @@ worktree-path = "~/dev/_worktree/{{ repo }}/{{ branch | sanitize }}"
 # listed in .worktreeinclude get copied.
 [pre-start]
 copy = "wt step copy-ignored --require-include"
+# Marks the checkout as started by worktrunk, in its own git dir so it
+# goes with the worktree. herdr local plugin wtree-relocate runs the
+# create hooks for checkouts lacking it, ie. those herdr's dialog made.
+mark = "touch \"$(git rev-parse --absolute-git-dir)/wt-started\""
 
 # Show Claude-created worktrees in herdr's sidebar, skipping subagent ones.
 # Gated on CLAUDE_PROJECT_DIR so it never races the herdr-worktrunk plugin,
@@ -41,6 +45,28 @@ copy = "wt step copy-ignored --require-include"
 # shell-escaped by worktrunk, so they stay unquoted.
 [post-start]
 herdr = "case {{ branch }} in agent-*) ;; *) [ -n \"$CLAUDE_PROJECT_DIR\" ] && [ \"$HERDR_ENV\" = 1 ] && herdr worktree open --cwd {{ primary_worktree_path }} --path {{ worktree_path }} --no-focus >/dev/null ;; esac; true"
+
+# Close the herdr workspace left on a removed worktree, its shells otherwise
+# sit in a deleted directory. Covers `wt remove` and `wt merge` from a shell;
+# skipped inside herdr-worktrunk plugin panes, whose remover and merger close
+# it themselves. herdr still lists the workspace's checkout_path after the
+# directory is gone. This closes every pane in that workspace.
+[post-remove]
+herdr = """
+[ "$HERDR_ENV" = 1 ] && [ -z "$HERDR_PLUGIN_ROOT" ] || exit 0
+herdr workspace list |
+    jq -r --arg p {{ worktree_path }} '.result.workspaces[]
+        | select(.worktree.checkout_path == $p) | .workspace_id' |
+    while read -r ws; do herdr workspace close "$ws" >/dev/null; done
+"""
+
+# Toast in herdr once a merge lands, for merges run by agents or elsewhere.
+[post-merge]
+herdr = """
+[ "$HERDR_ENV" = 1 ] || exit 0
+herdr notification show Merged --sound done \
+    --body "$(printf '%s into %s' {{ branch }} {{ target }})" >/dev/null
+"""
 
 # LLM Commit Message Generation
 # - `wt step commit`
@@ -70,3 +96,49 @@ claude -p \
 # projects.merge.squash as an unknown field.
 [merge]
 squash = false
+
+# `wt <alias>`. Aliases that forward {{ args }} to a wt command inherit its
+# completion, so `wt s <Tab>` completes branches like `wt switch <Tab>`.
+# Inspect with `wt config alias show <name>` and `dry-run <name> -- args`.
+#
+# https://worktrunk.dev/extending/#aliases
+[aliases]
+s  = "wt switch {{ args }}"
+sc = "wt switch --create {{ args }}"
+l  = "wt list {{ args }}"
+m  = "wt merge {{ args }}"
+rm = "wt remove {{ args }}"
+cm = "wt step commit {{ args }}"
+
+# Commits on this branch that the default branch lacks.
+since = "git log --oneline {{ default_branch }}..HEAD {{ args }}"
+
+# wt ho [-c] <branch>: Open the worktree as a herdr workspace and focus it,
+# leaving this shell where it is. Reuses the workspace if already open.
+ho = """
+set -e
+p=$(wt switch {{ args }} --no-cd --format=json | jq -r .path)
+[ -n "$p" ] || exit 1
+herdr worktree open --cwd {{ primary_worktree_path }} --path "$p" \
+    --focus >/dev/null
+"""
+
+# wt ha <branch> [-- <claude args>]: As `ho`, creating the branch if it
+# doesn't exist, then start Claude in the workspace (its root pane when
+# newly opened, else a fresh split), named after the worktree directory.
+#   wt ha fix/login -- 'Fix the login redirect'
+ha = """
+set -e -- {{ args }}
+b=$1
+shift
+git show-ref -q --verify "refs/heads/$b" || c=--create
+p=$(wt switch $c "$b" --no-cd --format=json | jq -r .path)
+[ -n "$p" ] || exit 1
+o=$(herdr worktree open --cwd {{ primary_worktree_path }} --path "$p" --focus)
+pane=$(printf '%s' "$o" | jq -r .result.root_pane.pane_id)
+if [ "$(printf '%s' "$o" | jq -r .result.already_open)" = true ]; then
+    pane=$(herdr pane split "$pane" --direction right --cwd "$p" \
+        --no-focus | jq -r .result.pane.pane_id)
+fi
+herdr agent start "${p##*/}" --kind claude --pane "$pane" -- "$@" >/dev/null
+"""
