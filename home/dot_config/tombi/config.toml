@@ -10,9 +10,27 @@
 #
 #
 
+#
+# https://tombi-toml.github.io/tombi/docs/configuration/
+#
+
 # Default to TOML 1.0 for compatibility.
 toml-version = "v1.0.0"
 
+[format]
+[format.rules]
+array-bracket-space-width       = 1
+date-time-delimiter             = "space"
+group-blank-lines-limit         = 2
+indent-table-key-value-pairs    = false
+indent-width                    = 4
+key-value-equals-sign-alignment = true
+line-width                      = 80
+trailing-comment-alignment      = true
+trailing-comment-space-width    = 2
+
+# Mise Configuration
+# https://mise.jdx.dev/configuration/reference.html
 [[schemas]]
 toml-version = "v1.1.0"
 path         = "https://mise.jdx.dev/schema/mise.json"
@@ -35,4 +53,21 @@ include      = [
     "**/mise/conf.d/*.toml",
     "**/.mise/conf.d/*.toml",
     "**/.config/mise/conf.d/*.toml",
+]
+
+# Mise TOML Tasks
+# https://mise.jdx.dev/tasks/task-discovery.html
+[[schemas]]
+toml-version = "v1.1.0"
+path         = "https://mise.jdx.dev/schema/mise-task.json"
+include      = [
+    # Default Task Directories
+    "mise-tasks/**/*.toml",
+    ".mise-tasks/**/*.toml",
+    "mise/tasks/**/*.toml",
+    ".mise/tasks/**/*.toml",
+    ".config/mise/tasks/**/*.toml",
+
+    # chewygumxx Convention
+    "*.task.toml"
 ]
