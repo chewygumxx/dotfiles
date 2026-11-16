@@ -22,16 +22,21 @@
 # XDG_DATA_HOME is read with the same fallback env/zsh_dirs.env.zsh uses. Unset,
 # the cargo and go entries collapsed to the root-relative /cargo/bin and
 # /go/bin.
+
+: "${XDG_DATA_HOME:="$HOME/.local/share"}"
+
 typeset -gU path
 path=(
     "$HOME/.local/bin"
-    "${XDG_DATA_HOME:="$HOME/.local/share"}/cargo/bin"
-    "${XDG_DATA_HOME:="$HOME/.local/share"}/go/bin"
-    "${XDG_DATA_HOME:="$HOME/.local/share"}/bun/bin"
+    "$XDG_DATA_HOME/mise/shims"
+    "$XDG_DATA_HOME/cargo/bin"
+    "$XDG_DATA_HOME/go/bin"
+    "$XDG_DATA_HOME/bun/bin"
     $path
 )
 export PAGER="less -RN"
 export BROWSER="firefox"
 export TERMCMD="wezterm"
+
 export EDITOR="nvim"
 export VISUAL="$EDITOR"

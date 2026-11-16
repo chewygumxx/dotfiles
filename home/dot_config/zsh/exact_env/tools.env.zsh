@@ -52,10 +52,10 @@ export NUGET_PACKAGES="$XDG_DATA_HOME/NuGetPackages"
 export BUN_INSTALL_GLOBAL_DIR="$XDG_DATA_HOME/bun/global"
 export BUN_INSTALL_BIN="$XDG_DATA_HOME/bun/bin"
 
-# Codex keeps config, credentials, databases, transcripts and its daemon in one
-# root, so it lives in ~/.local/var, the dotfiles home directory specification's
-# place for inseparable application data. Not an XDG variable: no fallback.
-export CODEX_HOME="$HOME/.local/var/codex"
+# Herdr also requires this.
+export CLAUDE_CONFIG_DIR="$XDG_DATA_HOME/claude"
+
+export CODEX_HOME="$XDG_DATA_HOME/codex"
 
 # Console Do Not Track, https://consoledonottrack.com, honoured by gh among
 # many others. 1, as the convention specifies and as wrap/claude defaults it;
@@ -75,7 +75,7 @@ export GOBIN="$XDG_DATA_HOME/go/bin"
 # Gradle
 export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
 
-# npm, whose cache and debug logs (cache/_logs) otherwise land in ~/.npm
+# NPM, whose cache and debug logs (cache/_logs) otherwise land in ~/.npm
 export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
 
 # Parallel
@@ -85,6 +85,8 @@ export PARALLEL_HOME="$XDG_DATA_HOME/parallel"
 export PERL_CPANM_HOME="$XDG_CACHE_HOME/cpanm"
 
 # Python
+export IPYTHONDIR="$XDG_DATA_HOME/ipython"
+export JUPYTER_CONFIG_DIR="$XDG_DATA_HOME/jupyter"
 export PYTHONSTARTUP="$XDG_CONFIG_HOME/python/pythonrc"
 export PYTHON_HISTORY="$XDG_STATE_HOME/python/history"
 
