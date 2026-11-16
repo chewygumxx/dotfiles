@@ -22,16 +22,20 @@
 emulate -L zsh
 setopt localoptions extended_glob
 
+local __this_file="${(D)${${(%):-%N}:A}}"
+
 # ------------
 # Directories
 # ------------
 
-# The environment (env/claude.env.zsh, environment.d/claude.conf) rules; this
-# default only covers a shell that never sourced it.
-local -x CLAUDE_CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.local/var/claude}"
+: "${XDG_DATA_HOME:="$HOME/.local/share"}"
+: "${CLAUDE_CONFIG_DIR:="$XDG_DATA_HOME/claude"}"
+
 if [[ ! -d "$CLAUDE_CONFIG_DIR" ]]; then
-    mkdir -p "$CLAUDE_CONFIG_DIR" || return 1
+    command mkdir -p "$CLAUDE_CONFIG_DIR" || return $?
 fi
+
+local -x CLAUDE_CONFIG_DIR
 
 if [[ ! -v CLAUDE_CODE_PROJECT_DIR_NAME ]]; then
     local git_origin{,_trim} git_slug
@@ -51,26 +55,33 @@ if [[ ! -v CLAUDE_CODE_PROJECT_DIR_NAME ]]; then
     git_slug="${git_slug%%[-._]##}"
     git_slug="${git_slug:-project}"
 
-    local -x CLAUDE_CODE_PROJECT_DIR_NAME="$git_slug"
+    : "${CLAUDE_CODE_PROJECT_DIR_NAME:="$git_slug"}"
 fi
+
+local -x CLAUDE_CODE_PROJECT_DIR_NAME
 
 # ----------
 # Utilities
 # ----------
 
-if (($+commands[rg])); then
-    # Locally installed is almost certainly more up-to-date
-    local -x USE_BUILTIN_RIPGREP="${USE_BUILTIN_RIPGREP:-0}"
+# Always utilise locally installed ripgrep
+if ! (($+commands[rg])); then
+    builtin printf -u2 -f '%s: [%s] %s\n' -- \
+        "$__this_file" "ERROR" "Not found: rg" \
+        "$__this_file" "ERROR" '    (Bypass this blocker with `command claude [args]`'
+    return 127
 fi
+
+local -x USE_BUILTIN_RIPGREP=0
 
 # ----------
 # Telemetry
 # ----------
 
-local -x DO_NOT_TRACK="${DO_NOT_TRACK:-1}"
-local -x DISABLE_TELEMETRY="${DISABLE_TELEMETRY:-1}"
-local -x DISABLE_GROWTHBOOK="${DISABLE_GROWTHBOOK:-1}"
-local -x CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="${CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC:-1}"
+local -x DO_NOT_TRACK=1
+local -x DISABLE_TELEMETRY=1
+local -x DISABLE_GROWTHBOOK=1
+local -x CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
 
 # --------
 # Execute
