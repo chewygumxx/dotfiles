@@ -32,47 +32,53 @@ local __this_file="${(D)${${(%):-%N}:A}}"
 : "${CLAUDE_CONFIG_DIR:="$XDG_DATA_HOME/claude"}"
 
 if [[ ! -d "$CLAUDE_CONFIG_DIR" ]]; then
-    command mkdir -p "$CLAUDE_CONFIG_DIR" || return $?
+    local code=0
+    if command mkdir -p "$CLAUDE_CONFIG_DIR"; then :; else
+        code="$?"
+        builtin printf -u2 -f '%s: [%s] %s:\n    %s\n' -- \
+            "$__this_file" "FATAL" \
+            "Failed to both resolve and create CLAUDE_CONFIG_DIR:" \
+            "$CLAUDE_CONFIG_DIR"
+        return "$code"
+    fi
 fi
 
 local -x CLAUDE_CONFIG_DIR
 
 if [[ ! -v CLAUDE_CODE_PROJECT_DIR_NAME ]]; then
-    local git_origin{,_trim} git_slug
+    local -x CLAUDE_CODE_PROJECT_DIR_NAME="$(
+    command gh -C "$PWD" repo view \
+        --json owner,name,branch \
+        --jq '
+                    def slug:
+                        ascii_downcase
+                        | gsub("[^a-z0-9]+"; "-")
+                        | gsub("^-+|-+$"; "")
+                        | .[:100]
+                        | if isempty(.) == "" then
+                            "untitled"
+                          else
+                            . end;
 
-    # Quiet on purpose. Outside a repository, or in one without an origin, git
-    # printed its complaint on every launch; the fallback name below already
-    # covers both cases.
-    git_origin="$(command git -C "$PWD" remote get-url origin 2> /dev/null)"
-    git_origin_trim="${${git_origin##*:}%\.git}"
-    git_slug="${(j:_:)${${(s:/:)git_origin_trim}[-2,-1]}}"
-    git_slug="${git_slug// /_}"
-
-    # POSIX portable filename charset
-    git_slug="${git_slug//[^A-Za-z0-9._-]/_}"
-    git_slug="${git_slug//_##/_}"
-    git_slug="${git_slug##[-._]##}"
-    git_slug="${git_slug%%[-._]##}"
-    git_slug="${git_slug:-project}"
-
-    : "${CLAUDE_CODE_PROJECT_DIR_NAME:="$git_slug"}"
+                        .[] | "gh_\(.owner)_\(.name)___\(.branch)" | slug
+                ')"
 fi
-
-local -x CLAUDE_CODE_PROJECT_DIR_NAME
 
 # ----------
 # Utilities
 # ----------
 
+local -x USE_BUILTIN_RIPGREP=0
+
 # Always utilise locally installed ripgrep
 if ! (($+commands[rg])); then
-    builtin printf -u2 -f '%s: [%s] %s\n' -- \
-        "$__this_file" "ERROR" "Not found: rg" \
-        "$__this_file" "ERROR" '    (Bypass this blocker with `command claude [args]`'
-    return 127
-fi
+    local -x USE_BUILTIN_RIPGREP=1
 
-local -x USE_BUILTIN_RIPGREP=0
+    builtin printf -u2 -f '%s: [%s] %s\n\n    %s\n\n%s\n' -- \
+        "$__this_file" "ERROR" \
+        "Essential utility not found:" "rg (ripgrep)" \
+        "Falling back to builtin"
+fi
 
 # ----------
 # Telemetry
