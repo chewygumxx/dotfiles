@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+# vim:set expandtab shiftwidth=4 filetype=bash:
+# SPDX-License-Identifier: GPL-3.0-only
+#MISE
+#MISE  description="Add Python, uv and test tasks to the current project"
+#MISE  interactive=#true
+#MISE  dir="{{ cwd }}"
+#MISE
+#USAGE arg "[version]"
+#USAGE     help="Python version"
+#USAGE     default="3.14"
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/mise/scaffold/python
+#
+#
+
+set -euo pipefail
+
+__this_file="${BASH_SOURCE[0]}"
+
+log() {
+    printf '%s: [%s]    %s\n' \
+        "$__this_file" "$1" "$*"
+}
+
+warned=0
+warn() {
+    # Do not repeat MISE_ORIGINAL_CWD warnings
+    ((warned)) && return
+
+    log WARN "The environment variable 'MISE_ORIGINAL_CWD' did not resolve to $*"
+    log WARN "    MISE_ORIGINAL_CWD:    $MISE_ORIGINAL_CWD"
+    log WARN "                  PWD:    $PWD"
+    log WARN "This may be due to the \`dir\` metadata of Mise not set to \`{{ cwd }}\`"
+    log WARN "Continuing..."
+}
+
+if [[ -z "${MISE_ORIGINAL_CWD:-}" ]]; then
+    warn "anything (null)."
+elif [[ -d "${MISE_ORIGINAL_CWD:-}" ]]; then
+    warn "a directory."
+elif [[ "${MISE_ORIGINAL_CWD:-}" == "${PWD:-}" ]]; then
+    warn "the current working directory."
+fi
+
+wdir="${MISE_ORIGINAL_CWD:-${PWD:-}}"
+cd "${wdir}"
+
+log INFO "Python Scaffolding: ${wdir:-}"
+read -p -r "(y)es / (n)o / (c)ancel: " answer
+
+if ! [[ "$answer" == "y" ]]; then
+    log INFO "Installation cancelled"
+    exit 0
+fi
+
+log INFO "Scaffolding..."
+
+mise use \
+    "python@${usage_version}" \
+    uv@latest
+
+mise tasks add \
+    sync --description "Sync locked dependencies" \
+    -- \
+    uv sync --locked
+
+mise tasks add \
+    test --description "Run tests" \
+    -- \
+    uv run --locked pytest

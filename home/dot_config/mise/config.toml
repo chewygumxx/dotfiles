@@ -15,7 +15,137 @@
 #
 
 [tools]
-"aqua:mvdan/sh"    = "3.14.1"
-bun                = "latest"
-node               = "24"
-"npm:ccstatusline" = "latest"
+"aqua:mvdan/sh"        = "3.14.1"
+bun                    = "latest"
+jq                     = "latest"
+node                   = "24"
+"npm:ccstatusline"     = "latest"
+python                 = "3.12"
+pnpm                   = "10"
+uv                     = "latest"
+flutter                = "3"
+terraform              = "1"
+hadolint               = "latest"
+"github:Infisical/cli" = "latest"
+
+[settings]
+# Log task output to state for potential review on fail.
+#
+# https://mise.jdx.dev/configuration/settings.html#task.logs
+# https://mise.jdx.dev/tasks/running-tasks.html#read-the-output-of-the-last-run
+task.logs = true
+
+[task_config]
+# Cascades effective configuration of *THIS* task_config, to descendent config
+# roots.
+cascade = true
+
+[[hooks.enter]]
+# description = "Setup aliasses in BASH without poluting ~/.bashrc"
+shell  = "bash"
+script = """
+mkdir -p /tmp/mise
+mise tasks --json | jq -r '
+	.[] |
+	select(.hide != true and .aliases != null and .aliases != []) |
+	.name as $name |
+	.aliases[] |
+	"alias \\(.)=\\"mise r \\($name)\\""
+' > /tmp/mise/aliases.sh
+chmod +x /tmp/mise/aliases.sh
+eval "$(cat /tmp/mise/aliases.sh)"
+"""
+
+[[hooks.enter]]
+# description = "Setup aliasses in ZSH without poluting ~/.zshrc"
+shell  = "zsh"
+script = """
+mkdir -p /tmp/mise
+mise tasks --json | jq -r '
+	.[] |
+	select(.hide != true and .aliases != null and .aliases != []) |
+	.name as $name |
+	.aliases[] |
+	"alias \\(.)=\\"mise r \\($name)\\""
+' > /tmp/mise/aliases.sh
+chmod +x /tmp/mise/aliases.sh
+eval "$(cat /tmp/mise/aliases.sh)"
+"""
+
+[tasks]
+dev          = { depends = [ "//apps/api:dev", "//apps/web:dev", "//apps/worker:dev" ], description = "Start all services" }
+install      = { depends = [ "//apps/web:install", "//apps/api:install", "//apps/worker:install", "//apps/mobile:install", "//packages/design-tokens:install", "//packages/i18n:install" ], description = "Install all dependencies" }
+lint         = { depends = [ "//apps/api:lint", "//apps/web:lint", "//apps/worker:lint" ], description = "Lint all apps" }
+format       = { depends = [ "//apps/api:format", "//apps/web:format", "//apps/worker:format" ], description = "Format all apps" }
+test         = { depends = [ "//apps/api:test", "//apps/web:test", "//apps/worker:test" ], description = "Test all apps" }
+typecheck    = { depends = [ "//apps/api:typecheck", "//apps/web:typecheck" ], description = "Type check all apps" }
+"i18n:build" = { depends = [ "//packages/i18n:build" ], description = "Build i18n files" }
+"gen:api"    = { run = "mise //apps/api:gen:openapi && mise //apps/web:gen:api", description = "Generate OpenAPI schema and API clients" }
+"infra:up"   = { depends = [ "//apps/api:infra:up" ], description = "Start local infrastructure" }
+"infra:down" = { depends = [ "//apps/api:infra:down" ], description = "Stop local infrastructure" }
+
+[tasks."git:commit-msg"]
+description = "Validate commit message using commitlint"
+run         = "pnpm dlx @commitlint/cli@20 --edit $1"
+
+[tasks."git:pre-commit"]
+description = "Run conditional checks for staging files"
+run         = '''
+#!/usr/bin/env bash
+changed=$(git diff --cached --name-only)
+
+if echo "$changed" | grep -q "^apps/api/"; then
+    echo "[pre-commit] apps/api detected, running lint..."
+    mise //apps/api:lint || exit 1
+fi
+
+if echo "$changed" | grep -q "^apps/web/"; then
+    echo "[pre-commit] apps/web detected, running lint..."
+    mise //apps/web:lint || exit 1
+fi
+
+if echo "$changed" | grep -q "^apps/worker/"; then
+    echo "[pre-commit] apps/worker detected, running lint..."
+    mise //apps/worker:lint || exit 1
+fi
+
+if echo "$changed" | grep -q "^apps/mobile/"; then
+    echo "[pre-commit] apps/mobile detected, running lint..."
+    mise //apps/mobile:lint || exit 1
+fi
+
+if echo "$changed" | grep -qE "Dockerfile$"; then
+    echo "[pre-commit] Dockerfile detected, running hadolint..."
+    echo "$changed" | grep -E "Dockerfile$" | xargs hadolint || exit 1
+fi
+'''
+
+[tasks."git:pre-push"]
+description = "Validate branch name and run tests before push"
+run         = '''
+#!/usr/bin/env bash
+pnpm dlx @gracefullight/validate-branch || exit 1
+
+# Get changed files compared to origin
+changed=$(git diff --name-only origin/main...HEAD 2>/dev/null || git diff --name-only HEAD~1)
+
+if echo "$changed" | grep -q "^apps/api/"; then
+    echo "[pre-push] apps/api detected, running test..."
+    mise //apps/api:test || exit 1
+fi
+
+if echo "$changed" | grep -q "^apps/web/"; then
+    echo "[pre-push] apps/web detected, running test..."
+    mise //apps/web:test || exit 1
+fi
+
+if echo "$changed" | grep -q "^apps/worker/"; then
+    echo "[pre-push] apps/worker detected, running test..."
+    mise //apps/worker:test || exit 1
+fi
+
+if echo "$changed" | grep -q "^apps/mobile/"; then
+    echo "[pre-push] apps/mobile detected, running test..."
+    mise //apps/mobile:test || exit 1
+fi
+'''

@@ -1,0 +1,133 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:schema https://mise.jdx.dev/schema/mise.json
+#:tombi toml-version = "v1.1.0"
+
+#
+# ~xxdorothy/.config.git
+# ::: :/mise/worktrunk.mise.toml
+#
+#
+
+#
+# Worktrunk
+# https://worktrunk.dev/config
+#
+
+[tool_alias.worktrunk]
+backend = "packslip:github.com/max-sixty/worktrunk"
+
+[tools.worktrunk]
+version = "0.81.0"
+lazy    = true
+
+[wrappers.worktrunk]
+command = "wt"
+env     = {
+    # Worktree Path Template
+    WORKTRUNK_WORKTREE_PATH = "{{ config_root }}/{% raw %}{{ remote_repo }}/{{ branch | sanitize }}{% endraw %}"
+}
+
+[task_templates.worktrunk]
+dir  = "{{ cwd }}"
+tags = [ "git", "branch", "worktree" ]
+
+[task_templates.worktrunk.vars]
+repo        = "{{ exec(git remote get-url origin) | basename }}"
+branch      = "{{ exec(git branch --show-current) }}"
+repo_path   = "{{ exec(git rev-parse --show-toplevel | absolute }}"
+is_worktree = "{{ exec(git rev-parse --is-inside-work-tree) == 'true' }}"
+
+[tasks."wt:list"]
+description = "Details of existing worktrees"
+run         = "wt list"
+alias       = "wtl"
+extends     = "worktrunk"
+
+[tasks."wt:merge"]
+description = "Merge source and target branches"
+run         = "wt merge"
+usage       = """
+var_min=0 var_max=1
+
+arg "[branch]" {
+    help="Target branch of merge"
+    default="Default branch"
+    descriptions=#true
+}
+flag "-b --branch <branch>" {
+    help="Source branch of merge"
+    default="Current branch"
+    descriptions=#true
+}
+complete "branch" {
+    run="git branch --format='%(refname:short)'"
+}
+
+# -----------
+# Global CLI
+# -----------
+
+# Working Directory
+flag "-C <path>" {
+    help="Working directory to execute against"
+    arg "<path>" {
+        default="Current working directory"
+        complete type="dir"
+    }
+    global=#true
+    description=#true
+}
+
+# User Configuration
+flag "--config <path>" {
+    help="Filepath of user configuration"
+    arg "<path>" {
+        default="~/.config/worktrunk/config.toml"
+        env="WORKTRUNK_CONFIG_PATH"
+        required=#true
+        complete type="path:toml"
+    }
+    global=#true
+    description=#true
+}
+flag "--config-set <toml>" {
+    help="Config override via inline TOML"
+    arg "<toml>" {
+        required=#true
+    }
+    global=#true
+    description=#true
+}
+
+# Output
+flag "-v --verbose" {
+    help="Verbose output"
+    count=#true
+    global=#true
+    description=#true
+    env="WORKTRUNK_VERBOSE" {
+        choices "0" "1" "2"
+    }
+}
+flag "-y --yes" {
+    help="Pre-emptive confirmation"
+    global=#true
+    description=#true
+}
+
+"""
+extends     = "worktrunk"
+
+[tasks."wt:switch-create"]
+description = """
+Change working directory to worktree of <branch>.
+Create the branch and/or worktree if they do not exist.
+"""
+usage       = """
+arg "<branch>" help="Branch of worktree"
+complete "branch" run="git branch --format='%(refname:short)'"
+"""
+run         = "wt switch --create"
+extends     = "worktrunk"
+alias       = [ "wtc", "wtsc", "wt-new", "wt-create" ]
