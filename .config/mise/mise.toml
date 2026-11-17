@@ -43,4 +43,4 @@ bun = "1.4"
 "aqua:editorconfig-checker/editorconfig-checker" = "4.0.2"
 
 # TOML
-"aqua:tombi-toml/tombi" = "1.5.5"
+"aqua:tombi-toml/tombi" = "1.11.3"
