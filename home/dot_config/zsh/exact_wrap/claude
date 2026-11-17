@@ -22,14 +22,18 @@
 emulate -L zsh
 setopt localoptions extended_glob
 
-local __this_file="${(D)${${(%):-%N}:A}}"
+# functions_source, not %N:A. In an autoloaded function %N is the bare
+# function name, so :A resolved it against $PWD rather than fpath.
+local __this_file="${(D)${functions_source[${(%):-%N}]:-${(%):-%N}}}"
 
 # ------------
 # Directories
 # ------------
 
-: "${XDG_DATA_HOME:="$HOME/.local/share"}"
-: "${CLAUDE_CONFIG_DIR:="$XDG_DATA_HOME/claude"}"
+# Declared local before defaulting. `: ${VAR:=...}` on its own assigned the
+# caller's global variable, so the defaults leaked into the interactive shell.
+local XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+local -x CLAUDE_CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$XDG_DATA_HOME/claude}"
 
 if [[ ! -d "$CLAUDE_CONFIG_DIR" ]]; then
     local code=0
@@ -43,25 +47,35 @@ if [[ ! -d "$CLAUDE_CONFIG_DIR" ]]; then
     fi
 fi
 
-local -x CLAUDE_CONFIG_DIR
+# gh_<owner>_<repo>___<branch>, each part slugged, from the origin remote.
+# Read from git rather than `gh repo view`, which is an API round-trip on
+# every launch, has no -C flag and no branch field. Left unset outside a
+# GitHub checkout, where it used to be exported empty. Empty counts as
+# unset, so a value inherited empty from an older run is recomputed.
+if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" ]]; then
+    # Local and unset, so an inherited empty value is not passed on when
+    # nothing is computed below.
+    local -x CLAUDE_CODE_PROJECT_DIR_NAME
+    unset CLAUDE_CODE_PROJECT_DIR_NAME
 
-if [[ ! -v CLAUDE_CODE_PROJECT_DIR_NAME ]]; then
-    local -x CLAUDE_CODE_PROJECT_DIR_NAME="$(
-    command gh -C "$PWD" repo view \
-        --json owner,name,branch \
-        --jq '
-                    def slug:
-                        ascii_downcase
-                        | gsub("[^a-z0-9]+"; "-")
-                        | gsub("^-+|-+$"; "")
-                        | .[:100]
-                        | if isempty(.) == "" then
-                            "untitled"
-                          else
-                            . end;
+    local remote branch
+    if remote="$(command git remote get-url origin 2>/dev/null)" \
+        && [[ "$remote" == (#b)(*[@/])github.com[:/]([^/]##)/([^/]##) ]]; then
+        local -a parts=("$match[2]" "${match[3]%.git}")
+        branch="$(command git branch --show-current 2>/dev/null)"
+        parts+=("${branch:-detached}")
 
-                        .[] | "gh_\(.owner)_\(.name)___\(.branch)" | slug
-                ')"
+        local part
+        local -a slugs
+        for part in "$parts[@]"; do
+            part="${${(L)part}//[^a-z0-9]##/-}"
+            part="${${part##-##}%%-##}"
+            slugs+=("${part:-untitled}")
+        done
+
+        local name="gh_${slugs[1]}_${slugs[2]}___${slugs[3]}"
+        export CLAUDE_CODE_PROJECT_DIR_NAME="${name[1,100]}"
+    fi
 fi
 
 # ----------
