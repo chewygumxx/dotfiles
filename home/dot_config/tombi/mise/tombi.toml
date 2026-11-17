@@ -1,0 +1,77 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/tombi/mise/tombi.toml
+#
+#
+
+#
+# Tombi configuration specific to the development
+# environment management utility `mise`
+#
+
+# Mise Configuration
+# https://mise.jdx.dev/configuration/reference.html
+[[schemas]]
+toml-version = "v1.1.0"
+path         = "https://mise.jdx.dev/schema/mise.json"
+include      = [
+    # Project
+    "mise.toml",
+    "mise.*.toml",
+    ".mise.toml",
+    ".mise.*.toml",
+
+    # Project + Global + System
+    "**/mise/config.toml",
+    "**/mise/config.*.toml",
+    "**/.mise/config.toml",
+    "**/.mise/config.*.toml",
+    "**/.config/mise/config.toml",
+    "**/.config/mise/config.*.toml",
+
+    # Named Fragment
+    "**/mise/conf.d/*.toml",
+    "**/.mise/conf.d/*.toml",
+    "**/.config/mise/conf.d/*.toml",
+
+    # chewygumxx Convention
+    "*.mise.toml",
+]
+
+# Mise TOML Tasks
+# https://mise.jdx.dev/tasks/task-discovery.html
+[[schemas]]
+toml-version = "v1.1.0"
+path         = "https://mise.jdx.dev/schema/mise-task.json"
+include      = [
+    # Default Task Directories
+    "mise-tasks/**/*.toml",
+    ".mise-tasks/**/*.toml",
+    "mise/tasks/**/*.toml",
+    ".mise/tasks/**/*.toml",
+    ".config/mise/tasks/**/*.toml",
+
+    # chewygumxx Convention
+    "*.task.toml",
+]
+
+# Mise Pre-Configuration
+# https://mise.jdx.dev/configuration.html#miserc
+[[schemas]]
+toml-version = "v1.1.0"
+path         = "https://raw.githubusercontent.com/jdx/mise/refs/heads/main/schema/miserc.json"
+include      = [
+    # Progressively searches parent directories until MISE_CEILING_PATHS or root
+    ".miserc.local.toml",
+    ".miserc.toml",
+    ".config/miserc.toml",
+
+    "~/.config/mise/miserc.local.toml",
+    "~/.config/mise/miserc.toml",
+
+    "/etc/mise/miserc.toml",
+]
