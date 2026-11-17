@@ -15,44 +15,26 @@
 # Typically overwritten by mise via env: WORKTRUNK_WORKTREE_PATH
 worktree-path = "~/dev/{{ remote_repo }}.wt/{{ branch | sanitize }}"
 
-# Show Claude-created worktrees in herdr's sidebar, skipping subagent ones.
-# Gated on CLAUDE_PROJECT_DIR so it never races the herdr-worktrunk plugin,
-# which registers the worktrees it creates itself. Template variables are
-# shell-escaped by worktrunk, so they stay unquoted.
+# Scripts
+# Anything longer than a line lives in ./scripts/, one usage-documented
+# (https://usage.jdx.dev) zsh script per entry: `<script> --help`.
+# worktrunk runs every entry as `sh -c`, so each calls its script as
+#   zsh -c '<script> "$@"' <name> <arguments>
+# The arguments stay outside the -c string: worktrunk shell-escapes the
+# template variables for sh, and inside it a `$` or backtick in, say, a
+# prompt would expand before zsh saw it.
+
 [post-start]
-herdr = """
-#!/usr/bin/env zsh
+herdr = '''
+zsh -c '~/.config/worktrunk/scripts/herdr-register "$@"' herdr-register \
+    --repo {{ primary_worktree_path }} {{ branch }} {{ worktree_path }}
+'''
 
-(( $+{commands[herdr]} )) || return
-
-(( HERDR_ENV )) || return
-[[ -v CLAUDE_PROJECT_DIR ]] || return
-
-[[ {{ branch }} == agent-* ]] && return
-
-local -a argv=(
-    --cwd      {{ primary_worktree_path }}
-    --path     {{ worktree_path }}
-    --no-focus
-)
-
-herdr worktree open $argv >/dev/null
-"""
-
-# Close the herdr workspace left on a removed worktree, its shells otherwise
-# sit in a deleted directory. Covers `wt remove` and `wt merge` from a shell;
-# skipped inside herdr-worktrunk plugin panes, whose remover and merger close
-# it themselves. herdr still lists the workspace's checkout_path after the
-# directory is gone. This closes every pane in that workspace.
 [post-remove]
-herdr = """
-[ "$HERDR_ENV" = 1 ] && [ -z "$HERDR_PLUGIN_ROOT" ] || exit 0
-
-herdr workspace list |
-    jq -r --arg p {{ worktree_path }} '.result.workspaces[]
-        | select(.worktree.checkout_path == $p) | .workspace_id' |
-    while read -r ws; do herdr workspace close "$ws" >/dev/null; done
-"""
+herdr = '''
+zsh -c '~/.config/worktrunk/scripts/herdr-close "$@"' herdr-close \
+    {{ worktree_path }}
+'''
 
 # Toast in herdr once a merge lands, for merges run by agents or elsewhere.
 [post-merge]
@@ -70,25 +52,11 @@ herdr notification show Merged \
 #
 # https://worktrunk.dev/llm-commits/
 [commit.generation]
-command = """
-#!/usr/bin/env zsh
+command = '''
+zsh -c '~/.config/worktrunk/scripts/commit-message "$@"' commit-message
+'''
 
-local -a argv=(
-    --print
-    --model=haiku
-
-    --tools=''
-    --safe-mode
-    --system-prompt=''
-    --setting-sources='user'
-    --no-session-persistence
-)
-local -x MAX_THINKING_TOKENS=0
-
-claude $argv
-"""
-
-# Granularly Commit Doctine
+# Granularly Commit Doctrine
 # A bare [projects] table does not work, worktrunk does not parse
 # `projects.merge.squash`
 [merge]
@@ -96,7 +64,8 @@ squash = false  # Lossless Commit History
 
 # `wt <alias>`. Aliases that forward {{ args }} to a wt command inherit its
 # completion, so `wt s <Tab>` completes branches like `wt switch <Tab>`.
-# Inspect with `wt config alias show <name>` and `dry-run <name> -- args`.
+# Inspect with `wt config alias show <name>` and `dry-run <name> -- args`;
+# a script's own help is `wt <alias> -- --help`.
 #
 # https://worktrunk.dev/extending/#aliases
 [aliases]
@@ -112,93 +81,14 @@ rm = "wt remove {{ args }}"
 # Commits on this branch that the default branch lacks.
 since = "git log --oneline {{ default_branch }}..HEAD {{ args }}"
 
-# wt ho [-c] <branch>: Open the worktree as a herdr workspace and focus it,
-# leaving this shell where it is. Reuses the workspace if already open.
-"herdr:open" = """
-#!/usr/bin/env zsh
-set -e
+# wt herdr-open [-c] <branch>
+"herdr-open" = '''
+zsh -c '~/.config/worktrunk/scripts/herdr-open "$@"' herdr-open \
+    --repo {{ primary_worktree_path }} {{ args }}
+'''
 
-local __this_repo="chewygumxx/dotfiles"
-local __this_file="home/dot_config/worktrunk/config.toml"
-local __this_key="alias"
-local __this_val="herdr:open"
-
-# Standard Provenance Heder
-provenance() {
-    [[ ! -v VERBOSE ]] && return
-
-    print -u2 -f '~%s.git>    ::: :/%s    [%s."%s"]:\n' -- \
-        "$__this_repo" "$__this_file" "$__this_key" "$__this_val"
-}
-provenance
-
-stderr() {
-    local loglvl="$1"; shift
-    print -u2 -f '    [%s] %s\n' -- "$loglvl" "$*"
-}
-
-# ---------
-# Validate
-# ---------
-
-local cmd="" fail=0
-for cmd in jq herdr; do
-    if ! (($+commands[${cmd}])); then
-        fail=1
-        stderr FATAL "Not found: $cmd"
-    fi
-done
-(( fail )) && exit 127
-
-
-# --------
-# Execute
-# --------
-
-local wt_{out,path}
-
-wt_out="$(wt switch {{ args }} --format=json |
-    jq --raw-output '.path // empty')"
-
-herdr worktree open \
-    --cwd {{ primary_worktree_path }} \
-    --path "$wt_path" \
-    --focus >/dev/null
-
-provenance
-"""
-
-# wt ha <branch> [-- <claude args>]: As `ho`, creating the branch if it
-# doesn't exist, then start Claude in the workspace (its root pane when
-# newly opened, else a fresh split), named after the worktree directory.
-#   wt ha fix/login -- 'Fix the login redirect'
-"herdr:workspace" = """
-set -e -- {{ args }}
-
-local branch="$1"; shift
-local argv=( "$@" )
-
-# Check Branch Existence
-git show-ref --quiet --verify "refs/heads/${branch}" || flag="--create"
-
-# Attempt Switch,
-# Create if non-existant. Fails loud
-wt switch $flag "$branch" --no-cd --format=json | jq --raw-output '.path // empty'
-
-
-hdr_out="$(herdr worktree open \
-    --cwd {{ primary_worktree_path }} \
-    --path "$wt_path" \
-    --focus)"
-
-pane=$(printf '%s' "$o" | jq -r .result.root_pane.pane_id)
-if [ "$(printf '%s' "$o" | jq -r .result.already_open)" = true ]; then
-    pane=$(herdr pane split "$pane" --direction right --cwd "$p" \
-        --no-focus | jq -r .result.pane.pane_id)
-fi
-
-herdr agent start "${wt_path##*/}" \
-    --kind claude \
-    --pane "$pane" \
-    -- "$@"
-"""
+# wt herdr-workspace [-k <kind>] <branch> [-- <agent args>]
+"herdr-workspace" = '''
+zsh -c '~/.config/worktrunk/scripts/herdr-workspace "$@"' herdr-workspace \
+    --repo {{ primary_worktree_path }} {{ args }}
+'''

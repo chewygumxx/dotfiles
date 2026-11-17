@@ -1,0 +1,43 @@
+#!/usr/bin/env -S usage zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
+#
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/worktrunk/exact_scripts/executable_herdr-open
+#
+#
+#
+
+#USAGE bin "herdr-open"
+#USAGE about "Open a worktree as a herdr workspace and focus it"
+#USAGE long_about """
+#USAGE Switch to the branch's worktree without moving this shell, then open
+#USAGE it as a herdr workspace and focus it. A workspace already open on the
+#USAGE worktree is reused. Run through the `wt herdr-open` alias.
+#USAGE """
+#USAGE example "wt herdr-open fix/login" header="Open an existing branch"
+#USAGE example "wt herdr-open -c fix/login" header="Create the branch first"
+#USAGE flag "--repo <path>" required=#true help="Primary worktree, the workspace's repository. The alias passes {{ primary_worktree_path }}"
+#USAGE flag "-c --create" help="Create the branch, as `wt switch --create`"
+#USAGE arg "<branch>" help="Branch whose worktree to open"
+
+setopt err_exit pipe_fail no_unset
+
+local cmd
+for cmd in jq herdr wt; do
+    (( $+commands[$cmd] )) || { print -u2 "herdr-open: not found: $cmd"; exit 127 }
+done
+
+local -a create=()
+[[ ${usage_create:-} == true ]] && create=(--create)
+
+local wt_path
+wt_path=$(wt switch $create $usage_branch --no-cd --format=json |
+    jq --exit-status --raw-output .path)
+
+herdr worktree open \
+    --cwd   $usage_repo \
+    --path  $wt_path \
+    --focus >/dev/null
