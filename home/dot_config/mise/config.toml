@@ -19,3 +19,4 @@
 bun                = "latest"
 node               = "24"
 "npm:ccstatusline" = "latest"
+usage              = "latest"
