@@ -133,7 +133,7 @@ jobs:
             - name: Check Syntax
               run: |
                   status=0
-                  for f in $(git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml'); do
+                  for f in $(git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' ':!**/*.tmpl'); do
                       zsh -n -- "$f" || status=1
                   done
                   exit $status
@@ -142,5 +142,5 @@ jobs:
             # from each file.
             - name: Lint
               run: |
-                  git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' |
+                  git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' ':!**/*.tmpl' |
                       xargs mise exec "$SHUCK" -- shuck check

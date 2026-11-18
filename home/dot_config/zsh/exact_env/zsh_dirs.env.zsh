@@ -9,12 +9,12 @@
 #
 #
 
-# The XDG variables are supplied by systemd, as the sister file
-# ~/.config/environment.d/base.conf, and systemd's user environment is not
-# applied in every context: a bare TTY login, a rescue shell or a container can
-# all leave them unset. Without a fallback every path below collapses to a
-# root-relative one such as /zsh, and the mkdir -p at the foot of this file then
-# fails with permission denied on every single shell start.
+# The XDG variables are set by env/00-environment.env.zsh, which sorts first,
+# and by systemd from the same registry (home/.chezmoidata/environment.toml).
+# The fallbacks stay anyway, so a checkout sourced without that file, or
+# one with an env/ directory reordered, still never gets a path that collapses
+# to a root-relative one such as /zsh; the mkdir -p at the foot of this file
+# would then fail with permission denied on every single shell start.
 #
 # The cache fallback is the XDG default of ~/.cache, where any other
 # XDG-aware tool would also look with the variable unset.

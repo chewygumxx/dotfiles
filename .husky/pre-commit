@@ -101,13 +101,14 @@ fi
 # --------
 
 # Every file in the zsh tree is zsh source, most without an extension, apart
-# from chezmoi's own .chezmoiignore, shuck's .shuck.toml and any symlink_*
-# "source" file. Neither tool rewrites anything, so nothing is re-staged.
+# from chezmoi's own .chezmoiignore, shuck's .shuck.toml, any symlink_*
+# "source" file and any *.tmpl, which is Go template text until rendered
+# (.github/scripts/check-environment checks the rendered output). Neither tool rewrites anything, so nothing is re-staged.
 # Both read the working tree, so skip a staged file that is gone from it
 # (e.g. a rename staged ahead of a deletion).
 zsh_files=$(
     git diff --cached --name-only --diff-filter=ACMR -- 'home/dot_config/zsh/' \
-        ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' |
+        ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' ':!**/*.tmpl' |
         while IFS= read -r f; do [ -f "$f" ] && printf '%s\n' "$f"; done
 )
 

@@ -49,6 +49,9 @@ typeset -a android_env=(
 
 generator=/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator
 
+# Absolute, because the Termux fixture's PATH has no zsh in it.
+zsh_bin="${commands[zsh]}"
+
 # ----------
 # Reporting
 # ----------
@@ -100,6 +103,11 @@ function expand_systemd() {
 
 # expand_zsh <os> <file> [VAR=value...]: NAME=value lines for every registry
 # name and PATH, after sourcing <file> in a bare zsh on <os>.
+#
+# zsh reads /etc/zshenv (/etc/zsh/zshenv) even with -f, and a host's copy may
+# fill in the XDG variables, as root/etc/zsh/zshenv does. So the inherited
+# VAR=value pairs are passed as arguments, and the shell drops what
+# /etc/zshenv set before exporting them and sourcing <file>.
 function expand_zsh() {
     local os="$1" file="$2"
     shift 2
@@ -109,11 +117,15 @@ function expand_zsh() {
     else
         fixture=("${linux_env[@]}")
     fi
-    env -i "${fixture[@]}" "$@" zsh -f -c '
-        source "$1" || exit 1
-        shift
-        for n; do [[ -v $n ]] && print -r -- "$n=${(P)n}"; done
-    ' zsh "$file" $(names "$os") PATH
+    env -i "${fixture[@]}" "$zsh_bin" -f -c '
+        unset -m "XDG_*"
+        unset ZDOTDIR
+        integer count=$1
+        ((count)) && export "${@[3,count+2]}"
+        source "$2" || exit 1
+        shift $((count + 2))
+        for name; do [[ -v $name ]] && print -r -- "$name=${(P)name}"; done
+    ' zsh "$#" "$file" "$@" $(names "$os") PATH
 }
 
 # value <name> <lines>: the value of <name> in NAME=value <lines>.
@@ -250,6 +262,90 @@ function check_systemd() {
         "$(cd "$sandbox/home/.config/environment.d" && print -r -- *(N))" \
         91-environment.conf
     rm -rf -- "$sandbox"
+}
+
+function check_zsh() {
+    local tmpl="$root/home/dot_config/zsh/exact_env/00-environment.env.zsh.tmpl"
+    local -A files
+    local os file out name
+
+    for os in linux android; do
+        file="$tmp/$os/00-environment.env.zsh"
+        mkdir -p -- "${file:h}"
+        if ! render "$os" "$tmpl" >"$file"; then
+            fail "$os: rendering $tmpl failed"
+            return
+        fi
+        files[$os]="$file"
+
+        # The raw template is Go template text, so the repo's zsh -n and
+        # shuck checks skip it; the rendered file is checked here instead.
+        zsh -n -- "$file" || fail "$os: zsh -n rejects the rendered file"
+        shuck --config "$root/home/dot_config/zsh/.shuck.toml" check \
+            --extend-per-file-shell '*.zsh:zsh' "$file" >&2 ||
+            fail "$os: shuck rejects the rendered file"
+    done
+
+    # silent: every zsh sources this, scp, rsync and git over ssh included,
+    # and they read stdout as protocol data.
+    out="$(env -i "${linux_env[@]}" zsh -f -c 'source "$1"' zsh "${files[linux]}")"
+    expect "silent" "$out" ''
+
+    # bare_env_paths, Linux.
+    out="$(expand_zsh linux "${files[linux]}")"
+    for name in $(names linux); do
+        value "$name" "$out" >/dev/null || fail "linux bare: $name is not set"
+    done
+    expect "linux bare PAGER" "$(value PAGER "$out")" 'less -R'
+    expect "linux bare SSH_AUTH_SOCK" "$(value SSH_AUTH_SOCK "$out")" \
+        "/run/user/$uid/ssh-agent-protonpass.socket"
+    assert_rooted "linux bare" "$out" "$fixture_home/" /run/user/ /usr/
+
+    # agrees_with_systemd: both outputs, expanded, give every name the same
+    # value, with and without an inherited XDG directory.
+    local conf="$tmp/91-environment.conf" sd
+    render linux "$root/home/dot_config/environment.d/91-environment.conf.tmpl" >"$conf"
+    local inherited
+    for inherited in '' 'XDG_DATA_HOME=/x'; do
+        out="$(expand_zsh linux "${files[linux]}" ${inherited:+"$inherited"})"
+        sd="$(expand_systemd "$conf" ${inherited:+"$inherited"})"
+        for name in $(names linux) PATH; do
+            expect "agrees ${inherited:-bare} $name" \
+                "$(value "$name" "$out")" "$(value "$name" "$sd")"
+        done
+    done
+
+    # bare_env_paths, Android: Termux, no systemd.
+    local home=/data/data/com.termux/files/home prefix=/data/data/com.termux/files/usr
+    out="$(expand_zsh android "${files[android]}")"
+    for name in $(names android); do
+        value "$name" "$out" >/dev/null || fail "android bare: $name is not set"
+    done
+    expect "android XDG_RUNTIME_DIR" "$(value XDG_RUNTIME_DIR "$out")" "$prefix/tmp"
+    expect "android SSH_AUTH_SOCK" "$(value SSH_AUTH_SOCK "$out")" \
+        "$prefix/tmp/ssh-agent.socket"
+    expect "android CARGO_HOME" "$(value CARGO_HOME "$out")" \
+        "$home/.local/share/cargo"
+    assert_rooted "android bare" "$out" "$home/" "$prefix/"
+
+    # ssh_inherit: a forwarded agent survives an ssh login; any other
+    # inherited agent is replaced.
+    out="$(expand_zsh linux "${files[linux]}" \
+        SSH_CONNECTION='1 2 3 4' SSH_AUTH_SOCK=/tmp/fwd)"
+    expect "ssh -A keeps forwarded agent" "$(value SSH_AUTH_SOCK "$out")" /tmp/fwd
+    out="$(expand_zsh linux "${files[linux]}" SSH_AUTH_SOCK=/tmp/other)"
+    expect "local shell replaces inherited agent" "$(value SSH_AUTH_SOCK "$out")" \
+        "/run/user/$uid/ssh-agent-protonpass.socket"
+
+    # path_idempotent: a zsh started from a zsh (a terminal in Neovim, a
+    # zsh script) inherits PATH and sources this again; PATH must not grow.
+    local once twice
+    once="$(env -i "${linux_env[@]}" zsh -f -c \
+        'source "$1"; print -r -- "$PATH"' zsh "${files[linux]}")"
+    twice="$(env -i "${linux_env[@]}" zsh -f -c \
+        'source "$1"; zsh -f -c "source ${(q)1}; print -r -- \$PATH"' \
+        zsh "${files[linux]}")"
+    expect "nested PATH" "$twice" "$once"
 }
 
 # ------

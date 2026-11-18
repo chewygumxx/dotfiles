@@ -1,0 +1,47 @@
+{{- /* vim:set expandtab shiftwidth=4 filetype=gotmpl: */ -}}
+{{- /* SPDX-License-Identifier: GPL-3.0-only */ -}}
+
+{{- /*
+    ~chewygumxx/dotfiles.git
+    ::: :/home/.chezmoitemplates/environment/zsh
+
+    Renders the registry as zsh, for a file .zshenv sources from inside an
+    anonymous function: export is typeset -gx, so nothing ends up local.
+    inherit = true becomes : "${NAME:=value}"; inherit = "ssh" keeps an
+    inherited value only when SSH_CONNECTION is set. Parameter expansion and
+    builtins only, and nothing on stdout: this runs for every zsh.
+
+    Usage: includeTemplate "environment/zsh" .
+*/ -}}
+
+{{- $env := includeTemplate "environment/resolve" . | fromJson -}}
+{{- range $env.variables }}
+{{ with .comment }}
+{{ range splitList "\n" . -}}
+# {{ . }}
+{{ end -}}
+{{ end -}}
+{{ if eq (toString .inherit) "true" -}}
+: "${{ "{" }}{{ .name }}:={{ .value }}}"
+export {{ .name }}
+{{- else if eq (toString .inherit) "ssh" -}}
+if [[ -z "${SSH_CONNECTION:-}" || -z "${{ "{" }}{{ .name }}:-}" ]]; then
+    export {{ .name }}="{{ .value }}"
+fi
+{{- else -}}
+export {{ .name }}="{{ .value }}"
+{{- end }}
+{{- end }}
+
+# -U keeps path free of duplicates. This runs for every zsh, and PATH is
+# inherited, so without it each nested shell (a terminal inside Neovim, a
+# script with a zsh shebang, a subshell of a subshell) prepended these entries
+# again. -g because .zshenv sources this file from inside a function, where a
+# bare typeset would declare a local path and discard it on return.
+typeset -gU path
+path=(
+{{- range $env.path }}
+    "{{ . }}"
+{{- end }}
+    $path
+)
