@@ -1,6 +1,11 @@
 {
     "version": 1,
     "skills": {
+        "environment-variables": {
+            "source": "./skills/environment-variables",
+            "sourceType": "local",
+            "computedHash": "9b6d0fa1e5939a9c66896726650d62bb21628992b2a847aa28917263c36d54c4"
+        },
         "find-skills": {
             "source": "vercel-labs/skills",
             "sourceType": "github",
