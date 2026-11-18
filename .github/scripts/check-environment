@@ -352,6 +352,27 @@ function check_zsh() {
     expect "nested PATH" "$twice" "$once"
 }
 
+function check_ssh() {
+    local tmpl="$root/home/private_dot_ssh/config.tmpl" os out sock
+    local -a agents
+
+    # The line must come from the registry, not merely agree with it today.
+    grep -q 'includeTemplate "environment/resolve"' "$tmpl" ||
+        fail "config.tmpl does not take IdentityAgent from the registry"
+
+    for os in linux android; do
+        if ! out="$(render "$os" "$tmpl")"; then
+            fail "$os: rendering config.tmpl failed"
+            continue
+        fi
+        sock="$(resolved "$os" | jq -r .byName.SSH_AUTH_SOCK)"
+        agents=(${(M)${(f)out}:#IdentityAgent *})
+        expect "$os IdentityAgent" "${(F)agents}" "IdentityAgent \"$sock\""
+    done
+    [[ "$out" == *$'\n'"AddKeysToAgent yes"$'\n'* ]] ||
+        fail "android: AddKeysToAgent yes is gone"
+}
+
 # ------
 # Main
 # ------
