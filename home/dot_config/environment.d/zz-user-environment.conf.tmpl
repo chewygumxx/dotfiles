@@ -4,7 +4,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/environment.d/99-user-environment.conf.tmpl
+# ::: :/home/dot_config/environment.d/zz-user-environment.conf.tmpl
 #
 #
 
@@ -15,8 +15,9 @@
 #
 # Named to sort after every system-supplied environment.d file, so its values
 # are evaluated last. That includes 99-environment.conf, which Debian and Arch
-# ship as a link to /etc/environment: sorting before it, as 91-xdg.conf did,
-# let an absolute PATH there replace the prepend below outright. It is the
+# ship as a link to /etc/environment, and Ubuntu's 990-snapd.conf, so the name
+# starts with a letter: sorting before the first, as 91-xdg.conf did, let an
+# absolute PATH there replace the prepend below outright. It is the
 # only file in this directory; .github/scripts/check-environment checks the
 # order against the host's system directories.
 #

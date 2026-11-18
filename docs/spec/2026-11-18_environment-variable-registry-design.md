@@ -213,10 +213,11 @@ files go on their own.
   generated zsh file must sort before every other `env/` file in every locale.
   environment.d merges all directories' files sorted by name; the generated
   file must sort after every system-supplied file. That includes
-  `99-environment.conf`, Debian's and Arch's link to `/etc/environment`, so
-  the old `91-` prefix was not enough: the file is `99-user-environment.conf`.
-  *(Corrected after the final review: on Ubuntu, `/etc/environment` sets an
-  absolute `PATH`, which replaced the prepend.)*
+  `99-environment.conf`, Debian's and Arch's link to `/etc/environment`, and
+  Ubuntu's `990-snapd.conf`, so no number prefix is safe: the file is
+  `zz-user-environment.conf`. *(Corrected after the final review and the
+  first CI run: on Ubuntu, `/etc/environment` sets an absolute `PATH`, which
+  replaced the prepend.)*
 - **Lint.** `.husky/pre-commit` and `lint-config.yaml` run `zsh -n` and
   `shuck check` over every file in the zsh tree; a `.tmpl` there is Go
   template text, not zsh. Template files are excluded from those raw checks,

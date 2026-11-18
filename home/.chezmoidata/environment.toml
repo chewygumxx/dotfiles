@@ -15,7 +15,7 @@
 # needs. Never set one of these by hand in a consumer; each is rendered from
 # here by home/.chezmoitemplates/environment/:
 #
-#   systemd  ~/.config/environment.d/99-user-environment.conf
+#   systemd  ~/.config/environment.d/zz-user-environment.conf
 #   zsh      ~/.config/zsh/env/00-environment.env.zsh
 #   ssh      IdentityAgent in ~/.ssh/config (SSH_AUTH_SOCK)
 #

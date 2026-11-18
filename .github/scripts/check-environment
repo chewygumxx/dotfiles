@@ -55,8 +55,9 @@ typeset -a android_env=(
 generator=/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator
 
 # The one environment.d file the registry renders. It must sort after every
-# system-supplied file, 99-environment.conf (/etc/environment) included.
-systemd_conf=99-user-environment.conf
+# system-supplied file: 99-environment.conf (/etc/environment) and Ubuntu's
+# 990-snapd.conf included, hence a letter rather than a number.
+systemd_conf=zz-user-environment.conf
 systemd_tmpl="$root/home/dot_config/environment.d/$systemd_conf.tmpl"
 
 # Absolute, because the Termux fixture's PATH has no zsh in it.
@@ -99,14 +100,16 @@ function names() {
     resolved "$1" | jq -r '.variables[].name'
 }
 
-# expand_systemd <file> [VAR=value...]: NAME=value lines, as systemd's own
+# expand_systemd <file|-> [VAR=value...]: NAME=value lines, as systemd's own
 # environment.d generator expands <file> for a bare Linux login. The
 # generator double-quotes a value holding a space; the quotes are removed.
+# With -, only the host's own system environment.d files are read: the
+# baseline every login on this host inherits.
 function expand_systemd() {
     local file="$1"
     shift
     rm -f -- "$fixture_home/.config/environment.d/"*(N)
-    cp -- "$file" "$fixture_home/.config/environment.d/"
+    [[ "$file" == - ]] || cp -- "$file" "$fixture_home/.config/environment.d/"
     env -i "${linux_env[@]}" "$@" "$generator" |
         sed -E 's/^([A-Za-z_][A-Za-z0-9_]*)="(.*)"$/\1=\2/'
 }
@@ -244,7 +247,14 @@ function check_systemd() {
         return
     fi
 
-    # bare_env_paths: a login with nothing but HOME and PATH.
+    # bare_env_paths: a login with nothing but HOME and PATH, plus whatever
+    # the host's own system environment.d files set. Those may set registry
+    # variables themselves (GitHub's runner sets XDG_CONFIG_HOME), and then
+    # win, as inherit = true intends; expectations follow them.
+    local baseline data runtime
+    baseline="$(expand_systemd -)"
+    data="$(value XDG_DATA_HOME "$baseline")" || data="$fixture_home/.local/share"
+    runtime="$(value XDG_RUNTIME_DIR "$baseline")" || runtime="/run/user/$uid"
     if ! out="$(expand_systemd "$conf")"; then
         fail "the environment.d generator failed"
         return
@@ -253,19 +263,23 @@ function check_systemd() {
         value "$name" "$out" >/dev/null || fail "bare: $name is not set"
     done
     expect "bare PAGER" "$(value PAGER "$out")" 'less -R'
-    expect "bare CARGO_HOME" "$(value CARGO_HOME "$out")" \
-        $fixture_home/.local/share/cargo
-    expect "bare XDG_RUNTIME_DIR" "$(value XDG_RUNTIME_DIR "$out")" \
-        "/run/user/$uid"
+    expect "bare CARGO_HOME" "$(value CARGO_HOME "$out")" "$data/cargo"
+    expect "bare XDG_RUNTIME_DIR" "$(value XDG_RUNTIME_DIR "$out")" "$runtime"
     expect "bare SSH_AUTH_SOCK" "$(value SSH_AUTH_SOCK "$out")" \
-        "/run/user/$uid/ssh-agent-protonpass.socket"
+        "$runtime/ssh-agent-protonpass.socket"
     # The registry's directories lead PATH. What follows is whatever the
     # host supplies (/etc/environment sets an absolute PATH on Ubuntu), so
-    # only the prefix is checked, and only registry names for rootedness.
-    local path_prefix="$fixture_home/.local/bin:$fixture_home/.local/share/mise/shims:$fixture_home/.local/share/cargo/bin:$fixture_home/.local/share/go/bin:$fixture_home/.local/share/bun/bin:"
+    # only the prefix is checked, and only registry names for rootedness;
+    # a registry variable the host itself set is a root of its own.
+    local path_prefix="$fixture_home/.local/bin:$data/mise/shims:$data/cargo/bin:$data/go/bin:$data/bun/bin:"
     [[ "$(value PATH "$out")" == "$path_prefix"* ]] ||
         fail "bare PATH: expected to start ${(qq)path_prefix}, got ${(qq)$(value PATH "$out")}"
-    assert_rooted bare "$(registry_lines linux "$out")" "$fixture_home/" /run/user/
+    local line
+    local -a roots=("$fixture_home/" /run/user/)
+    for line in ${(f)"$(registry_lines linux "$baseline")"}; do
+        roots+=("${line#*=}")
+    done
+    assert_rooted bare "$(registry_lines linux "$out")" "${roots[@]}"
 
     # sorts_last: environment.d files are read in name order across every
     # directory, the last assignment winning. A system file sorting after
@@ -347,11 +361,15 @@ function check_zsh() {
 
     # agrees_with_systemd: both outputs, expanded, give every name the same
     # value, with and without an inherited XDG directory.
+    # A zsh in a systemd session inherits what the host's system
+    # environment.d files set, so it is given the same baseline.
     local conf="$tmp/$systemd_conf" sd zpath
     render linux "$systemd_tmpl" >"$conf"
+    local -a baseline=(${(f)"$(registry_lines linux "$(expand_systemd -)")"})
     local inherited
     for inherited in '' 'XDG_DATA_HOME=/x'; do
-        out="$(expand_zsh linux "${files[linux]}" ${inherited:+"$inherited"})"
+        out="$(expand_zsh linux "${files[linux]}" "${baseline[@]}" \
+            ${inherited:+"$inherited"})"
         sd="$(expand_systemd "$conf" ${inherited:+"$inherited"})"
         for name in $(names linux); do
             expect "agrees ${inherited:-bare} $name" \

@@ -111,7 +111,7 @@ Every environment variable that more than one consumer needs (XDG
 directories, `PATH`, `EDITOR`/`PAGER`/..., tool homes such as `CARGO_HOME`,
 `SSH_AUTH_SOCK`) is defined once in `home/.chezmoidata/environment.toml`,
 whose header documents the schema. `home/.chezmoitemplates/environment/`
-renders it into `~/.config/environment.d/99-user-environment.conf`,
+renders it into `~/.config/environment.d/zz-user-environment.conf`,
 `~/.config/zsh/env/00-environment.env.zsh` and the `IdentityAgent` line of
 `~/.ssh/config`. Never set one of them by hand in a consumer: change the data
 file. A variable only one program reads stays with that program. A file
