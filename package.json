@@ -33,7 +33,7 @@
     },
     "scripts": {
         "commit": "cz",
-        "prepare": "husky",
+        "prepare": "husky && skills experimental_install --frozen-lockfile && skills experimental_sync --agent claude-code codex --yes",
         "typecheck": "tsc"
     },
     "config": {

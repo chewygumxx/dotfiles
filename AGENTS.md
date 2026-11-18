@@ -121,6 +121,17 @@ output for Linux and Android and proves they agree; the pre-commit hook and
 CI run it. Design:
 `docs/spec/2026-11-18_environment-variable-registry-design.md`.
 
+Agent skills live in `.agents/skills/`, which `.claude/skills` links to.
+Skills written for this repo have their source in `skills/<name>/` and are
+installed with `npx skills add "./skills/<name>" --agent claude-code codex
+--yes`. Every skill in `skills-lock.json` is a restored copy, so it is
+git-ignored in `.agents/skills/.gitignore`; add a line there whenever the
+lock gains one. `prepare` (so `bun install`) restores them with `skills
+experimental_install --frozen-lockfile`, which fails rather than rewrite
+the lock when an upstream skill has moved: run `npx skills update` and
+commit the lock then. Skills hand-written under `.agents/skills/` and absent
+from the lock stay tracked.
+
 Browser extensions for Firefox and ungoogled-chromium are declared once in
 `home/.chezmoidata/web-extensions.toml` and installed by the
 `.chezmoiexternals` templates inside the Firefox profile and
@@ -149,9 +160,10 @@ within the commit message body.
 
 - Conventional Commits, enforced by `commitlint`
   (`.commitlintrc.mts`) via a `husky` `commit-msg` git hook (`.husky/commit-msg`,
-  wired up by the `prepare` package script, which is deliberately a bare
-  `husky`: installing without dev dependencies, e.g.
-  `bun install --production`, fails on it). `.commitlintrc.mts` defines:
+  wired up by the `prepare` package script, which runs `husky` and then
+  restores agent skills, see below; installing without dev dependencies,
+  e.g. `bun install --production`, fails on it). `.commitlintrc.mts`
+  defines:
   - Allowed types (error, blocking): `feat`, `fix`, `tweak`, `refactor`,
     `chore`, `style`, `docs`, `ci`, `build`, `test`, `revert`.
   - 50-char header limit (error), 72-char body line-wrap limit (error), subject
