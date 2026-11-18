@@ -36,8 +36,11 @@ section=''
 integer failures=0
 
 # Fixture environments for a bare login: nothing but HOME, PATH and, on
-# Termux, PREFIX.
-typeset -a linux_env=(HOME=/home/t PATH=/usr/bin)
+# Termux, PREFIX. The Linux HOME is a real directory, because systemd's
+# generator finds environment.d under it.
+fixture_home="$tmp/home"
+mkdir -p -- "$fixture_home/.config/environment.d"
+typeset -a linux_env=(HOME="$fixture_home" PATH=/usr/bin)
 typeset -a android_env=(
     HOME=/data/data/com.termux/files/home
     PREFIX=/data/data/com.termux/files/usr
@@ -84,16 +87,15 @@ function names() {
 }
 
 # expand_systemd <file> [VAR=value...]: NAME=value lines, as systemd's own
-# environment.d generator expands <file> for a bare Linux login.
+# environment.d generator expands <file> for a bare Linux login. The
+# generator double-quotes a value holding a space; the quotes are removed.
 function expand_systemd() {
     local file="$1"
     shift
-    local conf="$tmp/systemd-conf"
-    rm -rf -- "$conf"
-    mkdir -p -- "$conf/environment.d"
-    cp -- "$file" "$conf/environment.d/"
-    env -i "${linux_env[@]}" "$@" XDG_CONFIG_HOME="$conf" "$generator" |
-        grep -v '^XDG_CONFIG_HOME='
+    rm -f -- "$fixture_home/.config/environment.d/"*(N)
+    cp -- "$file" "$fixture_home/.config/environment.d/"
+    env -i "${linux_env[@]}" "$@" "$generator" |
+        sed -E 's/^([A-Za-z_][A-Za-z0-9_]*)="(.*)"$/\1=\2/'
 }
 
 # expand_zsh <os> <file> [VAR=value...]: NAME=value lines for every registry
@@ -180,6 +182,74 @@ function check_resolve() {
             fail "$case: refused without naming BAD: $err"
         fi
     done
+}
+
+# assert_rooted <label> <lines> <prefix...>: every absolute path among the
+# NAME=value <lines>, PATH entries included, starts with one of <prefix>. A
+# path that does not was built from an unset variable, e.g. /cargo.
+function assert_rooted() {
+    local label="$1" lines="$2"
+    shift 2
+    local line entry prefix ok
+    for line in "${(@f)lines}"; do
+        for entry in "${(@s.:.)${line#*=}}"; do
+            [[ "$entry" == /* ]] || continue
+            ok=0
+            for prefix; do
+                [[ "$entry" == "$prefix"* ]] && { ok=1; break }
+            done
+            ((ok)) || fail "$label: ${line%%=*} has root-relative ${(qq)entry}"
+        done
+    done
+}
+
+function check_systemd() {
+    local tmpl="$root/home/dot_config/environment.d/91-environment.conf.tmpl"
+    local conf="$tmp/91-environment.conf" out name
+
+    if ! render linux "$tmpl" >"$conf"; then
+        fail "rendering $tmpl failed"
+        return
+    fi
+
+    # bare_env_paths: a login with nothing but HOME and PATH.
+    if ! out="$(expand_systemd "$conf")"; then
+        fail "the environment.d generator failed"
+        return
+    fi
+    for name in $(names linux); do
+        value "$name" "$out" >/dev/null || fail "bare: $name is not set"
+    done
+    expect "bare PAGER" "$(value PAGER "$out")" 'less -R'
+    expect "bare CARGO_HOME" "$(value CARGO_HOME "$out")" \
+        $fixture_home/.local/share/cargo
+    expect "bare XDG_RUNTIME_DIR" "$(value XDG_RUNTIME_DIR "$out")" \
+        "/run/user/$uid"
+    expect "bare SSH_AUTH_SOCK" "$(value SSH_AUTH_SOCK "$out")" \
+        "/run/user/$uid/ssh-agent-protonpass.socket"
+    expect "bare PATH" "$(value PATH "$out")" \
+        "$fixture_home/.local/bin:$fixture_home/.local/share/mise/shims:$fixture_home/.local/share/cargo/bin:$fixture_home/.local/share/go/bin:$fixture_home/.local/share/bun/bin:/usr/bin"
+    assert_rooted bare "$out" $fixture_home/ /run/user/ /usr/
+
+    # xdg_inherit: an inherited XDG directory moves everything under it.
+    out="$(expand_systemd "$conf" XDG_DATA_HOME=/x)"
+    expect "inherited CARGO_HOME" "$(value CARGO_HOME "$out")" /x/cargo
+
+    # stale_files_removed: environment.d is not exact_, so a file this
+    # registry replaced is only deleted because .chezmoiremove names it.
+    local sandbox_apply="$root/.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh"
+    local target="$HOME/.config/environment.d" sandbox
+    if ! sandbox="$("$sandbox_apply" "$target" 2>/dev/null | tail -n 1)"; then
+        fail "sandbox apply failed"
+        return
+    fi
+    print -r -- 'PAGER=stale' >"$sandbox/home/.config/environment.d/base.conf"
+    "$sandbox_apply" --in "$sandbox" "$target" >/dev/null 2>&1 ||
+        fail "sandbox re-apply failed"
+    expect "deployed environment.d" \
+        "$(cd "$sandbox/home/.config/environment.d" && print -r -- *(N))" \
+        91-environment.conf
+    rm -rf -- "$sandbox"
 }
 
 # ------

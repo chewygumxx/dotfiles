@@ -1,0 +1,30 @@
+{{- /* vim:set expandtab shiftwidth=4 filetype=gotmpl: */ -}}
+{{- /* SPDX-License-Identifier: GPL-3.0-only */ -}}
+
+{{- /*
+    ~chewygumxx/dotfiles.git
+    ::: :/home/.chezmoitemplates/environment/systemd
+
+    Renders the registry as environment.d(5) lines. inherit = true becomes
+    ${NAME:-value}; inherit = "ssh" is plain, since the user manager never
+    runs inside an ssh session. PATH is prepended, ${PATH:+...} avoiding an
+    empty entry (the current directory) when the manager starts without one.
+
+    Usage: includeTemplate "environment/systemd" .
+*/ -}}
+
+{{- $env := includeTemplate "environment/resolve" . | fromJson -}}
+{{- range $env.variables }}
+{{ with .comment }}
+{{ range splitList "\n" . -}}
+# {{ . }}
+{{ end -}}
+{{ end -}}
+{{ if eq (toString .inherit) "true" -}}
+{{ .name }}="${{ "{" }}{{ .name }}:-{{ .value }}}"
+{{- else -}}
+{{ .name }}="{{ .value }}"
+{{- end }}
+{{- end }}
+
+PATH="{{ join ":" $env.path }}${PATH:+:$PATH}"
