@@ -135,9 +135,9 @@ fills it via the `skills` package script, two ways:
   rewrite the lock when an upstream skill has moved: run `npx skills
   update` and commit the lock then.
 
-Both kinds are git-ignored in `.agents/skills/.gitignore`, one line each;
-add one for every new skill of either kind. Skills hand-written directly
-under `.agents/skills/` stay tracked.
+`.agents/skills/` is therefore entirely generated, and git-ignored from the
+root `.gitignore`. Write a new skill for this repo in `skills/<name>/`,
+never directly under `.agents/skills/`, then run `bun run skills:link`.
 
 Browser extensions for Firefox and ungoogled-chromium are declared once in
 `home/.chezmoidata/web-extensions.toml` and installed by the
@@ -145,8 +145,8 @@ Browser extensions for Firefox and ungoogled-chromium are declared once in
 `dot_local/share/chromium/`; read `docs/note/2026-10-08_web-extensions.md`
 before changing any of it. Never `chezmoi apply` those targets against the
 real home to test them: use
-`.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh`, which
-adds `--destination`, `--persistent-state`, `--cache` and `--exclude=scripts`
+`skills/chezmoi-sandbox/scripts/sandbox-apply.sh`, which adds
+`--destination`, `--persistent-state`, `--cache` and `--exclude=scripts`
 under a temp dir (scripts would otherwise write to the real home even from a
 sandbox).
 

@@ -18,7 +18,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/.agents/skills/chezmoi-sandbox/SKILL.md
+   - ::: :/skills/chezmoi-sandbox/SKILL.md
    -
    -->
 
@@ -30,7 +30,7 @@ Never `chezmoi apply` against the real home to test a change. The
 ## Apply
 
 ```sh
-.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh [--in DIR] [targets...]
+skills/chezmoi-sandbox/scripts/sandbox-apply.sh [--in DIR] [targets...]
 ```
 
 - Targets may be written as real paths (`~/.config/herdr`); the script maps

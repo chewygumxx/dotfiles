@@ -22,7 +22,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/.agents/skills/web-browsers/SKILL.md
+   - ::: :/skills/web-browsers/SKILL.md
    -
    -->
 

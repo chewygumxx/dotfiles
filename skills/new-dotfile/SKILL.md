@@ -19,7 +19,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/.agents/skills/new-dotfile/SKILL.md
+   - ::: :/skills/new-dotfile/SKILL.md
    -
    -->
 
@@ -117,7 +117,7 @@ trailer.
   reported.
 - `chezmoi managed | grep <name>` (shows it is tracked and not ignored).
 - Render it without touching the real home with the `chezmoi-sandbox` skill:
-  `.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh ~/<target>`, then
+  `skills/chezmoi-sandbox/scripts/sandbox-apply.sh ~/<target>`, then
   inspect the file and its mode.
 
 <!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
