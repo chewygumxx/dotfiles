@@ -1,7 +1,7 @@
 <!--
    -
-   - ~chewygumxx/agentic-library.git
-   - ::: :/skills/managing-dotfiles-with-chezmoi/references/scripts-and-hooks.md
+   - ~chewygumxx/dotfiles.git
+   - ::: :/.agents/skills/managing-dotfiles-with-chezmoi/references/scripts-and-hooks.md
    -
    -->
 

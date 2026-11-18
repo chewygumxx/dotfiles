@@ -11,8 +11,8 @@ license: GPL-3.0-only
 
 <!--
    -
-   - ~chewygumxx/agentic-library.git
-   - ::: :/skills/managing-dotfiles-with-chezmoi/SKILL.md
+   - ~chewygumxx/dotfiles.git
+   - ::: :/.agents/skills/managing-dotfiles-with-chezmoi/SKILL.md
    -
    -->
 
