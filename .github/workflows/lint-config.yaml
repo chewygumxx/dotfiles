@@ -144,3 +144,36 @@ jobs:
               run: |
                   git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' ':!**/*.tmpl' |
                       xargs mise exec "$SHUCK" -- shuck check
+
+    environment:
+        name: Environment Registry
+        runs-on: ubuntu-latest
+
+        env:
+            SHUCK: github:ewhauser/shuck@0.2.7
+            CHEZMOI: aqua:twpayne/chezmoi@2.74.1
+
+        steps:
+            # Full history: the check lists every environment.d file ever
+            # deleted from the source, to prove .chezmoiremove names it.
+            - name: Checkout
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+
+            # Not guaranteed on the runner image.
+            - name: Install zsh
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y zsh
+
+            - name: Install chezmoi and shuck
+              uses: jdx/mise-action@v5
+              with:
+                  install_args: ${{ env.SHUCK }} ${{ env.CHEZMOI }}
+
+            # Renders environment.d, zsh and ~/.ssh/config for Linux and
+            # Android from home/.chezmoidata/environment.toml and compares
+            # them; the raw *.tmpl files are skipped by the Zsh job.
+            - name: Check
+              run: mise exec "$SHUCK" "$CHEZMOI" -- .github/scripts/check-environment

@@ -133,4 +133,33 @@ else
     echo "pre-commit: shuck not on PATH, skipping zsh lint" >&2
 fi
 
+
+# --------
+# Environment
+# --------
+
+# The environment variable registry (home/.chezmoidata/environment.toml) is
+# rendered into environment.d, zsh and ~/.ssh/config. The check renders each
+# for Linux and Android and proves they agree, so it runs whenever any of
+# those is staged. Like the zsh checks it reads the working tree.
+env_files=$(
+    git diff --cached --name-only -- \
+        'home/.chezmoidata/environment.toml' \
+        'home/.chezmoitemplates/environment/' \
+        'home/.chezmoiremove' \
+        'home/dot_config/environment.d/' \
+        'home/dot_config/zsh/exact_env/' \
+        'home/private_dot_ssh/config.tmpl' \
+        '.github/scripts/check-environment'
+)
+
+if [ -n "$env_files" ]; then
+    if command -v chezmoi >/dev/null 2>&1 && command -v jq >/dev/null 2>&1 &&
+        command -v zsh >/dev/null 2>&1 && command -v shuck >/dev/null 2>&1; then
+        .github/scripts/check-environment || status=1
+    else
+        echo "pre-commit: chezmoi, jq, zsh or shuck not on PATH, skipping environment registry check" >&2
+    fi
+fi
+
 exit $status
