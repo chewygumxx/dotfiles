@@ -247,21 +247,25 @@ function check_systemd() {
     out="$(expand_systemd "$conf" XDG_DATA_HOME=/x)"
     expect "inherited CARGO_HOME" "$(value CARGO_HOME "$out")" /x/cargo
 
-    # stale_files_removed: environment.d is not exact_, so a file this
-    # registry replaced is only deleted because .chezmoiremove names it.
-    local sandbox_apply="$root/.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh"
-    local target="$HOME/.config/environment.d" sandbox
-    if ! sandbox="$("$sandbox_apply" "$target" 2>/dev/null | tail -n 1)"; then
-        fail "sandbox apply failed"
-        return
-    fi
-    print -r -- 'PAGER=stale' >"$sandbox/home/.config/environment.d/base.conf"
-    "$sandbox_apply" --in "$sandbox" "$target" >/dev/null 2>&1 ||
-        fail "sandbox re-apply failed"
-    expect "deployed environment.d" \
-        "$(cd "$sandbox/home/.config/environment.d" && print -r -- *(N))" \
-        91-environment.conf
-    rm -rf -- "$sandbox"
+    # stale_files_removed: environment.d is not exact_, so a file deleted
+    # from the source stays deployed, and keeps overriding, unless
+    # .chezmoiremove names it. Every one ever deleted must be listed. (A
+    # sandbox apply would show it too, but every fresh sandbox calls the
+    # GitHub API for the externals and soon hits its rate limit.)
+    local remove target
+    local -a listed
+    remove="$(render linux "$root/home/.chezmoiremove")" ||
+        fail "rendering .chezmoiremove failed"
+    for target in ${(fu)"$(git -C "$root" log --diff-filter=D --name-only \
+        --format= -- home/dot_config/environment.d/)"}; do
+        target=".config/environment.d/${${target:t}%.tmpl}"
+        listed=(${(M)${(f)remove}:#${target}([[:space:]]*|)})
+        (($#listed)) ||
+            fail "$target was deleted from the source but not added to .chezmoiremove"
+    done
+    expect "environment.d sources" \
+        "$(cd "$root/home/dot_config/environment.d" && print -r -- *(N))" \
+        91-environment.conf.tmpl
 }
 
 function check_zsh() {
