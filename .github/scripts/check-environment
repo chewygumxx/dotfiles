@@ -1,0 +1,200 @@
+#!/usr/bin/env zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/.github/scripts/check-environment
+#
+#
+
+#
+# Checks the environment variable registry, home/.chezmoidata/environment.toml,
+# against every output rendered from it, for Linux and Android.
+#
+# Usage: check-environment [section...]
+#
+#     Sections: resolve, systemd, zsh, ssh. None given runs every one.
+#
+# Each output is rendered with `chezmoi execute-template`, with .chezmoi.os
+# overridden, so both OS branches are checked from one host. Nothing is
+# applied, and the real home is never read or written.
+#
+# See docs/spec/2026-11-18_environment-variable-registry-design.md.
+#
+
+emulate -L zsh
+setopt no_unset pipe_fail extended_glob
+
+root="$(git -C "${0:A:h}" rev-parse --show-toplevel)" || exit 1
+tmp="$(mktemp -d "${TMPDIR:-/tmp}/check-environment.XXXXXX")" || exit 1
+trap 'rm -rf -- "$tmp"' EXIT
+
+uid="$(id -u)"
+section=''
+integer failures=0
+
+# Fixture environments for a bare login: nothing but HOME, PATH and, on
+# Termux, PREFIX.
+typeset -a linux_env=(HOME=/home/t PATH=/usr/bin)
+typeset -a android_env=(
+    HOME=/data/data/com.termux/files/home
+    PREFIX=/data/data/com.termux/files/usr
+    PATH=/data/data/com.termux/files/usr/bin
+)
+
+generator=/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator
+
+# ----------
+# Reporting
+# ----------
+
+function fail() {
+    print -u2 -r -- "check-environment: $section: $*"
+    failures+=1
+}
+
+# expect <label> <actual> <expected>
+function expect() {
+    [[ "$2" == "$3" ]] || fail "$1: expected ${(qq)3}, got ${(qq)2}"
+}
+
+# ----------
+# Rendering
+# ----------
+
+# render <os> <template-file>: the file rendered as chezmoi would on <os>.
+function render() {
+    chezmoi --source "$root" execute-template \
+        --override-data "{\"chezmoi\":{\"os\":\"$1\"}}" <"$2"
+}
+
+# resolved <os> [override-json]: the resolver's JSON for <os>. Extra
+# override data replaces the registry, for the rejection cases.
+function resolved() {
+    local data="{\"chezmoi\":{\"os\":\"$1\"}${2:+,$2}}"
+    print -r -- '{{ includeTemplate "environment/resolve" . }}' |
+        chezmoi --source "$root" execute-template --override-data "$data"
+}
+
+# names <os>: every variable name the registry defines on <os>.
+function names() {
+    resolved "$1" | jq -r '.variables[].name'
+}
+
+# expand_systemd <file> [VAR=value...]: NAME=value lines, as systemd's own
+# environment.d generator expands <file> for a bare Linux login.
+function expand_systemd() {
+    local file="$1"
+    shift
+    local conf="$tmp/systemd-conf"
+    rm -rf -- "$conf"
+    mkdir -p -- "$conf/environment.d"
+    cp -- "$file" "$conf/environment.d/"
+    env -i "${linux_env[@]}" "$@" XDG_CONFIG_HOME="$conf" "$generator" |
+        grep -v '^XDG_CONFIG_HOME='
+}
+
+# expand_zsh <os> <file> [VAR=value...]: NAME=value lines for every registry
+# name and PATH, after sourcing <file> in a bare zsh on <os>.
+function expand_zsh() {
+    local os="$1" file="$2"
+    shift 2
+    local -a fixture
+    if [[ "$os" == android ]]; then
+        fixture=("${android_env[@]}")
+    else
+        fixture=("${linux_env[@]}")
+    fi
+    env -i "${fixture[@]}" "$@" zsh -f -c '
+        source "$1" || exit 1
+        shift
+        for n; do [[ -v $n ]] && print -r -- "$n=${(P)n}"; done
+    ' zsh "$file" $(names "$os") PATH
+}
+
+# value <name> <lines>: the value of <name> in NAME=value <lines>.
+function value() {
+    local line
+    for line in "${(@f)2}"; do
+        [[ "$line" == "$1="* ]] && { print -r -- "${line#*=}"; return 0 }
+    done
+    return 1
+}
+
+# ---------
+# Sections
+# ---------
+
+function check_resolve() {
+    local os json
+    for os in linux android; do
+        if ! json="$(resolved "$os")"; then
+            fail "$os: the resolver failed"
+            continue
+        fi
+        expect "$os PAGER" "$(jq -r .byName.PAGER <<<"$json")" 'less -R'
+        expect "$os CARGO_HOME" "$(jq -r .byName.CARGO_HOME <<<"$json")" \
+            '${XDG_DATA_HOME}/cargo'
+        expect "$os first five" \
+            "$(jq -r '[.variables[:5][] | .name] | join(" ")' <<<"$json")" \
+            'XDG_CONFIG_HOME XDG_CACHE_HOME XDG_DATA_HOME XDG_STATE_HOME XDG_RUNTIME_DIR'
+        expect "$os first five inherit" \
+            "$(jq -r '[.variables[:5][] | .inherit] | unique | join(" ")' <<<"$json")" \
+            'true'
+        expect "$os SSH_AUTH_SOCK inherit" \
+            "$(jq -r '.variables[] | select(.name == "SSH_AUTH_SOCK") | .inherit' <<<"$json")" \
+            'ssh'
+        expect "$os path" "$(jq -r '.path | join(" ")' <<<"$json")" \
+            '${HOME}/.local/bin ${XDG_DATA_HOME}/mise/shims ${CARGO_HOME}/bin ${GOBIN} ${BUN_INSTALL_BIN}'
+    done
+
+    json="$(resolved linux)"
+    expect "linux XDG_RUNTIME_DIR" "$(jq -r .byName.XDG_RUNTIME_DIR <<<"$json")" \
+        "/run/user/$uid"
+    expect "linux SSH_AUTH_SOCK" "$(jq -r .byName.SSH_AUTH_SOCK <<<"$json")" \
+        '${XDG_RUNTIME_DIR}/ssh-agent-protonpass.socket'
+
+    json="$(resolved android)"
+    expect "android XDG_RUNTIME_DIR" "$(jq -r .byName.XDG_RUNTIME_DIR <<<"$json")" \
+        '${PREFIX}/tmp'
+    expect "android SSH_AUTH_SOCK" "$(jq -r .byName.SSH_AUTH_SOCK <<<"$json")" \
+        '${XDG_RUNTIME_DIR}/ssh-agent.socket'
+
+    # Every malformed entry is refused, naming the variable at fault.
+    local -A rejects=(
+        'unknown reference' '{"name":"BAD","value":"${NOPE}"}'
+        'forward reference' '{"name":"BAD","value":"${LATER}"},{"name":"LATER","value":"x"}'
+        'unbraced dollar'   '{"name":"BAD","value":"$HOME/x"}'
+        'quote'             '{"name":"BAD","value":"say \"hi\""}'
+        'bad inherit'       '{"name":"BAD","value":"x","inherit":"yes"}'
+    )
+    local case err
+    for case in "${(@k)rejects}"; do
+        if err="$(resolved linux \
+            "\"environment\":{\"variables\":[${rejects[$case]}],\"path\":{\"prepend\":[]}}" \
+            2>&1 >/dev/null)"; then
+            fail "$case: accepted"
+        elif [[ "$err" != *BAD* ]]; then
+            fail "$case: refused without naming BAD: $err"
+        fi
+    done
+}
+
+# ------
+# Main
+# ------
+
+typeset -a sections=("$@")
+(($#sections)) || sections=(${${(ok)functions[(I)check_*]}#check_})
+
+for section in "${sections[@]}"; do
+    if ((! $+functions[check_$section])); then
+        fail "no such section"
+        continue
+    fi
+    "check_$section"
+done
+
+((failures == 0))
