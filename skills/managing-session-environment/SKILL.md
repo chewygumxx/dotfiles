@@ -1,24 +1,22 @@
 ---
 name: managing-session-environment
 description: >-
-  Defines, changes and checks the user's session environment variables in this
-  dotfiles repo, through one registry (home/.chezmoidata/environment.toml)
-  rendered into systemd environment.d, zsh and ~/.ssh/config. Use before
-  adding, changing, moving or removing a session-wide environment variable, a
-  PATH entry, an XDG directory or a tool's home (CARGO_HOME, GNUPGHOME, ...);
-  when a tool keeps creating a dot-directory in ~; when a variable differs
-  between a terminal, a systemd service and a Hyprland-launched app; before
+  Manages this dotfiles repo's shared session environment through one chezmoi
+  registry (home/.chezmoidata/environment.toml), rendered into systemd
+  environment.d, zsh and ~/.ssh/config. Use before adding, changing, moving or
+  removing a session-wide environment variable, an XDG directory, a tool's
+  home (CARGO_HOME, GNUPGHOME, ...) or a PATH entry, including OS-specific
+  ones; when a tool keeps creating a dot-directory in ~; when a variable is
+  missing from zsh, a systemd service or a Hyprland-launched app; before
   touching ~/.config/environment.d, zsh's env/ files or
-  SSH_AUTH_SOCK/IdentityAgent; when adding another shell (Nushell) as a
-  consumer; or when .github/scripts/check-environment fails. Not for a CI
-  workflow's env:, a project's .env, or a variable set inside one program's
-  own config.
+  SSH_AUTH_SOCK/IdentityAgent; when adding a shell (Nushell) as a consumer; or
+  when .github/scripts/check-environment fails. Not for a CI workflow's env:,
+  a project's .env, or a setting confined to one program's own config.
 ctime: 2026-11-18
 mtime: 2026-11-18
 spdx: GPL-3.0-only
 title: "Managing the session environment"
 tags:
-  - claude
   - skill
   - chezmoi
   - environment
@@ -36,58 +34,52 @@ tags:
 Every session-wide environment variable is defined once, in
 `home/.chezmoidata/environment.toml`, and generated into each consumer. Before
 this registry the same variables were hand-written in systemd's
-`environment.d`, zsh's `env/` and `~/.ssh/config`, and the copies drifted:
-different `PAGER`s, different `PATH`s, tool homes a desktop app never saw, the
-Linux ssh socket set on Android. The registry exists so a value is changed in
-one place and cannot drift again; hand-editing a generated consumer undoes
-that.
+`environment.d`, zsh's `env/` and `~/.ssh/config`, and the copies drifted.
+Hand-editing a generated consumer brings that back, so change the registry.
 
-Design: `docs/spec/2026-11-18_environment-variable-registry-design.md`. Where
-it and the data header or templates differ, the code wins.
+References, one level deep: the registry's own header (the schema),
+`docs/spec/2026-11-18_environment-variable-registry-design.md` (the design;
+where it differs from the code, the code wins), and
+`.github/scripts/check-environment` (the verifier).
 
 ## Which output reaches what
 
 | Output | Reaches | Source |
 | --- | --- | --- |
-| zsh | Every zsh: terminals, scripts, ssh logins, TTYs, Termux. Also the login that starts Hyprland (ly's `setup.sh` re-executes under `$SHELL`), so Hyprland and everything it execs. | `home/dot_config/zsh/exact_env/00-environment.env.zsh.tmpl` |
-| systemd | The systemd user manager and its units: waybar, portals, D-Bus-activated apps, `systemd-run`. | `home/dot_config/environment.d/zz-user-environment.conf.tmpl` |
-| ssh | `IdentityAgent` in `~/.ssh/config`, from `SSH_AUTH_SOCK`. | `home/private_dot_ssh/config.tmpl` |
+| zsh | Every zsh: terminals, scripts, ssh logins, TTYs, Termux. On chewytop also Hyprland and everything it execs, because ly's setup runs the login through zsh (observed: Hyprland's environment carries the zsh values). | `home/dot_config/zsh/exact_env/00-environment.env.zsh.tmpl` |
+| systemd | The systemd user manager and the units it starts: waybar, portals, D-Bus-activated apps, `systemd-run`. Deployed only where chezmoi finds `systemctl`. | `home/dot_config/environment.d/zz-user-environment.conf.tmpl` |
+| ssh | The `IdentityAgent` line of `~/.ssh/config`, rendered from `SSH_AUTH_SOCK`. | `home/private_dot_ssh/config.tmpl` |
 
-Hosts: `linux` is chewytop (the laptop), `android` is chewytele (Termux). The
-registry varies by OS only; it cannot tell two Linux hosts apart. Termux has
-no systemd, so `environment.d` is not deployed there
-(`home/dot_config/.chezmoiignore`) and it gets only the zsh and ssh outputs.
+Hosts: `linux` is chewytop (the laptop), `android` is chewytele (Termux, no
+`systemctl`, so zsh and ssh only). The registry selects by `.chezmoi.os`
+alone; it cannot single out one Linux host.
 
-Shared machinery: `home/.chezmoitemplates/environment/resolve` (picks each
-value for `.chezmoi.os`, fills `${UID}`, validates, emits JSON), `.../systemd`
-and `.../zsh` (render it). `.github/scripts/check-environment` renders every
-output for both OSes and proves they agree.
+The templates under `home/.chezmoitemplates/environment/` do the work:
+`resolve` picks each value for the OS, fills `${UID}`, validates and emits
+JSON; `systemd` and `zsh` render that.
 
 ## Does the variable belong in the registry?
 
-A *consumer* is one of the outputs above, not a program. A variable belongs
-when its program can be started in more than one way (a shell, a systemd
-unit, Hyprland, ssh, Termux) and must see the same value each time. That is
-why `GRADLE_USER_HOME`, `GH_TELEMETRY` and `DO_NOT_TRACK` are here even though
-one program reads each.
+Use the registry when a value must reach more than one launch context (a
+shell, a systemd unit, Hyprland, ssh, Termux) and ordinary inheritance cannot
+be relied on to carry it. That is why `GRADLE_USER_HOME`, `GH_TELEMETRY` and
+`DO_NOT_TRACK` are here although one program reads each.
 
-It stays local when only one launch context ever needs it: an option for
-interactive zsh (`FZF_DEFAULT_OPTS` in `exact_env/fzf.env.zsh`, zoxide in
+Leave it local when one launch context is enough: an interactive-zsh option
+(`FZF_DEFAULT_OPTS` in `exact_env/fzf.env.zsh`, zoxide in
 `exact_util/zoxide.rc.zsh`), one unit's `Environment=`, WezTerm's `TERMINFO`,
-a wrapper's `CLAUDE_CODE_*`. Values only known at runtime
-(`CHEZMOI_SOURCE_DIR`) stay with `~/.local/bin/chezmoi-environment`. If the
-tool has its own config file read in every context (`go env -w` writes one),
-that can be the better home for a pure setting; say which you chose and why.
+a wrapper's `CLAUDE_CODE_*`. Runtime values (`CHEZMOI_SOURCE_DIR`) stay with
+`~/.local/bin/chezmoi-environment`. A tool default that the tool's own config
+holds for every launch (`go env -w`) can live there instead; when the user
+asks for a session export, use the registry.
 
 ## The schema
-
-The data file's header is the reference. In short:
 
 ```toml
 [[environment.variables]]
 name    = "CARGO_HOME"
 value   = "${XDG_DATA_HOME}/cargo"
-comment = "Why, if it is not obvious. Rendered above the line in every output."
+comment = "Why, if not obvious. Rendered above the line in the zsh and systemd outputs."
 
 [[environment.variables]]
 name    = "SSH_AUTH_SOCK"
@@ -99,144 +91,142 @@ prepend = ["${HOME}/.local/bin", "${CARGO_HOME}/bin", { dir = "${XDG_DATA_HOME}/
 ```
 
 - **Order is evaluation order.** A value may reference `HOME`, `PREFIX`
-  (Termux), `UID`, or a variable defined *above it* on the same OS; anything
+  (Termux), `UID`, or a variable defined above it on the same OS; anything
   else fails the resolver, naming the variable.
-- **Value syntax is literal text and `${NAME}`.** No bare `$`, quotes,
-  backslashes or backticks: that subset is what zsh, environment.d and
-  ssh_config all expand the same way, so one string renders into all three.
-  References stay unexpanded until runtime, so an inherited `XDG_DATA_HOME`
-  still moves everything under it. `${UID}` alone is filled in by chezmoi,
-  since environment.d has no `UID`.
-- **Write `${HOME}`, never `~`.** Nothing rejects `~`, and no consumer expands
-  it inside the quotes the renderers emit, so `~/x` ships as a directory
-  literally named `~`. Translate a user's `~/...` before writing it.
-- **`os`** overrides `value` per `.chezmoi.os`. Keys are not validated: a typo
-  such as `linx` silently drops the variable on that OS. A `PATH` entry's
-  `os` must be a list (`["linux"]`), not a string.
+- **A value is literal text and `${NAME}`.** No bare `$`, quotes,
+  backslashes or backticks: that subset expands identically in zsh,
+  environment.d and ssh_config, so one string renders into all three, and an
+  inherited `XDG_DATA_HOME` still moves everything under it at runtime.
+  `${UID}` alone is filled in by chezmoi, as environment.d has no `UID`.
+- **Write `${HOME}`, never `~`.** The resolver accepts `~`, but zsh and
+  environment.d leave it literal inside the quotes the renderers emit, so
+  `~/x` becomes a directory named `~`. Translate a user's `~/...`.
+- **`os`**: a key matching `.chezmoi.os` overrides `value`; with no match,
+  `value` applies if present, otherwise the variable is omitted on that OS.
+  Keys are not validated, so a typo (`linx`) silently falls through. A `PATH`
+  entry's `os` is a list (`["linux"]`).
 - **`inherit`**: `false` (default) sets the value in every shell, nested ones
-  included, so `PAGER=cat zsh -c ...` gets `less -R` back. `true` lets an
-  inherited non-empty value win; use it where a caller's override should
-  survive (the XDG entries). `"ssh"` lets an inherited value win only inside
-  an ssh session, so a forwarded `ssh -A` agent survives while any other
-  inherited agent is replaced; environment.d renders it like `false`.
+  included, so `PAGER=cat zsh -c ...` gets the registry `PAGER` back. `true`
+  keeps a non-empty inherited value (the XDG entries), so a caller's override
+  survives. `"ssh"` keeps an inherited value only when `SSH_CONNECTION` is
+  set, in zsh; environment.d always assigns the registry value.
 
 ## Recipes
 
-**A tool keeps creating a dot-directory in ~.** Check first whether its
-variable is already registered (`grep -n NAME home/.chezmoidata/environment.toml`);
-if it is, the problem is delivery, see the next recipe. Otherwise add an entry
-under "Per-Tool XDG Relocation", alphabetical but below anything it references,
+**A tool keeps creating a dot-directory in ~.** `grep -n` the tool's variable
+in the registry first. If it is there (`GRADLE_USER_HOME` is), the problem is
+delivery or an override: see the next recipe. Otherwise add an entry under
+"Per-Tool XDG Relocation", alphabetical but below anything it references,
 pointing at `${XDG_DATA_HOME}/<pkg>` (or `XDG_CONFIG_HOME`, `XDG_STATE_HOME`,
-`XDG_CACHE_HOME`, by what the directory holds). `~/.local/var/<pkg>` is a dead
-convention; never introduce it. Outside the registry, where the XDG variables
-may be unset, fall back to `$HOME/.local/share/<pkg>`, or in a chezmoi
-template `joinPath .chezmoi.destDir ".local" "share" "<pkg>"`. If the
-directory should exist ahead of the tool, follow the placeholder convention:
+`XDG_CACHE_HOME`, by what the directory holds). Never `~/.local/var/<pkg>`, a
+dead convention. To pre-create the directory, add
 `home/dot_local/share/<pkg>/.chezmoiignore` (`private_<pkg>` for 0700, as
-gnupg). Moving the user's existing data is a manual step: say so, don't do
-it.
+gnupg). Moving the user's existing data is manual: say so, don't do it.
 
-**A program doesn't see a registered variable.**
-1. `chezmoi diff ~/.config/environment.d ~/.config/zsh/env`: an unapplied
-   change is the usual cause.
-2. Compare `tr '\0' '\n' </proc/<pid>/environ`, `systemctl --user
-   show-environment` and a TTY shell, against the table at the top: which
-   output should have reached it?
-3. Processes keep the environment they started with; after an apply, the
-   user re-logs in (or restarts the unit).
-4. Some programs override the variable with their own setting (an IDE's
-   "Gradle user home", say).
+**A process doesn't see a registered variable.**
+1. Compare what this checkout would deploy with what is deployed. The
+   configured chezmoi source may be another checkout, and a directory target
+   shows nothing without `--recursive`, so from the repo root run
+   `chezmoi --source . --use-builtin-diff --no-pager diff --recursive ~/.config/environment.d ~/.config/zsh/env ~/.ssh/config`.
+2. Read the variable from the process's own startup environment
+   (`tr '\0' '\n' </proc/<pid>/environ | grep NAME`) and trace its launcher
+   against the table above. Compare with a fresh zsh and
+   `systemctl --user show-environment`.
+3. A process keeps the environment it started with. For a systemd unit, run
+   `systemctl --user daemon-reload` (re-runs the environment generators),
+   then restart the unit. For Hyprland-launched apps, a new login.
+4. The program may override the variable itself (an IDE's "Gradle user
+   home").
 
 **Change, move or remove a variable.** Edit or delete the entry, then
-`git grep` both its name and its old literal path. Other files may spell the
-path out and must move with it: socket units (`ListenStream=` in
-`ssh-agent-*.socket`), source directories that deploy into it
-(`home/dot_local/share/<pkg>/`, placeholder `.chezmoiignore`s included),
-wrappers' fallbacks (`wrap/claude` reads `CLAUDE_CONFIG_DIR`). Anything that
-references the variable, a later entry or a `PATH` item, must change first or
-the resolver fails. Running sessions keep the old value until re-login.
+`git grep` both its name and its old literal path, and move every hard-coded
+copy with it: socket units (`ListenStream=` in `ssh-agent-*.socket`), source
+directories deploying into it (`home/dot_local/share/<pkg>/`), wrappers'
+fallbacks (`wrap/claude` reads `CLAUDE_CONFIG_DIR`). A later entry or a
+`PATH` item referencing it must change first, or the resolver fails.
 
-**Add a setting that is not a path** (`GOPROXY=off`). Same section as the
-relocations, which already holds `DO_NOT_TRACK` and `GH_TELEMETRY`.
+**Add a session export** (`GOPROXY=off` everywhere). A plain entry, no `os`,
+default `inherit`, in the "Per-Tool XDG Relocation" section, which already
+holds the non-path settings `DO_NOT_TRACK` and `GH_TELEMETRY`.
 
 **Add a `PATH` directory.** Entries are listed highest precedence first.
-Reference the tool's home (`${CARGO_HOME}/bin`) rather than spelling the path,
-and limit it with `{ dir = ..., os = [...] }` when one OS should not get it.
-zsh dedupes with `typeset -gU path`; environment.d prepends once per session.
+Reference the tool's home (`${CARGO_HOME}/bin`) rather than spelling the path.
+`{ dir = ..., os = ["linux"] }` limits it to Linux, which is every Linux host,
+not chewytop alone; telling Linux hosts apart would need hostname support in
+the resolver. zsh deduplicates `path`; the systemd renderer prepends without
+deduplicating.
 
-**Add a consumer** (Nushell, say). First ask whether inheritance already
-covers it: a nu started from zsh, Hyprland or systemd already has every
-variable, and a renderer is only needed if nu becomes a login shell (TTY,
-ssh, Termux); the spec records Nushell as deliberately not a consumer yet.
-If it is needed, write a renderer in `home/.chezmoitemplates/environment/`
-over `includeTemplate "environment/resolve" . | fromJson`. nu does not expand
-`${NAME}`, so the renderer must translate references (to
-`$"($env.NAME)/x"`), treat `PATH` as a list, and treat empty as unset for
-`inherit = true`. Then a target file that includes it, a `check_<consumer>`
-section in the check script, the target in `.husky/pre-commit`'s `env_files`,
-any tool in the CI job, and the consumer list in the data header. The data
-itself should need no change; if it seems to, stop and raise it. Scope
-`nushell`.
+**Add a consumer** (Nushell). A nu started from zsh, Hyprland or systemd
+already inherits every variable; a renderer is needed only where nu itself is
+the login shell (TTY, ssh, Termux). Write one in
+`home/.chezmoitemplates/environment/` over
+`includeTemplate "environment/resolve" . | fromJson`. nu does not expand
+`${NAME}`, so translate references (to `$"($env.NAME)/x"`), treat `PATH` as
+a list and empty as unset for `inherit = true`. Then a target file including
+it, a `check_<consumer>` section in the verifier, the target in
+`.husky/pre-commit`'s `env_files`, any tool in the CI job, and the consumer
+list in the registry header. Reuse the schema; if it cannot express what nu
+needs, change it and say why.
 
-**The check says a system file sorts after the systemd output.**
-environment.d merges every directory's files by name and the last assignment
-wins, so the output must sort last. `zz-` sorts after every numbered file
-(Debian's and Arch's `99-environment.conf`, Ubuntu's `990-snapd.conf`), but a
-system file such as `zzz-foo.conf` beats it. See what that file sets, then
-rename the output to sort after it under `LC_ALL=C`: `git mv` the template,
-add the old target to `home/.chezmoiremove` (the check enforces it), update
-`systemd_conf=` in the check script, and `git grep` the old name (data
-header, the zsh template's comment, `AGENTS.md`, this skill).
+**The verifier says a system file sorts after the systemd output.**
+environment.d reads every directory's files by name and later assignments to
+the same name win. The repo requires its file to sort after every system file
+whether or not they overlap, so `zzz-foo.conf` fails the check even if it
+sets unrelated names; read it anyway. Rename the output to sort after it under
+`LC_ALL=C`: `git mv` the template, add the old target
+(`.config/environment.d/zz-user-environment.conf`) to `home/.chezmoiremove`,
+update `systemd_conf=` in the verifier, and `git grep` the old name (registry
+header, the zsh template's comment, `AGENTS.md`, this skill). The verifier's
+`.chezmoiremove` check reads git history, which does not hold a pending
+rename yet, so check that line yourself before committing.
 
 ## Traps
 
+- **`IdentityAgent` overrides `SSH_AUTH_SOCK`.** zsh keeps a forwarded
+  `ssh -A` agent in the environment, but an `ssh` using the generated config
+  still asks the registry's socket.
 - **environment.d is not `exact_`.** A renamed or deleted file there stays
-  deployed, still overriding, unless `home/.chezmoiremove` lists it; the check
-  fails on any file ever deleted from that directory and not listed. It also
-  expects exactly one file there, so a per-service `.conf` belongs in that
-  unit's `Environment=` instead.
+  deployed, still assigning, unless `home/.chezmoiremove` lists it. The
+  verifier also expects exactly one file there, so a single unit's variable
+  goes in that unit's `Environment=`.
 - **The zsh output runs for every zsh**, including those scp, rsync and
-  git-over-ssh start, which read stdout as protocol data. Parameter expansion
-  and builtins only; nothing on stdout.
-- **Keep the XDG entries**, even though systemd sets them in a graphical
-  session: a TTY, a rescue shell, a container or Termux has nothing else, and
-  every path would collapse to one like `/cargo`. Keep them `inherit = true`
-  so an inherited value still wins.
-- **zsh reads `/etc/zsh/zshenv` even with `-f`.** A test of a "bare" zsh must
-  clear what it sets.
+  git-over-ssh start, which read stdout as protocol data: parameter
+  expansion and builtins only, nothing on stdout.
+- **Keep the XDG entries, as `inherit = true`.** A TTY, rescue shell,
+  container or Termux has no systemd session to set them, and every path would
+  collapse to one like `/cargo`.
 - **Raw `*.tmpl` files are Go template text.** The hook's and CI's `zsh -n`
-  and `shuck` skip them; the check lints the rendered output instead.
+  and `shuck` skip them; the verifier lints the rendered zsh instead.
 
 ## Verify
 
-1. Run `.github/scripts/check-environment` (sections `resolve`, `systemd`,
-   `zsh`, `ssh`; none given runs all). It needs `chezmoi`, `jq`, `zsh`,
-   `shuck`, git history and systemd's
-   `30-systemd-environment-d-generator`, so not Termux. Under the Android
-   fixture `/etc/zsh/zshenv:22: command not found: id` on stderr is host
-   noise. The pre-commit hook runs it when a registry file is staged; CI runs
-   it on every PR and push to `main`.
-2. **Some current values are pinned in the check as fixtures**: `PAGER`,
-   `CARGO_HOME`, `XDG_RUNTIME_DIR`, `SSH_AUTH_SOCK`, the five leading XDG
-   entries, the `PATH` list in `check_resolve` (the same for both OSes) and
-   the `PATH` prefix in `check_systemd`. Changing one of those values is
-   meant to fail: update the expectation in the same commit, per OS when an
-   entry is OS-limited. Never delete the assertion to get green.
-3. To read one output:
-   `chezmoi --source . execute-template < home/dot_config/environment.d/zz-user-environment.conf.tmpl`,
-   with `--override-data '{"chezmoi":{"os":"android"}}'` for Termux.
-4. Never `chezmoi apply` against the real home to test; use the
-   `chezmoi-sandbox` skill, and reuse one sandbox with `--in DIR`. Each fresh
-   sandbox evaluates the externals, which call the GitHub API unauthenticated
-   and can hit its rate limit (403). Then wait, or ask the user before handing
-   chezmoi a token (`GITHUB_TOKEN`).
-5. Before the user's own `chezmoi apply`, suggest `chezmoi diff`.
+Run `.github/scripts/check-environment` (sections `resolve`, `systemd`,
+`zsh`, `ssh`) on Linux. It needs `chezmoi`, `jq`, `zsh`, `shuck` with a
+writable cache, full git history and systemd's
+`30-systemd-environment-d-generator`. It expands the Linux zsh and systemd
+outputs and compares them, checks the Android zsh output on its own, and
+compares the rendered `IdentityAgent` on both OSes; Android environment.d is
+not expanded. Under the Android fixture,
+`/etc/zsh/zshenv:22: command not found: id` is host noise. The pre-commit
+hook runs it against the working tree when a registry file is staged, and
+skips if a tool is missing; CI runs it on every PR and push to `main`.
 
-## Commits
+**Some current values are pinned in the verifier**: `PAGER`, `CARGO_HOME`,
+`XDG_RUNTIME_DIR`, `SSH_AUTH_SOCK`, the five leading XDG entries, the `PATH`
+list in `check_resolve` (one list asserted for both OSes) and the expanded
+`PATH` prefix in `check_systemd`. Changing one of those is meant to fail:
+update the expectation in the same commit, per OS once an entry is
+OS-limited. Never delete an assertion to get green.
 
-`chezmoi` for the data file and shared templates; `systemd`, `zsh` or `ssh`
-for one consumer; combined with `/` when a change spans several. Check script
-changes have gone in as `test:`, hook and workflow changes as `ci:`, both
-unscoped. Check `.commitlintrc.mts` before inventing a scope.
+To read one output:
+`chezmoi --source . execute-template < home/dot_config/environment.d/zz-user-environment.conf.tmpl`,
+with `--override-data '{"chezmoi":{"os":"android"}}'` for Termux. To see a
+deployment without touching the real home, run
+`skills/chezmoi-sandbox/scripts/sandbox-apply.sh <targets>`. Never
+`chezmoi apply` against the real home to test, and suggest `chezmoi diff`
+before the user's own apply.
+
+Commit scopes: `chezmoi` for the registry and shared templates; `systemd`,
+`zsh` or `ssh` for one consumer; see `AGENTS.md` for the rest.
 
 <!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
