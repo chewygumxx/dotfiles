@@ -1,23 +1,6 @@
 {
     "version": 1,
     "skills": {
-        "environment-variables": {
-            "source": "./skills/environment-variables",
-            "sourceType": "local",
-            "computedHash": "43797836e3544339a890974d532b42bbf5c4c3bc1d2ee0d8fd11eb272fcf7b6e"
-        },
-        "find-skills": {
-            "source": "vercel-labs/skills",
-            "sourceType": "github",
-            "skillPath": "skills/find-skills/SKILL.md",
-            "computedHash": "913b9d37d0d54047dd65222bb8c67b2bf04e3cb87dcad1729068d7a8b2c8c396"
-        },
-        "herdr": {
-            "source": "herdrdev/herdr",
-            "sourceType": "github",
-            "skillPath": "skills/herdr/SKILL.md",
-            "computedHash": "72177e911f55467de8737174072ec6bb08e30bbf62bceabcb69678e944398b18"
-        },
         "managing-dotfiles-with-chezmoi": {
             "source": "chewygumxx/agentic-library",
             "sourceType": "github",
