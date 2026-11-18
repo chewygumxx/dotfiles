@@ -1,0 +1,26 @@
+# vim:set expandtab shiftwidth=4 filetype=gitignore:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/.agents/skills/.gitignore
+#
+#
+
+#
+# Skills installed by the skills CLI (npx skills ...) from skills-lock.json.
+# The lock is their record; these copies are restored from it, so tracking
+# them only invites drift (the header sync rewrites their path boxes, which
+# then no longer match the lock's computedHash). .claude/skills is a link to
+# this directory, so this file covers both of the CLI's destinations.
+#
+# One line per skill in skills-lock.json; add one whenever `skills add`
+# adds to the lock. Skills written here by hand, and not in the lock, stay
+# tracked.
+#
+
+/environment-variables/
+/find-skills/
+/herdr/
+/managing-dotfiles-with-chezmoi/
