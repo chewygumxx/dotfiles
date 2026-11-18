@@ -124,7 +124,9 @@ CI run it. Design:
 Agent skills live in `.agents/skills/`, which `.claude/skills` links to.
 Skills written for this repo have their source in `skills/<name>/` and are
 installed with `npx skills add "./skills/<name>" --agent claude-code codex
---yes`. Every skill in `skills-lock.json` is a restored copy, so it is
+--yes`. Re-run that after every edit to the source and commit
+`skills-lock.json` with it: the lock holds a hash of the source, and the
+frozen install below fails on a stale one. Every skill in `skills-lock.json` is a restored copy, so it is
 git-ignored in `.agents/skills/.gitignore`; add a line there whenever the
 lock gains one. `prepare` (so `bun install`) restores them with `skills
 experimental_install --frozen-lockfile`, which fails rather than rewrite

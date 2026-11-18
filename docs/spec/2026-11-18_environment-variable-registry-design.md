@@ -23,7 +23,8 @@ tags:
 
 # Environment Variable Registry Design
 
-Status: approved, 2026-11-18. Not yet implemented.
+Status: implemented, 2026-11-18 (PR #6). Where this document and the data
+file's header or the templates differ, the code wins.
 
 ## Intent
 
@@ -122,7 +123,7 @@ value = "${XDG_DATA_HOME}/cargo"
 
 [[environment.variables]]
 name    = "SSH_AUTH_SOCK"
-inherit = true
+inherit = "ssh"
 os      = { linux = "${XDG_RUNTIME_DIR}/ssh-agent-protonpass.socket", android = "${XDG_RUNTIME_DIR}/ssh-agent.socket" }
 
 [environment.path]
@@ -231,9 +232,9 @@ files go on their own.
   silent (it is the protocol stream for scp, rsync and git over ssh), and no
   command is run: parameter expansion and `export` only.
 - **Headers.** New files take the header style of their siblings.
-- **Commits.** Scopes `systemd`, `zsh`, `ssh` (combinable with `/`); the
-  data file and shared templates go unscoped or under the consumers they
-  change. Check `scope-enum` for any new one first.
+- **Commits.** Scopes `chezmoi` for the data file and shared templates,
+  `systemd`, `zsh`, `ssh` for a consumer (combinable with `/`). Check
+  `scope-enum` for any new one first.
 
 ## Initial values
 
