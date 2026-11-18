@@ -4,7 +4,7 @@
         "environment-variables": {
             "source": "./skills/environment-variables",
             "sourceType": "local",
-            "computedHash": "9b6d0fa1e5939a9c66896726650d62bb21628992b2a847aa28917263c36d54c4"
+            "computedHash": "43797836e3544339a890974d532b42bbf5c4c3bc1d2ee0d8fd11eb272fcf7b6e"
         },
         "find-skills": {
             "source": "vercel-labs/skills",
