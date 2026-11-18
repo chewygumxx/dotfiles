@@ -1,6 +1,6 @@
 ---
 ctime: 2026-11-03
-mtime: 2026-11-03
+mtime: 2026-11-18
 spdx: GPL-3.0-only
 title: Home Directory Structure Specification
 description: >-
@@ -21,6 +21,11 @@ tags:
    -->
 
 # Home Directory Structure Specification
+
+> **Superseded 2026-11-18.** The `~/.local/var/<app>` convention was
+> abandoned. An application that needs one inseparable directory now lives at
+> `$XDG_DATA_HOME/<app>` (`~/.local/share/<app>`), with chezmoi source under
+> `home/dot_local/share/<app>/`. Read every `~/.local/var` below as that.
 
 Status: accepted organisational direction, recorded on 2026-11-03. Application
 migrations remain unimplemented by this documentation change.
