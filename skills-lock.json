@@ -1,23 +1,23 @@
 {
-  "version": 1,
-  "skills": {
-    "find-skills": {
-      "source": "vercel-labs/skills",
-      "sourceType": "github",
-      "skillPath": "skills/find-skills/SKILL.md",
-      "computedHash": "b146008599c31057cef1c145774cea5d5afb30e8f43fa802e47a4b461419aaaf"
-    },
-    "herdr": {
-      "source": "herdrdev/herdr",
-      "sourceType": "github",
-      "skillPath": "skills/herdr/SKILL.md",
-      "computedHash": "72177e911f55467de8737174072ec6bb08e30bbf62bceabcb69678e944398b18"
-    },
-    "managing-dotfiles-with-chezmoi": {
-      "source": "chewygumxx/agentic-library",
-      "sourceType": "github",
-      "skillPath": "skills/managing-dotfiles-with-chezmoi/SKILL.md",
-      "computedHash": "9540e82eebd8840b8d6d4eef63b865d22b49a143992ba2659e03e9d1565e4ef9"
+    "version": 1,
+    "skills": {
+        "find-skills": {
+            "source": "vercel-labs/skills",
+            "sourceType": "github",
+            "skillPath": "skills/find-skills/SKILL.md",
+            "computedHash": "b146008599c31057cef1c145774cea5d5afb30e8f43fa802e47a4b461419aaaf"
+        },
+        "herdr": {
+            "source": "herdrdev/herdr",
+            "sourceType": "github",
+            "skillPath": "skills/herdr/SKILL.md",
+            "computedHash": "72177e911f55467de8737174072ec6bb08e30bbf62bceabcb69678e944398b18"
+        },
+        "managing-dotfiles-with-chezmoi": {
+            "source": "chewygumxx/agentic-library",
+            "sourceType": "github",
+            "skillPath": "skills/managing-dotfiles-with-chezmoi/SKILL.md",
+            "computedHash": "9540e82eebd8840b8d6d4eef63b865d22b49a143992ba2659e03e9d1565e4ef9"
+        }
     }
-  }
 }
