@@ -27,7 +27,12 @@
 emulate -L zsh
 setopt no_unset pipe_fail extended_glob
 
-root="$(git -C "${0:A:h}" rev-parse --show-toplevel)" || exit 1
+# From the script's own path, not git: a git hook (.husky/pre-commit runs
+# this) exports GIT_DIR, and with it set rev-parse --show-toplevel answers
+# with the current directory. Those variables are dropped for the git log
+# below for the same reason.
+root="${0:A:h:h:h}"
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE
 tmp="$(mktemp -d "${TMPDIR:-/tmp}/check-environment.XXXXXX")" || exit 1
 trap 'rm -rf -- "$tmp"' EXIT
 
@@ -48,6 +53,11 @@ typeset -a android_env=(
 )
 
 generator=/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator
+
+# The one environment.d file the registry renders. It must sort after every
+# system-supplied file, 99-environment.conf (/etc/environment) included.
+systemd_conf=99-user-environment.conf
+systemd_tmpl="$root/home/dot_config/environment.d/$systemd_conf.tmpl"
 
 # Absolute, because the Termux fixture's PATH has no zsh in it.
 zsh_bin="${commands[zsh]}"
@@ -126,6 +136,16 @@ function expand_zsh() {
         shift $((count + 2))
         for name; do [[ -v $name ]] && print -r -- "$name=${(P)name}"; done
     ' zsh "$#" "$file" "$@" $(names "$os") PATH
+}
+
+# registry_lines <os> <lines>: only the NAME=value <lines> whose name the
+# registry defines on <os>, leaving out what the host itself supplies.
+function registry_lines() {
+    local line
+    local -a keep=($(names "$1"))
+    for line in "${(@f)2}"; do
+        ((${keep[(Ie)${line%%=*}]})) && print -r -- "$line"
+    done
 }
 
 # value <name> <lines>: the value of <name> in NAME=value <lines>.
@@ -216,8 +236,8 @@ function assert_rooted() {
 }
 
 function check_systemd() {
-    local tmpl="$root/home/dot_config/environment.d/91-environment.conf.tmpl"
-    local conf="$tmp/91-environment.conf" out name
+    local tmpl="$systemd_tmpl"
+    local conf="$tmp/$systemd_conf" out name
 
     if ! render linux "$tmpl" >"$conf"; then
         fail "rendering $tmpl failed"
@@ -239,9 +259,29 @@ function check_systemd() {
         "/run/user/$uid"
     expect "bare SSH_AUTH_SOCK" "$(value SSH_AUTH_SOCK "$out")" \
         "/run/user/$uid/ssh-agent-protonpass.socket"
-    expect "bare PATH" "$(value PATH "$out")" \
-        "$fixture_home/.local/bin:$fixture_home/.local/share/mise/shims:$fixture_home/.local/share/cargo/bin:$fixture_home/.local/share/go/bin:$fixture_home/.local/share/bun/bin:/usr/bin"
-    assert_rooted bare "$out" $fixture_home/ /run/user/ /usr/
+    # The registry's directories lead PATH. What follows is whatever the
+    # host supplies (/etc/environment sets an absolute PATH on Ubuntu), so
+    # only the prefix is checked, and only registry names for rootedness.
+    local path_prefix="$fixture_home/.local/bin:$fixture_home/.local/share/mise/shims:$fixture_home/.local/share/cargo/bin:$fixture_home/.local/share/go/bin:$fixture_home/.local/share/bun/bin:"
+    [[ "$(value PATH "$out")" == "$path_prefix"* ]] ||
+        fail "bare PATH: expected to start ${(qq)path_prefix}, got ${(qq)$(value PATH "$out")}"
+    assert_rooted bare "$(registry_lines linux "$out")" "$fixture_home/" /run/user/
+
+    # sorts_last: environment.d files are read in name order across every
+    # directory, the last assignment winning. A system file sorting after
+    # this one (Debian's and Arch's 99-environment.conf, a link to
+    # /etc/environment) would otherwise replace PATH outright.
+    local dir sys
+    for dir in /etc/environment.d /run/environment.d \
+        /usr/local/lib/environment.d /usr/lib/environment.d; do
+        for sys in "$dir"/*.conf(N); do
+            if [[ "${sys:t}" == "$systemd_conf" ]]; then
+                fail "$systemd_conf masks $sys"
+            elif [[ "$(print -rl -- "${sys:t}" "$systemd_conf" | LC_ALL=C sort | tail -n 1)" != "$systemd_conf" ]]; then
+                fail "$systemd_conf sorts before $sys, which then overrides it"
+            fi
+        done
+    done
 
     # xdg_inherit: an inherited XDG directory moves everything under it.
     out="$(expand_systemd "$conf" XDG_DATA_HOME=/x)"
@@ -256,7 +296,7 @@ function check_systemd() {
     local -a listed
     remove="$(render linux "$root/home/.chezmoiremove")" ||
         fail "rendering .chezmoiremove failed"
-    for target in ${(fu)"$(git -C "$root" log --diff-filter=D --name-only \
+    for target in ${(fu)"$(git -C "$root" log --diff-filter=D --no-renames --name-only \
         --format= -- home/dot_config/environment.d/)"}; do
         target=".config/environment.d/${${target:t}%.tmpl}"
         listed=(${(M)${(f)remove}:#${target}([[:space:]]*|)})
@@ -265,7 +305,7 @@ function check_systemd() {
     done
     expect "environment.d sources" \
         "$(cd "$root/home/dot_config/environment.d" && print -r -- *(N))" \
-        91-environment.conf.tmpl
+        "$systemd_conf.tmpl"
 }
 
 function check_zsh() {
@@ -303,20 +343,25 @@ function check_zsh() {
     expect "linux bare PAGER" "$(value PAGER "$out")" 'less -R'
     expect "linux bare SSH_AUTH_SOCK" "$(value SSH_AUTH_SOCK "$out")" \
         "/run/user/$uid/ssh-agent-protonpass.socket"
-    assert_rooted "linux bare" "$out" "$fixture_home/" /run/user/ /usr/
+    assert_rooted "linux bare" "$(registry_lines linux "$out")" "$fixture_home/" /run/user/
 
     # agrees_with_systemd: both outputs, expanded, give every name the same
     # value, with and without an inherited XDG directory.
-    local conf="$tmp/91-environment.conf" sd
-    render linux "$root/home/dot_config/environment.d/91-environment.conf.tmpl" >"$conf"
+    local conf="$tmp/$systemd_conf" sd zpath
+    render linux "$systemd_tmpl" >"$conf"
     local inherited
     for inherited in '' 'XDG_DATA_HOME=/x'; do
         out="$(expand_zsh linux "${files[linux]}" ${inherited:+"$inherited"})"
         sd="$(expand_systemd "$conf" ${inherited:+"$inherited"})"
-        for name in $(names linux) PATH; do
+        for name in $(names linux); do
             expect "agrees ${inherited:-bare} $name" \
                 "$(value "$name" "$out")" "$(value "$name" "$sd")"
         done
+        # zsh's fixture PATH is /usr/bin; systemd's tail is the host's. The
+        # registry part in front must be the same.
+        zpath="$(value PATH "$out")"
+        [[ "$(value PATH "$sd")" == "${zpath%/usr/bin}"* ]] ||
+            fail "agrees ${inherited:-bare} PATH: zsh ${(qq)zpath}, systemd ${(qq)$(value PATH "$sd")}"
     done
 
     # bare_env_paths, Android: Termux, no systemd.

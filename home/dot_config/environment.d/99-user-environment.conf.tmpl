@@ -1,0 +1,23 @@
+# vim:set expandtab shiftwidth=4 filetype=conf:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/environment.d/99-user-environment.conf.tmpl
+#
+#
+
+#
+# [GENERATED] Every variable here comes from the environment variable
+# registry, home/.chezmoidata/environment.toml: edit that, not this file.
+# ~/.config/zsh/env/00-environment.env.zsh is rendered from the same data.
+#
+# Named to sort after every system-supplied environment.d file, so its values
+# are evaluated last. That includes 99-environment.conf, which Debian and Arch
+# ship as a link to /etc/environment: sorting before it, as 91-xdg.conf did,
+# let an absolute PATH there replace the prepend below outright. It is the
+# only file in this directory; .github/scripts/check-environment checks the
+# order against the host's system directories.
+#
+{{- includeTemplate "environment/systemd" . }}

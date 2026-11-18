@@ -111,14 +111,15 @@ Every environment variable that more than one consumer needs (XDG
 directories, `PATH`, `EDITOR`/`PAGER`/..., tool homes such as `CARGO_HOME`,
 `SSH_AUTH_SOCK`) is defined once in `home/.chezmoidata/environment.toml`,
 whose header documents the schema. `home/.chezmoitemplates/environment/`
-renders it into `~/.config/environment.d/91-environment.conf`,
+renders it into `~/.config/environment.d/99-user-environment.conf`,
 `~/.config/zsh/env/00-environment.env.zsh` and the `IdentityAgent` line of
 `~/.ssh/config`. Never set one of them by hand in a consumer: change the data
 file. A variable only one program reads stays with that program. A file
 removed from `environment.d` (not `exact_`) must be added to
 `home/.chezmoiremove`. `.github/scripts/check-environment` renders every
 output for Linux and Android and proves they agree; the pre-commit hook and
-CI run it. Design: `docs/spec/2026-11-18_environment-variable-registry-design.md`.
+CI run it. Design:
+`docs/spec/2026-11-18_environment-variable-registry-design.md`.
 
 Browser extensions for Firefox and ungoogled-chromium are declared once in
 `home/.chezmoidata/web-extensions.toml` and installed by the
