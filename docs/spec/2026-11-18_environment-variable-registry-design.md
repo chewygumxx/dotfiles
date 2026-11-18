@@ -23,7 +23,7 @@ tags:
 
 # Environment Variable Registry Design
 
-Status: approved approach (A), 2026-11-18. Not yet implemented.
+Status: approved, 2026-11-18. Not yet implemented.
 
 ## Intent
 
@@ -265,8 +265,12 @@ consumers. Where the two disagree, these are the values taken:
 
 ## Follow-up
 
-An agent skill documenting this architecture follows implementation. Where it
-lives (`.claude/skills/`, where Claude Code discovers project skills, or a new
-top-level `skills/`) is still open.
+An agent skill documenting this architecture follows implementation. Its
+source lives in a new top-level `skills/<skill-name>/`, installed for Claude
+Code and Codex with:
+
+```sh
+npx skills add "./skills/<skill-name>" --agent claude-code codex --yes
+```
 
 <!-- vim:set expandtab shiftwidth=2 filetype=markdown: -->
