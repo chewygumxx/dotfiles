@@ -1,21 +1,22 @@
 ---
-name: environment-variables
+name: managing-session-environment
 description: >-
-  How this dotfiles repo sets the user's session environment: one registry,
-  home/.chezmoidata/environment.toml, rendered into systemd environment.d, zsh
-  and ~/.ssh/config. Use before adding, changing, moving or removing a
-  session-wide environment variable, a PATH entry, an XDG directory or a
-  tool's home (CARGO_HOME, GNUPGHOME, ...); when a tool keeps creating a
-  dot-directory in ~; when a variable differs between a terminal, a systemd
-  service and a Hyprland-launched app; before touching ~/.config/environment.d,
-  zsh's env/ files or SSH_AUTH_SOCK/IdentityAgent; when adding another shell
-  (Nushell) as a consumer; or when .github/scripts/check-environment fails.
-  Not for a CI workflow's env:, a project's .env, or a variable set inside
-  one program's own config.
+  Defines, changes and checks the user's session environment variables in this
+  dotfiles repo, through one registry (home/.chezmoidata/environment.toml)
+  rendered into systemd environment.d, zsh and ~/.ssh/config. Use before
+  adding, changing, moving or removing a session-wide environment variable, a
+  PATH entry, an XDG directory or a tool's home (CARGO_HOME, GNUPGHOME, ...);
+  when a tool keeps creating a dot-directory in ~; when a variable differs
+  between a terminal, a systemd service and a Hyprland-launched app; before
+  touching ~/.config/environment.d, zsh's env/ files or
+  SSH_AUTH_SOCK/IdentityAgent; when adding another shell (Nushell) as a
+  consumer; or when .github/scripts/check-environment fails. Not for a CI
+  workflow's env:, a project's .env, or a variable set inside one program's
+  own config.
 ctime: 2026-11-18
 mtime: 2026-11-18
 spdx: GPL-3.0-only
-title: "Environment variables"
+title: "Managing the session environment"
 tags:
   - claude
   - skill
@@ -26,11 +27,11 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/skills/environment-variables/SKILL.md
+   - ::: :/skills/managing-session-environment/SKILL.md
    -
    -->
 
-# Environment variables
+# Managing the session environment
 
 Every session-wide environment variable is defined once, in
 `home/.chezmoidata/environment.toml`, and generated into each consumer. Before

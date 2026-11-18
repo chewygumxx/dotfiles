@@ -121,18 +121,23 @@ output for Linux and Android and proves they agree; the pre-commit hook and
 CI run it. Design:
 `docs/spec/2026-11-18_environment-variable-registry-design.md`.
 
-Agent skills live in `.agents/skills/`, which `.claude/skills` links to.
-Skills written for this repo have their source in `skills/<name>/` and are
-installed with `npx skills add "./skills/<name>" --agent claude-code codex
---yes`. Re-run that after every edit to the source and commit
-`skills-lock.json` with it: the lock holds a hash of the source, and the
-frozen install below fails on a stale one. Every skill in `skills-lock.json` is a restored copy, so it is
-git-ignored in `.agents/skills/.gitignore`; add a line there whenever the
-lock gains one. `prepare` (so `bun install`) restores them with `skills
-experimental_install --frozen-lockfile`, which fails rather than rewrite
-the lock when an upstream skill has moved: run `npx skills update` and
-commit the lock then. Skills hand-written under `.agents/skills/` and absent
-from the lock stay tracked.
+Agent skills live in `.agents/skills/`, which `.claude/skills` links to, so
+both Claude Code and Codex see the same set. `prepare` (so `bun install`)
+fills it via the `skills` package script, two ways:
+
+- This repo's own skills have their source in `skills/<name>/`, and
+  `bun run skills:link` links `.agents/skills/<name>` to each. Edit the
+  source; the link needs no refresh. They are not in `skills-lock.json`:
+  never `skills add` or `skills remove` one, as `remove` deletes the source
+  of a skill added from a local path.
+- Skills from elsewhere are recorded in `skills-lock.json` and restored by
+  `skills experimental_install --frozen-lockfile`, which fails rather than
+  rewrite the lock when an upstream skill has moved: run `npx skills
+  update` and commit the lock then.
+
+Both kinds are git-ignored in `.agents/skills/.gitignore`, one line each;
+add one for every new skill of either kind. Skills hand-written directly
+under `.agents/skills/` stay tracked.
 
 Browser extensions for Firefox and ungoogled-chromium are declared once in
 `home/.chezmoidata/web-extensions.toml` and installed by the
