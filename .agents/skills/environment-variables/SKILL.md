@@ -24,7 +24,7 @@ tags:
 <!--
    -
    - ~chewygumxx/dotfiles.git
-   - ::: :/skills/environment-variables/SKILL.md
+   - ::: :/.agents/skills/environment-variables/SKILL.md
    -
    -->
 
