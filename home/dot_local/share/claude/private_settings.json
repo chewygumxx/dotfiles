@@ -37,7 +37,12 @@
         "defaultMode": "auto"
     },
     "model": "opus",
-    "disableClaudeAiConnectors": false,
+    "disableClaudeAiConnectors": true,
+    "skillOverrides": {
+        "diagnosing-superpowers": "off",
+        "receiving-code-review": "off",
+        "using-superpowers": "off"
+    },
     "disableBundledSkills": false,
     "hooks": {
         "SessionStart": [
@@ -155,7 +160,7 @@
                 },
                 {
                     "path": "~/.netrc",
-                    "mode": "mask"
+                    "mode": "deny"
                 },
                 {
                     "path": "~/.ssh/id/**",
@@ -249,10 +254,10 @@
     "theme": "custom:chewy-claude",
     "editorMode": "vim",
     "autoCompactEnabled": false,
+    "switchModelsOnFlag": false,
     "crossSessionInbound": "accept",
     "skipAutoPermissionPrompt": true,
     "useAutoModeDuringPlan": true,
-    "externalEditorContext": true,
     "autoMode": {
         "allow": [
             "$defaults",
@@ -288,5 +293,5 @@
             "**routine under chewygumxx/ prefix**: repos under github.com/chewygumxx/* found on disk (userstyle, zsh-config, nex, header-metadata.nvim, github-personal-playground, zsh-vi-mode, zsh-shell-template, shared-config, dorothy-memory, zsh-als, fork_meteor, dorothy-hermes, lazy.nvim, cloudflare-url-shorten, chezmoi-apply-xattr, cclip-fzf, hashmark) are the same author's personal checkouts, not vetted org context — scope stays limited to this project per Q2"
         ]
     },
-    "switchModelsOnFlag": false
+    "externalEditorContext": true
 }
