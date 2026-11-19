@@ -1,0 +1,41 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$ref": "https://clawdipedia.cc/schemas/claude-code-managed-settings.json",
+    "$comment": "SPDX-License-Identifier: GPL-3.0-only | ~chewygumxx/dotfiles.git | :/home/dot_local/share/claude/.schemas/claude-code-settings.schema.json",
+    "title": "Claude Code settings and managed settings",
+    "description": "The Claude Code CLI settings schema plus the settings read by Claude Desktop. For permitted settings file locations, see https://code.claude.com/docs/en/settings-reference#settings-index.",
+    "type": "object",
+    "additionalProperties": true,
+    "properties": {
+        "browserExternalPageTools": {
+            "type": "string",
+            "pattern": "^[Dd][Ii][Ss][Aa][Bb][Ll][Ee][Dd]?$",
+            "examples": ["disabled", "disable"],
+            "description": "Managed Desktop policy. Disable Claude's tools on external pages in the Browser pane. Both values are case-insensitive. See https://code.claude.com/docs/en/settings-reference#browserexternalpagetools."
+        },
+        "disableBrowserExternalNavigation": {
+            "type": "boolean",
+            "description": "Managed Desktop policy. Block external browsing in the Browser pane. See https://code.claude.com/docs/en/settings-reference#disablebrowserexternalnavigation."
+        },
+        "disableDesktopLocalSessions": {
+            "type": "boolean",
+            "description": "Managed Desktop policy. Prevent Claude Code sessions from running on the device. See https://code.claude.com/docs/en/settings-reference#disabledesktoplocalsessions."
+        },
+        "disableMobileSimulatorTools": {
+            "type": "boolean",
+            "description": "Managed Desktop policy. Turn off Claude's tools in the iOS Simulator pane. See https://code.claude.com/docs/en/settings-reference#disablemobilesimulatortools."
+        },
+        "disableRemotePreviewScripts": {
+            "type": "boolean",
+            "description": "Managed Desktop policy. Prevent scripts from running in HTML previews from SSH and WSL sessions. See https://code.claude.com/docs/en/settings-reference#disableremotepreviewscripts."
+        },
+        "sshHostAllowlist": {
+            "type": ["array", "null"],
+            "items": {
+                "type": "string"
+            },
+            "examples": [["*.example.com", "bastion.example.net"], []],
+            "description": "Managed Desktop policy. Allow SSH sessions only to hosts matching these case-insensitive patterns. An empty list disables SSH sessions and null leaves the list unset. See https://code.claude.com/docs/en/settings-reference#sshhostallowlist."
+        }
+    }
+}
