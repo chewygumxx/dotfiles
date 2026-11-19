@@ -155,7 +155,11 @@ Fields of each `[[environment.variables]]` entry:
 - An optional comment field, rendered above the variable in each output, so
   the reasons now kept in `tools.env.zsh` comments survive (the Bun
   `XDG_CACHE_HOME` trap, `DO_NOT_TRACK=1` rather than `true`, why `GOROOT` is
-  unset).
+  unset). Implemented as `comment`, rendered into zsh and systemd.
+- `require = "dir"` *(added after review)*: zsh exports the variable only
+  if it names an existing directory and otherwise keeps it as a shell
+  variable, so later references still expand. Used for `XDG_RUNTIME_DIR`,
+  which the XDG spec wants unset rather than pointing nowhere.
 
 `[environment.path]` holds `prepend`, an ordered list of directories put in
 front of the inherited `PATH`. An entry is a string, for every OS, or a table
@@ -177,8 +181,9 @@ for every process it starts, sshd's sessions included.
 Array order is evaluation order; both environment.d and zsh evaluate top to
 bottom, so the XDG entries come first. Nothing else is allowed: no `$NAME`
 without braces, no `:-` written by hand (the renderer emits it from
-`inherit`), no command substitution, no quotes. The renderer rejects anything
-else with `fail`, naming the variable.
+`inherit`), no command substitution, no quotes, no bare `{` or `}`, no `~`.
+`PREFIX` is defined on Android only, and `os` keys must be GOOS values. The
+renderer rejects anything else with `fail`, naming the variable.
 
 ### Renderers
 
