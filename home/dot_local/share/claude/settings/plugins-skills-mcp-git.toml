@@ -45,11 +45,9 @@ allowedMcpServers = []
 # Git
 # ----
 
-# TODO(@chewygumxx): [HIGH] Compose own git instructions
+prUrlTemplate          = "https://github.com/{owner}/{repo}/pull/{number}"
+prStatusFooterEnabled  = false
 includeGitInstructions = false
-
-prUrlTemplate         = "https://github.com/{owner}/{repo}/pull/{number}"
-prStatusFooterEnabled = false
 
 [attribution]
 commit     = ""
