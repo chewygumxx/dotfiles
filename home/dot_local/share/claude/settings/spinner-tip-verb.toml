@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_local/share/claude/settings/spinner-verbs.toml
+# ::: :/home/dot_local/share/claude/settings/spinner-tip-verb.toml
 #
 #
 
@@ -14,7 +14,8 @@
 # https://clawdipedia.cc/configure/settings/ui#:~:text=spinnerVerbs
 #
 
-spinnerTipsEnabled = false
+spinnerTipsEnabled   = false
+companyAnnouncements = [ "Dorothy Time~ ^-^" ]
 
 [spinnerTipsOverride]
 label          = "xxdorothy <3"

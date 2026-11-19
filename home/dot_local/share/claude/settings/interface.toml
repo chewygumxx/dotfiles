@@ -20,8 +20,6 @@ timeZone      = "Australia/Melbourne"
 timeFormat    = "%a %d %b - %H:%M:%S"
 maxProseWidth = 100
 
-companyAnnouncements = [ "Dorothy Time~ ^-^" ]
-
 difftool              = "terminal"
 editorMode            = "vim"
 autoScrollEnabled     = false
@@ -33,11 +31,10 @@ terminalTitleFromRename        = true
 terminalProgressBarEnabled     = true
 wheelScrollAccelerationEnabled = true
 
-
 verbose                    = false
 feedbackDrafts             = "off"
 feedbackSurveyRate         = 0
-preferredNotifChannel      = "terminal_bell"  # Return for herdr hook
+preferredNotifChannel      = "terminal_bell"
 prefersReducedMotion       = false
 promptSuggestionEnabled    = false
 syntaxHighlightingDisabled = false
@@ -46,15 +43,18 @@ leftArrowOpensAgents   = false
 emojiCompletionEnabled = false
 footerLinksRegexes     = []
 
-spellcheck = { enabled = false, language = "en_GB" }
+# TODO(@chewygumxx): [MED] Point to an existing executable
+[statusLine]
+type            = "command"
+command         = "claude-statusline-proxy"
+padding         = 0
+refreshInterval = 10
 
 [voice]
 enabled    = false
 mode       = "tap"
 autoSubmit = false
 
-[statusLine]  # TODO(@chewygumxx): [MED] Point to existing executable
-type            = "command"
-command         = "claude-statusline-proxy"
-padding         = 0
-refreshInterval = 10
+[spellcheck]
+enabled  = false
+language = "en_GB"
