@@ -5,7 +5,7 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/claude/hooks/wrapped-log.sh
+# ::: :/home/dot_local/share/claude/hooks/wrapped-log.sh
 #
 #
 
