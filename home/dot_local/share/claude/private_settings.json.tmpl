@@ -10,9 +10,25 @@
 #
 
 #
-# [GENERATED] Renders ./settings.toml, the TOML source of Claude Code's
-# settings, as the JSON Claude Code reads: edit that, not this file.
+# [GENERATED] Renders settings/*.toml as the JSON Claude Code reads.
+# Each top-level setting belongs to one TOML fragment.
 #
 */ -}}
 
-{{- include "dot_local/share/claude/settings.toml" | fromToml | toPrettyJson "    " -}}
+{{- $dir := joinPath .chezmoi.sourceDir "dot_local/share/claude/settings" -}}
+{{- $files := glob (joinPath $dir "*.toml") -}}
+{{- if not $files -}}
+    {{- fail (printf "no Claude settings fragments in %s" $dir) -}}
+{{- end -}}
+
+{{- $settings := dict "$schema" "https://clawdipedia.cc/schemas/claude-code-settings.json" -}}
+{{- range $files -}}
+    {{- $file := . -}}
+    {{- range $key, $value := (include $file | fromToml) -}}
+        {{- if hasKey $settings $key -}}
+            {{- fail (printf "%s: duplicate Claude setting %q" (base $file) $key) -}}
+        {{- end -}}
+        {{- $_ := set $settings $key $value -}}
+    {{- end -}}
+{{- end -}}
+{{- toPrettyJson $settings -}}

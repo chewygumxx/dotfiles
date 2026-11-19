@@ -1,0 +1,96 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:schema https://clawdipedia.cc/schemas/claude-code-settings.json
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/share/claude/settings/sandbox.toml
+#
+#
+
+#
+# https://code.claude.com/docs/en/settings-reference#sandbox-settings
+# https://clawdipedia.cc/configure/permissions/sandbox
+#
+
+[sandbox]
+enabled                   = false
+failIfUnavailable         = false
+autoAllowBashIfSandboxed  = true
+allowUnsandboxedCommands  = true            # Ignore `sandbox.failIfUnavailable`
+enableWeakerNestedSandbox = false           # Bubblewrap failure to mount /proc
+excludedCommands          = [ "docker *" ]
+ignoreViolations."*"      = [
+    "/etc/hosts",
+    "/etc/fstab",
+]
+
+[sandbox.network]
+strictAllowlist = false
+deniedDomains   = []
+allowedDomains  = [
+    "github.com",
+    "codeberg.org",
+    "gitlab.com",
+    "registry.npmjs.org",
+    "w3.org",
+    "nodejs.org",
+    "mozilla.org",
+    "pypi.org",
+    "lib.rs",
+    "crates.io",
+    "go.dev",
+    "zsh.sourceforge.io",
+    "reddit.com",
+    "claude.com",
+    "stackoverflow.com",
+    "news.ycombinator.com",
+    "wikipedia.org",
+    "dictionary.com",
+    "thesaurus.com",
+    "oed.com",
+    "cambridge.org",
+    "archive.org",
+    "dev.to",
+    "chezmoi.io",
+    "nushell.sh",
+]
+
+[sandbox.filesystem]
+denyWrite = [
+    "~/.config/.wrangler/**",
+    "~/.config/cloudflare-ddns/**",
+    "~/.config/gh/hosts.yml",
+    "~/.gnupg/**",
+    "~/.local/share/gnupg/**",
+    "~/.ssh/**",
+    "~/doc/**",
+    "~/sec/**",
+]
+denyRead  = [
+    "~/.config/.wrangler/**",
+    "~/.config/cloudflare-ddns/**",
+    "~/.config/gh/hosts.yml",
+    "~/.gnupg/**",
+    "~/.local/share/gnupg/**",
+    "~/.ssh/**",
+    "~/doc/**",
+    "~/sec/**",
+]
+
+[sandbox.credentials]
+envVars = [
+    { mode = "mask", name = "ANTHROPIC_API_KEY" },
+    { mode = "mask", name = "AWS_SECRET_ACCESS_KEY" },
+    { mode = "mask", name = "GITHUB_TOKEN" },
+]
+files   = [
+    { mode = "deny", path = "~/.config/.wrangler/**" },
+    { mode = "deny", path = "~/.config/cloudflare-ddns/**" },
+    { mode = "deny", path = "~/.config/gh/hosts.yml" },
+    { mode = "deny", path = "~/.local/share/gnupg/**" },
+    { mode = "deny", path = "~/.gnupg/**" },
+    { mode = "deny", path = "~/.netrc" },
+    { mode = "deny", path = "~/.ssh/id/**" },
+]

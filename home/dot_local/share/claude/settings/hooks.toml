@@ -1,0 +1,21 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:schema https://clawdipedia.cc/schemas/claude-code-settings.json
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/share/claude/settings/hooks.toml
+#
+#
+
+disableAllHooks = false
+
+[[hooks.SessionStart]]
+matcher = "*"
+
+[[hooks.SessionStart.hooks]]
+type    = "command"
+command = "${CLAUDE_CONFIG_DIR:=$HOME/.claude}/hooks/herdr-agent-state.sh"
+args    = [ "session" ]
+timeout = 10

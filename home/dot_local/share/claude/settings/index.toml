@@ -1,0 +1,59 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:schema https://clawdipedia.cc/schemas/claude-code-settings.json
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/share/claude/settings/index.toml
+#
+#
+
+#
+# [Source] Claude Code user settings, authored as TOML.
+# Not deployed itself `private_settings.json.tmpl` renders it to
+# `$CLAUDE_CONFIG_DIR/settings.json` upon `chezmoi apply`.
+#
+# https://code.claude.com/docs/en/settings
+#
+
+model          = "opus"
+effortLevel    = "high"
+maxEffortLevel = "xhigh"
+outputStyle    = "default"
+
+# Disabled via disable feature-flags
+advisorModel    = "claude-opus-5-5"
+fallbackModel   = [
+    "claude-sonnet-5-5",
+    "claude-sonnet-5",
+]
+availableModels = [
+    "wintermute",
+    "mythos",
+    "fable",
+    "opus",
+    "sonnet",
+    "haiku",
+]
+
+cleanupPeriodDays = 3650
+
+switchModelsOnFlag           = false
+alwaysThinkingEnabled        = true
+showThinkingSummaries        = true
+enforceAvailableModels       = false
+showClearContextOnPlanAccept = true
+
+autoCompactEnabled = false
+awaySummaryEnabled = false
+
+enableWorkflows       = false
+disableWorkflows      = true
+workflowSizeGuideline = "medium"
+
+fastMode                = false
+fastModePerSessionOptIn = true
+
+# Query api.anthropic.com blocklist. Prompt injection safety.
+skipWebFetchPreflight = false

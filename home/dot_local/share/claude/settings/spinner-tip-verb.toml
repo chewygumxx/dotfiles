@@ -1,0 +1,75 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:schema https://clawdipedia.cc/schemas/claude-code-settings.json
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/share/claude/settings/spinner-verbs.toml
+#
+#
+
+#
+# https://code.claude.com/docs/en/settings-reference#spinnerverbs
+# https://clawdipedia.cc/configure/settings/ui#:~:text=spinnerVerbs
+#
+
+spinnerTipsEnabled = false
+
+[spinnerTipsOverride]
+label          = "xxdorothy <3"
+excludeDefault = true
+# tipsFile     = "~/path/to/dir/tips.json"  # Must be an absolute or ~/ path
+
+[[spinnerTipsOverride.tips]]
+id               = "doroquizzical"
+text             = "NOBODY EXPECTS THE DOROTHY INQUISITION! :3"
+cooldownSessions = 50
+priority         = 30
+
+[spinnerVerbs]
+mode  = "replace"
+verbs = [
+    "Metro Booming",
+    "Dabbing on the hoes",
+    "Yeetin on em",
+    "Sequestering the pack",
+    "Bapping on the haters",
+    "Three-sixty no-scoping",
+    "Wombo Combo-ing",
+    "Giving huggie-wuggies",
+    "Dropping a mixtape",
+    "Taking all your base",
+    "Sipping on Gin and Juice",
+    "Acquisitioning bread",
+    "Selling you to the highest bidder",
+    "Hacking the planet",
+    "Watching tears in the rain",
+    "Swerving on that mood rn",
+    "Harmonising the vibrations",
+    "Not sleeping in Tokyo",
+    "Resurrecting the party",
+    "Waking up out of my coma",
+    "Assembling the fellas",
+    "Calling hot boi helpline",
+    "Winning by any means necessary",
+    "Ascending to a higher plane",
+    "Touching grass",
+    "Calling the wrong number",
+    "Flirting with Gaia",
+    "Distributing disrespect",
+    "Appraising my reflection",
+    "Waking up so pretty",
+    "Pressing F",
+    "Flipping Flat Earth",
+    "Recalculating who cares",
+    "Taking psychic damage",
+    "Investing my time",
+    "Going viral like you don't even know",
+    "Brandishing the registered God Particle",
+    "Disbelief I just read that",
+    "Hyping up the next best watermelon",
+    "Collecting the crumb",
+    "Sweeting up now she sees me",
+    "Recognising I'm that guy",
+]

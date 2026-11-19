@@ -21,7 +21,7 @@
 !settings.json
 
 # Source for settings.json, rendered by private_settings.json.tmpl
-settings.toml
+settings/
 
 
 # -------------------

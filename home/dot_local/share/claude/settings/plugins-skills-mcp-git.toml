@@ -1,0 +1,57 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:schema https://clawdipedia.cc/schemas/claude-code-managed-settings.json
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/share/claude/settings/plugins-skills-mcp.toml
+#
+#
+
+#
+# https://code.claude.com/docs/en/settings-reference#plugins-and-skills
+#
+
+
+# --------
+# Skills
+# --------
+
+skillOverrides           = {}
+skillListingMaxDescChars = 2048
+
+syncClaudeAiSkills         = false
+disableBundledSkills       = true
+disableSkillShellExecution = true
+
+# --------
+# Plugins
+# --------
+
+additionalMarketplaces = {}
+
+syncClaudeAiPlugins       = false
+disableRemoteControl      = true
+disableClaudeAiConnectors = true
+
+# ----
+# MCP
+# ----
+
+allowedMcpServers = []
+
+# ----
+# Git
+# ----
+
+# TODO(@chewygumxx): [HIGH] Compose own git instructions
+includeGitInstructions = false
+
+prUrlTemplate         = "https://github.com/{owner}/{repo}/pull/{number}"
+prStatusFooterEnabled = false
+
+[attribution]
+commit     = ""
+pr         = ""
+sessionUrl = false
