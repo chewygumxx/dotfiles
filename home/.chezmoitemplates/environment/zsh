@@ -8,8 +8,11 @@
     Renders the registry as zsh, for a file .zshenv sources from inside an
     anonymous function: export is typeset -gx, so nothing ends up local.
     inherit = true becomes : "${NAME:=value}"; inherit = "ssh" keeps an
-    inherited value only when SSH_CONNECTION is set. Parameter expansion and
-    builtins only, and nothing on stdout: this runs for every zsh.
+    inherited value only when SSH_CONNECTION is set. require = "dir" exports
+    the variable only if it names an existing directory; it stays a shell
+    variable otherwise, so later values that reference it still expand.
+    Parameter expansion and builtins only, and nothing on stdout: this runs
+    for every zsh.
 
     Usage: includeTemplate "environment/zsh" .
 */ -}}
@@ -23,13 +26,19 @@
 {{ end -}}
 {{ if eq (toString .inherit) "true" -}}
 : "${{ "{" }}{{ .name }}:={{ .value }}}"
-export {{ .name }}
 {{- else if eq (toString .inherit) "ssh" -}}
 if [[ -z "${SSH_CONNECTION:-}" || -z "${{ "{" }}{{ .name }}:-}" ]]; then
-    export {{ .name }}="{{ .value }}"
+    {{ .name }}="{{ .value }}"
 fi
 {{- else -}}
-export {{ .name }}="{{ .value }}"
+{{ .name }}="{{ .value }}"
+{{- end }}
+{{ if eq .require "dir" -}}
+if [[ -d "${{ "{" }}{{ .name }}}" ]]; then
+    export {{ .name }}
+fi
+{{- else -}}
+export {{ .name }}
 {{- end }}
 {{- end }}
 

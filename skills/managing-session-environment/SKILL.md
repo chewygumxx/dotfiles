@@ -90,26 +90,31 @@ inherit = "ssh"
 prepend = ["${HOME}/.local/bin", "${CARGO_HOME}/bin", { dir = "${XDG_DATA_HOME}/npm/bin", os = ["linux"] }]
 ```
 
-- **Order is evaluation order.** A value may reference `HOME`, `PREFIX`
-  (Termux), `UID`, or a variable defined above it on the same OS; anything
-  else fails the resolver, naming the variable.
+- **Order is evaluation order.** A value may reference `HOME`, `UID`,
+  `PREFIX` (on Android only), or a variable defined above it on the same OS;
+  anything else fails the resolver, naming the variable.
 - **A value is literal text and `${NAME}`.** No bare `$`, quotes,
-  backslashes or backticks: that subset expands identically in zsh,
-  environment.d and ssh_config, so one string renders into all three, and an
-  inherited `XDG_DATA_HOME` still moves everything under it at runtime.
-  `${UID}` alone is filled in by chezmoi, as environment.d has no `UID`.
-- **Write `${HOME}`, never `~`.** The resolver accepts `~`, but zsh and
-  environment.d leave it literal inside the quotes the renderers emit, so
-  `~/x` becomes a directory named `~`. Translate a user's `~/...`.
+  backslashes, backticks, bare `{` or `}`: that subset expands identically in
+  zsh, environment.d and ssh_config, so one string renders into all three,
+  and an inherited `XDG_DATA_HOME` still moves everything under it at
+  runtime. `${UID}` alone is filled in by chezmoi, as environment.d has no
+  `UID`.
+- **Write `${HOME}`, never `~`.** zsh and environment.d leave `~` literal
+  inside the quotes the renderers emit, so the resolver refuses it.
+  Translate a user's `~/...`.
 - **`os`**: a key matching `.chezmoi.os` overrides `value`; with no match,
   `value` applies if present, otherwise the variable is omitted on that OS.
-  Keys are not validated, so a typo (`linx`) silently falls through. A `PATH`
-  entry's `os` is a list (`["linux"]`).
+  Keys must be GOOS values, so a typo (`linx`) fails. A `PATH` entry's `os`
+  is a list (`["linux"]`).
 - **`inherit`**: `false` (default) sets the value in every shell, nested ones
   included, so `PAGER=cat zsh -c ...` gets the registry `PAGER` back. `true`
   keeps a non-empty inherited value (the XDG entries), so a caller's override
   survives. `"ssh"` keeps an inherited value only when `SSH_CONNECTION` is
   set, in zsh; environment.d always assigns the registry value.
+- **`require = "dir"`**: zsh exports the variable only if it names an
+  existing directory, keeping it as a shell variable otherwise so later
+  values still expand (`XDG_RUNTIME_DIR`, which a container lacks).
+  environment.d always exports.
 
 ## Recipes
 

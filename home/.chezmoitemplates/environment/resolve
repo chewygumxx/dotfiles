@@ -23,12 +23,22 @@
 {{- $os := .chezmoi.os -}}
 {{- $uid := toString .chezmoi.uid -}}
 {{- $nameSyntax := `^[A-Za-z_][A-Za-z0-9_]*$` -}}
-{{- $valueSyntax := printf `^([^$"'\\%s]|\$\{[A-Za-z_][A-Za-z0-9_]*\})*$` "`" -}}
+{{- /* Literal text, or ${NAME}. Not $ " ' \ ` (the consumers quote and
+       expand differently), not a bare { or } (they would close an emitted
+       ${NAME:-...} early), not ~ (left literal inside the quotes). */ -}}
+{{- $valueSyntax := printf `^([^$"'\\%s{}~]|\$\{[A-Za-z_][A-Za-z0-9_]*\})*$` "`" -}}
 {{- $reference := `\$\{[A-Za-z_][A-Za-z0-9_]*\}` -}}
 
 {{- /* Names a value may reference: the builtins, then each variable once
        it has been defined. */ -}}
-{{- $defined := dict "HOME" true "PREFIX" true "UID" true -}}
+{{- /* GOOS values, the only keys an os table may use. */ -}}
+{{- $knownOS := list "aix" "android" "darwin" "dragonfly" "freebsd" "illumos" "ios" "js" "linux" "netbsd" "openbsd" "plan9" "solaris" "wasip1" "windows" -}}
+
+{{- /* PREFIX exists only on Termux. */ -}}
+{{- $defined := dict "HOME" true "UID" true -}}
+{{- if eq $os "android" -}}
+{{-     $_ := set $defined "PREFIX" true -}}
+{{- end -}}
 {{- $variables := list -}}
 {{- $byName := dict -}}
 
@@ -41,7 +51,18 @@
 {{-         fail (printf "environment.toml: %s: defined twice" $name) -}}
 {{-     end -}}
 
-{{- /* The value for this OS, if any. */ -}}
+{{- /* The value for this OS, if any. An os key that is no GOOS value is a
+       typo, which would otherwise drop the variable silently. */ -}}
+{{-     if hasKey . "os" -}}
+{{-         if not (kindIs "map" .os) -}}
+{{-             fail (printf "environment.toml: %s: os must be a table of values by OS" $name) -}}
+{{-         end -}}
+{{-         range $key, $_ := .os -}}
+{{-             if not (has $key $knownOS) -}}
+{{-                 fail (printf "environment.toml: %s: os key %q is not an OS" $name $key) -}}
+{{-             end -}}
+{{-         end -}}
+{{-     end -}}
 {{-     $value := "" -}}
 {{-     $present := false -}}
 {{-     if and (hasKey . "os") (hasKey .os $os) -}}
@@ -60,6 +81,11 @@
 {{-                 fail (printf "environment.toml: %s: inherit must be true, false or \"ssh\"" $name) -}}
 {{-             end -}}
 {{-         end -}}
+{{-     end -}}
+
+{{-     $require := toString (get . "require") -}}
+{{-     if not (has $require (list "" "dir")) -}}
+{{-         fail (printf "environment.toml: %s: require must be \"dir\" or absent" $name) -}}
 {{-     end -}}
 
 {{-     if $present -}}
@@ -82,6 +108,7 @@
                 "name"    $name
                 "value"   $value
                 "inherit" $inherit
+                "require" $require
                 "comment" (toString (get . "comment"))) -}}
 {{-     end -}}
 {{- end -}}
@@ -91,8 +118,18 @@
 {{-     $dir := "" -}}
 {{-     if kindIs "string" . -}}
 {{-         $dir = . -}}
-{{-     else if has $os (get . "os") -}}
-{{-         $dir = toString (get . "dir") -}}
+{{-     else -}}
+{{-         if not (and (kindIs "map" .) (kindIs "string" (get . "dir")) (kindIs "slice" (get . "os"))) -}}
+{{-             fail (printf "environment.toml: PATH: %v must be a string or { dir = \"...\", os = [...] }" .) -}}
+{{-         end -}}
+{{-         range .os -}}
+{{-             if not (has (toString .) $knownOS) -}}
+{{-                 fail (printf "environment.toml: PATH: os %q is not an OS" (toString .)) -}}
+{{-             end -}}
+{{-         end -}}
+{{-         if has $os .os -}}
+{{-             $dir = .dir -}}
+{{-         end -}}
 {{-     end -}}
 {{-     if $dir -}}
 {{-         if not (regexMatch $valueSyntax $dir) -}}

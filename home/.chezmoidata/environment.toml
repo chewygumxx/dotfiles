@@ -34,14 +34,18 @@
 #              true   whenever it is non-empty
 #              "ssh"  only inside an ssh session (SSH_CONNECTION set); zsh
 #                     only, systemd treats it as false
-#   comment  Why, rendered above the variable in every output
+#   require  "dir": zsh exports the variable only if it names an existing
+#            directory, and otherwise keeps it as a shell variable so later
+#            values can still reference it. systemd always exports it
+#   comment  Why, rendered above the variable in the zsh and systemd outputs
 #
 # A value is literal text and ${NAME} references, nothing else: no bare $, no
-# quotes, no backslash, no backtick. NAME is HOME, PREFIX (Termux), UID, or a
-# variable defined above it on the same OS. ${UID} is filled in by chezmoi,
-# since environment.d has no UID; every other reference is expanded by the
-# consumer at runtime, so a changed XDG_DATA_HOME still moves everything under
-# it.
+# quotes, no backslash, no backtick, no bare { or }, no ~ (write ${HOME}).
+# NAME is HOME, UID, PREFIX (Termux only), or a variable defined above it on
+# the same OS. An os key must be a GOOS value (linux, android, ...). ${UID}
+# is filled in by chezmoi, since environment.d has no UID; every other
+# reference is expanded by the consumer at runtime, so a changed XDG_DATA_HOME
+# still moves everything under it.
 #
 # [environment.path].prepend lists directories put in front of the inherited
 # PATH, in order. An entry is a string (every OS) or { dir, os = [...] }.
@@ -80,9 +84,11 @@ inherit = true
 name    = "XDG_RUNTIME_DIR"
 os      = { linux = "/run/user/${UID}", android = "${PREFIX}/tmp" }
 inherit = true
+require = "dir"
 comment = """
 systemd-logind creates /run/user/<uid>. Termux has no logind, and keeps its
-runtime files in $PREFIX/tmp."""
+runtime files in $PREFIX/tmp. Exported only if the directory exists: the XDG
+spec wants it unset rather than wrong, as in a container."""
 
 # ---------
 # Defaults

@@ -206,6 +206,11 @@ function check_resolve() {
         'unbraced dollar'   '{"name":"BAD","value":"$HOME/x"}'
         'quote'             '{"name":"BAD","value":"say \"hi\""}'
         'bad inherit'       '{"name":"BAD","value":"x","inherit":"yes"}'
+        'tilde'             '{"name":"BAD","value":"~/x"}'
+        'literal brace'     '{"name":"BAD","value":"a}b"}'
+        'unknown os key'    '{"name":"BAD","os":{"linx":"x"}}'
+        'PREFIX on linux'   '{"name":"BAD","value":"${PREFIX}/x"}'
+        'bad require'       '{"name":"BAD","value":"x","require":"file"}'
     )
     local case err
     for case in "${(@k)rejects}"; do
@@ -215,6 +220,23 @@ function check_resolve() {
             fail "$case: accepted"
         elif [[ "$err" != *BAD* ]]; then
             fail "$case: refused without naming BAD: $err"
+        fi
+    done
+
+    # PATH entries are refused the same way, naming PATH.
+    local -A path_rejects=(
+        'path tilde'           '"~/bin"'
+        'path table, no os'    '{"dir":"${HOME}/x"}'
+        'path os as a string'  '{"dir":"${HOME}/x","os":"linux"}'
+        'path unknown os'      '{"dir":"${HOME}/x","os":["linx"]}'
+    )
+    for case in "${(@k)path_rejects}"; do
+        if err="$(resolved linux \
+            "\"environment\":{\"variables\":[],\"path\":{\"prepend\":[${path_rejects[$case]}]}}" \
+            2>&1 >/dev/null)"; then
+            fail "$case: accepted"
+        elif [[ "$err" != *PATH* ]]; then
+            fail "$case: refused without naming PATH: $err"
         fi
     done
 }
@@ -403,6 +425,29 @@ function check_zsh() {
     out="$(expand_zsh linux "${files[linux]}" SSH_AUTH_SOCK=/tmp/other)"
     expect "local shell replaces inherited agent" "$(value SSH_AUTH_SOCK "$out")" \
         "/run/user/$uid/ssh-agent-protonpass.socket"
+
+    # runtime_dir_exists: the XDG spec wants XDG_RUNTIME_DIR unset rather than
+    # naming a directory that does not exist (a container, a rescue shell),
+    # so zsh exports its fallback only when the directory is there. It stays
+    # a shell variable either way, so SSH_AUTH_SOCK still expands.
+    local typ want
+    for os in linux android; do
+        local -a fixture=("${linux_env[@]}")
+        [[ "$os" == android ]] && fixture=("${android_env[@]}")
+        out="$(env -i "${fixture[@]}" "$zsh_bin" -f -c '
+            unset -m "XDG_*"
+            source "$1" || exit 1
+            print -r -- "${(t)XDG_RUNTIME_DIR}"
+            print -r -- "$XDG_RUNTIME_DIR"
+            print -r -- "$SSH_AUTH_SOCK"
+        ' zsh "${files[$os]}")"
+        typ="${${(f)out}[1]}"
+        want=scalar
+        [[ -d "${${(f)out}[2]}" ]] && want=scalar-export
+        expect "$os XDG_RUNTIME_DIR exported only if it exists" "$typ" "$want"
+        [[ "${${(f)out}[3]}" == "${${(f)out}[2]}/"* ]] ||
+            fail "$os: SSH_AUTH_SOCK ${(qq)${${(f)out}[3]}} is not under XDG_RUNTIME_DIR"
+    done
 
     # path_idempotent: a zsh started from a zsh (a terminal in Neovim, a
     # zsh script) inherits PATH and sources this again; PATH must not grow.
