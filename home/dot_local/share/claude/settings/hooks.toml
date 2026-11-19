@@ -16,6 +16,7 @@ matcher = "*"
 
 [[hooks.SessionStart.hooks]]
 type    = "command"
-command = "${CLAUDE_CONFIG_DIR:=$HOME/.claude}/hooks/herdr-agent-state.sh"
-args    = [ "session" ]
+command = """
+sh -c "bash '${CLAUDE_CONFIG_DIR:=$HOME/.claude}/hooks/herdr-agent-state.sh' session"
+"""
 timeout = 10
