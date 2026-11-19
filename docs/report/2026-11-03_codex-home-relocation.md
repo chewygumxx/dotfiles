@@ -1,6 +1,6 @@
 ---
 ctime: 2026-11-03
-mtime: 2026-11-03
+mtime: 2026-11-18
 spdx: GPL-3.0-only
 title: Codex Home Relocation
 description: >-
@@ -22,6 +22,10 @@ tags:
    -->
 
 # Codex Home Relocation
+
+> **Note, 2026-11-18.** The `~/.local/var` convention was later abandoned;
+> each directory this report places there now lives at `$XDG_DATA_HOME/<app>`
+> (`~/.local/share/<app>`). The report is kept as it was written.
 
 Migration date: 2026-11-03, codex-cli 0.166.0. Follows the
 [inventory][inventory] under the [specification][spec], after the [Bun

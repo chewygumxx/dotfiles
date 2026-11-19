@@ -1,0 +1,39 @@
+#!/usr/bin/env -S usage zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
+#
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/worktrunk/exact_scripts/executable_herdr-register
+#
+#
+#
+
+#USAGE bin "herdr-register"
+#USAGE about "Show a Claude-created worktree in herdr's sidebar"
+#USAGE long_about """
+#USAGE The post-start hook. Opens the new worktree as an unfocused herdr
+#USAGE workspace, but only inside herdr and only for worktrees Claude Code
+#USAGE created: CLAUDE_PROJECT_DIR must be set, so it never races the
+#USAGE herdr-worktrunk plugin, which registers the worktrees it creates
+#USAGE itself. Subagent worktrees (agent-* branches) are skipped. Exits 0
+#USAGE whenever it skips.
+#USAGE """
+#USAGE flag "--repo <path>" required=#true help="Primary worktree, the workspace's repository. The hook passes {{ primary_worktree_path }}"
+#USAGE arg "<branch>" help="The new worktree's branch, {{ branch }}"
+#USAGE arg "<path>" help="The new worktree, {{ worktree_path }}"
+
+setopt err_exit pipe_fail no_unset
+
+(( $+commands[herdr] )) || exit 0
+
+[[ -v HERDR_ENV ]] || exit 0
+[[ -v CLAUDE_PROJECT_DIR ]] || exit 0
+
+[[ $usage_branch == agent-* ]] && exit 0
+
+herdr worktree open \
+    --cwd   $usage_repo \
+    --path  $usage_path \
+    --no-focus >/dev/null

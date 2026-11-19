@@ -33,7 +33,9 @@
     },
     "scripts": {
         "commit": "cz",
-        "prepare": "husky",
+        "prepare": "husky && bun run skills",
+        "skills": "skills experimental_install --frozen-lockfile && skills experimental_sync --agent claude-code codex --yes && bun run skills:link",
+        "skills:link": "mkdir -p .agents/skills && for dir in skills/*/; do name=$(basename \"$dir\"); link=.agents/skills/$name; if [ -e \"$link\" ] && [ ! -L \"$link\" ]; then echo \"skills:link: $link exists and is not a link\" >&2; exit 1; fi; ln -sfn \"../../skills/$name\" \"$link\"; done",
         "typecheck": "tsc"
     },
     "config": {

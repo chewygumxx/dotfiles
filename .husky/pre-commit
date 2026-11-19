@@ -101,13 +101,16 @@ fi
 # --------
 
 # Every file in the zsh tree is zsh source, most without an extension, apart
-# from chezmoi's own .chezmoiignore, shuck's .shuck.toml and any symlink_*
-# "source" file. Neither tool rewrites anything, so nothing is re-staged.
-# Both read the working tree, so skip a staged file that is gone from it
-# (e.g. a rename staged ahead of a deletion).
+# from chezmoi's own .chezmoiignore, shuck's .shuck.toml, any symlink_*
+# "source" file and any *.tmpl, which is Go template text until rendered
+# (.github/scripts/check-environment checks the rendered output). Neither
+# tool rewrites anything, so nothing is re-staged. Both read the working
+# tree, so skip a staged file that is gone from it (e.g. a rename staged
+# ahead of a deletion).
 zsh_files=$(
     git diff --cached --name-only --diff-filter=ACMR -- 'home/dot_config/zsh/' \
-        ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' |
+        ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' \
+        ':!**/*.tmpl' |
         while IFS= read -r f; do [ -f "$f" ] && printf '%s\n' "$f"; done
 )
 
@@ -130,6 +133,35 @@ if command -v shuck >/dev/null 2>&1; then
     fi
 else
     echo "pre-commit: shuck not on PATH, skipping zsh lint" >&2
+fi
+
+# --------
+# Environment
+# --------
+
+# The environment variable registry (home/.chezmoidata/environment.toml) is
+# rendered into environment.d, zsh and ~/.ssh/config. The check renders and
+# compares them, for Linux and Android, so it runs whenever any of those is
+# staged. Like the zsh checks it reads the working tree.
+env_files=$(
+    git diff --cached --name-only -- \
+        'home/.chezmoidata/environment.toml' \
+        'home/.chezmoitemplates/environment/' \
+        'home/.chezmoiremove' \
+        'home/dot_config/environment.d/' \
+        'home/dot_config/zsh/exact_env/' \
+        'home/private_dot_ssh/config.tmpl' \
+        '.github/scripts/check-environment'
+)
+
+if [ -n "$env_files" ]; then
+    if command -v chezmoi >/dev/null 2>&1 && command -v jq >/dev/null 2>&1 &&
+        command -v zsh >/dev/null 2>&1 && command -v shuck >/dev/null 2>&1; then
+        .github/scripts/check-environment || status=1
+    else
+        echo "pre-commit: chezmoi, jq, zsh or shuck not on PATH," \
+            "skipping environment registry check" >&2
+    fi
 fi
 
 exit $status

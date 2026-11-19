@@ -1,0 +1,276 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/.chezmoidata/environment.toml
+#
+#
+
+#
+# Environment Variable Registry
+#
+# The one definition of every environment variable that more than one consumer
+# needs. Never set one of these by hand in a consumer; each is rendered from
+# here by home/.chezmoitemplates/environment/:
+#
+#   systemd  ~/.config/environment.d/zz-user-environment.conf
+#   zsh      ~/.config/zsh/env/00-environment.env.zsh
+#   ssh      IdentityAgent in ~/.ssh/config (SSH_AUTH_SOCK)
+#
+# A variable only one program reads stays with that program. See
+# docs/spec/2026-11-18_environment-variable-registry-design.md, and check
+# changes with .github/scripts/check-environment.
+#
+# [[environment.variables]], in evaluation order:
+#
+#   name     The variable
+#   value    Its value on every OS
+#   os       { <.chezmoi.os> = value }, overriding value on that OS. An OS
+#            with neither gets no variable at all
+#   inherit  When an inherited value wins and this one is only the fallback:
+#              false  never (the default)
+#              true   whenever it is non-empty
+#              "ssh"  only inside an ssh session (SSH_CONNECTION set); zsh
+#                     only, systemd treats it as false
+#   require  "dir": zsh exports the variable only if it names an existing
+#            directory, and otherwise keeps it as a shell variable so later
+#            values can still reference it. systemd always exports it
+#   comment  Why, rendered above the variable in the zsh and systemd outputs
+#
+# A value is literal text and ${NAME} references, nothing else: no bare $, no
+# quotes, no backslash, no backtick, no bare { or }, no ~ (write ${HOME}).
+# NAME is HOME, UID, PREFIX (Termux only), or a variable defined above it on
+# the same OS. An os key must be a GOOS value (linux, android, ...). ${UID}
+# is filled in by chezmoi, since environment.d has no UID; every other
+# reference is expanded by the consumer at runtime, so a changed XDG_DATA_HOME
+# still moves everything under it.
+#
+# [environment.path].prepend lists directories put in front of the inherited
+# PATH, in order. An entry is a string (every OS) or { dir, os = [...] }.
+#
+
+# ----------------------
+# XDG Base Directories
+# ----------------------
+
+[[environment.variables]]
+name    = "XDG_CONFIG_HOME"
+value   = "${HOME}/.config"
+inherit = true
+comment = """
+XDG Base Directory Specification. Inherited values win: systemd sets these
+for a graphical session, while a bare TTY, a rescue shell, a container or
+Termux leaves them unset, and every path below would otherwise collapse to a
+root-relative one such as /cargo."""
+
+[[environment.variables]]
+name    = "XDG_CACHE_HOME"
+value   = "${HOME}/.cache"
+inherit = true
+
+[[environment.variables]]
+name    = "XDG_DATA_HOME"
+value   = "${HOME}/.local/share"
+inherit = true
+
+[[environment.variables]]
+name    = "XDG_STATE_HOME"
+value   = "${HOME}/.local/state"
+inherit = true
+
+[[environment.variables]]
+name    = "XDG_RUNTIME_DIR"
+os      = { linux = "/run/user/${UID}", android = "${PREFIX}/tmp" }
+inherit = true
+require = "dir"
+comment = """
+systemd-logind creates /run/user/<uid>. Termux has no logind, and keeps its
+runtime files in $PREFIX/tmp. Exported only if the directory exists: the XDG
+spec wants it unset rather than wrong, as in a container."""
+
+# ---------
+# Defaults
+# ---------
+
+[[environment.variables]]
+name  = "EDITOR"
+value = "nvim"
+
+[[environment.variables]]
+name  = "VISUAL"
+value = "${EDITOR}"
+
+[[environment.variables]]
+name    = "PAGER"
+value   = "less -R"
+comment = "-R passes colour escapes through. No -N: no line-number gutter."
+
+[[environment.variables]]
+name  = "BROWSER"
+value = "firefox"
+
+[[environment.variables]]
+name  = "TERMCMD"
+value = "wezterm"
+
+# ------------------------
+# Per-Tool XDG Relocation
+# ------------------------
+
+[[environment.variables]]
+name  = "ANDROID_USER_HOME"
+value = "${XDG_DATA_HOME}/android"
+
+[[environment.variables]]
+name  = "BUN_INSTALL"
+value = "${XDG_DATA_HOME}/bun"
+
+[[environment.variables]]
+name  = "BUN_INSTALL_BIN"
+value = "${XDG_DATA_HOME}/bun/bin"
+
+[[environment.variables]]
+name  = "BUN_INSTALL_CACHE_DIR"
+value = "${XDG_CACHE_HOME}/bun"
+
+[[environment.variables]]
+name    = "BUN_INSTALL_GLOBAL_DIR"
+value   = "${XDG_DATA_HOME}/bun/global"
+comment = """
+With XDG_CACHE_HOME set, Bun's global packages and their links default to
+$XDG_CACHE_HOME/.bun, so clearing the cache uninstalled them. Bun 1.4.2
+ignores globalDir and globalBinDir in a global .bunfig.toml; only these
+variables move them."""
+
+[[environment.variables]]
+name  = "CARGO_HOME"
+value = "${XDG_DATA_HOME}/cargo"
+
+[[environment.variables]]
+name    = "CLAUDE_CONFIG_DIR"
+value   = "${XDG_DATA_HOME}/claude"
+comment = "Herdr also requires this."
+
+[[environment.variables]]
+name    = "CODEX_HOME"
+value   = "${XDG_DATA_HOME}/codex"
+comment = "Codex keeps config, credentials and state in one root."
+
+[[environment.variables]]
+name    = "DO_NOT_TRACK"
+value   = "1"
+comment = """
+Console Do Not Track, https://consoledonottrack.com, honoured by gh among
+many others. 1, as the convention specifies."""
+
+[[environment.variables]]
+name  = "DOTNET_CLI_HOME"
+value = "${XDG_DATA_HOME}/dotnet"
+
+[[environment.variables]]
+name  = "GH_TELEMETRY"
+value = "false"
+
+[[environment.variables]]
+name  = "GNUPGHOME"
+value = "${XDG_DATA_HOME}/gnupg"
+
+[[environment.variables]]
+name    = "GOPATH"
+value   = "${XDG_DATA_HOME}/go"
+comment = """
+GOROOT is deliberately not set. The go command locates its own root, and a
+fixed GOROOT is wrong the moment GOTOOLCHAIN selects a different toolchain."""
+
+[[environment.variables]]
+name  = "GOBIN"
+value = "${GOPATH}/bin"
+
+[[environment.variables]]
+name  = "GRADLE_USER_HOME"
+value = "${XDG_DATA_HOME}/gradle"
+
+[[environment.variables]]
+name  = "HERMES_HOME"
+value = "${XDG_DATA_HOME}/hermes"
+
+[[environment.variables]]
+name  = "IPYTHONDIR"
+value = "${XDG_DATA_HOME}/ipython"
+
+[[environment.variables]]
+name  = "JUPYTER_CONFIG_DIR"
+value = "${XDG_DATA_HOME}/jupyter"
+
+[[environment.variables]]
+name    = "NPM_CONFIG_CACHE"
+value   = "${XDG_CACHE_HOME}/npm"
+comment = "npm's cache and debug logs (cache/_logs) otherwise land in ~/.npm."
+
+[[environment.variables]]
+name  = "NPM_CONFIG_USERCONFIG"
+value = "${XDG_CONFIG_HOME}/npm/npmrc"
+
+[[environment.variables]]
+name  = "NUGET_PACKAGES"
+value = "${XDG_DATA_HOME}/NuGetPackages"
+
+[[environment.variables]]
+name  = "OPENCLAW_STATE_DIR"
+value = "${XDG_DATA_HOME}/openclaw"
+
+[[environment.variables]]
+name  = "PARALLEL_HOME"
+value = "${XDG_DATA_HOME}/parallel"
+
+[[environment.variables]]
+name  = "PERL_CPANM_HOME"
+value = "${XDG_CACHE_HOME}/cpanm"
+
+[[environment.variables]]
+name  = "PI_CODING_AGENT_DIR"
+value = "${XDG_DATA_HOME}/pi/agent"
+
+[[environment.variables]]
+name  = "PYTHONSTARTUP"
+value = "${XDG_CONFIG_HOME}/python/pythonrc"
+
+[[environment.variables]]
+name  = "PYTHON_HISTORY"
+value = "${XDG_STATE_HOME}/python/history"
+
+[[environment.variables]]
+name  = "RUSTUP_HOME"
+value = "${XDG_DATA_HOME}/rustup"
+
+[[environment.variables]]
+name  = "SQLITE_HISTORY"
+value = "${XDG_STATE_HOME}/sqlite/history"
+
+# ----
+# SSH
+# ----
+
+[[environment.variables]]
+name    = "SSH_AUTH_SOCK"
+os      = { linux = "${XDG_RUNTIME_DIR}/ssh-agent-protonpass.socket", android = "${XDG_RUNTIME_DIR}/ssh-agent.socket" }
+inherit = "ssh"
+comment = """
+Inside an ssh session the forwarded agent of an `ssh -A` login is kept; the
+local socket does not exist on the remote end. Anywhere else this socket
+replaces whatever agent was inherited."""
+
+# -----
+# PATH
+# -----
+
+[environment.path]
+prepend = [
+    "${HOME}/.local/bin",
+    "${XDG_DATA_HOME}/mise/shims",
+    "${CARGO_HOME}/bin",
+    "${GOBIN}",
+    "${BUN_INSTALL_BIN}",
+]

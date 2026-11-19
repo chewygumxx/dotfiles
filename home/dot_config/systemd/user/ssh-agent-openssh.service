@@ -19,7 +19,9 @@
 # - ~/.ssh/config
 #       IdentityAgent "${XDG_RUNTIME_DIR}/ssh-agent-openssh.socket"
 #
-# The aforementioned is defined within "$XDG_CONFIG_HOME/environment.d/ssh.conf"
+# Both are rendered from SSH_AUTH_SOCK in the environment variable registry,
+# home/.chezmoidata/environment.toml, which names the Proton Pass agent;
+# switching to this one means changing it there.
 #
 
 [Unit]

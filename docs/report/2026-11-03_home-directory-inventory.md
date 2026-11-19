@@ -1,6 +1,6 @@
 ---
 ctime: 2026-11-03
-mtime: 2026-11-03
+mtime: 2026-11-18
 spdx: GPL-3.0-only
 title: Home Directory Inventory
 description: >-
@@ -21,6 +21,10 @@ tags:
    -->
 
 # Home Directory Inventory
+
+> **Note, 2026-11-18.** The `~/.local/var` convention was later abandoned;
+> each directory this report places there now lives at `$XDG_DATA_HOME/<app>`
+> (`~/.local/share/<app>`). The report is kept as it was written.
 
 Inventory date: 2026-11-03. This report carries out step 1 of the
 [implementation plan][plan] and proposes step 2 placements under the

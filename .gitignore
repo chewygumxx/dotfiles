@@ -9,3 +9,8 @@
 #
 
 node_modules/
+
+# Agent skills, all put back by `bun install` (the prepare script): this
+# repo's own skills are links into skills/<name>/, the rest are restored from
+# skills-lock.json. .claude/skills is a tracked link to this directory.
+/.agents/skills/

@@ -15,7 +15,8 @@
 # - ~/.ssh/config
 #       IdentityAgent "${XDG_RUNTIME_DIR}/ssh-agent-protonpass.socket"
 #
-# The aforementioned is defined within "$XDG_CONFIG_HOME/environment.d/ssh.conf"
+# Both are rendered from SSH_AUTH_SOCK in the environment variable registry,
+# home/.chezmoidata/environment.toml.
 #
 
 [Unit]

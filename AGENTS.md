@@ -107,14 +107,46 @@ before the move (2026-11-03), so never edit it. In the source:
 - Commit zsh changes with the single scope `zsh`. The imported commits'
   scopes `env`, `rc` and `wrap` are not in `scope-enum`; don't add them.
 
+Every environment variable that more than one consumer needs (XDG
+directories, `PATH`, `EDITOR`/`PAGER`/..., tool homes such as `CARGO_HOME`,
+`SSH_AUTH_SOCK`) is defined once in `home/.chezmoidata/environment.toml`,
+whose header documents the schema. `home/.chezmoitemplates/environment/`
+renders it into `~/.config/environment.d/zz-user-environment.conf`,
+`~/.config/zsh/env/00-environment.env.zsh` and the `IdentityAgent` line of
+`~/.ssh/config`. Never set one of them by hand in a consumer: change the data
+file. A variable only one program reads stays with that program. A file
+removed from `environment.d` (not `exact_`) must be added to
+`home/.chezmoiremove`. `.github/scripts/check-environment` (see Checks)
+verifies the outputs. The `managing-session-environment` skill covers the
+how; the design is
+`docs/spec/2026-11-18_environment-variable-registry-design.md`.
+
+Agent skills live in `.agents/skills/`, which `.claude/skills` links to, so
+both Claude Code and Codex see the same set. `prepare` (so `bun install`)
+fills it via the `skills` package script, two ways:
+
+- This repo's own skills have their source in `skills/<name>/`, and
+  `bun run skills:link` links `.agents/skills/<name>` to each. Edit the
+  source; the link needs no refresh. They are not in `skills-lock.json`:
+  never `skills add` or `skills remove` one, as `remove` deletes the source
+  of a skill added from a local path.
+- Skills from elsewhere are recorded in `skills-lock.json` and restored by
+  `skills experimental_install --frozen-lockfile`, which fails rather than
+  rewrite the lock when an upstream skill has moved: run `npx skills
+  update` and commit the lock then.
+
+`.agents/skills/` is therefore entirely generated, and git-ignored from the
+root `.gitignore`. Write a new skill for this repo in `skills/<name>/`,
+never directly under `.agents/skills/`, then run `bun run skills:link`.
+
 Browser extensions for Firefox and ungoogled-chromium are declared once in
 `home/.chezmoidata/web-extensions.toml` and installed by the
 `.chezmoiexternals` templates inside the Firefox profile and
 `dot_local/share/chromium/`; read `docs/note/2026-10-08_web-extensions.md`
 before changing any of it. Never `chezmoi apply` those targets against the
 real home to test them: use
-`.claude/skills/chezmoi-sandbox/scripts/sandbox-apply.sh`, which
-adds `--destination`, `--persistent-state`, `--cache` and `--exclude=scripts`
+`skills/chezmoi-sandbox/scripts/sandbox-apply.sh`, which adds
+`--destination`, `--persistent-state`, `--cache` and `--exclude=scripts`
 under a temp dir (scripts would otherwise write to the real home even from a
 sandbox).
 
@@ -135,9 +167,10 @@ within the commit message body.
 
 - Conventional Commits, enforced by `commitlint`
   (`.commitlintrc.mts`) via a `husky` `commit-msg` git hook (`.husky/commit-msg`,
-  wired up by the `prepare` package script, which is deliberately a bare
-  `husky`: installing without dev dependencies, e.g.
-  `bun install --production`, fails on it). `.commitlintrc.mts` defines:
+  wired up by the `prepare` package script, which runs `husky` and then
+  restores agent skills, see below; installing without dev dependencies,
+  e.g. `bun install --production`, fails on it). `.commitlintrc.mts`
+  defines:
   - Allowed types (error, blocking): `feat`, `fix`, `tweak`, `refactor`,
     `chore`, `style`, `docs`, `ci`, `build`, `test`, `revert`.
   - 50-char header limit (error), 72-char body line-wrap limit (error), subject
@@ -189,9 +222,9 @@ whenever that file changes on push.
 
 ## Checks
 
-There is no build step or test suite. `package.json`/`bun.lock` only pull in
-dev tooling (husky, commitlint, commitizen, prettier, remark, typescript).
-Linting runs in three places:
+There is no build step. `package.json`/`bun.lock` only pull in dev tooling
+(husky, commitlint, commitizen, prettier, remark, typescript, and the
+`skills` CLI that `prepare` runs). The checks:
 
 - `.husky/pre-commit` (staged files): `git diff --cached --check` on the
   added lines, luafmt then luacheck (nearest `.luacheckrc`), tombi
@@ -201,6 +234,16 @@ Linting runs in three places:
   so JSON written by a tool at 2-space indent is committed at
   `.editorconfig`'s 4. There is no biome. `.github/workflows/lint-config.yaml`
   runs the same checks in CI over the whole tree, all but the whitespace one.
+- `.github/scripts/check-environment`, the one test suite, for the
+  environment variable registry. It renders every consumer from
+  `home/.chezmoidata/environment.toml`, checks the resolver refuses bad
+  input, expands the Linux zsh and systemd outputs (with systemd's own
+  generator) and compares them, checks the Android zsh output on its own,
+  and compares the rendered `IdentityAgent` on both OSes. It needs
+  `chezmoi`, `jq`, `zsh`, `shuck` and full git history. The pre-commit hook
+  runs it against the working tree when a registry file is staged, and the
+  `Environment Registry` job in `lint-config.yaml` on every PR and push to
+  `main`. Run a single section with e.g. `check-environment zsh`.
 - `bun run typecheck`: `tsconfig.json` scopes `tsc` to `.commitlintrc.mts`
   alone (TS's default `**/*` glob skips dotfiles). The commit-msg hook loads
   that file via `jiti` (transpile-only), so a type error there passes silently

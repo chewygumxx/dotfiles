@@ -1,0 +1,77 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+#:schema https://mise.jdx.dev/schema/mise.json
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/.config/mise/config.toml
+#
+#
+
+#
+# CI's TOML job installs tombi from here with GitHub Action
+# `jdx/mise-action`; the other jobs install their tools themselves.
+# https://mise.jdx.dev/configuration.html
+#
+
+# ---------------
+# Mise Intrinsic
+# ---------------
+
+min_version = "2026.9.0"
+
+[tool_alias]
+sh                   = "aqua:mvdan/sh"
+uv                   = "aqua:astral-sh/uv"
+gh                   = "aqua:cli/cli"
+jq                   = "aqua:jqlang/jq"
+editorconfig-checker = "aqua:editorconfig-checker/editorconfig-checker"
+
+# ------
+# Tools
+# ------
+
+[tools]
+# Javascript/TypeScript Runtime
+bun = "1.4"
+sh  = "3.14.1"
+uv  = "0.12.19"
+gh  = { lazy = false, version = "2.104.0" }
+jq  = { lazy = false, version = "1.8.2" }
+
+# Secrets
+# sops encrypts secrets.json to age recipients.
+"aqua:getsops/sops"    = "3.13.3"
+"aqua:FiloSottile/age" = "1.3.2"
+
+# ** Lint and Format **
+
+[tools.editorconfig-checker]
+version   = "4.0.2"
+lazy      = true
+lazy_bins = [ "editorconfig-checker" ]
+
+[tools."aqua:koalaman/shellcheck"]
+version   = "0.11.0"
+lazy      = true
+lazy_bins = [ "shellcheck" ]
+
+[tools."aqua:tombi-toml/tombi"]
+version   = "1.11.3"
+lazy      = true
+lazy_bins = [ "tombi" ]
+
+[tools."aqua:rhysd/actionlint"]
+version   = "1.7.12"
+lazy      = true
+lazy_bins = [ "actionlint" ]
+
+[tools."pypi:yamllint"]
+version   = "1.38.0"
+depends   = [ "uv" ]
+lazy      = true
+lazy_bins = [ "yamllint" ]
+
+[wrappers]
+python = { command = "uv", args = [ "run", "python" ] }

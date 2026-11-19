@@ -1,0 +1,63 @@
+#!/usr/bin/env -S usage zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
+#
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/worktrunk/exact_scripts/executable_herdr-workspace
+#
+#
+#
+
+#USAGE bin "herdr-workspace"
+#USAGE about "Open a worktree as a herdr workspace and start an agent in it"
+#USAGE long_about """
+#USAGE As herdr-open, creating the branch when it doesn't exist, then start
+#USAGE an agent in the workspace: in its root pane when newly opened, else in
+#USAGE a fresh split to the right. The agent is named after the worktree
+#USAGE directory, plus the split's pane (fix-login-p2), as herdr agent
+#USAGE names are unique. Run through the `wt herdr-workspace` alias.
+#USAGE """
+#USAGE example "wt herdr-workspace fix/login -- 'Fix the login redirect'" header="Start Claude with a prompt"
+#USAGE example "wt herdr-workspace -k codex fix/login" header="Start a different agent"
+#USAGE flag "--repo <path>" required=#true help="Primary worktree, the workspace's repository. The alias passes {{ primary_worktree_path }}"
+#USAGE flag "-k --kind <kind>" default="claude" help="Agent to start, as `herdr agent start --kind`"
+#USAGE arg "<branch>" help="Branch to open, created from the default branch when missing"
+#USAGE arg "[agent_args]..." var=#true help="Arguments for the agent, such as its prompt"
+
+setopt err_exit pipe_fail no_unset
+
+local cmd
+for cmd in jq herdr wt git; do
+    (( $+commands[$cmd] )) || { print -u2 "herdr-workspace: not found: $cmd"; exit 127 }
+done
+
+local -a create=() agent_args=( ${(Q)${(z)usage_agent_args:-}} )
+git show-ref --quiet --verify refs/heads/$usage_branch || create=(--create)
+
+local wt_path
+wt_path=$(wt switch $create $usage_branch --no-cd --format=json |
+    jq --exit-status --raw-output .path)
+
+local opened pane name=${wt_path:t}
+opened=$(herdr worktree open \
+    --cwd   $usage_repo \
+    --path  $wt_path \
+    --focus)
+
+if [[ $(jq --raw-output .result.already_open <<< $opened) == true ]]; then
+    pane=$(herdr pane split \
+        "$(jq --raw-output .result.root_pane.pane_id <<< $opened)" \
+        --direction right \
+        --cwd       $wt_path \
+        --no-focus | jq --exit-status --raw-output .result.pane.pane_id)
+    name+=-${pane#*:}
+else
+    pane=$(jq --exit-status --raw-output .result.root_pane.pane_id <<< $opened)
+fi
+
+herdr agent start $name \
+    --kind $usage_kind \
+    --pane $pane \
+    -- $agent_args >/dev/null

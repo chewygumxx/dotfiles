@@ -12,10 +12,11 @@
 # Templated with chezmoi
 #
 
-{{ if eq .chezmoi.os "linux" }}
-IdentityAgent "${XDG_RUNTIME_DIR}/ssh-agent-protonpass.socket"
-{{- else if eq .chezmoi.os "android" }}
-IdentityAgent "${XDG_RUNTIME_DIR}/ssh-agent.socket"
+# SSH_AUTH_SOCK from the environment variable registry,
+# home/.chezmoidata/environment.toml, left for ssh to expand: zsh and systemd
+# export every variable it references.
+IdentityAgent {{ (includeTemplate "environment/resolve" . | fromJson).byName.SSH_AUTH_SOCK | quote }}
+{{- if eq .chezmoi.os "android" }}
 AddKeysToAgent yes
 {{- end }}
 

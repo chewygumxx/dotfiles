@@ -1,0 +1,505 @@
+#!/usr/bin/env zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/.github/scripts/check-environment
+#
+#
+
+#
+# Checks the environment variable registry, home/.chezmoidata/environment.toml,
+# against every output rendered from it, for Linux and Android.
+#
+# Usage: check-environment [section...]
+#
+#     Sections: resolve, systemd, zsh, ssh. None given runs every one.
+#
+# Each output is rendered with `chezmoi execute-template`, with .chezmoi.os
+# overridden, so both OS branches are checked from one host. Nothing is
+# applied, and the real home is never read or written.
+#
+# See docs/spec/2026-11-18_environment-variable-registry-design.md.
+#
+
+emulate -L zsh
+setopt no_unset pipe_fail extended_glob
+
+# From the script's own path, not git: a git hook (.husky/pre-commit runs
+# this) exports GIT_DIR, and with it set rev-parse --show-toplevel answers
+# with the current directory. Those variables are dropped for the git log
+# below for the same reason.
+root="${0:A:h:h:h}"
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE
+tmp="$(mktemp -d "${TMPDIR:-/tmp}/check-environment.XXXXXX")" || exit 1
+trap 'rm -rf -- "$tmp"' EXIT
+
+uid="$(id -u)"
+section=''
+integer failures=0
+
+# Fixture environments for a bare login: nothing but HOME, PATH and, on
+# Termux, PREFIX. The Linux HOME is a real directory, because systemd's
+# generator finds environment.d under it.
+fixture_home="$tmp/home"
+mkdir -p -- "$fixture_home/.config/environment.d"
+typeset -a linux_env=(HOME="$fixture_home" PATH=/usr/bin)
+typeset -a android_env=(
+    HOME=/data/data/com.termux/files/home
+    PREFIX=/data/data/com.termux/files/usr
+    PATH=/data/data/com.termux/files/usr/bin
+)
+
+generator=/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator
+
+# The one environment.d file the registry renders. It must sort after every
+# system-supplied file: 99-environment.conf (/etc/environment) and Ubuntu's
+# 990-snapd.conf included, hence a letter rather than a number.
+systemd_conf=zz-user-environment.conf
+systemd_tmpl="$root/home/dot_config/environment.d/$systemd_conf.tmpl"
+
+# Absolute, because the Termux fixture's PATH has no zsh in it.
+zsh_bin="${commands[zsh]}"
+
+# ----------
+# Reporting
+# ----------
+
+function fail() {
+    print -u2 -r -- "check-environment: $section: $*"
+    failures+=1
+}
+
+# expect <label> <actual> <expected>
+function expect() {
+    [[ "$2" == "$3" ]] || fail "$1: expected ${(qq)3}, got ${(qq)2}"
+}
+
+# ----------
+# Rendering
+# ----------
+
+# render <os> <template-file>: the file rendered as chezmoi would on <os>.
+function render() {
+    chezmoi --source "$root" execute-template \
+        --override-data "{\"chezmoi\":{\"os\":\"$1\"}}" <"$2"
+}
+
+# resolved <os> [override-json]: the resolver's JSON for <os>. Extra
+# override data replaces the registry, for the rejection cases.
+function resolved() {
+    local data="{\"chezmoi\":{\"os\":\"$1\"}${2:+,$2}}"
+    print -r -- '{{ includeTemplate "environment/resolve" . }}' |
+        chezmoi --source "$root" execute-template --override-data "$data"
+}
+
+# names <os>: every variable name the registry defines on <os>.
+function names() {
+    resolved "$1" | jq -r '.variables[].name'
+}
+
+# expand_systemd <file|-> [VAR=value...]: NAME=value lines, as systemd's own
+# environment.d generator expands <file> for a bare Linux login. The
+# generator double-quotes a value holding a space; the quotes are removed.
+# With -, only the host's own system environment.d files are read: the
+# baseline every login on this host inherits.
+function expand_systemd() {
+    local file="$1"
+    shift
+    rm -f -- "$fixture_home/.config/environment.d/"*(N)
+    [[ "$file" == - ]] || cp -- "$file" "$fixture_home/.config/environment.d/"
+    env -i "${linux_env[@]}" "$@" "$generator" |
+        sed -E 's/^([A-Za-z_][A-Za-z0-9_]*)="(.*)"$/\1=\2/'
+}
+
+# expand_zsh <os> <file> [VAR=value...]: NAME=value lines for every registry
+# name and PATH, after sourcing <file> in a bare zsh on <os>.
+#
+# zsh reads /etc/zshenv (/etc/zsh/zshenv) even with -f, and a host's copy may
+# fill in the XDG variables, as root/etc/zsh/zshenv does. So the inherited
+# VAR=value pairs are passed as arguments, and the shell drops what
+# /etc/zshenv set before exporting them and sourcing <file>.
+function expand_zsh() {
+    local os="$1" file="$2"
+    shift 2
+    local -a fixture
+    if [[ "$os" == android ]]; then
+        fixture=("${android_env[@]}")
+    else
+        fixture=("${linux_env[@]}")
+    fi
+    env -i "${fixture[@]}" "$zsh_bin" -f -c '
+        unset -m "XDG_*"
+        unset ZDOTDIR
+        integer count=$1
+        ((count)) && export "${@[3,count+2]}"
+        source "$2" || exit 1
+        shift $((count + 2))
+        for name; do [[ -v $name ]] && print -r -- "$name=${(P)name}"; done
+    ' zsh "$#" "$file" "$@" $(names "$os") PATH
+}
+
+# registry_lines <os> <lines>: only the NAME=value <lines> whose name the
+# registry defines on <os>, leaving out what the host itself supplies.
+function registry_lines() {
+    local line
+    local -a keep=($(names "$1"))
+    for line in "${(@f)2}"; do
+        ((${keep[(Ie)${line%%=*}]})) && print -r -- "$line"
+    done
+}
+
+# value <name> <lines>: the value of <name> in NAME=value <lines>.
+function value() {
+    local line
+    for line in "${(@f)2}"; do
+        [[ "$line" == "$1="* ]] && { print -r -- "${line#*=}"; return 0 }
+    done
+    return 1
+}
+
+# ---------
+# Sections
+# ---------
+
+function check_resolve() {
+    local os json
+    for os in linux android; do
+        if ! json="$(resolved "$os")"; then
+            fail "$os: the resolver failed"
+            continue
+        fi
+        expect "$os PAGER" "$(jq -r .byName.PAGER <<<"$json")" 'less -R'
+        expect "$os CARGO_HOME" "$(jq -r .byName.CARGO_HOME <<<"$json")" \
+            '${XDG_DATA_HOME}/cargo'
+        expect "$os first five" \
+            "$(jq -r '[.variables[:5][] | .name] | join(" ")' <<<"$json")" \
+            'XDG_CONFIG_HOME XDG_CACHE_HOME XDG_DATA_HOME XDG_STATE_HOME XDG_RUNTIME_DIR'
+        expect "$os first five inherit" \
+            "$(jq -r '[.variables[:5][] | .inherit] | unique | join(" ")' <<<"$json")" \
+            'true'
+        expect "$os SSH_AUTH_SOCK inherit" \
+            "$(jq -r '.variables[] | select(.name == "SSH_AUTH_SOCK") | .inherit' <<<"$json")" \
+            'ssh'
+        expect "$os path" "$(jq -r '.path | join(" ")' <<<"$json")" \
+            '${HOME}/.local/bin ${XDG_DATA_HOME}/mise/shims ${CARGO_HOME}/bin ${GOBIN} ${BUN_INSTALL_BIN}'
+    done
+
+    json="$(resolved linux)"
+    expect "linux XDG_RUNTIME_DIR" "$(jq -r .byName.XDG_RUNTIME_DIR <<<"$json")" \
+        "/run/user/$uid"
+    expect "linux SSH_AUTH_SOCK" "$(jq -r .byName.SSH_AUTH_SOCK <<<"$json")" \
+        '${XDG_RUNTIME_DIR}/ssh-agent-protonpass.socket'
+
+    json="$(resolved android)"
+    expect "android XDG_RUNTIME_DIR" "$(jq -r .byName.XDG_RUNTIME_DIR <<<"$json")" \
+        '${PREFIX}/tmp'
+    expect "android SSH_AUTH_SOCK" "$(jq -r .byName.SSH_AUTH_SOCK <<<"$json")" \
+        '${XDG_RUNTIME_DIR}/ssh-agent.socket'
+
+    # Every malformed entry is refused, naming the variable at fault.
+    local -A rejects=(
+        'unknown reference' '{"name":"BAD","value":"${NOPE}"}'
+        'forward reference' '{"name":"BAD","value":"${LATER}"},{"name":"LATER","value":"x"}'
+        'unbraced dollar'   '{"name":"BAD","value":"$HOME/x"}'
+        'quote'             '{"name":"BAD","value":"say \"hi\""}'
+        'bad inherit'       '{"name":"BAD","value":"x","inherit":"yes"}'
+        'tilde'             '{"name":"BAD","value":"~/x"}'
+        'literal brace'     '{"name":"BAD","value":"a}b"}'
+        'unknown os key'    '{"name":"BAD","os":{"linx":"x"}}'
+        'PREFIX on linux'   '{"name":"BAD","value":"${PREFIX}/x"}'
+        'bad require'       '{"name":"BAD","value":"x","require":"file"}'
+    )
+    local case err
+    for case in "${(@k)rejects}"; do
+        if err="$(resolved linux \
+            "\"environment\":{\"variables\":[${rejects[$case]}],\"path\":{\"prepend\":[]}}" \
+            2>&1 >/dev/null)"; then
+            fail "$case: accepted"
+        elif [[ "$err" != *BAD* ]]; then
+            fail "$case: refused without naming BAD: $err"
+        fi
+    done
+
+    # PATH entries are refused the same way, naming PATH.
+    local -A path_rejects=(
+        'path tilde'           '"~/bin"'
+        'path table, no os'    '{"dir":"${HOME}/x"}'
+        'path os as a string'  '{"dir":"${HOME}/x","os":"linux"}'
+        'path unknown os'      '{"dir":"${HOME}/x","os":["linx"]}'
+    )
+    for case in "${(@k)path_rejects}"; do
+        if err="$(resolved linux \
+            "\"environment\":{\"variables\":[],\"path\":{\"prepend\":[${path_rejects[$case]}]}}" \
+            2>&1 >/dev/null)"; then
+            fail "$case: accepted"
+        elif [[ "$err" != *PATH* ]]; then
+            fail "$case: refused without naming PATH: $err"
+        fi
+    done
+}
+
+# assert_rooted <label> <lines> <prefix...>: every absolute path among the
+# NAME=value <lines>, PATH entries included, starts with one of <prefix>. A
+# path that does not was built from an unset variable, e.g. /cargo.
+function assert_rooted() {
+    local label="$1" lines="$2"
+    shift 2
+    local line entry prefix ok
+    for line in "${(@f)lines}"; do
+        for entry in "${(@s.:.)${line#*=}}"; do
+            [[ "$entry" == /* ]] || continue
+            ok=0
+            for prefix; do
+                [[ "$entry" == "$prefix"* ]] && { ok=1; break }
+            done
+            ((ok)) || fail "$label: ${line%%=*} has root-relative ${(qq)entry}"
+        done
+    done
+}
+
+function check_systemd() {
+    local tmpl="$systemd_tmpl"
+    local conf="$tmp/$systemd_conf" out name
+
+    if ! render linux "$tmpl" >"$conf"; then
+        fail "rendering $tmpl failed"
+        return
+    fi
+
+    # bare_env_paths: a login with nothing but HOME and PATH, plus whatever
+    # the host's own system environment.d files set. Those may set registry
+    # variables themselves (GitHub's runner sets XDG_CONFIG_HOME), and then
+    # win, as inherit = true intends; expectations follow them.
+    local baseline data runtime
+    baseline="$(expand_systemd -)"
+    data="$(value XDG_DATA_HOME "$baseline")" || data="$fixture_home/.local/share"
+    runtime="$(value XDG_RUNTIME_DIR "$baseline")" || runtime="/run/user/$uid"
+    if ! out="$(expand_systemd "$conf")"; then
+        fail "the environment.d generator failed"
+        return
+    fi
+    for name in $(names linux); do
+        value "$name" "$out" >/dev/null || fail "bare: $name is not set"
+    done
+    expect "bare PAGER" "$(value PAGER "$out")" 'less -R'
+    expect "bare CARGO_HOME" "$(value CARGO_HOME "$out")" "$data/cargo"
+    expect "bare XDG_RUNTIME_DIR" "$(value XDG_RUNTIME_DIR "$out")" "$runtime"
+    expect "bare SSH_AUTH_SOCK" "$(value SSH_AUTH_SOCK "$out")" \
+        "$runtime/ssh-agent-protonpass.socket"
+    # The registry's directories lead PATH. What follows is whatever the
+    # host supplies (/etc/environment sets an absolute PATH on Ubuntu), so
+    # only the prefix is checked, and only registry names for rootedness;
+    # a registry variable the host itself set is a root of its own.
+    local path_prefix="$fixture_home/.local/bin:$data/mise/shims:$data/cargo/bin:$data/go/bin:$data/bun/bin:"
+    [[ "$(value PATH "$out")" == "$path_prefix"* ]] ||
+        fail "bare PATH: expected to start ${(qq)path_prefix}, got ${(qq)$(value PATH "$out")}"
+    local line
+    local -a roots=("$fixture_home/" /run/user/)
+    for line in ${(f)"$(registry_lines linux "$baseline")"}; do
+        roots+=("${line#*=}")
+    done
+    assert_rooted bare "$(registry_lines linux "$out")" "${roots[@]}"
+
+    # sorts_last: environment.d files are read in name order across every
+    # directory, the last assignment winning. A system file sorting after
+    # this one (Debian's and Arch's 99-environment.conf, a link to
+    # /etc/environment) would otherwise replace PATH outright.
+    local dir sys
+    for dir in /etc/environment.d /run/environment.d \
+        /usr/local/lib/environment.d /usr/lib/environment.d; do
+        for sys in "$dir"/*.conf(N); do
+            if [[ "${sys:t}" == "$systemd_conf" ]]; then
+                fail "$systemd_conf masks $sys"
+            elif [[ "$(print -rl -- "${sys:t}" "$systemd_conf" | LC_ALL=C sort | tail -n 1)" != "$systemd_conf" ]]; then
+                fail "$systemd_conf sorts before $sys, which then overrides it"
+            fi
+        done
+    done
+
+    # xdg_inherit: an inherited XDG directory moves everything under it.
+    out="$(expand_systemd "$conf" XDG_DATA_HOME=/x)"
+    expect "inherited CARGO_HOME" "$(value CARGO_HOME "$out")" /x/cargo
+
+    # stale_files_removed: environment.d is not exact_, so a file deleted
+    # from the source stays deployed, and keeps overriding, unless
+    # .chezmoiremove names it. Every one ever deleted must be listed. (A
+    # sandbox apply would show it too, but every fresh sandbox calls the
+    # GitHub API for the externals and soon hits its rate limit.)
+    local remove target
+    local -a listed
+    remove="$(render linux "$root/home/.chezmoiremove")" ||
+        fail "rendering .chezmoiremove failed"
+    for target in ${(fu)"$(git -C "$root" log --diff-filter=D --no-renames --name-only \
+        --format= -- home/dot_config/environment.d/)"}; do
+        target=".config/environment.d/${${target:t}%.tmpl}"
+        listed=(${(M)${(f)remove}:#${target}([[:space:]]*|)})
+        (($#listed)) ||
+            fail "$target was deleted from the source but not added to .chezmoiremove"
+    done
+    expect "environment.d sources" \
+        "$(cd "$root/home/dot_config/environment.d" && print -r -- *(N))" \
+        "$systemd_conf.tmpl"
+}
+
+function check_zsh() {
+    local tmpl="$root/home/dot_config/zsh/exact_env/00-environment.env.zsh.tmpl"
+    local -A files
+    local os file out name
+
+    for os in linux android; do
+        file="$tmp/$os/00-environment.env.zsh"
+        mkdir -p -- "${file:h}"
+        if ! render "$os" "$tmpl" >"$file"; then
+            fail "$os: rendering $tmpl failed"
+            return
+        fi
+        files[$os]="$file"
+
+        # The raw template is Go template text, so the repo's zsh -n and
+        # shuck checks skip it; the rendered file is checked here instead.
+        zsh -n -- "$file" || fail "$os: zsh -n rejects the rendered file"
+        shuck --config "$root/home/dot_config/zsh/.shuck.toml" check \
+            --extend-per-file-shell '*.zsh:zsh' "$file" >&2 ||
+            fail "$os: shuck rejects the rendered file"
+    done
+
+    # silent: every zsh sources this, scp, rsync and git over ssh included,
+    # and they read stdout as protocol data.
+    out="$(env -i "${linux_env[@]}" zsh -f -c 'source "$1"' zsh "${files[linux]}")"
+    expect "silent" "$out" ''
+
+    # bare_env_paths, Linux.
+    out="$(expand_zsh linux "${files[linux]}")"
+    for name in $(names linux); do
+        value "$name" "$out" >/dev/null || fail "linux bare: $name is not set"
+    done
+    expect "linux bare PAGER" "$(value PAGER "$out")" 'less -R'
+    expect "linux bare SSH_AUTH_SOCK" "$(value SSH_AUTH_SOCK "$out")" \
+        "/run/user/$uid/ssh-agent-protonpass.socket"
+    assert_rooted "linux bare" "$(registry_lines linux "$out")" "$fixture_home/" /run/user/
+
+    # agrees_with_systemd: both outputs, expanded, give every name the same
+    # value, with and without an inherited XDG directory.
+    # A zsh in a systemd session inherits what the host's system
+    # environment.d files set, so it is given the same baseline.
+    local conf="$tmp/$systemd_conf" sd zpath
+    render linux "$systemd_tmpl" >"$conf"
+    local -a baseline=(${(f)"$(registry_lines linux "$(expand_systemd -)")"})
+    local inherited
+    for inherited in '' 'XDG_DATA_HOME=/x'; do
+        out="$(expand_zsh linux "${files[linux]}" "${baseline[@]}" \
+            ${inherited:+"$inherited"})"
+        sd="$(expand_systemd "$conf" ${inherited:+"$inherited"})"
+        for name in $(names linux); do
+            expect "agrees ${inherited:-bare} $name" \
+                "$(value "$name" "$out")" "$(value "$name" "$sd")"
+        done
+        # zsh's fixture PATH is /usr/bin; systemd's tail is the host's. The
+        # registry part in front must be the same.
+        zpath="$(value PATH "$out")"
+        [[ "$(value PATH "$sd")" == "${zpath%/usr/bin}"* ]] ||
+            fail "agrees ${inherited:-bare} PATH: zsh ${(qq)zpath}, systemd ${(qq)$(value PATH "$sd")}"
+    done
+
+    # bare_env_paths, Android: Termux, no systemd.
+    local home=/data/data/com.termux/files/home prefix=/data/data/com.termux/files/usr
+    out="$(expand_zsh android "${files[android]}")"
+    for name in $(names android); do
+        value "$name" "$out" >/dev/null || fail "android bare: $name is not set"
+    done
+    expect "android XDG_RUNTIME_DIR" "$(value XDG_RUNTIME_DIR "$out")" "$prefix/tmp"
+    expect "android SSH_AUTH_SOCK" "$(value SSH_AUTH_SOCK "$out")" \
+        "$prefix/tmp/ssh-agent.socket"
+    expect "android CARGO_HOME" "$(value CARGO_HOME "$out")" \
+        "$home/.local/share/cargo"
+    assert_rooted "android bare" "$out" "$home/" "$prefix/"
+
+    # ssh_inherit: a forwarded agent survives an ssh login; any other
+    # inherited agent is replaced.
+    out="$(expand_zsh linux "${files[linux]}" \
+        SSH_CONNECTION='1 2 3 4' SSH_AUTH_SOCK=/tmp/fwd)"
+    expect "ssh -A keeps forwarded agent" "$(value SSH_AUTH_SOCK "$out")" /tmp/fwd
+    out="$(expand_zsh linux "${files[linux]}" SSH_AUTH_SOCK=/tmp/other)"
+    expect "local shell replaces inherited agent" "$(value SSH_AUTH_SOCK "$out")" \
+        "/run/user/$uid/ssh-agent-protonpass.socket"
+
+    # runtime_dir_exists: the XDG spec wants XDG_RUNTIME_DIR unset rather than
+    # naming a directory that does not exist (a container, a rescue shell),
+    # so zsh exports its fallback only when the directory is there. It stays
+    # a shell variable either way, so SSH_AUTH_SOCK still expands.
+    local typ want
+    for os in linux android; do
+        local -a fixture=("${linux_env[@]}")
+        [[ "$os" == android ]] && fixture=("${android_env[@]}")
+        out="$(env -i "${fixture[@]}" "$zsh_bin" -f -c '
+            unset -m "XDG_*"
+            source "$1" || exit 1
+            print -r -- "${(t)XDG_RUNTIME_DIR}"
+            print -r -- "$XDG_RUNTIME_DIR"
+            print -r -- "$SSH_AUTH_SOCK"
+        ' zsh "${files[$os]}")"
+        typ="${${(f)out}[1]}"
+        want=scalar
+        [[ -d "${${(f)out}[2]}" ]] && want=scalar-export
+        expect "$os XDG_RUNTIME_DIR exported only if it exists" "$typ" "$want"
+        [[ "${${(f)out}[3]}" == "${${(f)out}[2]}/"* ]] ||
+            fail "$os: SSH_AUTH_SOCK ${(qq)${${(f)out}[3]}} is not under XDG_RUNTIME_DIR"
+    done
+
+    # path_idempotent: a zsh started from a zsh (a terminal in Neovim, a
+    # zsh script) inherits PATH and sources this again; PATH must not grow.
+    local once twice
+    once="$(env -i "${linux_env[@]}" zsh -f -c \
+        'source "$1"; print -r -- "$PATH"' zsh "${files[linux]}")"
+    twice="$(env -i "${linux_env[@]}" zsh -f -c \
+        'source "$1"; zsh -f -c "source ${(q)1}; print -r -- \$PATH"' \
+        zsh "${files[linux]}")"
+    expect "nested PATH" "$twice" "$once"
+}
+
+function check_ssh() {
+    local tmpl="$root/home/private_dot_ssh/config.tmpl" os out sock
+    local -a agents
+
+    # The line must come from the registry, not merely agree with it today.
+    grep -q 'includeTemplate "environment/resolve"' "$tmpl" ||
+        fail "config.tmpl does not take IdentityAgent from the registry"
+
+    for os in linux android; do
+        if ! out="$(render "$os" "$tmpl")"; then
+            fail "$os: rendering config.tmpl failed"
+            continue
+        fi
+        sock="$(resolved "$os" | jq -r .byName.SSH_AUTH_SOCK)"
+        agents=(${(M)${(f)out}:#IdentityAgent *})
+        expect "$os IdentityAgent" "${(F)agents}" "IdentityAgent \"$sock\""
+
+        # Termux alone adds keys to its agent on first use.
+        local -a adds=(${(M)${(f)out}:#AddKeysToAgent *})
+        if [[ "$os" == android ]]; then
+            expect "android AddKeysToAgent" "${(F)adds}" "AddKeysToAgent yes"
+        else
+            expect "linux AddKeysToAgent" "${(F)adds}" ""
+        fi
+    done
+}
+
+# ------
+# Main
+# ------
+
+typeset -a sections=("$@")
+(($#sections)) || sections=(${${(ok)functions[(I)check_*]}#check_})
+
+for section in "${sections[@]}"; do
+    if ((! $+functions[check_$section])); then
+        fail "no such section"
+        continue
+    fi
+    "check_$section"
+done
+
+((failures == 0))

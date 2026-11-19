@@ -36,9 +36,15 @@ jobs:
                   luarocks --lua-version 5.4 --local install luacheck
                   luarocks --local path --lr-bin | tr ':' '\n' >> "$GITHUB_PATH"
 
+            # Through gh with the job's token: the unauthenticated API call
+            # this used to make shares a rate limit with every other job on
+            # the runner's address, and failed with an empty version.
             - name: Install luafmt
+              env:
+                  GH_TOKEN: ${{ github.token }}
               run: |
-                  version=$(curl -s https://api.github.com/repos/EmmyLuaLs/emmylua-analyzer-rust/releases/latest | grep -oP '"tag_name":\s*"\K[^"]+')
+                  version=$(gh release view --repo EmmyLuaLs/emmylua-analyzer-rust --json tagName --jq .tagName)
+                  test -n "$version" || { echo "::error::No luafmt release found"; exit 1; }
                   mkdir -p "$RUNNER_TEMP/luafmt"
                   curl -sL "https://github.com/EmmyLuaLs/emmylua-analyzer-rust/releases/download/${version}/luafmt-linux-x64.tar.gz" | tar xzf - -C "$RUNNER_TEMP/luafmt"
                   chmod +x "$RUNNER_TEMP/luafmt/luafmt"
@@ -133,7 +139,7 @@ jobs:
             - name: Check Syntax
               run: |
                   status=0
-                  for f in $(git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml'); do
+                  for f in $(git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' ':!**/*.tmpl'); do
                       zsh -n -- "$f" || status=1
                   done
                   exit $status
@@ -142,5 +148,38 @@ jobs:
             # from each file.
             - name: Lint
               run: |
-                  git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' |
+                  git ls-files -- 'home/dot_config/zsh/**' ':!**/symlink_*' ':!**/.chezmoiignore' ':!**/.shuck.toml' ':!**/*.tmpl' |
                       xargs mise exec "$SHUCK" -- shuck check
+
+    environment:
+        name: Environment Registry
+        runs-on: ubuntu-latest
+
+        env:
+            SHUCK: github:ewhauser/shuck@0.2.7
+            CHEZMOI: aqua:twpayne/chezmoi@2.74.1
+
+        steps:
+            # Full history: the check lists every environment.d file ever
+            # deleted from the source, to prove .chezmoiremove names it.
+            - name: Checkout
+              uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+
+            # Not guaranteed on the runner image.
+            - name: Install zsh
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y zsh
+
+            - name: Install chezmoi and shuck
+              uses: jdx/mise-action@v5
+              with:
+                  install_args: ${{ env.SHUCK }} ${{ env.CHEZMOI }}
+
+            # Renders environment.d, zsh and ~/.ssh/config for Linux and
+            # Android from home/.chezmoidata/environment.toml and compares
+            # them; the raw *.tmpl files are skipped by the Zsh job.
+            - name: Check
+              run: mise exec "$SHUCK" "$CHEZMOI" -- .github/scripts/check-environment
