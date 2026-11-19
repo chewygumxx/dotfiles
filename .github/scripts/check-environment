@@ -476,9 +476,15 @@ function check_ssh() {
         sock="$(resolved "$os" | jq -r .byName.SSH_AUTH_SOCK)"
         agents=(${(M)${(f)out}:#IdentityAgent *})
         expect "$os IdentityAgent" "${(F)agents}" "IdentityAgent \"$sock\""
+
+        # Termux alone adds keys to its agent on first use.
+        local -a adds=(${(M)${(f)out}:#AddKeysToAgent *})
+        if [[ "$os" == android ]]; then
+            expect "android AddKeysToAgent" "${(F)adds}" "AddKeysToAgent yes"
+        else
+            expect "linux AddKeysToAgent" "${(F)adds}" ""
+        fi
     done
-    [[ "$out" == *$'\n'"AddKeysToAgent yes"$'\n'* ]] ||
-        fail "android: AddKeysToAgent yes is gone"
 }
 
 # ------
