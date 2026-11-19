@@ -116,9 +116,9 @@ renders it into `~/.config/environment.d/zz-user-environment.conf`,
 `~/.ssh/config`. Never set one of them by hand in a consumer: change the data
 file. A variable only one program reads stays with that program. A file
 removed from `environment.d` (not `exact_`) must be added to
-`home/.chezmoiremove`. `.github/scripts/check-environment` renders every
-output for Linux and Android and proves they agree; the pre-commit hook and
-CI run it. Design:
+`home/.chezmoiremove`. `.github/scripts/check-environment` (see Checks)
+verifies the outputs. The `managing-session-environment` skill covers the
+how; the design is
 `docs/spec/2026-11-18_environment-variable-registry-design.md`.
 
 Agent skills live in `.agents/skills/`, which `.claude/skills` links to, so
@@ -222,9 +222,9 @@ whenever that file changes on push.
 
 ## Checks
 
-There is no build step or test suite. `package.json`/`bun.lock` only pull in
-dev tooling (husky, commitlint, commitizen, prettier, remark, typescript).
-Linting runs in three places:
+There is no build step. `package.json`/`bun.lock` only pull in dev tooling
+(husky, commitlint, commitizen, prettier, remark, typescript, and the
+`skills` CLI that `prepare` runs). The checks:
 
 - `.husky/pre-commit` (staged files): `git diff --cached --check` on the
   added lines, luafmt then luacheck (nearest `.luacheckrc`), tombi
@@ -234,6 +234,16 @@ Linting runs in three places:
   so JSON written by a tool at 2-space indent is committed at
   `.editorconfig`'s 4. There is no biome. `.github/workflows/lint-config.yaml`
   runs the same checks in CI over the whole tree, all but the whitespace one.
+- `.github/scripts/check-environment`, the one test suite, for the
+  environment variable registry. It renders every consumer from
+  `home/.chezmoidata/environment.toml`, checks the resolver refuses bad
+  input, expands the Linux zsh and systemd outputs (with systemd's own
+  generator) and compares them, checks the Android zsh output on its own,
+  and compares the rendered `IdentityAgent` on both OSes. It needs
+  `chezmoi`, `jq`, `zsh`, `shuck` and full git history. The pre-commit hook
+  runs it against the working tree when a registry file is staged, and the
+  `Environment Registry` job in `lint-config.yaml` on every PR and push to
+  `main`. Run a single section with e.g. `check-environment zsh`.
 - `bun run typecheck`: `tsconfig.json` scopes `tsc` to `.commitlintrc.mts`
   alone (TS's default `**/*` glob skips dotfiles). The commit-msg hook loads
   that file via `jiti` (transpile-only), so a type error there passes silently
