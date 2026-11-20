@@ -22,13 +22,17 @@ effortLevel    = "high"
 maxEffortLevel = "xhigh"
 outputStyle    = "default"
 
-# Disabled via disable feature-flags
-advisorModel    = "claude-opus-5-5"
-fallbackModel   = [
+cleanupPeriodDays = 3650
+
+# Requires feature-flags
+advisorModel  = "claude-opus-5-5"
+fallbackModel = [
     "claude-sonnet-5-5",
     "claude-sonnet-5",
 ]
-availableModels = [
+
+enforceAvailableModels = false
+availableModels        = [
     "wintermute",
     "mythos",
     "fable",
@@ -37,12 +41,9 @@ availableModels = [
     "haiku",
 ]
 
-cleanupPeriodDays = 3650
-
 switchModelsOnFlag           = false
 alwaysThinkingEnabled        = true
 showThinkingSummaries        = true
-enforceAvailableModels       = false
 showClearContextOnPlanAccept = true
 
 autoCompactEnabled = false
