@@ -15,7 +15,7 @@
 #
 */ -}}
 
-{{- $dir := joinPath .chezmoi.sourceDir "dot_local/share/claude/settings" -}}
+{{- $dir := joinPath .chezmoi.sourceDir (dir .chezmoi.sourceFile) "settings" -}}
 {{- $files := glob (joinPath $dir "*.toml") -}}
 {{- if not $files -}}
     {{- fail (printf "no Claude settings fragments in %s" $dir) -}}
