@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vim:set expandtab shiftwidth=4 filetype=xml: -->
+<!-- SPDX-License-Identifier: GPL-3.0-only -->
+<!--
+   -
+   - ~chewygumxx/dotfiles.git
+   - ::: :/home/dot_local/share/codex/themes/chewy-claude.tmTheme
+   -
+   -->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>name</key>
+    <string>chewy-claude</string>
+    <!-- Palette shared with ../../claude/themes/chewy-claude.json.
+         Codex themes style syntax, accents and the colored status line;
+         composer borders and shimmer colors are not configurable here.
+         Omit the global background to retain the terminal background. -->
+    <key>settings</key>
+    <array>
+        <dict>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#cad6ff</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>codex.accent</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#7408ff</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>comment, punctuation.definition.comment</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#7171d3</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>string, punctuation.definition.string, markup.underline.link</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#7fc5df</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>keyword, storage, markup.heading, entity.name.section</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#8b9efd</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>support.type, support.class, support.variable, entity.name.type</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#9233dc</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>entity.name.function, support.function, entity.name.tag</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#5f95fa</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>constant, constant.numeric</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#7fb5ff</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>punctuation, keyword.operator</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#cad6ff</string>
+            </dict>
+        </dict>
+        <!-- Codex's bat-compatible encoding: alpha 00 selects the ANSI
+             index in the red byte; alpha 01 retains the terminal background.
+             Keep the semantic green/red from Claude's dark-ansi base. -->
+        <dict>
+            <key>scope</key>
+            <string>markup.inserted</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#02000000</string>
+                <key>background</key>
+                <string>#00000001</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>scope</key>
+            <string>markup.deleted, invalid</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#01000000</string>
+                <key>background</key>
+                <string>#00000001</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
