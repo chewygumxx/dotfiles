@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# vim:set expandtab shiftwidth=4 filetype=bash:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/bin/executable_claude-statusline-proxy
+#
+#
+
+#
+# Claude Code statusLine proxy
+#
+# Copies the statusLine payload to files under $XDG_RUNTIME_DIR for
+# dashboards and forwards it to the optional renderer named in the first
+# argument. Only the renderer writes to stdout.
+#
+#   sessions/<session_id>.json   latest payload of each session
+#   latest.json                 latest payload across all sessions, best effort
+#
+# Files are replaced atomically, so readers never see a partial write, but are
+# never cleaned up: a session's file outlives the session.
+#
+script_name="${BASH_SOURCE[0]##*/}"
+
+log() {
+    ((! DEBUG)) && ((STATUSLINE_PROXY_QUIET)) && return 0
+    local lvl="$1"
+    shift
+    printf '%s: [%s] %s\n' "$script_name" "$lvl" "$*" >&2
+}
+
+if [[ ! -v CLAUDECODE ]] && [[ ! -v CLAUDE_CODE_CHILD_SESSION ]]; then
+    log INFO "Running outside a Claude Code session"
+fi
+
+renderer="${1:-}"
+if [[ -n "$renderer" ]] && ! command -v -- "$renderer" >/dev/null 2>&1; then
+    log ERROR "Renderer not found: $renderer"
+    renderer=""
+fi
+
+render_statusline() {
+    if [[ -n "$renderer" ]]; then
+        "$renderer"
+    else
+        cat >/dev/null
+    fi
+}
+
+render_without_capture() {
+    log WARN "$*"
+    render_statusline
+    exit "$?"
+}
+
+if [[ ! -d "$XDG_RUNTIME_DIR" ]]; then
+    render_without_capture "No runtime directory: XDG_RUNTIME_DIR=\"$XDG_RUNTIME_DIR\""
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+    render_without_capture "jq not found"
+fi
+
+runtime_dir="$XDG_RUNTIME_DIR/$script_name"
+session_dir="$runtime_dir/sessions"
+mkdir -p -- "$session_dir" || render_without_capture "Could not create the capture directory"
+
+latest_temp="$(mktemp "$runtime_dir/.latest.XXXXXXXX")" || render_without_capture "Could not create the latest payload file"
+trap 'rm -f -- "$latest_temp" "${session_temp:-}"' EXIT
+session_temp="$(mktemp "$session_dir/.session.XXXXXXXX")" || render_without_capture "Could not create the session payload file"
+
+# Keep capturing when the renderer exits before reading the whole payload.
+tee -p "$latest_temp" "$session_temp" | render_statusline
+pipeline_status=("${PIPESTATUS[@]}")
+if (( pipeline_status[0] != 0 )); then
+    exit "${pipeline_status[1]}"
+fi
+
+if ! session_id="$(jq -ers 'select(length == 1) | .[0].session_id | strings' "$session_temp")" ||
+    [[ ! "$session_id" =~ ^[A-Za-z0-9._-]+$ ]]; then
+    log WARN "Payload has no valid session ID"
+    exit "${pipeline_status[1]}"
+fi
+
+mv -fT -- "$session_temp" "$session_dir/$session_id.json"
+mv -fT -- "$latest_temp" "$runtime_dir/latest.json"
+
+exit "${pipeline_status[1]}"
