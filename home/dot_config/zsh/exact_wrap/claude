@@ -27,13 +27,13 @@ setopt localoptions extended_glob
 local __this_file="${(D)${functions_source[${(%):-%N}]:-${(%):-%N}}}"
 
 __debug() {
-    ((CGXX_DEBUG)) && return
-    printf -u2 -f '%s: [%s] %s\n' -- "$__this_file" DEBUG "$*"
+    ((CGXX_DEBUG)) || return 0
+    builtin print -u2 -f '%s: [%s] %s\n' -- "$__this_file" DEBUG "$*"
 }
 
 __info() {
-    ((CGXX_QUIET)) && return
-    printf -u2 -f '%s: [%s] %s\n' -- "$__this_file" INFO "$*"
+    ((CGXX_QUIET)) && return 0
+    builtin print -u2 -f '%s: [%s] %s\n' -- "$__this_file" INFO "$*"
 }
 
 __info "-- Wrapper Function for Claude Code"
@@ -51,7 +51,7 @@ if [[ ! -d "$CLAUDE_CONFIG_DIR" ]]; then
     local code=0
     if command mkdir -p "$CLAUDE_CONFIG_DIR"; then :; else
         code="$?"
-        builtin printf -u2 -f '%s: [%s] %s:\n    %s\n' -- \
+        builtin print -u2 -f '%s: [%s] %s:\n    %s\n' -- \
             "$__this_file" FATAL \
             "Failed to both resolve and create CLAUDE_CONFIG_DIR:" \
             "$CLAUDE_CONFIG_DIR"
@@ -61,10 +61,7 @@ fi
 
 __debug "CLAUDE_CONFIG_DIR --> $CLAUDE_CONFIG_DIR"
 
-# TODO: Review the value in storing memory within claude project
-# directories dedicated to emphermal worktrees
-#
-# gh_<owner>_<repo>___<branch>, each part slugged, from the origin remote.
+# gh_<owner>_<repo>, each part slugged, from the origin remote.
 # Read from git rather than `gh repo view`, which is an API round-trip on
 # every launch, has no -C flag and no branch field. Left unset outside a
 # GitHub checkout, where it used to be exported empty. Empty counts as
@@ -75,12 +72,10 @@ if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" ]]; then
     local -x CLAUDE_CODE_PROJECT_DIR_NAME
     unset CLAUDE_CODE_PROJECT_DIR_NAME
 
-    local remote branch
+    local remote
     if remote="$(command git remote get-url origin 2> /dev/null)" &&
         [[ "$remote" == (#b)(*[@/])github.com[:/]([^/]##)/([^/]##) ]]; then
         local -a parts=("$match[2]" "${match[3]%.git}")
-        branch="$(command git branch --show-current 2> /dev/null)"
-        parts+=("${branch:-detached}")
 
         local part
         local -a slugs
@@ -90,7 +85,19 @@ if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" ]]; then
             slugs+=("${part:-untitled}")
         done
 
-        local name="gh_${slugs[1]}_${slugs[2]}___${slugs[3]}"
+        local name="gh_${slugs[1]}_${slugs[2]}"
+        # Keep existing branch history and memory accessible. New branches
+        # use the repository-wide directory without moving or merging data.
+        local branch="$(command git branch --show-current 2> /dev/null)"
+        branch="${branch:-detached}"
+        branch="${${(L)branch}//[^a-z0-9]##/-}"
+        branch="${${branch##-##}%%-##}"
+        local legacy_name="${name}___${branch:-untitled}"
+        legacy_name="${legacy_name[1,100]}"
+        if [[ -d "$CLAUDE_CONFIG_DIR/projects/$legacy_name" ]]; then
+            name="$legacy_name"
+        fi
+
         export CLAUDE_CODE_PROJECT_DIR_NAME="${name[1,100]}"
     fi
 fi
@@ -107,7 +114,7 @@ local -x USE_BUILTIN_RIPGREP=0
 if ! (($+commands[rg])); then
     local -x USE_BUILTIN_RIPGREP=1
 
-    builtin printf -u2 -f '%s: [%s] %s\n\n    %s\n\n%s\n' -- \
+    builtin print -u2 -f '%s: [%s] %s\n\n    %s\n\n%s\n' -- \
         "$__this_file" "ERROR" \
         "Essential utility not found:" "rg (ripgrep)" \
         "Falling back to builtin"
