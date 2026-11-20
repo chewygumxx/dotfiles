@@ -1,54 +1,13 @@
 # vim:set expandtab shiftwidth=4 filetype=toml:
 # SPDX-License-Identifier: GPL-3.0-only
-#:schema https://clawdipedia.cc/schemas/claude-code-settings.json
 
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_local/share/claude/settings/permissions-automode.toml
+# ::: :/home/dot_local/share/claude/settings/automode.toml
 #
 #
 
-
-useAutoModeDuringPlan             = true
-skipAutoPermissionPrompt          = true
-skipDangerousModePermissionPrompt = true
-
-[permissions]
-defaultMode            = "auto"
-# disableBypassPermissionsMode = "disable"
-denyInsteadOfPrompting = false
-
-blockReadsOutsideWorkingDirectories  = false
-blockWritesOutsideWorkingDirectories = false
-
-additionalDirectories = [ "~/dev/shared-config/" ]
-allow                 = [
-    "Bash(gh pr merge:*)",
-    "Bash(git push origin --delete:*)",
-    "Bash(git branch -D:*)",
-]
-deny                  = [
-    "Read(/etc/wireguard/**)",
-    "Read(~/.config/cloudflare-ddns/**)",
-    "Read(~/.config/gh/hosts.yml)",
-    "Read(~/.config/wireguard/**)",
-    "Read(~/.gnupug/**)",
-    "Read(~/.local/share/gnupg/**)",
-    "Read(~/.netrc)",
-    "Read(~/.ssh/**)",
-    "Read(~/doc/**)",
-    "Read(~/sec/**)",
-    "Bash(chmod -R 777*)",
-    "Bash(git fpush)",
-    "Bash(git push --force*)",
-    "Bash(gtrash force *)",
-    "Bash(gtrash rm *)",
-    "Bash(rm -rf /)",
-    "Bash(rm -rf ~)",
-    "Bash(rm -rf ~*)",
-    "Bash(rm -rf .)",
-]
 
 [autoMode]
 allow       = [
