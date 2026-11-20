@@ -36,18 +36,20 @@ environment = [
     "**Internal package registry**: None configured",
 
     """
-    **Sensitive data locations & audiences**: Share only with audiences cleared at the [named+specifics] bar
+    #### Sensitive Data and Audiences
 
-    - scripts/check-secrets.sh,
-    - scripts/check-secrets.test.ts,
-    - secrets.json,
-    - packages/core/src/secrets.ts,
-    - packages/core/src/secrets.test.ts,
-    - packages/eval/src/secrets.ts,
-    - docs/plans/2026-10-21-sops-secrets.md,
-    - docs/reports/2026-10-21-sops-secrets.md,
-    - docs/specs/2026-10-21-sops-secrets-design.md,
-    - and any .env*/*.env/keys.txt file
+    Share only with audiences cleared at the [named+specifics] bar
+
+    - `./scripts/check-secrets.sh`
+    - `./scripts/check-secrets.test.ts`
+    - `./secrets.json`
+    - `./packages/core/src/secrets.ts`
+    - `./packages/core/src/secrets.test.ts`
+    - `./packages/eval/src/secrets.ts`
+    - `./docs/plans/2026-10-21-sops-secrets.md`
+    - `./docs/reports/2026-10-21-sops-secrets.md`
+    - `./docs/specs/2026-10-21-sops-secrets-design.md`
+    - Any `.env*`, `*.env`, or `keys.txt`
     """,
 
     "**Data retention / declassification**: None configured",
