@@ -15,6 +15,7 @@
 # Copies the statusLine payload to files under $XDG_RUNTIME_DIR for
 # dashboards and forwards it to the optional renderer named in the first
 # argument. Only the renderer writes to stdout.
+# Claude Code displays that output only when the proxy exits with status 0.
 #
 #   sessions/<session_id>.json   latest payload of each session
 #   latest.json                 latest payload across all sessions, best effort
@@ -43,7 +44,7 @@ fi
 
 render_statusline() {
     if [[ -n "$renderer" ]]; then
-        "$renderer"
+        "$renderer" || log WARN "Renderer exited with status $?"
     else
         cat >/dev/null
     fi
@@ -52,7 +53,7 @@ render_statusline() {
 render_without_capture() {
     log WARN "$*"
     render_statusline
-    exit "$?"
+    exit 0
 }
 
 if [[ ! -d "$XDG_RUNTIME_DIR" ]]; then
@@ -73,18 +74,17 @@ session_temp="$(mktemp "$session_dir/.session.XXXXXXXX")" || render_without_capt
 
 # Keep capturing when the renderer exits before reading the whole payload.
 tee -p "$latest_temp" "$session_temp" | render_statusline
-pipeline_status=("${PIPESTATUS[@]}")
-if (( pipeline_status[0] != 0 )); then
-    exit "${pipeline_status[1]}"
+if (( PIPESTATUS[0] != 0 )); then
+    exit 0
 fi
 
 if ! session_id="$(jq -ers 'select(length == 1) | .[0].session_id | strings' "$session_temp")" ||
     [[ ! "$session_id" =~ ^[A-Za-z0-9._-]+$ ]]; then
     log WARN "Payload has no valid session ID"
-    exit "${pipeline_status[1]}"
+    exit 0
 fi
 
 mv -fT -- "$session_temp" "$session_dir/$session_id.json"
 mv -fT -- "$latest_temp" "$runtime_dir/latest.json"
 
-exit "${pipeline_status[1]}"
+exit 0
