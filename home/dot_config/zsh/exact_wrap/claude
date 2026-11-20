@@ -26,6 +26,18 @@ setopt localoptions extended_glob
 # function name, so :A resolved it against $PWD rather than fpath.
 local __this_file="${(D)${functions_source[${(%):-%N}]:-${(%):-%N}}}"
 
+__debug() {
+    ((CGXX_DEBUG)) && return
+    printf -u2 -f '%s: [%s] %s\n' -- "$__this_file" DEBUG "$*"
+}
+
+__info() {
+    ((CGXX_QUIET)) && return
+    printf -u2 -f '%s: [%s] %s\n' -- "$__this_file" INFO "$*"
+}
+
+__info "-- Wrapper Function for Claude Code"
+
 # ------------
 # Directories
 # ------------
@@ -40,13 +52,18 @@ if [[ ! -d "$CLAUDE_CONFIG_DIR" ]]; then
     if command mkdir -p "$CLAUDE_CONFIG_DIR"; then :; else
         code="$?"
         builtin printf -u2 -f '%s: [%s] %s:\n    %s\n' -- \
-            "$__this_file" "FATAL" \
+            "$__this_file" FATAL \
             "Failed to both resolve and create CLAUDE_CONFIG_DIR:" \
             "$CLAUDE_CONFIG_DIR"
         return "$code"
     fi
 fi
 
+__debug "CLAUDE_CONFIG_DIR --> $CLAUDE_CONFIG_DIR"
+
+# TODO: Review the value in storing memory within claude project
+# directories dedicated to emphermal worktrees
+#
 # gh_<owner>_<repo>___<branch>, each part slugged, from the origin remote.
 # Read from git rather than `gh repo view`, which is an API round-trip on
 # every launch, has no -C flag and no branch field. Left unset outside a
@@ -59,10 +76,10 @@ if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" ]]; then
     unset CLAUDE_CODE_PROJECT_DIR_NAME
 
     local remote branch
-    if remote="$(command git remote get-url origin 2>/dev/null)" \
-        && [[ "$remote" == (#b)(*[@/])github.com[:/]([^/]##)/([^/]##) ]]; then
+    if remote="$(command git remote get-url origin 2> /dev/null)" &&
+        [[ "$remote" == (#b)(*[@/])github.com[:/]([^/]##)/([^/]##) ]]; then
         local -a parts=("$match[2]" "${match[3]%.git}")
-        branch="$(command git branch --show-current 2>/dev/null)"
+        branch="$(command git branch --show-current 2> /dev/null)"
         parts+=("${branch:-detached}")
 
         local part
@@ -77,6 +94,8 @@ if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" ]]; then
         export CLAUDE_CODE_PROJECT_DIR_NAME="${name[1,100]}"
     fi
 fi
+
+__info "CLAUDE_CODE_PROJECT_DIR_NAME --> $CLAUDE_CODE_PROJECT_DIR_NAME"
 
 # ----------
 # Utilities
