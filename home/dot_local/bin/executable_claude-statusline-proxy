@@ -23,10 +23,10 @@
 # Files are replaced atomically, so readers never see a partial write, but are
 # never cleaned up: a session's file outlives the session.
 #
-script_name="${BASH_SOURCE[0]##*/}"
+script_name="claude-statusline-proxy"
 
 log() {
-    ((! DEBUG)) && ((STATUSLINE_PROXY_QUIET)) && return 0
+    [[ ${STATUSLINE_PROXY_DEBUG:-} != 1 && -n ${STATUSLINE_PROXY_QUIET:-} ]] && return 0
     local lvl="$1"
     shift
     printf '%s: [%s] %s\n' "$script_name" "$lvl" "$*" >&2
@@ -74,7 +74,7 @@ session_temp="$(mktemp "$session_dir/.session.XXXXXXXX")" || render_without_capt
 
 # Keep capturing when the renderer exits before reading the whole payload.
 tee -p "$latest_temp" "$session_temp" | render_statusline
-if (( PIPESTATUS[0] != 0 )); then
+if ((PIPESTATUS[0] != 0)); then
     exit 0
 fi
 
