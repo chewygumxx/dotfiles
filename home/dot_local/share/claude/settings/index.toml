@@ -53,6 +53,8 @@ enableWorkflows       = false
 disableWorkflows      = true
 workflowSizeGuideline = "medium"
 
+disableAgentView = true
+
 fastMode                = false
 fastModePerSessionOptIn = true
 

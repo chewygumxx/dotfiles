@@ -33,6 +33,7 @@ wheelScrollAccelerationEnabled = true
 
 verbose                    = false
 feedbackDrafts             = "off"
+dialogExpiry               = "never"
 feedbackSurveyRate         = 0
 preferredNotifChannel      = "terminal_bell"
 prefersReducedMotion       = false

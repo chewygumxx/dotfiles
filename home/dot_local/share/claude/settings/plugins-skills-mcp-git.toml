@@ -34,6 +34,7 @@ additionalMarketplaces = {}
 syncClaudeAiPlugins       = false
 disableRemoteControl      = true
 disableClaudeAiConnectors = true
+enableArtifact            = false
 
 # ----
 # MCP
