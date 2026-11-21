@@ -68,13 +68,17 @@ runtime_dir="$XDG_RUNTIME_DIR/$script_name"
 session_dir="$runtime_dir/sessions"
 mkdir -p -- "$session_dir" || render_without_capture "Could not create the capture directory"
 
-latest_temp="$(mktemp "$runtime_dir/.latest.XXXXXXXX")" || render_without_capture "Could not create the latest payload file"
-trap 'rm -f -- "$latest_temp" "${session_temp:-}"' EXIT
-session_temp="$(mktemp "$session_dir/.session.XXXXXXXX")" || render_without_capture "Could not create the session payload file"
+# The runtime directory is private to the user, so PID-named temp files are
+# safe and avoid forking mktemp on every refresh.
+umask 077
+latest_temp="$runtime_dir/.latest.$$"
+session_temp="$session_dir/.session.$$"
+trap 'rm -f -- "$latest_temp" "$session_temp"' EXIT
 
 # Keep capturing when the renderer exits before reading the whole payload.
 tee -p "$latest_temp" "$session_temp" | render_statusline
 if ((PIPESTATUS[0] != 0)); then
+    log WARN "Could not capture the payload"
     exit 0
 fi
 
@@ -84,7 +88,16 @@ if ! session_id="$(jq -ers 'select(length == 1) | .[0].session_id | strings' "$s
     exit 0
 fi
 
-mv -fT -- "$session_temp" "$session_dir/$session_id.json"
-mv -fT -- "$latest_temp" "$runtime_dir/latest.json"
+saved=1
+if ! mv -fT -- "$session_temp" "$session_dir/$session_id.json"; then
+    log WARN "Could not save the session payload"
+    saved=0
+fi
+if ! mv -fT -- "$latest_temp" "$runtime_dir/latest.json"; then
+    log WARN "Could not save the latest payload"
+    saved=0
+fi
 
+# Both temp files are renamed, so skip forking rm in the trap.
+((saved)) && trap - EXIT
 exit 0
