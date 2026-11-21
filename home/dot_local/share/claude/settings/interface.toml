@@ -44,6 +44,9 @@ leftArrowOpensAgents   = false
 emojiCompletionEnabled = false
 footerLinksRegexes     = []
 
+# Ensure shell output conforms to what I actually intend before prompt
+respondToBashCommands = false
+
 # https://clawdipedia.cc/configure/status-line#settings
 # Run through a shell. The proxy's path is where chezmoi deploys it, not
 # PATH; it captures the payload and hands it to ccstatusline (a mise npm
