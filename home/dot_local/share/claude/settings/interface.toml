@@ -22,7 +22,7 @@ maxProseWidth = 100
 
 difftool              = "terminal"
 editorMode            = "vim"
-autoScrollEnabled     = false
+autoScrollEnabled     = true
 vimInsertModeRemaps   = {}
 externalEditorContext = true
 
@@ -45,9 +45,12 @@ emojiCompletionEnabled = false
 footerLinksRegexes     = []
 
 # https://clawdipedia.cc/configure/status-line#settings
+# Run through a shell. The proxy's path is where chezmoi deploys it, not
+# PATH; it captures the payload and hands it to ccstatusline (a mise npm
+# tool, found through its shim when the mise install dirs aren't on PATH).
 [statusLine]
 type                 = "command"
-command              = "claude-statusline-proxy"
+command              = '"$HOME/.local/share/claude/bin/claude-statusline-proxy" ccstatusline'
 padding              = 0
 refreshInterval      = 10
 hideVimModeIndicator = true
