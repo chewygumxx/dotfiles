@@ -1,0 +1,196 @@
+#!/usr/bin/env zsh
+# vim:set expandtab shiftwidth=4 filetype=zsh:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/share/claude/bin/executable_claude
+#
+#
+
+#
+# Shadow wrapper script as configuration
+#
+# Linked from ~/.local/bin/claude, which PATH puts ahead of the real
+# executable, so every caller gets it, not only interactive zsh.
+#
+# `claude doctor`
+# https://code.claude.com/docs/en/settings
+# https://code.claude.com/docs/en/cli-reference
+#
+
+emulate zsh
+setopt extended_glob
+
+# Resolved through the ~/.local/bin symlink to this file.
+__this_file="${0:A}"
+
+__debug() {
+    ((CGXX_DEBUG)) || return 0
+    builtin print -u2 -f '%s: [%s] %s\n' -- "${(D)__this_file}" DEBUG "$*"
+}
+
+__info() {
+    ((CGXX_QUIET)) && return 0
+    builtin print -u2 -f '%s: [%s] %s\n' -- "${(D)__this_file}" INFO "$*"
+}
+
+__info "-- Wrapper Script for Claude Code"
+
+# Firefox tabs and this are not a vibe
+export CLAUDE_CODE_DISABLE_BG_SHELL_PRESSURE_REAP=1
+
+# Feature flags are useful for a great many things
+# Feature flags also treat pasted content differently (herdr agent prompt)
+export CLAUDE_CODE_DISABLE_FEATURE_FLAGS=1
+
+# Gimme gimme gimme some time, it's past midniiighht
+export CLAUDE_CODE_USER_DIALOG_TIMEOUT_MS=0
+
+#export CLAUDE_CODE_DISABLE_AUTO_MEMORY
+#export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS
+# I never use these
+export CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION="false"
+export CLAUDE_CODE_DISABLE_OFFICIAL_MARKETPLACE_AUTOINSTALL=1
+export CLAUDE_CODE_DISABLE_TERMINAL_TITLE=1
+export CLAUDE_CODE_DISABLE_GIT_INSTRUCTIONS=1 # Anathema
+export CLAUDE_CODE_DISABLE_FILE_MENTIONS=1
+export CLAUDE_CODE_DISABLE_AGENT_VIEW=1
+export CLAUDE_CODE_DISABLE_ARTIFACT=1
+export CLAUDE_CODE_DISABLE_ATTACHMENTS=1
+export CLAUDE_CODE_DISABLE_AUTH_REFRESH_LOCK=1
+export CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=0
+export CLAUDE_CODE_DISABLE_CFC_PROMPT=1
+export CLAUDE_CODE_DISABLE_CRON=1
+export CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT=1
+export CLAUDE_CODE_DISABLE_DEFERRED_TOOL_RESUME=1
+export CLAUDE_CODE_DISABLE_FAST_MODE=1
+export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1
+export CLAUDE_CODE_SEND_FEEDBACK=1
+
+export DISABLE_INSTALL_GITHUB_APP_COMMAND=1
+export CLAUDE_CODE_WEBFETCH_CACHE_TTL_MS="86400000"
+
+export CLAUDE_REMOTE_CONTROL_SESSION_NAME_PREFIX="chewytop"
+export CLAUDE_CODE_TMPDIR="/tmp/agents"
+
+export DISABLE_AUTO_COMPACT=1
+export DISABLE_AUTOUPDATER=0
+export DISABLE_COST_WARNINGS=1
+export DISABLE_EXTRA_USAGE_COMMAND=1
+
+# Set by Claude in processes they create
+# Don't set it here lmao
+#export CLAUDE_CODE_SESSION_ID
+
+# Likely useful for specialised application
+#export CLAUDE_CODE_FORK_SUBAGENT=0
+#export CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=1
+#export CLAUDE_ENV_FILE
+# ------------
+# Directories
+# ------------
+
+# Not exported: only the default below needs it.
+: "${XDG_DATA_HOME:=$HOME/.local/share}"
+export CLAUDE_CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$XDG_DATA_HOME/claude}"
+
+if [[ ! -d "$CLAUDE_CONFIG_DIR" ]]; then
+    code=0
+    if command mkdir -p "$CLAUDE_CONFIG_DIR"; then :; else
+        code="$?"
+        builtin print -u2 -f '%s: [%s] %s:\n    %s\n' -- \
+            "${(D)__this_file}" FATAL \
+            "Failed to both resolve and create CLAUDE_CONFIG_DIR:" \
+            "$CLAUDE_CONFIG_DIR"
+        exit "$code"
+    fi
+fi
+
+__debug "CLAUDE_CONFIG_DIR --> $CLAUDE_CONFIG_DIR"
+
+# gh_<owner>_<repo>, each part slugged, from the origin remote.
+# Read from git rather than `gh repo view`, which is an API round-trip on
+# every launch, has no -C flag and no branch field. Left unset outside a
+# GitHub checkout, where it used to be exported empty. Empty counts as
+# unset, so a value inherited empty from an older run is recomputed.
+if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" ]]; then
+    # Unset, so an inherited empty value is not passed on when nothing is
+    # computed below.
+    unset CLAUDE_CODE_PROJECT_DIR_NAME
+
+    if remote="$(command git remote get-url origin 2> /dev/null)" &&
+        [[ "$remote" == (#b)(*[@/])github.com[:/]([^/]##)/([^/]##) ]]; then
+        parts=("$match[2]" "${match[3]%.git}")
+
+        slugs=()
+        for part in "$parts[@]"; do
+            part="${${(L)part}//[^a-z0-9]##/-}"
+            part="${${part##-##}%%-##}"
+            slugs+=("${part:-untitled}")
+        done
+
+        name="gh_${slugs[1]}_${slugs[2]}"
+        # Keep existing branch history and memory accessible. New branches
+        # use the repository-wide directory without moving or merging data.
+        branch="$(command git branch --show-current 2> /dev/null)"
+        branch="${branch:-detached}"
+        branch="${${(L)branch}//[^a-z0-9]##/-}"
+        branch="${${branch##-##}%%-##}"
+        legacy_name="${name}___${branch:-untitled}"
+        legacy_name="${legacy_name[1,100]}"
+        if [[ -d "$CLAUDE_CONFIG_DIR/projects/$legacy_name" ]]; then
+            name="$legacy_name"
+        fi
+
+        export CLAUDE_CODE_PROJECT_DIR_NAME="${name[1,100]}"
+    fi
+fi
+
+__info "CLAUDE_CODE_PROJECT_DIR_NAME --> $CLAUDE_CODE_PROJECT_DIR_NAME"
+
+# ----------
+# Utilities
+# ----------
+
+export USE_BUILTIN_RIPGREP=0
+
+# Always utilise locally installed ripgrep
+if ! (($+commands[rg])); then
+    export USE_BUILTIN_RIPGREP=1
+
+    builtin print -u2 -f '%s: [%s] %s\n\n    %s\n\n%s\n' -- \
+        "${(D)__this_file}" "ERROR" \
+        "Essential utility not found:" "rg (ripgrep)" \
+        "Falling back to builtin"
+fi
+
+# ----------
+# Telemetry
+# ----------
+
+export DO_NOT_TRACK=1
+export DISABLE_TELEMETRY=1
+export DISABLE_GROWTHBOOK=1
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+
+# --------
+# Execute
+# --------
+
+# First `claude` in PATH that is not this file, compared by resolved path,
+# so the ~/.local/bin symlink and any other spelling of it are skipped.
+real=
+for candidate in ${(f)"$(whence -ap -- claude)"}; do
+    [[ "${candidate:A}" == "$__this_file" ]] && continue
+    real="$candidate"
+    break
+done
+if [[ -z "$real" ]]; then
+    builtin print -u2 -f '%s: [%s] %s\n' -- \
+        "${(D)__this_file}" FATAL "Shadowed command not found: claude"
+    exit 127
+fi
+
+exec "$real" "$@"
