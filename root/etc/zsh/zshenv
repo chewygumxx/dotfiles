@@ -21,7 +21,7 @@
 : "${XDG_STATE_HOME:="$HOME/.local/state"}"
 : "${XDG_CACHE_HOME:="$HOME/.cache"}"
 : "${XDG_CONFIG_HOME:="$HOME/.config"}"
-: "${XDG_RUNTIME_DIR:="/run/user/$(id -u)"}"
+: "${XDG_RUNTIME_DIR:="/run/user/$UID"}"
 
 export XDG_{DATA,STATE,CACHE,CONFIG}_HOME XDG_RUNTIME_DIR
 
