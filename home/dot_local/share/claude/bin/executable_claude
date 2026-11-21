@@ -115,8 +115,12 @@ __debug "CLAUDE_CONFIG_DIR --> $CLAUDE_CONFIG_DIR"
 # every launch, has no -C flag and no branch field. Left unset outside a
 # GitHub checkout, where it used to be exported empty. Empty counts as
 # unset, so a value inherited empty from an older run is recomputed.
-if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" ]]; then
-    # Unset, so an inherited empty value is not passed on when nothing is
+# Inside a session (CLAUDE_CODE_SESSION_ID is set by Claude Code in the
+# processes it starts) the value is the parent session's, so it is
+# recomputed too: a `claude` run in another checkout would otherwise file
+# its history under the parent's project. Set by hand, it still wins.
+if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" || -n "${CLAUDE_CODE_SESSION_ID:-}" ]]; then
+    # Unset, so an inherited value is not passed on when nothing is
     # computed below.
     unset CLAUDE_CODE_PROJECT_DIR_NAME
 
