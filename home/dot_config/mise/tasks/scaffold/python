@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-only
 #MISE
 #MISE  description="Add Python, uv and test tasks to the current project"
-#MISE  interactive=#true
+#MISE  interactive=true
 #MISE  dir="{{ cwd }}"
 #MISE
 #USAGE arg "[version]"
