@@ -1,0 +1,42 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_local/share/claude/settings/model.toml
+#
+#
+
+
+model          = "opus"
+outputStyle    = "default"
+effortLevel    = "high"
+maxEffortLevel = "xhigh"
+
+
+# Requires feature-flags
+advisorModel  = "claude-opus-5-5"
+fallbackModel = [
+    "claude-sonnet-5-5",
+    "claude-sonnet-5",
+]
+
+enforceAvailableModels = false
+availableModels        = [
+    "wintermute",
+    "mythos",
+    "fable",
+    "opus",
+    "sonnet",
+    "haiku",
+]
+
+fastMode                = false
+fastModePerSessionOptIn = true
+alwaysThinkingEnabled   = true
+switchModelsOnFlag      = false
+
+[modelSettings]
+claude-opus-5-5   = { effortLevel = "high", maxEffortLevel = "xhigh" }
+claude-sonnet-5-5 = { effortLevel = "high", maxEffortLevel = "high" }

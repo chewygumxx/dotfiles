@@ -29,7 +29,10 @@ disableSkillShellExecution = true
 # Plugins
 # --------
 
-additionalMarketplaces = {}
+# Despite oficial documentation declaring support, `additionalMarketplaces` is
+# transpiled following `claude` parse.
+# additionalMarketplaces = {}
+extraKnownMarketplaces = {}
 
 syncClaudeAiPlugins       = false
 disableRemoteControl      = true

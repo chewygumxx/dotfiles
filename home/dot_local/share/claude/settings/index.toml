@@ -17,32 +17,8 @@
 # https://code.claude.com/docs/en/settings
 #
 
-model          = "opus"
-effortLevel    = "high"
-maxEffortLevel = "xhigh"
-outputStyle    = "default"
-
 cleanupPeriodDays = 3650
 
-# Requires feature-flags
-advisorModel  = "claude-opus-5-5"
-fallbackModel = [
-    "claude-sonnet-5-5",
-    "claude-sonnet-5",
-]
-
-enforceAvailableModels = false
-availableModels        = [
-    "wintermute",
-    "mythos",
-    "fable",
-    "opus",
-    "sonnet",
-    "haiku",
-]
-
-switchModelsOnFlag           = false
-alwaysThinkingEnabled        = true
 showThinkingSummaries        = true
 showClearContextOnPlanAccept = true
 
@@ -55,8 +31,6 @@ workflowSizeGuideline = "medium"
 
 disableAgentView = true
 
-fastMode                = false
-fastModePerSessionOptIn = true
 
 # Query api.anthropic.com blocklist. Prompt injection safety.
 skipWebFetchPreflight = false
