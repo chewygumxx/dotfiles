@@ -69,13 +69,15 @@ __debug "CLAUDE_CONFIG_DIR --> $CLAUDE_CONFIG_DIR"
 # every launch, has no -C flag and no branch field. Left unset outside a
 # GitHub checkout, where it used to be exported empty. Empty counts as
 # unset, so a value inherited empty from an older run is recomputed.
-# Inside a session (CLAUDE_CODE_SESSION_ID is set by Claude Code in the
-# processes it starts) the value is the parent session's, so it is
-# recomputed too: a `claude` run in another checkout would otherwise file
-# its history under the parent's project. Set by hand, it still wins.
-if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" || -n "${CLAUDE_CODE_SESSION_ID:-}" ]]; then
-    # Unset, so an inherited value is not passed on when nothing is
-    # computed below.
+# Track the computed name so a nested launch can recompute it for another
+# checkout while preserving an explicit override.
+if [[ "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" != "${__CGXX_CLAUDE_AUTO_PROJECT_DIR_NAME:-}" ]]; then
+    unset __CGXX_CLAUDE_AUTO_PROJECT_DIR_NAME
+elif [[ -n "${CLAUDE_CODE_SESSION_ID:-}" ]]; then
+    unset CLAUDE_CODE_PROJECT_DIR_NAME __CGXX_CLAUDE_AUTO_PROJECT_DIR_NAME
+fi
+
+if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" ]]; then
     unset CLAUDE_CODE_PROJECT_DIR_NAME
 
     if remote="$(command git remote get-url origin 2> /dev/null)" &&
@@ -103,6 +105,7 @@ if [[ -z "${CLAUDE_CODE_PROJECT_DIR_NAME:-}" || -n "${CLAUDE_CODE_SESSION_ID:-}"
         fi
 
         export CLAUDE_CODE_PROJECT_DIR_NAME="${name[1,100]}"
+        export __CGXX_CLAUDE_AUTO_PROJECT_DIR_NAME="$CLAUDE_CODE_PROJECT_DIR_NAME"
     fi
 fi
 
