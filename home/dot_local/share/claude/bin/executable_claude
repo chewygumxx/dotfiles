@@ -36,7 +36,7 @@ __debug() { ((CGXX_DEBUG)) && __log DEBUG "$@"; }
 __info()  { ((CGXX_VERBOSE)) && __log INFO "$@"; }
 __error() { __log ERROR "$@"; }
 __fatal() {
-    code=1
+    local code=1
     if [[ "$1" == -<-> ]]; then # First arg is -<exit-code>
         code="${1#-}"
         shift
@@ -58,11 +58,8 @@ export CLAUDE_CODE_DISABLE_DEFERRED_TOOL_RESUME=1
 export CLAUDE_CONFIG_DIR="${CLAUDE_CONFIG_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/claude}"
 
 if [[ ! -d "$CLAUDE_CONFIG_DIR" ]]; then
-    code=0
-    out="$(command mkdir -p "$CLAUDE_CONFIG_DIR")" ||
-        fatal "-$?" "Failed to both resolve and create" \
-            "CLAUDE_CONFIG_DIR at '$CLAUDE_CONFIG_DIR'" \
-            $'\n   ' "$out"
+    command mkdir -p -- "$CLAUDE_CONFIG_DIR" ||
+        __fatal "-$?" "Failed to create CLAUDE_CONFIG_DIR at '$CLAUDE_CONFIG_DIR'"
 fi
 
 __debug "CLAUDE_CONFIG_DIR --> $CLAUDE_CONFIG_DIR"
@@ -137,8 +134,8 @@ fi
 real=""
 for candidate in ${(f)"$(whence -ap -- claude)"}; do
     [[ "${candidate:A}" == "$__this_file" ]] && continue
-    [[ "${candidate:A}" == */mise/shims/claude ]] && continue
-    [[ "${candidate:A}" == */mise/command-wrappers/bin/claude ]] && continue
+    # Keep the entry's path because mise links both kinds of launcher to itself.
+    [[ "${candidate:a}" == */mise/(shims|command-wrappers/bin)/claude ]] && continue
 
     real="$candidate"
     break
