@@ -10,7 +10,7 @@
 #
 
 #
-# Shadow wrapper script as configuration
+# Shadow wrapper as configuration
 #
 # Linked from ~/.local/bin/claude, which PATH puts ahead of the real
 # executable, so every caller gets it, not only interactive zsh.
@@ -26,56 +26,43 @@ setopt extended_glob
 # Resolved through the ~/.local/bin symlink to this file.
 __this_file="${0:A}"
 
-__debug() {
-    ((CGXX_DEBUG)) || return 0
-    builtin print -u2 -f '%s: [%s] %s\n' -- "${(D)__this_file}" DEBUG "$*"
+__log() {
+    local lvl="$1" && shift
+    builtin print -u2 -f '%s: [%s] %s\n' -- \
+        "${(D)__this_file}" "$lvl" "$*"
 }
 
-__info() {
-    ((CGXX_QUIET)) && return 0
-    builtin print -u2 -f '%s: [%s] %s\n' -- "${(D)__this_file}" INFO "$*"
+__debug() { ((CGXX_DEBUG)) && __log DEBUG "$@"; }
+__info()  { ((CGXX_VERBOSE)) && __log INFO "$@"; }
+__error() { __log ERROR "$@"; }
+__fatal() {
+    code=1
+    if [[ "$1" == -<-> ]]; then # First arg is -<exit-code>
+        code="${1#-}"
+        shift
+    fi
+    __log FATAL "($code)" "$@"
+    exit "$code"
 }
 
 __info "-- Wrapper Script for Claude Code"
 
-# Most configuration is in settings.json (settings/*.toml in the source),
-# whose `env` table also reaches children Claude Code launches from its own
-# executable, bypassing this wrapper. Only what Claude Code reads solely from
-# the launch environment is set here.
-
-# Ignored in a settings `env` block.
+# Ignored within claude settings.json `env` block. Must set here:
 export CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT=1
 export CLAUDE_CODE_DISABLE_DEFERRED_TOOL_RESUME=1
 
-#export CLAUDE_CODE_DISABLE_AUTO_MEMORY
-#export CLAUDE_CODE_DISABLE_BACKGROUND_TASKS
-
-# Set by Claude in processes they create
-# Don't set it here lmao
-#export CLAUDE_CODE_SESSION_ID
-
-# Likely useful for specialised application
-#export CLAUDE_CODE_FORK_SUBAGENT=0
-#export CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=1
-#export CLAUDE_ENV_FILE
 # ------------
 # Directories
 # ------------
 
-# Not exported: only the default below needs it.
-: "${XDG_DATA_HOME:=$HOME/.local/share}"
-export CLAUDE_CONFIG_DIR="${CLAUDE_CONFIG_DIR:-$XDG_DATA_HOME/claude}"
+export CLAUDE_CONFIG_DIR="${CLAUDE_CONFIG_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/claude}"
 
 if [[ ! -d "$CLAUDE_CONFIG_DIR" ]]; then
     code=0
-    if command mkdir -p "$CLAUDE_CONFIG_DIR"; then :; else
-        code="$?"
-        builtin print -u2 -f '%s: [%s] %s:\n    %s\n' -- \
-            "${(D)__this_file}" FATAL \
-            "Failed to both resolve and create CLAUDE_CONFIG_DIR:" \
-            "$CLAUDE_CONFIG_DIR"
-        exit "$code"
-    fi
+    out="$(command mkdir -p "$CLAUDE_CONFIG_DIR")" ||
+        fatal "-$?" "Failed to both resolve and create" \
+            "CLAUDE_CONFIG_DIR at '$CLAUDE_CONFIG_DIR'" \
+            $'\n   ' "$out"
 fi
 
 __debug "CLAUDE_CONFIG_DIR --> $CLAUDE_CONFIG_DIR"
@@ -128,34 +115,34 @@ __info "CLAUDE_CODE_PROJECT_DIR_NAME --> $CLAUDE_CODE_PROJECT_DIR_NAME"
 # Utilities
 # ----------
 
+# Always utilise locally installed ripgrep...
 export USE_BUILTIN_RIPGREP=0
 
-# Always utilise locally installed ripgrep
+# ...unless missing
 if ! (($+commands[rg])); then
-    export USE_BUILTIN_RIPGREP=1
+    __error "Essential utility not found: rg (ripgrep)" \
+        $'\n    Falling back to builtin'
 
-    builtin print -u2 -f '%s: [%s] %s\n\n    %s\n\n%s\n' -- \
-        "${(D)__this_file}" "ERROR" \
-        "Essential utility not found:" "rg (ripgrep)" \
-        "Falling back to builtin"
+    export USE_BUILTIN_RIPGREP=1
 fi
 
 # --------
 # Execute
 # --------
 
-# First `claude` in PATH that is not this file, compared by resolved path,
-# so the ~/.local/bin symlink and any other spelling of it are skipped.
-real=
+# [Recursion Guard]
+# First `claude` in PATH that is not:
+# - This file, or symlink to this file
+# - A mise shim or wrapper, assumed to call this file
+real=""
 for candidate in ${(f)"$(whence -ap -- claude)"}; do
     [[ "${candidate:A}" == "$__this_file" ]] && continue
+    [[ "${candidate:A}" == */mise/shims/claude ]] && continue
+    [[ "${candidate:A}" == */mise/command-wrappers/bin/claude ]] && continue
+
     real="$candidate"
     break
 done
-if [[ -z "$real" ]]; then
-    builtin print -u2 -f '%s: [%s] %s\n' -- \
-        "${(D)__this_file}" FATAL "Shadowed command not found: claude"
-    exit 127
-fi
+[[ -z "$real" ]] && __fatal -127 "Shadowed command not found: claude"
 
 exec "$real" "$@"
