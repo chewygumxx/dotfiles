@@ -149,11 +149,6 @@ name  = "CARGO_HOME"
 value = "${XDG_DATA_HOME}/cargo"
 
 [[environment.variables]]
-name    = "CLAUDE_CONFIG_DIR"
-value   = "${XDG_DATA_HOME}/claude"
-comment = "Herdr also requires this."
-
-[[environment.variables]]
 name    = "CODEX_HOME"
 value   = "${XDG_DATA_HOME}/codex"
 comment = "Codex keeps config, credentials and state in one root."
