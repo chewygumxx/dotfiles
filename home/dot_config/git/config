@@ -36,9 +36,9 @@
 [diff "json"]
 	textconv = json-normalize
 
-# ------------------
-# Remote-Repository
-# ------------------
+# -------
+# Remote
+# -------
 
 [remote]
     # No more `git push --set-upstream=origin`
@@ -60,20 +60,27 @@
 # --------
 
 [alias]
-    root  = rev-parse --show-toplevel
-    cdr   = '!cd "$(git rev-parse --show-toplevel)"'
-
+    # Working Tree
     s     = status
     cm    = commit -m
     sdiff = diff --staged
     srest = restore --staged --
 
+    # Commit History/Log
+    # '%a %d %b %H:%M' -> Mon 05 Oct 21:44
     l    = log --date=format-local:'%a %d %b %H:%M' -1
     ll   = log --date=format-local:'%a %d %b %H:%M'
     lll  = log --date=format-local:'%a %d %b %H:%M' --pretty=logline -10
     llll = log --date=format-local:'%a %d %b %H:%M' --pretty=logline
 
+    # Circumvent Safety
     fpush = push --force
+    ftag  = tag  --force
+    fcm   = commit --no-verify -m
+
+    # Repository Root
+    root  = rev-parse --show-toplevel
+    cdr   = '!cd "$(git rev-parse --show-toplevel)"' # FIX(@chewygumxx): There is an obvious solution I am not seeing
 
 # -------
 # Output

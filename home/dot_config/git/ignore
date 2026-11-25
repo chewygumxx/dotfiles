@@ -10,22 +10,37 @@
 
 # General
 .env*
+!.env.example
+
+*.local/
+*.local
 *.local.*
 
-# Shell
-.rumdl_cache/
+*.cache/
 
-# JS/TSX
-node_modules/
 
 # Rust
 target/
 
-#Herdr
+# --------
+# DevTool
+# --------
+
+# JS/TSX
+node_modules/
+
+# Shell
+.rumdl_cache/
+
+# Herdr
 .herdr/
 
-# Claude
-*claude.json
+# ------
+# Agent
+# ------
+
 .claude/worktrees/
+*claude.json
+
 .remember/
 .superpowers/
