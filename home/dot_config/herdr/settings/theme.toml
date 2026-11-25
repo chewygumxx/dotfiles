@@ -4,13 +4,10 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/herdr/.chezmoitemplates/theme.toml.tmpl
+# ::: :/home/dot_config/herdr/settings/theme.toml
 #
 #
 
-#
-# Fragment intended for insertion within chezmoi-populated herdr
-# config.toml.tmpl masterdoc
 #
 # https://herdr.dev/tui/docs/configuration/#theme
 # https://herdr.dev/tui/docs/config-reference/#ref-theme

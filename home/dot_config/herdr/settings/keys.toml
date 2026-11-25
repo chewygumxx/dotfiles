@@ -4,13 +4,10 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/herdr/.chezmoitemplates/keys.toml.tmpl
+# ::: :/home/dot_config/herdr/settings/keys.toml
 #
 #
 
-#
-# Fragment intended for insertion within chezmoi-populated herdr
-# config.toml.tmpl masterdoc.
 #
 # https://herdr.dev/tui/docs/keyboard/
 # https://herdr.dev/tui/docs/configuration/#keybindings
@@ -204,9 +201,46 @@ open_notification_target = "ctrl+alt+enter"        # Pending #1379
 #
 # Native worktree interface constrains worktrees to a unified directory
 # of layered repository and worktree scoping. Herdr dialog fails to trigger
-# worktrunk hooks (See worktrunk.* of keys_cmd).
+# worktrunk hooks (see the custom commands below).
 #
 # Disabled entirely for integration with external utility 'worktrunk'.
 new_worktree    = ""
 open_worktree   = ""
 remove_worktree = ""
+
+#
+# Custom commands use the same binding syntax.
+# type = "shell"  - Forked execution
+# type = "pane"   - Ephemeral view until exit
+# type = "popup"  - Modal view separate from tab layout
+# Popup width and height accept terminal cells or percentages such as "80%".
+#
+# [[keys.command]]
+# key     = "prefix+alt+g"
+# command = "lazygit"
+# type    = "popup"
+# width   = "80%"
+# height  = "80%"
+#
+
+# ---------------------
+# Integrate: Worktrunk
+# ---------------------
+
+[[keys.command]]
+key         = "prefix+shift+g"
+description = "Switch to or create a worktree"
+type        = "plugin_action"
+command     = "worktrunk.open"
+
+[[keys.command]]
+key         = "prefix+alt+g"
+description = "Remove a worktree"
+type        = "plugin_action"
+command     = "worktrunk.remove"
+
+[[keys.command]]
+key         = "prefix+alt+m"
+description = "Merge a worktree into its target"
+type        = "plugin_action"
+command     = "worktrunk.merge"

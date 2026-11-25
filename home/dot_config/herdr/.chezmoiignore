@@ -16,6 +16,9 @@
 # The files that I would like managed:
 # - config.toml
 
+# Source for config.toml, rendered by config.toml.tmpl
+settings/
+
 # Unfortunately, the following include absolute filepaths. Plugins may demand
 # iterative management rather than declarative specification.
 #

@@ -4,15 +4,10 @@
 #
 #
 # ~chewygumxx/dotfiles.git
-# ::: :/home/dot_config/herdr/.chezmoitemplates/general-START.toml.tmpl
+# ::: :/home/dot_config/herdr/settings/general.toml
 #
 #
 
-#
-# Fragment intended for insertion within chezmoi-populated herdr
-# config.toml.tmpl masterdoc.
-#
-# Inserted first due to presense of root level TOML keys
 #
 # https://herdr.dev/tui/docs/configuration/
 # https://herdr.dev/tui/docs/config-reference/
@@ -43,7 +38,7 @@ onboarding = false
 # https://herdr.dev/tui/docs/integrations/#how-herdr-uses-integrations
 # https://herdr.dev/tui/docs/session-state/#native-agent-session-restore
 [session]
-resume_agents_on_restore = true
+resume_agents_on_restore   = true
 startup_per_agent_delay_ms = 100
 
 # <GEN> Worktree Directory
@@ -74,9 +69,9 @@ manage_ssh_config = false
 # TODO: Summarise this
 #
 [update]
-channel = "stable"
-version_check = true
-manifest_check = true  # https://herdr.dev/tui/docs/agents/#detection-manifests
+channel        = "stable"
+version_check  = true
+manifest_check = true      # https://herdr.dev/tui/docs/agents/#detection-manifests
 
 # ---------------
 # <TRM> Terminal
@@ -153,6 +148,6 @@ pane_history = true
 # input-method candidate windows from following the focused pane.
 #
 # https://herdr.dev/tui/docs/configuration/#ime-cursor-tracking
-#cjk_ime_agents = []
-#cjk_ime_cursor_shape = "steady_block"
-#reveal_hidden_cursor_for_cjk_ime = false
+# cjk_ime_agents = []
+# cjk_ime_cursor_shape = "steady_block"
+# reveal_hidden_cursor_for_cjk_ime = false
