@@ -14,10 +14,13 @@
 # https://mise.jdx.dev/configuration.html
 #
 
+[tool_alias]
+sh    = "aqua:mvdan/sh"
+tombi = "aqua:tombi-toml/tombi"
+
 [tools]
-"aqua:mvdan/sh"         = "3.14.1"
-"aqua:tombi-toml/tombi" = "latest"
-bun                     = "latest"
-node                    = "24"
-"npm:ccstatusline"      = "latest"
-usage                   = "latest"
+bun   = "latest"
+node  = "latest"
+usage = "latest"
+sh    = "latest"
+tombi = "latest"
