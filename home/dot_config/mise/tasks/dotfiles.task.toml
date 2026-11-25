@@ -1,0 +1,12 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/mise/tasks/dotfiles.task.toml
+#
+#
+
+["dotfiles:chezmoi:apply"]
+run = ""
