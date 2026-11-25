@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# vim:set expandtab shiftwidth=4 filetype=bash:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/mise/tasks/mise/reg/gh
+#
+#
+
+#MISE description="Query the mise registry with a shortname for a GitHub repo slug"
+#MISE tools.jq="1.8"
+
+#USAGE arg "<short>" help="Registry short name"
+#USAGE complete "short" run="mise registry --complete"
+
+set -euo pipefail
+
+mise registry --json "${usage_short:?}" |
+    jq -er '
+        .backends[] |
+        capture("^(aqua|github|packslip):(?<slug>[a-z/]+)") |
+        .slug
+    '

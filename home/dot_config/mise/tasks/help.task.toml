@@ -1,0 +1,21 @@
+# vim:set expandtab shiftwidth=4 filetype=toml:
+# SPDX-License-Identifier: GPL-3.0-only
+
+#
+#
+# ~chewygumxx/dotfiles.git
+# ::: :/home/dot_config/mise/tasks/help.task.toml
+#
+#
+
+[help]
+description = "Appends --help | bat --language=help"
+usage       = """
+arg "<command>" help="Base command"
+arg "[subcommand]" var=#true
+"""
+run         = """
+exec "${usage_command}" "${usage_subcommand[@]}" --help | bat --language=help
+"""
+interactive = true
+raw         = true
