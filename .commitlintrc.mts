@@ -69,6 +69,11 @@ const scopes = [
         description: "Project development environment management",
     },
     {
+        name: "npm",
+        fullName: "npm",
+        description: "Node Package Manager",
+    },
+    {
         name: "nushell",
         fullName: "Nushell",
         description: "Data-aware shell",
